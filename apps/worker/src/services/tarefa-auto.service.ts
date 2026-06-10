@@ -46,26 +46,25 @@ interface CriarTarefaAutoInput {
  * Retorna o ID da tarefa criada, ou null se já existia.
  */
 export async function criarTarefaAutomatica(input: CriarTarefaAutoInput): Promise<string | null> {
-  // Verificação de idempotência: busca tarefa aberta com mesma origem e entidade
+  // Verificação de idempotência: busca tarefa aberta para EXATAMENTE esta entidade
+  // (filtra por entidadeTipo E entidadeId direto na query — antes pós-filtrava um
+  // único resultado por entidadeTipo, o que deixava passar duplicatas quando havia
+  // outra tarefa aberta do mesmo tipo com entidadeId diferente).
   const existente = await prisma.tarefa.findFirst({
     where: {
       tenantId: input.tenantId,
       empreendimentoId: input.empreendimentoId,
       origem: input.origem as never,
       status: { in: ['PENDENTE', 'EM_ANDAMENTO'] as never[] },
-      metadados: {
-        path: ['entidadeTipo'],
-        equals: input.entidadeTipo,
-      },
+      AND: [
+        { metadados: { path: ['entidadeTipo'], equals: input.entidadeTipo } },
+        { metadados: { path: ['entidadeId'], equals: input.entidadeId } },
+      ],
     },
   })
 
-  // Refina: verifica se é da mesma entidade específica
   if (existente) {
-    const meta = existente.metadados as Record<string, unknown> | null
-    if (meta && meta.entidadeId === input.entidadeId) {
-      return null // já existe tarefa aberta para esta entidade
-    }
+    return null // já existe tarefa aberta para esta entidade
   }
 
   // Busca um usuário admin do tenant para ser o criador (sistema)

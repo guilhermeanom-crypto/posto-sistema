@@ -116,7 +116,7 @@ async function calcularANP(empId: string): Promise<{ score: number; fatores: Fat
     where: { empreendimentoId: empId, orgao: { contains: 'ANP', mode: 'insensitive' }, status: { notIn: ['ENCERRADO', 'PAGO'] } },
   })
   if (autosANP > 0) {
-    fatores.push({ descricao: `${autosANP} auto(s) de infração ANP ativo(s)`, pontos: 25 }); score += 25 * autosANP
+    fatores.push({ descricao: `${autosANP} auto(s) de infração ANP ativo(s)`, pontos: 25 * autosANP }); score += 25 * autosANP
   }
 
   // MTRs em aberto há mais de 30 dias
@@ -164,7 +164,7 @@ async function calcularINMETRO(empId: string): Promise<{ score: number; fatores:
     where: { empreendimentoId: empId, orgao: { contains: 'INMETRO', mode: 'insensitive' }, status: { notIn: ['ENCERRADO', 'PAGO'] } },
   })
   if (autosINMETRO > 0) {
-    fatores.push({ descricao: `${autosINMETRO} auto(s) de infração INMETRO ativo(s)`, pontos: 20 }); score += 20 * autosINMETRO
+    fatores.push({ descricao: `${autosINMETRO} auto(s) de infração INMETRO ativo(s)`, pontos: 20 * autosINMETRO }); score += 20 * autosINMETRO
   }
 
   return { score: Math.min(score, 100), fatores }
@@ -201,7 +201,7 @@ async function calcularBOMBEIROS(empId: string): Promise<{ score: number; fatore
     where: { empreendimentoId: empId, orgao: { contains: 'BOMBEIRO', mode: 'insensitive' }, status: { notIn: ['ENCERRADO', 'PAGO'] } },
   })
   if (autosBombeiros > 0) {
-    fatores.push({ descricao: `${autosBombeiros} auto(s) do Corpo de Bombeiros ativo(s)`, pontos: 20 }); score += 20 * autosBombeiros
+    fatores.push({ descricao: `${autosBombeiros} auto(s) do Corpo de Bombeiros ativo(s)`, pontos: 20 * autosBombeiros }); score += 20 * autosBombeiros
   }
 
   return { score: Math.min(score, 100), fatores }

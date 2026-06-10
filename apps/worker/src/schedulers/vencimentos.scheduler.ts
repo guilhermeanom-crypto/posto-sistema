@@ -17,6 +17,16 @@ const emailQueue = new Queue('email', { connection: redis })
 
 const HORIZONTES_PADRAO = [30, 15, 7, 3, 1] // fallback se não houver regras
 
+/**
+ * Decide se deve alertar no dia. Antes era `horizontes.includes(dias)` (match exato),
+ * o que perdia o alerta se o job não rodasse exatamente naquele dia (deploy, falha,
+ * arredondamento). Agora tolera UMA execução perdida disparando também em H-1; o dedup
+ * de 24h do processor de alertas evita duplicar quando o job roda em dias consecutivos.
+ */
+function dentroDeHorizonte(dias: number, horizontes: number[]): boolean {
+  return horizontes.some((h) => dias === h || dias === h - 1)
+}
+
 interface RegraParametros {
   perfis: string[]
   canais: string[]
@@ -99,7 +109,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = processo.empreendimento.tenantId
     const regra = regrasProcDesc[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -140,7 +150,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = doc.empreendimento.tenantId
     const regra = regrasDoc[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -178,7 +188,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = cond.empreendimento.tenantId
     const regra = regrasCond[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -225,7 +235,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = aso.empreendimento.tenantId
     const regra = regrasSST[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -263,7 +273,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = teste.tanque.tenantId
     const regra = regrasEst[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -297,7 +307,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = bomba.empreendimento.tenantId
     const regra = regrasANP[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -331,7 +341,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = poco.empreendimento.tenantId
     const regra = regrasOutorga[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -368,7 +378,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = lic.empreendimento.tenantId
     const regra = regrasLicAmb[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -408,7 +418,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = treino.empreendimento.tenantId
     const regra = regrasTreino[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -445,7 +455,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = docSST.empreendimento.tenantId
     const regra = regrasTreino[tenantId] // mesma regra SST
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -483,7 +493,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = epi.empreendimento.tenantId
     const regra = regrasTreino[tenantId] // mesma regra SST
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']
@@ -522,7 +532,7 @@ export async function verificarVencimentos(): Promise<void> {
     const tenantId = pgrs.empreendimento.tenantId
     const regra = regrasPGRS[tenantId]
     const horizontes = regra?.horizontes ?? HORIZONTES_PADRAO
-    if (!horizontes.includes(dias)) continue
+    if (!dentroDeHorizonte(dias, horizontes)) continue
 
     const nivel = dias <= 3 ? 'CRITICO' : dias <= 7 ? 'ALTO' : 'MEDIO'
     const perfis = regra?.perfis ?? ['ADMIN_TENANT', 'COORDENADOR']

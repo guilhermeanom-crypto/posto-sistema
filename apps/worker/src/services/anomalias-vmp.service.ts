@@ -20,57 +20,65 @@ interface AnomaliaDetectada {
 }
 
 async function detectarAnomaliasPorTenant(tenantId: string): Promise<AnomaliaDetectada[]> {
-  // Busca as últimas 5 campanhas de cada empreendimento com parâmetros em alerta
-  const campanhasComAlerta = await prisma.campanhaMonitoramento.findMany({
-    where: {
-      tenantId,
-      parametros: { some: { emAlerta: true } },
-    },
+  // Busca as campanhas recentes do tenant com TODOS os parâmetros (conformes e em
+  // alerta). Antes a query só trazia campanhas que já tinham alerta, ignorando as
+  // campanhas conformes no meio — o que tratava medições alternadas (alerta, conforme,
+  // alerta) como "consecutivas" e gerava alerta de tendência persistente indevido.
+  const campanhas = await prisma.campanhaMonitoramento.findMany({
+    where: { tenantId },
     orderBy: { dataColeta: 'desc' },
-    take: 200,
+    take: 500,
     select: {
-      id: true,
       empreendimentoId: true,
       tipo: true,
       dataColeta: true,
       parametros: {
-        where: { emAlerta: true },
-        select: { nome: true, valorMedido: true, limiteVMP: true },
+        select: { nome: true, valorMedido: true, limiteVMP: true, emAlerta: true },
       },
     },
   })
 
-  // Agrupa por empreendimento + nome do parâmetro
+  // Monta a série temporal (desc) por empreendimento + nome do parâmetro
   type Key = `${string}:${string}`
-  const grupos = new Map<Key, typeof campanhasComAlerta>()
+  type Leitura = { emAlerta: boolean; valorMedido: unknown; limiteVMP: unknown; tipo: string }
+  const series = new Map<Key, Leitura[]>()
 
-  for (const campanha of campanhasComAlerta) {
+  for (const campanha of campanhas) {
     for (const param of campanha.parametros) {
       const key: Key = `${campanha.empreendimentoId}:${param.nome}`
-      if (!grupos.has(key)) grupos.set(key, [])
-      grupos.get(key)!.push({ ...campanha, parametros: [param] })
+      if (!series.has(key)) series.set(key, [])
+      series.get(key)!.push({
+        emAlerta: param.emAlerta,
+        valorMedido: param.valorMedido,
+        limiteVMP: param.limiteVMP,
+        tipo: campanha.tipo,
+      })
     }
   }
 
   const anomalias: AnomaliaDetectada[] = []
 
-  for (const [key, campanhas] of grupos) {
+  for (const [key, leituras] of series) {
     const [empreendimentoId, nomeParametro] = key.split(':') as [string, string]
 
-    // Verifica se as campanhas são consecutivas (sem intervalo conforme)
-    // Ordena por data desc — a detecção é sobre as campanhas mais recentes
-    const recentes = campanhas.slice(0, CONSECUTIVAS_CRITICO)
+    // Conta o streak de alertas CONSECUTIVOS a partir da campanha mais recente —
+    // uma campanha conforme quebra o streak (a tendência foi normalizada).
+    let streak = 0
+    for (const leitura of leituras) {
+      if (leitura.emAlerta) streak += 1
+      else break
+    }
 
-    if (recentes.length >= CONSECUTIVAS_ALERTA) {
-      const ultimo = recentes[0]!.parametros[0]!
+    if (streak >= CONSECUTIVAS_ALERTA) {
+      const ultimo = leituras[0]!
       anomalias.push({
         empreendimentoId,
         tenantId,
         nomeParametro,
-        campanhasConsecutivas: recentes.length,
+        campanhasConsecutivas: streak,
         ultimoValor: Number(ultimo.valorMedido),
         limiteVMP: ultimo.limiteVMP ? Number(ultimo.limiteVMP) : null,
-        tipoMedio: recentes[0]!.tipo,
+        tipoMedio: ultimo.tipo,
       })
     }
   }

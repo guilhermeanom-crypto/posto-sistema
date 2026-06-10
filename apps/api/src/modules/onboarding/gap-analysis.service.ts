@@ -52,7 +52,14 @@ const HOJE = () => new Date()
 
 function diasRestantes(vencimento: Date | null): number | null {
   if (!vencimento) return null
-  return Math.floor((vencimento.getTime() - HOJE().getTime()) / 86_400_000)
+  // Zera as horas dos dois lados para o resultado não depender da hora de execução
+  // (antes comparava o vencimento à meia-noite contra "agora" com a hora atual,
+  // o que fazia o mesmo vencimento dar dias diferentes conforme o horário do job).
+  const hoje = HOJE()
+  hoje.setHours(0, 0, 0, 0)
+  const alvo = new Date(vencimento)
+  alvo.setHours(0, 0, 0, 0)
+  return Math.floor((alvo.getTime() - hoje.getTime()) / 86_400_000)
 }
 
 function statusPorVencimento(vencimento: Date | null, diasAlerta: number[]): StatusGap {

@@ -76,13 +76,18 @@ async function coletarDadosTenant(tenantId: string): Promise<TenantDigest> {
     .sort((a, b) => a.score - b.score)
     .slice(0, 5)
 
+  // Média só sobre empreendimentos que já têm snapshot de compliance —
+  // antes os sem snapshot somavam 0 e puxavam a média artificialmente para baixo.
+  const comSnapshot = empreendimentos.filter(
+    (e) => e.snapshotsCompliance[0]?.indiceConformidade != null,
+  )
   const scoreGeral =
-    empreendimentos.length > 0
+    comSnapshot.length > 0
       ? Math.round(
-          empreendimentos.reduce((acc, e) => {
-            const s = e.snapshotsCompliance[0]?.indiceConformidade
-            return acc + (s ? Number(s) : 0)
-          }, 0) / empreendimentos.length,
+          comSnapshot.reduce(
+            (acc, e) => acc + Number(e.snapshotsCompliance[0]!.indiceConformidade),
+            0,
+          ) / comSnapshot.length,
         )
       : null
 

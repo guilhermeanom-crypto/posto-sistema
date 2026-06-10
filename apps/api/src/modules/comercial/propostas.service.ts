@@ -288,7 +288,15 @@ export class PropostasService {
             }
 
             const precoAplicadoUnitario = item.precoAplicadoUnitario ?? recomendacao.precoEstimado
-            if (precoAplicadoUnitario < recomendacao.precoMinimo || precoAplicadoUnitario > recomendacao.precoMaximo) {
+            // Só valida a faixa quando o catálogo tem uma faixa configurada (precoMaximo > 0).
+            // Serviços sem preço cadastrado (precoMaximo = 0) não devem bloquear a proposta
+            // com mensagem enganosa de "fora da faixa".
+            const temFaixaConfigurada = recomendacao.precoMaximo > 0
+            if (
+              temFaixaConfigurada &&
+              (precoAplicadoUnitario < recomendacao.precoMinimo ||
+                precoAplicadoUnitario > recomendacao.precoMaximo)
+            ) {
               throw new ValidationError(
                 `O preço aplicado para '${item.codigo}' precisa ficar dentro da faixa do catálogo`,
                 {
