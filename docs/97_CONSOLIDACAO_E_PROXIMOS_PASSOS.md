@@ -40,8 +40,10 @@ typecheck/testes não pegariam e refutou achados falsos da auditoria (401 já fu
   formato `https://<key>@<org>.ingest.sentry.io/<id>` (alternativas: GlitchTip / Sentry self-hosted).
   O usuário decidiu **deixar para depois** (2026-06-10) — só plugar o DSN quando tiver.
 
-### Fase C — UX de sessão
-- Fluxo de refresh-token: renovar o access (15min) via refresh (7d) silenciosamente.
+### Fase C — UX de sessão ✅
+- **Refresh-token silencioso no middleware** — quando o access (15min) expira, o middleware
+  renova via refresh (7d) e rotaciona o refresh; propaga p/ request+response. Sessão dura 7 dias
+  em vez de cair no login a cada 15min. Verificado E2E (200 + Set-Cookie). `apps/web/src/middleware.ts`.
 
 ### Fase D — Limpeza e operação (decisão do usuário)
 - Limpeza externa (cópias ITECOLOGICA + ~470MB de zips — confirmar antes de apagar).
