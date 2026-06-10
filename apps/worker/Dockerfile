@@ -35,4 +35,9 @@ COPY apps/api/prisma apps/api/prisma
 # Regenera o client no node_modules de produção do worker
 RUN prisma generate --schema apps/api/prisma/schema.prisma
 
+EXPOSE 9090
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+  CMD wget -qO- http://localhost:9090/health || exit 1
+
 CMD ["node", "apps/worker/dist/worker.js"]

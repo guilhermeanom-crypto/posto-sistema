@@ -162,6 +162,7 @@ services:
       WEB_URL: ${WEB_URL}
       WORKER_CONCURRENCY: ${WORKER_CONCURRENCY:-5}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      WORKER_HEALTH_PORT: 9090
       ZAPI_INSTANCE_ID: ${ZAPI_INSTANCE_ID:-}
       ZAPI_TOKEN: ${ZAPI_TOKEN:-}
       ZAPI_CLIENT_TOKEN: ${ZAPI_CLIENT_TOKEN:-}
@@ -172,6 +173,12 @@ services:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9090/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     networks: [posto-net]
 
   # ── Web (Next.js) ────────────────────────────────────────────────────────────

@@ -1,5 +1,6 @@
 import './config/env.js' // valida env antes de tudo
 import { env } from './config/env.js'
+import http from 'node:http'
 import { Queue } from 'bullmq'
 import { criarEmailWorker } from './processors/email.processor.js'
 import { criarComplianceWorker } from './processors/compliance.processor.js'
@@ -106,9 +107,23 @@ async function main() {
   // Registra repeat jobs no BullMQ (idempotente — upsert)
   await registrarSchedulers()
 
+  // Health endpoint (para healthcheck do Docker/orquestrador detectar worker travado)
+  const healthPort = Number(process.env.WORKER_HEALTH_PORT ?? 9090)
+  const healthServer = http.createServer((req, res) => {
+    if (req.url === '/health') {
+      res.writeHead(200, { 'content-type': 'application/json' })
+      res.end(JSON.stringify({ status: 'ok', uptime: Math.round(process.uptime()) }))
+    } else {
+      res.writeHead(404)
+      res.end()
+    }
+  })
+  healthServer.listen(healthPort, () => console.log(`[worker] Health endpoint em :${healthPort}/health`))
+
   // Graceful shutdown
   const shutdown = async (signal: string) => {
     console.log(`\n[${signal}] Encerrando worker...`)
+    healthServer.close()
     await Promise.all([
       emailWorker.close(),
       complianceWorker.close(),
