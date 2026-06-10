@@ -61,6 +61,8 @@ import { integracoesItecologicaRoutes } from './modules/integracoes/integracoes-
 import { comercialRoutes } from './modules/comercial/comercial.routes.js'
 import { handoffsRoutes } from './modules/operacao/handoffs.routes.js'
 import { ordensServicoRoutes } from './modules/operacao/ordens-servico.routes.js'
+import { pendenciasRoutes } from './modules/pendencias/pendencias.routes.js'
+import { evidenciasRoutes } from './modules/evidencias/evidencias.routes.js'
 import { entregaveisRoutes } from './modules/operacao/entregaveis.routes.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -248,6 +250,8 @@ export async function buildApp() {
   await app.register(handoffsRoutes, { prefix: '/api/v1/operacao/handoffs' })
   await app.register(ordensServicoRoutes, { prefix: '/api/v1/operacao/ordens-servico' })
   await app.register(entregaveisRoutes, { prefix: '/api/v1/operacao/entregaveis' })
+  await app.register(pendenciasRoutes, { prefix: '/api/v1/pendencias' })
+  await app.register(evidenciasRoutes, { prefix: '/api/v1/evidencias' })
 
   return app
 }
