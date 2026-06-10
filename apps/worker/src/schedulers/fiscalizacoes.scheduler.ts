@@ -2,6 +2,7 @@ import { Queue } from 'bullmq'
 import { prisma } from '../infra/prisma.js'
 import { redis } from '../infra/redis.js'
 import { criarTarefaAutomatica } from '../services/tarefa-auto.service.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // FISCALIZAÇÕES SCHEDULER
@@ -119,5 +120,5 @@ export async function verificarPrazosDefesa(): Promise<void> {
     })
   }
 
-  console.log(`[scheduler] Prazos de defesa e recurso verificados — ${new Date().toISOString()}`)
+  logger.info(`[scheduler] Prazos de defesa e recurso verificados — ${new Date().toISOString()}`)
 }

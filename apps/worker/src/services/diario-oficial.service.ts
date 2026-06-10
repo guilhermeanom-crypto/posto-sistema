@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio'
 import Anthropic from '@anthropic-ai/sdk'
 import { env } from '../config/env.js'
 import { prisma } from '../infra/prisma.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MONITOR DO DIÁRIO OFICIAL
@@ -57,12 +58,12 @@ async function buscarPublicacoesDOU(data: Date): Promise<RawPublicacao[]> {
       signal: AbortSignal.timeout(30000),
     })
     if (!res.ok) {
-      console.warn(`[do] DOU retornou status ${res.status}`)
+      logger.warn(`[do] DOU retornou status ${res.status}`)
       return []
     }
     html = await res.text()
   } catch (err) {
-    console.warn('[do] Falha ao acessar DOU federal:', err instanceof Error ? err.message : err)
+    logger.warn({ erro: err instanceof Error ? err.message : err }, '[do] Falha ao acessar DOU federal')
     return []
   }
 
@@ -179,10 +180,10 @@ ${conteudo ? `CONTEÚDO: ${conteudo.slice(0, 1000)}` : ''}`
 
 export async function monitorarDiarioOficial(): Promise<void> {
   const hoje = new Date()
-  console.log(`[do] Iniciando monitoramento DOU — ${hoje.toISOString().slice(0, 10)}`)
+  logger.info(`[do] Iniciando monitoramento DOU — ${hoje.toISOString().slice(0, 10)}`)
 
   const publicacoes = await buscarPublicacoesDOU(hoje)
-  console.log(`[do] ${publicacoes.length} publicação(ões) com keywords encontradas`)
+  logger.info(`[do] ${publicacoes.length} publicação(ões) com keywords encontradas`)
 
   let novas = 0
   let relevantes = 0
@@ -243,8 +244,8 @@ export async function monitorarDiarioOficial(): Promise<void> {
       await prisma.publicacaoDO.update({ where: { id: pub.id }, data: { notificado: true } })
     }
 
-    console.log(`[do] ${paraNotificar.length} alerta(s) criado(s) para ${tenants.length} tenant(s)`)
+    logger.info(`[do] ${paraNotificar.length} alerta(s) criado(s) para ${tenants.length} tenant(s)`)
   }
 
-  console.log(`[do] Concluído — ${novas} nova(s), ${relevantes} relevante(s)`)
+  logger.info(`[do] Concluído — ${novas} nova(s), ${relevantes} relevante(s)`)
 }

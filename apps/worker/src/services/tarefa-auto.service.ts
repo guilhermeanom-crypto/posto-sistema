@@ -1,6 +1,7 @@
 import { prisma } from '../infra/prisma.js'
 import { calcularScoreCriticidade } from './criticidade.service.js'
 import { rotearTarefa } from './roteamento.service.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TAREFA AUTO SERVICE
@@ -70,7 +71,7 @@ export async function criarTarefaAutomatica(input: CriarTarefaAutoInput): Promis
   // Busca um usuário admin do tenant para ser o criador (sistema)
   const criadorId = input.criadorId ?? await obterCriadorSistema(input.tenantId)
   if (!criadorId) {
-    console.warn(`[tarefa-auto] Nenhum admin encontrado para tenant ${input.tenantId} — tarefa não criada`)
+    logger.warn(`[tarefa-auto] Nenhum admin encontrado para tenant ${input.tenantId} — tarefa não criada`)
     return null
   }
 
@@ -105,7 +106,7 @@ export async function criarTarefaAutomatica(input: CriarTarefaAutoInput): Promis
     },
   })
 
-  console.log(`[tarefa-auto] Tarefa criada: ${tarefa.id} — score=${score} — resp=${responsavelId ?? 'NENHUM'} — ${input.titulo}`)
+  logger.info(`[tarefa-auto] Tarefa criada: ${tarefa.id} — score=${score} — resp=${responsavelId ?? 'NENHUM'} — ${input.titulo}`)
   return tarefa.id
 }
 

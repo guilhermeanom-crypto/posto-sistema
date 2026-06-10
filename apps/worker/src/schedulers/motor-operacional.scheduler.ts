@@ -3,6 +3,7 @@ import { prisma } from '../infra/prisma.js'
 import { redis } from '../infra/redis.js'
 import { calcularScoreCriticidade, deveEscalar } from '../services/criticidade.service.js'
 import { rotearTarefa } from '../services/roteamento.service.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MOTOR OPERACIONAL SCHEDULER
@@ -120,5 +121,5 @@ export async function recalcularMotorOperacional(): Promise<void> {
     }
   }
 
-  console.log(`[motor-operacional] ${tarefas.length} tarefas processadas — ${recalculados} scores recalculados, ${roteados} roteados, ${escalados} escalados`)
+  logger.info(`[motor-operacional] ${tarefas.length} tarefas processadas — ${recalculados} scores recalculados, ${roteados} roteados, ${escalados} escalados`)
 }

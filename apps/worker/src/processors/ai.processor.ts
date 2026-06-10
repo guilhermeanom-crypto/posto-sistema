@@ -6,6 +6,7 @@ import {
   analisarAutoInfracao,
   gerarDefesaTecnica,
 } from '../services/ai.service.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AI PROCESSOR — processa jobs de IA (análise de PDF + geração de defesa)
@@ -23,7 +24,7 @@ export function criarAIWorker(concurrency = 2) {
           const licenca = await prisma.licencaAmbiental.findUnique({ where: { id: licencaId } })
           if (!licenca?.chaveS3) throw new Error(`Licença ${licencaId} sem arquivo S3`)
 
-          console.log(`[ia] Analisando licença ${licencaId}...`)
+          logger.info(`[ia] Analisando licença ${licencaId}...`)
           const analise = await analisarLicencaAmbiental(licenca.chaveS3)
 
           await prisma.licencaAmbiental.update({
@@ -44,7 +45,7 @@ export function criarAIWorker(concurrency = 2) {
                   status: 'PENDENTE' as const,
                 })),
               })
-              console.log(`[ia] Criadas ${analise.condicionantes.length} condicionantes para licença ${licencaId}`)
+              logger.info(`[ia] Criadas ${analise.condicionantes.length} condicionantes para licença ${licencaId}`)
             }
           }
 
@@ -58,7 +59,7 @@ export function criarAIWorker(concurrency = 2) {
           const auto = await prisma.autoInfracao.findUnique({ where: { id: autoId } })
           if (!auto?.chaveS3) throw new Error(`Auto ${autoId} sem arquivo S3`)
 
-          console.log(`[ia] Analisando auto ${autoId}...`)
+          logger.info(`[ia] Analisando auto ${autoId}...`)
           const analise = await analisarAutoInfracao(auto.chaveS3)
 
           await prisma.autoInfracao.update({
@@ -84,7 +85,7 @@ export function criarAIWorker(concurrency = 2) {
           })
           if (!auto) throw new Error(`Auto ${autoId} não encontrado`)
 
-          console.log(`[ia] Gerando defesa para auto ${autoId}...`)
+          logger.info(`[ia] Gerando defesa para auto ${autoId}...`)
 
           const rascunho = await gerarDefesaTecnica({
             numeroAuto: auto.numeroAuto,
@@ -105,12 +106,12 @@ export function criarAIWorker(concurrency = 2) {
             },
           })
 
-          console.log(`[ia] Defesa gerada para auto ${autoId}`)
+          logger.info(`[ia] Defesa gerada para auto ${autoId}`)
           break
         }
 
         default:
-          console.warn(`[ia] Job desconhecido: ${job.name}`)
+          logger.warn(`[ia] Job desconhecido: ${job.name}`)
       }
     },
     {

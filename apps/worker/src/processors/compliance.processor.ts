@@ -2,6 +2,7 @@ import { Worker } from 'bullmq'
 import { prisma } from '../infra/prisma.js'
 import { redis } from '../infra/redis.js'
 import { calcularIndiceConformidade, determinarStatusCompliance } from '@repo/utils'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // COMPLIANCE PROCESSOR
@@ -118,7 +119,7 @@ async function calcularCompliance(tenantId: string, empreendimentoId: string): P
     },
   })
 
-  console.log(`[compliance] ${empreendimentoId} → índice=${indice} status=${status}`)
+  logger.info(`[compliance] ${empreendimentoId} → índice=${indice} status=${status}`)
 }
 
 export function criarComplianceWorker(concurrency = 3) {
@@ -126,7 +127,7 @@ export function criarComplianceWorker(concurrency = 3) {
     'compliance',
     async (job) => {
       const { tenantId, empreendimentoId } = job.data
-      console.log(`[compliance] Calculando para empreendimento ${empreendimentoId}`)
+      logger.info(`[compliance] Calculando para empreendimento ${empreendimentoId}`)
       await calcularCompliance(tenantId, empreendimentoId)
     },
     { connection: redis, concurrency },

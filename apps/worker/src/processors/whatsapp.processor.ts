@@ -2,6 +2,7 @@ import { Worker } from 'bullmq'
 import { redis } from '../infra/redis.js'
 import { processarMensagemRecebida, enviarAlertaWhatsApp } from '../services/agente-whatsapp.service.js'
 import { enviarTexto } from '../services/zapi.service.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // WHATSAPP PROCESSOR
@@ -38,7 +39,7 @@ export function criarWhatsAppWorker(concurrency = 3) {
         }
 
         default:
-          console.warn(`[whatsapp] Job desconhecido: ${job.name}`)
+          logger.warn(`[whatsapp] Job desconhecido: ${job.name}`)
       }
     },
     { connection: redis, concurrency },

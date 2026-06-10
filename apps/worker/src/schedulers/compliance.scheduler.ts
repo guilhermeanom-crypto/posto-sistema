@@ -1,6 +1,7 @@
 import { Queue } from 'bullmq'
 import { prisma } from '../infra/prisma.js'
 import { redis } from '../infra/redis.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // COMPLIANCE SCHEDULER
@@ -23,5 +24,5 @@ export async function enfileirarRecalculoCompliance(): Promise<void> {
     )
   }
 
-  console.log(`[scheduler] ${empreendimentos.length} empreendimentos enfileirados para recálculo de compliance`)
+  logger.info(`[scheduler] ${empreendimentos.length} empreendimentos enfileirados para recálculo de compliance`)
 }

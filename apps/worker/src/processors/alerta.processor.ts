@@ -1,6 +1,7 @@
 import { Worker } from 'bullmq'
 import { prisma } from '../infra/prisma.js'
 import { redis } from '../infra/redis.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ALERTA PROCESSOR
@@ -38,7 +39,7 @@ export function criarAlertaWorker(concurrency = 5) {
       })
 
       if (existente) {
-        console.log(`[alerta] Duplicado ignorado: ${tipo} para ${entidadeId}`)
+        logger.info(`[alerta] Duplicado ignorado: ${tipo} para ${entidadeId}`)
         return
       }
 
@@ -67,7 +68,7 @@ export function criarAlertaWorker(concurrency = 5) {
         })
       }
 
-      console.log(`[alerta] Criado: ${nivel} — ${titulo}`)
+      logger.info(`[alerta] Criado: ${nivel} — ${titulo}`)
     },
     { connection: redis, concurrency },
   )

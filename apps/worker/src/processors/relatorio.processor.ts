@@ -7,6 +7,7 @@ import { prisma } from '../infra/prisma.js'
 import { env } from '../config/env.js'
 import { s3 } from '../infra/s3.js'
 import type { TipoRelatorio } from '@prisma/client'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // RELATORIO PROCESSOR — geração assíncrona de PDF e Excel
@@ -415,7 +416,7 @@ export function criarRelatorioWorker(concurrency = 2) {
           })
         }
 
-        console.log(`[relatorio] ${tipo} gerado: ${s3Key}`)
+        logger.info(`[relatorio] ${tipo} gerado: ${s3Key}`)
       } catch (err) {
         await prisma.relatorioGerado.update({
           where: { id: relatorioId },

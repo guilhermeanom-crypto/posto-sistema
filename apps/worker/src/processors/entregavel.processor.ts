@@ -5,6 +5,7 @@ import { redis } from '../infra/redis.js'
 import { prisma } from '../infra/prisma.js'
 import { s3 } from '../infra/s3.js'
 import { env } from '../config/env.js'
+import { logger } from "../lib/logger.js"
 
 function pdfToBuffer(doc: PDFKit.PDFDocument): Promise<Buffer> {
   return new Promise((resolve, reject) => {
@@ -58,12 +59,12 @@ export function criarEntregavelWorker(concurrency = 2) {
       })
 
       if (!entregavel) {
-        console.warn(`[entregavel] Entregável ${entregavelId} não encontrado`)
+        logger.warn(`[entregavel] Entregável ${entregavelId} não encontrado`)
         return
       }
 
       if (entregavel.status !== 'PENDENTE') {
-        console.warn(`[entregavel] Entregável ${entregavelId} não está PENDENTE (${entregavel.status})`)
+        logger.warn(`[entregavel] Entregável ${entregavelId} não está PENDENTE (${entregavel.status})`)
         return
       }
 
@@ -142,10 +143,10 @@ export function criarEntregavelWorker(concurrency = 2) {
           },
         })
 
-        console.log(`[entregavel] ✅ ${entregavel.numero} gerado (${buffer.length} bytes)`)
+        logger.info(`[entregavel] ✅ ${entregavel.numero} gerado (${buffer.length} bytes)`)
       } catch (err) {
         const msg = err instanceof Error ? err.message : 'Erro desconhecido na geração'
-        console.error(`[entregavel] ❌ ${entregavel.numero} falhou:`, msg)
+        logger.error({ erro: msg, entregavel: entregavel.numero }, `[entregavel] geracao falhou`)
 
         await prisma.entregavel.update({
           where: { id: entregavelId },

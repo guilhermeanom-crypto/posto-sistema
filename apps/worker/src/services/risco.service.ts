@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { env } from '../config/env.js'
 import { prisma } from '../infra/prisma.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SCORE DE RISCO DE FISCALIZAÇÃO
@@ -247,7 +248,7 @@ export async function calcularScoresRisco(): Promise<void> {
     select: { id: true, tenantId: true, nome: true },
   })
 
-  console.log(`[risco] Calculando scores para ${empreendimentos.length} empreendimento(s)...`)
+  logger.info(`[risco] Calculando scores para ${empreendimentos.length} empreendimento(s)...`)
 
   const orgaos: Orgao[] = ['CETESB', 'ANP', 'INMETRO', 'BOMBEIROS']
   const calculos: Record<Orgao, (id: string) => Promise<{ score: number; fatores: Fator[] }>> = {
@@ -270,11 +271,11 @@ export async function calcularScoresRisco(): Promise<void> {
           create: { empreendimentoId: emp.id, tenantId: emp.tenantId, orgao, score, nivel, fatores: fatores as object[], recomendacoes },
         })
       } catch (err) {
-        console.error(`[risco] Erro ao calcular ${orgao} para ${emp.nome}:`, err instanceof Error ? err.message : err)
+        logger.error({ erro: err instanceof Error ? err.message : err, orgao, emp: emp.nome }, '[risco] Erro ao calcular score')
       }
     }
-    console.log(`[risco] ${emp.nome} ✓`)
+    logger.info(`[risco] ${emp.nome} ✓`)
   }
 
-  console.log('[risco] Cálculo concluído.')
+  logger.info('[risco] Cálculo concluído.')
 }

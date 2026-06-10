@@ -4,6 +4,7 @@ import { redis } from '../infra/redis.js'
 import { diasAteVencimento } from '@repo/utils'
 import { criarTarefaAutomatica } from '../services/tarefa-auto.service.js'
 import { dentroDeHorizonte } from '../lib/alertas-campo.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // VENCIMENTOS SCHEDULER
@@ -769,7 +770,7 @@ export async function verificarVencimentos(): Promise<void> {
     })
   }
 
-  console.log(`[scheduler] Vencimentos verificados — ${new Date().toISOString()}`)
+  logger.info(`[scheduler] Vencimentos verificados — ${new Date().toISOString()}`)
 }
 
 export async function verificarTarefasAtrasadas(): Promise<void> {
@@ -848,5 +849,5 @@ export async function verificarTarefasAtrasadas(): Promise<void> {
     })
   }
 
-  console.log(`[scheduler] Tarefas atrasadas verificadas — ${agora.toISOString()}`)
+  logger.info(`[scheduler] Tarefas atrasadas verificadas — ${agora.toISOString()}`)
 }

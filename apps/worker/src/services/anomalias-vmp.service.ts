@@ -1,5 +1,6 @@
 import { prisma } from '../infra/prisma.js'
 import { contarStreakAlertas } from '../lib/alertas-campo.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DETECÇÃO DE ANOMALIAS VMP
@@ -117,11 +118,11 @@ async function criarAlertaSeNaoExistir(anomalia: AnomaliaDetectada): Promise<voi
     },
   })
 
-  console.log(`[anomalias-vmp] Alerta ${nivel} criado: ${titulo} — empreendimento ${anomalia.empreendimentoId}`)
+  logger.info(`[anomalias-vmp] Alerta ${nivel} criado: ${titulo} — empreendimento ${anomalia.empreendimentoId}`)
 }
 
 export async function detectarAnomaliasVMP(): Promise<void> {
-  console.log('[anomalias-vmp] Iniciando detecção de anomalias VMP...')
+  logger.info('[anomalias-vmp] Iniciando detecção de anomalias VMP...')
 
   const tenants = await prisma.tenant.findMany({
     where: { ativo: true },
@@ -140,9 +141,9 @@ export async function detectarAnomaliasVMP(): Promise<void> {
 
       totalAnomalias += anomalias.length
     } catch (err) {
-      console.error(`[anomalias-vmp] Erro no tenant ${tenant.id}:`, (err as Error).message)
+      logger.error({ erro: (err as Error).message, tenant: tenant.id }, '[anomalias-vmp] Erro no tenant')
     }
   }
 
-  console.log(`[anomalias-vmp] Detecção concluída. ${totalAnomalias} anomalia(s) verificada(s) em ${tenants.length} tenant(s).`)
+  logger.info(`[anomalias-vmp] Detecção concluída. ${totalAnomalias} anomalia(s) verificada(s) em ${tenants.length} tenant(s).`)
 }

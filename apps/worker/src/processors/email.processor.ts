@@ -2,6 +2,7 @@ import { Worker } from 'bullmq'
 import { Resend } from 'resend'
 import { redis } from '../infra/redis.js'
 import { env } from '../config/env.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // EMAIL PROCESSOR
@@ -104,9 +105,9 @@ export function criarEmailWorker(concurrency = 5) {
   return new Worker<EmailJobData>(
     'email',
     async (job) => {
-      console.log(`[email] Processando job ${job.id} — tipo: ${job.data.tipo}`)
+      logger.info(`[email] Processando job ${job.id} — tipo: ${job.data.tipo}`)
       await enviarEmail(job.data)
-      console.log(`[email] Job ${job.id} concluído`)
+      logger.info(`[email] Job ${job.id} concluído`)
     },
     { connection: redis, concurrency },
   )

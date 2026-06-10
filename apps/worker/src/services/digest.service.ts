@@ -3,6 +3,7 @@ import { Queue } from 'bullmq'
 import { prisma } from '../infra/prisma.js'
 import { redis } from '../infra/redis.js'
 import { env } from '../config/env.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DIGEST SEMANAL — resumo executivo por tenant, gerado com Claude
@@ -262,7 +263,7 @@ function gerarHTMLDigest(digest: TenantDigest, narrativa: string): string {
 }
 
 export async function gerarDigestSemanal(): Promise<void> {
-  console.log('[digest] Iniciando geração de digests semanais...')
+  logger.info('[digest] Iniciando geração de digests semanais...')
 
   const tenants = await prisma.tenant.findMany({
     where: { ativo: true },
@@ -300,11 +301,11 @@ export async function gerarDigestSemanal(): Promise<void> {
         })
       }
 
-      console.log(`[digest] Tenant ${tenant.nome}: ${destinatarios.length} email(s) enfileirado(s)`)
+      logger.info(`[digest] Tenant ${tenant.nome}: ${destinatarios.length} email(s) enfileirado(s)`)
     } catch (err) {
-      console.error(`[digest] Erro no tenant ${tenant.id}:`, (err as Error).message)
+      logger.error({ erro: (err as Error).message, tenant: tenant.id }, '[digest] Erro no tenant')
     }
   }
 
-  console.log(`[digest] Digest semanal concluído para ${tenants.length} tenant(s)`)
+  logger.info(`[digest] Digest semanal concluído para ${tenants.length} tenant(s)`)
 }

@@ -13,6 +13,7 @@ import { criarWhatsAppWorker } from './processors/whatsapp.processor.js'
 import { zapiDisponivel } from './services/zapi.service.js'
 import { redis } from './infra/redis.js'
 import { prisma } from './infra/prisma.js'
+import { logger } from "./lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // WORKER ENTRY POINT
@@ -85,11 +86,11 @@ async function registrarSchedulers() {
     { name: 'recalcular-motor-operacional', data: {}, opts: { attempts: 3, backoff: { type: 'exponential', delay: 10000 } } },
   )
 
-  console.log('⏰ Schedulers registrados via BullMQ (verificar-vencimentos, tarefas, compliance, diario-oficial, scores-risco, digest-semanal, anomalias-vmp, prazos-defesa, motor-operacional)')
+  logger.info('⏰ Schedulers registrados via BullMQ (verificar-vencimentos, tarefas, compliance, diario-oficial, scores-risco, digest-semanal, anomalias-vmp, prazos-defesa, motor-operacional)')
 }
 
 async function main() {
-  console.log('🚀 Worker iniciando...')
+  logger.info('🚀 Worker iniciando...')
 
   // Inicializa processors
   const emailWorker = criarEmailWorker(env.WORKER_CONCURRENCY)
@@ -100,9 +101,9 @@ async function main() {
   const relatorioWorker = criarRelatorioWorker(2)
   const entregavelWorker = criarEntregavelWorker(2)
   const whatsappWorker = zapiDisponivel() ? criarWhatsAppWorker(3) : null
-  if (whatsappWorker) console.log('📱 WhatsApp worker ativo (Z-API configurado)')
+  if (whatsappWorker) logger.info('📱 WhatsApp worker ativo (Z-API configurado)')
 
-  console.log('✅ Processors registrados: email, compliance, alertas, scheduler, ia, relatorio, entregavel', whatsappWorker ? ', whatsapp' : '')
+  logger.info(`✅ Processors registrados: email, compliance, alertas, scheduler, ia, relatorio, entregavel${whatsappWorker ? ', whatsapp' : ''}`)
 
   // Registra repeat jobs no BullMQ (idempotente — upsert)
   await registrarSchedulers()
@@ -118,11 +119,11 @@ async function main() {
       res.end()
     }
   })
-  healthServer.listen(healthPort, () => console.log(`[worker] Health endpoint em :${healthPort}/health`))
+  healthServer.listen(healthPort, () => logger.info(`[worker] Health endpoint em :${healthPort}/health`))
 
   // Graceful shutdown
   const shutdown = async (signal: string) => {
-    console.log(`\n[${signal}] Encerrando worker...`)
+    logger.info(`\n[${signal}] Encerrando worker...`)
     healthServer.close()
     await Promise.all([
       emailWorker.close(),
@@ -137,7 +138,7 @@ async function main() {
     await schedulerQueue.close()
     await redis.quit()
     await prisma.$disconnect()
-    console.log('Worker encerrado.')
+    logger.info('Worker encerrado.')
     process.exit(0)
   }
 
@@ -153,15 +154,15 @@ async function main() {
     const nome = allNames[i]
     const worker = allWorkers[i]!
     worker.on('failed', (job, err) => {
-      console.error(`[${nome}] Job ${job?.id} falhou:`, (err as Error).message)
+      logger.error({ erro: (err as Error).message, job: job?.id }, `[${nome}] Job falhou`)
     })
     worker.on('error', (err) => {
-      console.error(`[${nome}] Worker error:`, (err as Error).message)
+      logger.error({ erro: (err as Error).message }, `[${nome}] Worker error`)
     })
   }
 }
 
 main().catch((err) => {
-  console.error('Falha fatal no worker:', err)
+  logger.error({ err }, 'Falha fatal no worker')
   process.exit(1)
 })

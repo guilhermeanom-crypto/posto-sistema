@@ -8,6 +8,7 @@ import { gerarDigestSemanal } from '../services/digest.service.js'
 import { detectarAnomaliasVMP } from '../services/anomalias-vmp.service.js'
 import { verificarPrazosDefesa } from '../schedulers/fiscalizacoes.scheduler.js'
 import { recalcularMotorOperacional } from '../schedulers/motor-operacional.scheduler.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SCHEDULER PROCESSOR
@@ -47,7 +48,7 @@ export function criarSchedulerWorker(concurrency = 1) {
           await recalcularMotorOperacional()
           break
         default:
-          console.warn(`[scheduler] Job desconhecido: ${job.name}`)
+          logger.warn(`[scheduler] Job desconhecido: ${job.name}`)
       }
     },
     { connection: redis, concurrency },

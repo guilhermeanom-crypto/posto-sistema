@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { env } from '../config/env.js'
 import { prisma } from '../infra/prisma.js'
 import { enviarTexto } from './zapi.service.js'
+import { logger } from "../lib/logger.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AGENTE WHATSAPP — dois modos: compliance (clientes) e comercial (prospects)
@@ -295,7 +296,7 @@ async function processarLead(tenantId: string, numero: string, texto: string): P
 
   // Extrai e atualiza informações do lead em background (não bloqueia resposta)
   atualizarInfoLead(leadInfo, historico, texto).catch((err) =>
-    console.error('[wpp] Erro ao atualizar info do lead:', err instanceof Error ? err.message : err)
+    logger.error({ erro: err instanceof Error ? err.message : err }, '[wpp] Erro ao atualizar info do lead')
   )
 }
 
@@ -317,7 +318,7 @@ export async function processarMensagemRecebida(msg: MensagemRecebida): Promise<
   if (!ctx) {
     // Número não cadastrado → fluxo comercial (lead)
     if (!tenantId) {
-      console.warn(`[wpp] Mensagem de número desconhecido ${numero} sem tenantId — lead não criado.`)
+      logger.warn(`[wpp] Mensagem de número desconhecido ${numero} sem tenantId — lead não criado.`)
       return
     }
     await processarLead(tenantId, numero, texto)
@@ -373,7 +374,7 @@ export async function enviarAlertaWhatsApp(
         data: { tenantId, numero: c.numero, direcao: 'ENVIADA', tipo: 'TEXTO', conteudo: mensagem },
       })
     } catch (err) {
-      console.error(`[wpp] Falha ao enviar para ${c.numero}:`, err instanceof Error ? err.message : err)
+      logger.error({ erro: err instanceof Error ? err.message : err, numero: c.numero }, `[wpp] Falha ao enviar`)
     }
   }
 }
