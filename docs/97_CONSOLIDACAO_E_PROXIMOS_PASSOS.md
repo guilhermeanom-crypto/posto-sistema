@@ -1,0 +1,44 @@
+# 97. Consolidação e Próximos Passos (2026-06-10)
+
+Fecha a jornada de correção/verificação/feature e define o caminho adiante. Fonte de execução:
+docs 94 (correções), 95 (verificações E2E), 96 (linha do tempo).
+
+## Consolidação — o que foi elaborado (23 commits, branch `main`)
+
+| Frente | Resultado |
+|---|---|
+| Fundação | Git inicializado (antes inexistente) |
+| Segurança | 3 IDOR cross-tenant + portal F-01..F-04 — provados por testes de isolamento |
+| Worker | 7 bugs de lógica corrigidos (score, alertas, datas, preço, VMP, digest, duplicação) |
+| Dados | onDelete Restrict (trilha regulatória/jurídica) + timestamps de proposta + índices |
+| Deploy | Docker **verificado** — build real pegou 5 defeitos escondidos |
+| Config | Guard de seed em produção + health endpoint do worker |
+| Feature campo | Pendências/Evidências completa (schema→backend→frontend→testes) |
+| App /equipe | 100% real: login, início, OS, pendências, evidências (+foto), checklists |
+
+**Métricas:** 408 testes verdes · typecheck limpo (api/web/worker) · 29 migrations · working tree limpo.
+
+**Fio condutor:** "passa nos testes ≠ funciona". A verificação com dado real pegou bugs que
+typecheck/testes não pegariam e refutou achados falsos da auditoria (401 já funcionava).
+
+## Próximos passos
+
+### Fase A — Fechar a última lacuna estrutural (em curso)
+- **Testes do worker** — adicionar vitest e cobrir a lógica corrigida (score de risco, alertas
+  de vencimento por faixa, streak VMP, datas). É o único ponto estrutural ainda sem rede de
+  segurança própria. Dep: `pnpm install`.
+
+### Fase B — Observabilidade de produção (pré-cliente)
+- Logging estruturado (pino) no worker + error tracking (Sentry) + monitor de filas (bull-board).
+  Dep: deps novas + DSN do Sentry (usuário fornece).
+
+### Fase C — UX de sessão
+- Fluxo de refresh-token: renovar o access (15min) via refresh (7d) silenciosamente.
+
+### Fase D — Limpeza e operação (decisão do usuário)
+- Limpeza externa (cópias ITECOLOGICA + ~470MB de zips — confirmar antes de apagar).
+- Validação de domínio: regras ANP/CETESB/Bombeiros x legislação real (só o usuário valida).
+- Go-live: `docker compose` em servidor real + `.env` de produção + primeiro cliente.
+
+### Sequência recomendada
+A → B → C (técnico) em paralelo com D (domínio/operação).

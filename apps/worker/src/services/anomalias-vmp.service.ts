@@ -1,4 +1,5 @@
 import { prisma } from '../infra/prisma.js'
+import { contarStreakAlertas } from '../lib/alertas-campo.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DETECÇÃO DE ANOMALIAS VMP
@@ -63,11 +64,7 @@ async function detectarAnomaliasPorTenant(tenantId: string): Promise<AnomaliaDet
 
     // Conta o streak de alertas CONSECUTIVOS a partir da campanha mais recente —
     // uma campanha conforme quebra o streak (a tendência foi normalizada).
-    let streak = 0
-    for (const leitura of leituras) {
-      if (leitura.emAlerta) streak += 1
-      else break
-    }
+    const streak = contarStreakAlertas(leituras.map((l) => l.emAlerta))
 
     if (streak >= CONSECUTIVAS_ALERTA) {
       const ultimo = leituras[0]!

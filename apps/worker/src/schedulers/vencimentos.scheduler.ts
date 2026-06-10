@@ -3,6 +3,7 @@ import { prisma } from '../infra/prisma.js'
 import { redis } from '../infra/redis.js'
 import { diasAteVencimento } from '@repo/utils'
 import { criarTarefaAutomatica } from '../services/tarefa-auto.service.js'
+import { dentroDeHorizonte } from '../lib/alertas-campo.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // VENCIMENTOS SCHEDULER
@@ -16,16 +17,7 @@ const alertaQueue = new Queue('alertas', { connection: redis })
 const emailQueue = new Queue('email', { connection: redis })
 
 const HORIZONTES_PADRAO = [30, 15, 7, 3, 1] // fallback se não houver regras
-
-/**
- * Decide se deve alertar no dia. Antes era `horizontes.includes(dias)` (match exato),
- * o que perdia o alerta se o job não rodasse exatamente naquele dia (deploy, falha,
- * arredondamento). Agora tolera UMA execução perdida disparando também em H-1; o dedup
- * de 24h do processor de alertas evita duplicar quando o job roda em dias consecutivos.
- */
-function dentroDeHorizonte(dias: number, horizontes: number[]): boolean {
-  return horizontes.some((h) => dias === h || dias === h - 1)
-}
+// `dentroDeHorizonte` agora vive em ../lib/alertas-campo.ts (lógica pura, testável)
 
 interface RegraParametros {
   perfis: string[]
