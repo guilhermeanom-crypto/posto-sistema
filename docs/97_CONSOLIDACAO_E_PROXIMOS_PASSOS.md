@@ -23,10 +23,13 @@ typecheck/testes não pegariam e refutou achados falsos da auditoria (401 já fu
 
 ## Próximos passos
 
-### Fase A — Fechar a última lacuna estrutural (em curso)
-- **Testes do worker** — adicionar vitest e cobrir a lógica corrigida (score de risco, alertas
-  de vencimento por faixa, streak VMP, datas). É o único ponto estrutural ainda sem rede de
-  segurança própria. Dep: `pnpm install`.
+### Fase A — Fechar a última lacuna estrutural ✅ (harness criada)
+- **Testes do worker** — vitest adicionado ao `@posto/worker`; lógica pura extraída para
+  `src/lib/alertas-campo.ts` e coberta por `alertas-campo.test.ts` (8 testes): regressões de
+  L-02 (alerta por faixa tolera dia perdido) e L-04 (streak VMP quebrado por medição conforme)
+  + níveis por dias. **A harness do worker existe agora** (era zero).
+- _Follow-up incremental (a harness facilita):_ extrair/testar a consistência do score de risco
+  (L-01: pontos = contribuição) e o cálculo de datas (L-07).
 
 ### Fase B — Observabilidade de produção (pré-cliente)
 - Logging estruturado (pino) no worker + error tracking (Sentry) + monitor de filas (bull-board).
