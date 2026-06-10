@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { env } from '../config/env.js'
 import { prisma } from '../infra/prisma.js'
 import { logger } from "../lib/logger.js"
+import { somarFatores, diasAteData } from "../lib/alertas-campo.js"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SCORE DE RISCO DE FISCALIZAÇÃO
@@ -24,16 +25,13 @@ function nivelFromScore(score: number): Nivel {
 }
 
 function diasAte(data: Date): number {
-  const hoje = new Date(); hoje.setHours(0, 0, 0, 0)
-  const alvo = new Date(data); alvo.setHours(0, 0, 0, 0)
-  return Math.ceil((alvo.getTime() - hoje.getTime()) / 86400000)
+  return diasAteData(data)
 }
 
 // ─── cálculos por órgão ───────────────────────────────────────────────────────
 
 async function calcularCETESB(empId: string): Promise<{ score: number; fatores: Fator[] }> {
   const fatores: Fator[] = []
-  let score = 0
 
   const hoje = new Date()
   const em90 = new Date(hoje); em90.setDate(em90.getDate() + 90)
@@ -48,11 +46,11 @@ async function calcularCETESB(empId: string): Promise<{ score: number; fatores: 
   for (const l of licencas) {
     const d = diasAte(l.dataVencimento)
     if (l.status === 'VENCIDA' || d < 0) {
-      fatores.push({ descricao: `Licença ${l.tipo} vencida`, pontos: 35 }); score += 35
+      fatores.push({ descricao: `Licença ${l.tipo} vencida`, pontos: 35 })
     } else if (d <= 30) {
-      fatores.push({ descricao: `Licença ${l.tipo} vence em ${d} dias`, pontos: 20 }); score += 20
+      fatores.push({ descricao: `Licença ${l.tipo} vence em ${d} dias`, pontos: 20 })
     } else if (d <= 90) {
-      fatores.push({ descricao: `Licença ${l.tipo} vence em ${d} dias`, pontos: 8 }); score += 8
+      fatores.push({ descricao: `Licença ${l.tipo} vence em ${d} dias`, pontos: 8 })
     }
   }
 
@@ -61,7 +59,7 @@ async function calcularCETESB(empId: string): Promise<{ score: number; fatores: 
     where: { empreendimentoId: empId, orgao: { contains: 'CETESB', mode: 'insensitive' }, status: { notIn: ['ENCERRADO', 'PAGO'] } },
   })
   if (autosCETESB > 0) {
-    fatores.push({ descricao: `${autosCETESB} auto(s) de infração CETESB ativo(s)`, pontos: 25 * autosCETESB }); score += 25 * autosCETESB
+    fatores.push({ descricao: `${autosCETESB} auto(s) de infração CETESB ativo(s)`, pontos: 25 * autosCETESB })
   }
 
   // Testes de estanqueidade reprovados / vencidos
@@ -69,14 +67,14 @@ async function calcularCETESB(empId: string): Promise<{ score: number; fatores: 
     where: { tanque: { empreendimentoId: empId }, resultado: 'REPROVADO' },
   })
   if (testesReprovados > 0) {
-    fatores.push({ descricao: `${testesReprovados} teste(s) de estanqueidade reprovado(s)`, pontos: 20 }); score += 20
+    fatores.push({ descricao: `${testesReprovados} teste(s) de estanqueidade reprovado(s)`, pontos: 20 })
   }
 
   const testesVencidos = await prisma.testeEstanqueidade.count({
     where: { tanque: { empreendimentoId: empId }, proximoTeste: { lt: hoje } },
   })
   if (testesVencidos > 0) {
-    fatores.push({ descricao: `${testesVencidos} próximo teste de estanqueidade atrasado`, pontos: 15 }); score += 15
+    fatores.push({ descricao: `${testesVencidos} próximo teste de estanqueidade atrasado`, pontos: 15 })
   }
 
   // Campanhas de monitoramento não conformes
@@ -84,15 +82,14 @@ async function calcularCETESB(empId: string): Promise<{ score: number; fatores: 
     where: { empreendimentoId: empId, resultado: 'NAO_CONFORME' },
   })
   if (campNaoConformes > 0) {
-    fatores.push({ descricao: `${campNaoConformes} campanha(s) de monitoramento não conforme(s)`, pontos: 15 }); score += 15
+    fatores.push({ descricao: `${campNaoConformes} campanha(s) de monitoramento não conforme(s)`, pontos: 15 })
   }
 
-  return { score: Math.min(score, 100), fatores }
+  return { score: Math.min(somarFatores(fatores), 100), fatores }
 }
 
 async function calcularANP(empId: string): Promise<{ score: number; fatores: Fator[] }> {
   const fatores: Fator[] = []
-  let score = 0
 
   const hoje = new Date()
   const em30 = new Date(hoje); em30.setDate(em30.getDate() + 30)
@@ -102,14 +99,14 @@ async function calcularANP(empId: string): Promise<{ score: number; fatores: Fat
     where: { empreendimentoId: empId, status: 'ATIVO', proximaCalibracao: { lt: hoje } },
   })
   if (bombasVencidas > 0) {
-    fatores.push({ descricao: `${bombasVencidas} bomba(s) com calibração vencida`, pontos: 30 }); score += 30
+    fatores.push({ descricao: `${bombasVencidas} bomba(s) com calibração vencida`, pontos: 30 })
   }
 
   const bombasVencendo = await prisma.bombaAbastecimento.count({
     where: { empreendimentoId: empId, status: 'ATIVO', proximaCalibracao: { gte: hoje, lte: em30 } },
   })
   if (bombasVencendo > 0) {
-    fatores.push({ descricao: `${bombasVencendo} bomba(s) com calibração vencendo em 30 dias`, pontos: 15 }); score += 15
+    fatores.push({ descricao: `${bombasVencendo} bomba(s) com calibração vencendo em 30 dias`, pontos: 15 })
   }
 
   // Autos ANP
@@ -117,7 +114,7 @@ async function calcularANP(empId: string): Promise<{ score: number; fatores: Fat
     where: { empreendimentoId: empId, orgao: { contains: 'ANP', mode: 'insensitive' }, status: { notIn: ['ENCERRADO', 'PAGO'] } },
   })
   if (autosANP > 0) {
-    fatores.push({ descricao: `${autosANP} auto(s) de infração ANP ativo(s)`, pontos: 25 * autosANP }); score += 25 * autosANP
+    fatores.push({ descricao: `${autosANP} auto(s) de infração ANP ativo(s)`, pontos: 25 * autosANP })
   }
 
   // MTRs em aberto há mais de 30 dias
@@ -126,15 +123,14 @@ async function calcularANP(empId: string): Promise<{ score: number; fatores: Fat
     where: { empreendimentoId: empId, status: 'ABERTO', dataEmissao: { lt: limite30 } },
   })
   if (mtrsAbertos > 0) {
-    fatores.push({ descricao: `${mtrsAbertos} MTR(s) em aberto há mais de 30 dias`, pontos: 10 }); score += 10
+    fatores.push({ descricao: `${mtrsAbertos} MTR(s) em aberto há mais de 30 dias`, pontos: 10 })
   }
 
-  return { score: Math.min(score, 100), fatores }
+  return { score: Math.min(somarFatores(fatores), 100), fatores }
 }
 
 async function calcularINMETRO(empId: string): Promise<{ score: number; fatores: Fator[] }> {
   const fatores: Fator[] = []
-  let score = 0
 
   const hoje = new Date()
   const em30 = new Date(hoje); em30.setDate(em30.getDate() + 30)
@@ -144,36 +140,35 @@ async function calcularINMETRO(empId: string): Promise<{ score: number; fatores:
     where: { empreendimentoId: empId, status: 'ATIVO', proximaCalibracao: { lt: hoje } },
   })
   if (bombasVencidas > 0) {
-    fatores.push({ descricao: `${bombasVencidas} bomba(s) sem certificado INMETRO válido`, pontos: 35 }); score += 35
+    fatores.push({ descricao: `${bombasVencidas} bomba(s) sem certificado INMETRO válido`, pontos: 35 })
   }
 
   const bombasVencendo30 = await prisma.bombaAbastecimento.count({
     where: { empreendimentoId: empId, status: 'ATIVO', proximaCalibracao: { gte: hoje, lte: em30 } },
   })
   if (bombasVencendo30 > 0) {
-    fatores.push({ descricao: `${bombasVencendo30} bomba(s) a vencer em 30 dias`, pontos: 20 }); score += 20
+    fatores.push({ descricao: `${bombasVencendo30} bomba(s) a vencer em 30 dias`, pontos: 20 })
   }
 
   const bombasVencendo60 = await prisma.bombaAbastecimento.count({
     where: { empreendimentoId: empId, status: 'ATIVO', proximaCalibracao: { gt: em30, lte: em60 } },
   })
   if (bombasVencendo60 > 0) {
-    fatores.push({ descricao: `${bombasVencendo60} bomba(s) a vencer em 31–60 dias`, pontos: 10 }); score += 10
+    fatores.push({ descricao: `${bombasVencendo60} bomba(s) a vencer em 31–60 dias`, pontos: 10 })
   }
 
   const autosINMETRO = await prisma.autoInfracao.count({
     where: { empreendimentoId: empId, orgao: { contains: 'INMETRO', mode: 'insensitive' }, status: { notIn: ['ENCERRADO', 'PAGO'] } },
   })
   if (autosINMETRO > 0) {
-    fatores.push({ descricao: `${autosINMETRO} auto(s) de infração INMETRO ativo(s)`, pontos: 20 * autosINMETRO }); score += 20 * autosINMETRO
+    fatores.push({ descricao: `${autosINMETRO} auto(s) de infração INMETRO ativo(s)`, pontos: 20 * autosINMETRO })
   }
 
-  return { score: Math.min(score, 100), fatores }
+  return { score: Math.min(somarFatores(fatores), 100), fatores }
 }
 
 async function calcularBOMBEIROS(empId: string): Promise<{ score: number; fatores: Fator[] }> {
   const fatores: Fator[] = []
-  let score = 0
 
   const hoje = new Date()
   const em30 = new Date(hoje); em30.setDate(em30.getDate() + 30)
@@ -189,12 +184,12 @@ async function calcularBOMBEIROS(empId: string): Promise<{ score: number; fatore
     const d = diasAte(a.dataVencimento)
     if (a.status === 'VENCIDA' || d < 0) {
       const pts = a.tipo === 'AVCB' ? 40 : 30
-      fatores.push({ descricao: `${a.tipo} vencido`, pontos: pts }); score += pts
+      fatores.push({ descricao: `${a.tipo} vencido`, pontos: pts })
     } else if (d <= 30) {
       const pts = a.tipo === 'AVCB' ? 25 : 18
-      fatores.push({ descricao: `${a.tipo} vence em ${d} dias`, pontos: pts }); score += pts
+      fatores.push({ descricao: `${a.tipo} vence em ${d} dias`, pontos: pts })
     } else if (d <= 90) {
-      fatores.push({ descricao: `${a.tipo} vence em ${d} dias`, pontos: 10 }); score += 10
+      fatores.push({ descricao: `${a.tipo} vence em ${d} dias`, pontos: 10 })
     }
   }
 
@@ -202,10 +197,10 @@ async function calcularBOMBEIROS(empId: string): Promise<{ score: number; fatore
     where: { empreendimentoId: empId, orgao: { contains: 'BOMBEIRO', mode: 'insensitive' }, status: { notIn: ['ENCERRADO', 'PAGO'] } },
   })
   if (autosBombeiros > 0) {
-    fatores.push({ descricao: `${autosBombeiros} auto(s) do Corpo de Bombeiros ativo(s)`, pontos: 20 * autosBombeiros }); score += 20 * autosBombeiros
+    fatores.push({ descricao: `${autosBombeiros} auto(s) do Corpo de Bombeiros ativo(s)`, pontos: 20 * autosBombeiros })
   }
 
-  return { score: Math.min(score, 100), fatores }
+  return { score: Math.min(somarFatores(fatores), 100), fatores }
 }
 
 // ─── recomendações com Claude ─────────────────────────────────────────────────

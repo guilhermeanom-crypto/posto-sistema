@@ -18,6 +18,25 @@ export function dentroDeHorizonte(dias: number, horizontes: number[]): boolean {
 }
 
 /**
+ * Soma os pontos dos fatores de risco. Derivar o score DAQUI (em vez de acumular
+ * `score += X` em paralelo ao `fatores.push`) garante por construção que
+ * score === Σ pontos — elimina a classe do bug L-01 (pontos exibidos ≠ score somado).
+ */
+export function somarFatores(fatores: { pontos: number }[]): number {
+  return fatores.reduce((acc, f) => acc + f.pontos, 0)
+}
+
+/**
+ * Dias inteiros até a data alvo, zerando as horas dos dois lados (determinístico,
+ * não depende da hora de execução — L-07). Usa ceil para alinhar com o score de risco.
+ */
+export function diasAteData(alvo: Date, hoje: Date = new Date()): number {
+  const a = new Date(alvo); a.setHours(0, 0, 0, 0)
+  const h = new Date(hoje); h.setHours(0, 0, 0, 0)
+  return Math.ceil((a.getTime() - h.getTime()) / 86_400_000)
+}
+
+/**
  * Conta o streak de alertas CONSECUTIVOS a partir da medição mais recente (índice 0,
  * série em ordem decrescente de data). Uma medição conforme (false) quebra o streak —
  * é o que distingue "tendência persistente" de medições alternadas.

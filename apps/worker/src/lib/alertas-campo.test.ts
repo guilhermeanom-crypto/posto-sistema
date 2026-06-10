@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import { nivelPorDias, dentroDeHorizonte, contarStreakAlertas } from './alertas-campo.js'
+import {
+  nivelPorDias,
+  dentroDeHorizonte,
+  contarStreakAlertas,
+  somarFatores,
+  diasAteData,
+} from './alertas-campo.js'
 
 const HORIZONTES = [30, 15, 7, 3, 1]
 
@@ -50,5 +56,39 @@ describe('contarStreakAlertas (L-04: conforme quebra o streak)', () => {
 
   it('sem leituras = zero', () => {
     expect(contarStreakAlertas([])).toBe(0)
+  })
+})
+
+describe('somarFatores (L-01: score = Σ pontos, exibido == somado)', () => {
+  it('soma os pontos dos fatores', () => {
+    expect(somarFatores([{ pontos: 35 }, { pontos: 20 }, { pontos: 8 }])).toBe(63)
+    expect(somarFatores([])).toBe(0)
+  })
+
+  it('um fator de N autos contribui exatamente o que exibe (pontos = 25 * autos)', () => {
+    // antes do fix L-01: card exibia 25 mas score somava 25*autos -> divergência.
+    // agora o score é derivado da soma dos pontos exibidos.
+    const autos = 3
+    const fatores = [{ descricao: `${autos} auto(s) ANP`, pontos: 25 * autos }]
+    expect(somarFatores(fatores)).toBe(75) // = o que o card mostra
+  })
+})
+
+describe('diasAteData (L-07: determinístico, não depende da hora)', () => {
+  // Usa o construtor local new Date(ano, mêsIdx, dia, hora) para o teste não depender
+  // do fuso da máquina (datetime-string é local, date-string é UTC — não misturar).
+  it('mesmo dia = 0', () => {
+    expect(diasAteData(new Date(2026, 6, 1, 8), new Date(2026, 6, 1, 20))).toBe(0)
+  })
+
+  it('conta dias inteiros independente da hora de execução', () => {
+    const alvo = new Date(2026, 6, 10)
+    // hoje de manhã e à noite -> mesmo resultado (antes podia diferir por 1)
+    expect(diasAteData(alvo, new Date(2026, 6, 1, 0, 1))).toBe(9)
+    expect(diasAteData(alvo, new Date(2026, 6, 1, 23, 59))).toBe(9)
+  })
+
+  it('data passada = negativo', () => {
+    expect(diasAteData(new Date(2026, 5, 25), new Date(2026, 6, 1, 12))).toBe(-6)
   })
 })
