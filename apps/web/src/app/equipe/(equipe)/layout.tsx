@@ -1,26 +1,9 @@
-import { cookies } from 'next/headers'
 import Link from 'next/link'
+import { getSessao } from '@/lib/auth'
 import { EquipeNav } from './equipe-nav'
 
-interface EquipeSessao {
-  matricula: string
-  nome: string
-  perfil: string
-}
-
-async function getEquipeSessao(): Promise<EquipeSessao | null> {
-  const c = await cookies()
-  const raw = c.get('habilis_equipe')?.value
-  if (!raw) return null
-  try {
-    return JSON.parse(raw) as EquipeSessao
-  } catch {
-    return null
-  }
-}
-
 export default async function EquipeAuthLayout({ children }: { children: React.ReactNode }) {
-  const sessao = await getEquipeSessao()
+  const sessao = await getSessao()
   if (!sessao) {
     return (
       <div className="min-h-screen bg-muted/30 px-4 py-10">
@@ -60,7 +43,7 @@ export default async function EquipeAuthLayout({ children }: { children: React.R
 
   return (
     <div className="min-h-screen flex flex-col">
-      <EquipeNav nome={sessao.nome} matricula={sessao.matricula} />
+      <EquipeNav nome={sessao.nome} matricula={sessao.email} />
       <main className="flex-1 w-full max-w-[1320px] mx-auto px-4 lg:px-8 py-6">
         {children}
       </main>

@@ -8,7 +8,7 @@ import { equipeLoginAction } from './actions'
 
 export function EquipeLoginForm() {
   const router = useRouter()
-  const [matricula, setMatricula] = useState('CAMPO-001')
+  const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
@@ -17,7 +17,7 @@ export function EquipeLoginForm() {
     e.preventDefault()
     setError(null)
     startTransition(async () => {
-      const res = await equipeLoginAction({ matricula, senha })
+      const res = await equipeLoginAction({ email, senha })
       if (res?.error) {
         setError(res.error)
         return
@@ -34,19 +34,20 @@ export function EquipeLoginForm() {
       ) : null}
 
       <div className="space-y-1.5">
-        <label htmlFor="matricula" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Matrícula
+        <label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          E-mail
         </label>
         <div className="relative">
           <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
-            id="matricula"
-            name="matricula"
-            value={matricula}
-            onChange={(e) => setMatricula(e.target.value)}
+            id="email"
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
             autoComplete="username"
-            placeholder="CAMPO-001"
+            placeholder="voce@empresa.com.br"
             className={accessInputClass('campo').concat(' pl-9')}
           />
         </div>
@@ -90,7 +91,7 @@ export function EquipeLoginForm() {
       </button>
 
       <p className="text-center text-[11px] text-muted-foreground pt-1">
-        Demo local: qualquer matrícula e senha funcionam.
+        Use seu e-mail e senha do sistema. Demo: admin@postodemo.com.br / Demo@1234.
       </p>
     </form>
   )

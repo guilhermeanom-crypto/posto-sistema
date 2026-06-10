@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
+import { getAccessToken } from '@/lib/auth'
 
 export default async function EquipeIndexPage() {
-  const c = await cookies()
-  if (c.get('habilis_equipe')) {
+  const token = await getAccessToken()
+  if (token) {
     redirect('/equipe/inicio')
   }
   redirect('/equipe/login')

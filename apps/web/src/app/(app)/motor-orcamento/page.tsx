@@ -123,7 +123,7 @@ interface ScoreRiscoItem {
   score: number
   nivel: 'BAIXO' | 'MEDIO' | 'ALTO' | 'CRITICO'
   fatores?: Array<{ pontos: number; descricao: string }>
-  atualizadoEm?: string
+  calculadoEm?: string
 }
 
 interface RiscoAgregado {
@@ -141,7 +141,7 @@ function agregarRisco(scores: ScoreRiscoItem[] | null): RiscoAgregado | null {
     scoreFinal: top.score,
     classe: top.orgao,
     classificacao: mapNivel[top.nivel],
-    atualizadoEm: top.atualizadoEm,
+    atualizadoEm: top.calculadoEm,
   }
 }
 

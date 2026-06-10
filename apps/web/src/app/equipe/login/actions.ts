@@ -1,47 +1,49 @@
 'use server'
 
 import { cookies } from 'next/headers'
+import { api, ApiError } from '@/lib/api'
+import { setAuthCookies, clearAuthCookies } from '@/lib/auth'
 
 interface EquipeLoginInput {
-  matricula: string
+  email: string
   senha: string
 }
 
+interface LoginResponse {
+  data: {
+    accessToken: string
+    refreshToken: string
+    expiresIn: number
+    usuario: { id: string; nome: string; email: string; perfil: string; tenantId: string }
+  }
+}
+
 /**
- * Login da equipe de campo (demo).
- * Apenas valida formato mínimo e grava um cookie de sessão simulada.
- * Não conversa com a API por enquanto — escopo de demo.
+ * Login da equipe de campo — autenticação REAL contra a API (antes era simulada).
+ * Usa as mesmas credenciais e cookies (posto_access/posto_refresh) do sistema interno,
+ * para que as telas de OS/checklists (que leem o token real) funcionem de fato.
  */
 export async function equipeLoginAction(input: EquipeLoginInput): Promise<{ error?: string } | null> {
-  const matricula = (input.matricula ?? '').trim()
+  const email = (input.email ?? '').trim().toLowerCase()
   const senha = (input.senha ?? '').trim()
 
-  if (!matricula || !senha) {
-    return { error: 'Informe matrícula e senha.' }
-  }
-  if (matricula.length < 3) {
-    return { error: 'Matrícula inválida.' }
+  if (!email || !senha) {
+    return { error: 'Informe e-mail e senha.' }
   }
 
-  const c = await cookies()
-  c.set({
-    name: 'habilis_equipe',
-    value: JSON.stringify({
-      matricula,
-      nome: 'Diego M.',
-      perfil: 'TECNICO_CAMPO',
-      sessaoAt: Date.now(),
-    }),
-    httpOnly: true,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 8,
-  })
-
-  return null
+  try {
+    const res = await api.post<LoginResponse>('/auth/login', { email, senha })
+    const c = await cookies()
+    setAuthCookies(c, res.data.accessToken, res.data.refreshToken)
+    return null
+  } catch (err) {
+    if (err instanceof ApiError) {
+      return { error: err.message }
+    }
+    return { error: 'Não foi possível validar o acesso agora. Tente novamente.' }
+  }
 }
 
 export async function equipeLogoutAction(): Promise<void> {
-  const c = await cookies()
-  c.delete('habilis_equipe')
+  await clearAuthCookies()
 }

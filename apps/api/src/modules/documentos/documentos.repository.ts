@@ -41,7 +41,14 @@ export class DocumentosRepository {
           tipoDocumento: { select: { id: true, nome: true, categoria: true } },
           empreendimento: { select: { id: true, nome: true, cidade: true, estado: true } },
           versaoAtual: {
-            select: { id: true, status: true, arquivoBytes: true, arquivoMime: true, criadoEm: true },
+            select: {
+              id: true,
+              status: true,
+              arquivoBytes: true,
+              arquivoMime: true,
+              criadoEm: true,
+              enviadoPor: { select: { id: true, nome: true } },
+            },
           },
         },
         orderBy: [{ dataValidade: 'asc' }, { criadoEm: 'desc' }],
