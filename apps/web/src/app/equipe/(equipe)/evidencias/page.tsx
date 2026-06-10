@@ -2,6 +2,7 @@ import { Camera, ImagePlus, MapPin } from 'lucide-react'
 import { getAccessToken } from '@/lib/auth'
 import { api } from '@/lib/api'
 import { formatDate } from '@/lib/date'
+import { AdicionarEvidencia } from './adicionar-evidencia'
 
 export const metadata = { title: 'Evidências coletadas' }
 
@@ -30,6 +31,7 @@ const VAL_TONE: Record<StatusValidacao, string> = {
 export default async function EvidenciasPage() {
   const token = await getAccessToken()
   let itens: Evidencia[] = []
+  let osOptions: { id: string; numero: string }[] = []
   let erro: string | null = null
 
   if (token) {
@@ -38,6 +40,15 @@ export default async function EvidenciasPage() {
       itens = res.data
     } catch {
       erro = 'Não foi possível carregar as evidências no momento.'
+    }
+    try {
+      const os = await api.get<{ data: { id: string; numero: string }[] }>(
+        '/operacao/ordens-servico?apenasMinhas=true&apenasAbertas=true&limit=50',
+        token,
+      )
+      osOptions = os.data.map((o) => ({ id: o.id, numero: o.numero }))
+    } catch {
+      // sem OS: o formulário mostra aviso
     }
   }
 
@@ -53,9 +64,7 @@ export default async function EvidenciasPage() {
             Fotos e arquivos vinculados a serviço, setor e achado. Geotag e horário gravados.
           </p>
         </div>
-        <button className="inline-flex items-center gap-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 text-xs font-semibold shadow-[0_10px_24px_rgba(234,88,12,0.18)]">
-          <Camera className="h-3.5 w-3.5" /> Adicionar evidência
-        </button>
+        <AdicionarEvidencia osOptions={osOptions} />
       </div>
 
       {erro ? (
