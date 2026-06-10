@@ -673,6 +673,15 @@ export class PropostasService {
       : proposta.observacoes_comerciais
     const updatedAt = new Date()
 
+    // Carimba o timestamp do ciclo de vida na primeira vez que cada status é atingido.
+    // Antes essas colunas (enviada_em/aprovada_em/...) nunca eram preenchidas — o que
+    // deixava os handoffs/relatórios comerciais sem data de aprovação.
+    const statusMudou = !!input.status && input.status !== proposta.status
+    const setEnviada = statusMudou && nextStatus === 'ENVIADA'
+    const setAprovada = statusMudou && nextStatus === 'APROVADA'
+    const setRejeitada = statusMudou && nextStatus === 'REJEITADA'
+    const setExpirada = statusMudou && nextStatus === 'EXPIRADA'
+
     await prisma.$executeRaw(Prisma.sql`
       UPDATE propostas_comerciais
       SET
@@ -680,7 +689,11 @@ export class PropostasService {
         data_validade = ${nextDataValidade},
         observacoes_comerciais = ${nextObservacoesComerciais},
         atualizado_por_id = ${ctx.id},
-        atualizado_em = ${updatedAt}
+        atualizado_em = ${updatedAt},
+        enviada_em = CASE WHEN ${setEnviada} THEN ${updatedAt} ELSE enviada_em END,
+        aprovada_em = CASE WHEN ${setAprovada} THEN ${updatedAt} ELSE aprovada_em END,
+        rejeitada_em = CASE WHEN ${setRejeitada} THEN ${updatedAt} ELSE rejeitada_em END,
+        expirada_em = CASE WHEN ${setExpirada} THEN ${updatedAt} ELSE expirada_em END
       WHERE id = ${id} AND tenant_id = ${ctx.tenantId}
     `)
 

@@ -495,6 +495,7 @@ model SessaoRefresh {
   usuario Usuario @relation(fields: [usuarioId], references: [id])
 
   @@index([usuarioId])
+  @@index([expiresAt])
   @@map("sessoes_refresh")
 }
 
@@ -1584,7 +1585,7 @@ model TesteEstanqueidade {
   observacoes  String?
   criadoEm     DateTime @default(now()) @map("criado_em")
 
-  tanque Tanque @relation(fields: [tanqueId], references: [id], onDelete: Cascade)
+  tanque Tanque @relation(fields: [tanqueId], references: [id], onDelete: Restrict)
 
   @@index([tanqueId, dataExecucao])
   @@map("testes_estanqueidade")
@@ -1803,7 +1804,7 @@ model LaudoAgua {
   observacoes  String?
   criadoEm     DateTime @default(now()) @map("criado_em")
 
-  poco PocoArtesiano @relation(fields: [pocoId], references: [id], onDelete: Cascade)
+  poco PocoArtesiano @relation(fields: [pocoId], references: [id], onDelete: Restrict)
 
   @@index([pocoId, dataCampanha])
   @@index([resultado, dataCampanha])
@@ -1961,7 +1962,7 @@ model RecursoAdministrativo {
   criadoEm        DateTime         @default(now()) @map("criado_em")
   atualizadoEm    DateTime         @updatedAt @map("atualizado_em")
 
-  auto AutoInfracao @relation(fields: [autoId], references: [id], onDelete: Cascade)
+  auto AutoInfracao @relation(fields: [autoId], references: [id], onDelete: Restrict)
 
   @@index([autoId])
   @@map("recursos_administrativos")
@@ -1977,7 +1978,7 @@ model DefesaTecnica {
   geradoEm      DateTime @default(now()) @map("gerado_em")
   atualizadoEm  DateTime @updatedAt @map("atualizado_em")
 
-  auto AutoInfracao @relation(fields: [autoId], references: [id], onDelete: Cascade)
+  auto AutoInfracao @relation(fields: [autoId], references: [id], onDelete: Restrict)
 
   @@index([autoId])
   @@map("defesas_tecnicas")
