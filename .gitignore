@@ -45,3 +45,7 @@ prisma/migrations/*.sql.bak
 # Artefatos pesados / exports acidentais (não versionar)
 *.zip
 wsn
+
+# Certificados TLS (nunca versionar chaves)
+infra/nginx/certs/*.crt
+infra/nginx/certs/*.key

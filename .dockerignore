@@ -1,0 +1,33 @@
+# Dependências e build (instaladas/recompiladas dentro da imagem)
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+**/out
+.pnpm-store
+
+# Git e CI
+.git
+.github
+
+# Ambiente e segredos (NUNCA copiar para a imagem)
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs, cobertura, temporários
+**/*.log
+**/coverage
+**/.nyc_output
+**/tmp
+
+# Artefatos pesados / exports acidentais
+**/*.zip
+wsn
+
+# Docs e arquivos locais não necessários no runtime
+docs
+*.md
+.vscode
+.idea
+**/.DS_Store
