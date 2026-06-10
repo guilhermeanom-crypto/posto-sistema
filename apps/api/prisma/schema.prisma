@@ -417,6 +417,8 @@ model Tenant {
   contratos                       Contrato[]
   ordensServico                   OrdemServico[]
   entregaveis                     Entregavel[]
+  pendenciasCampo                 PendenciaCampo[]
+  evidenciasCampo                 EvidenciaCampo[]
 
   @@map("tenants")
 }
@@ -475,6 +477,10 @@ model Usuario {
   osResponsavel                  OrdemServico[]          @relation("OSResponsavel")
   osCriadas                      OrdemServico[]          @relation("OSCriador")
   osAtualizadas                  OrdemServico[]          @relation("OSAtualizador")
+  pendenciasCriadas              PendenciaCampo[]        @relation("PendenciaCriador")
+  pendenciasResponsavel          PendenciaCampo[]        @relation("PendenciaResponsavel")
+  evidenciasCapturadas           EvidenciaCampo[]        @relation("EvidenciaCapturador")
+  evidenciasValidadas            EvidenciaCampo[]        @relation("EvidenciaValidador")
   entregaveisCriados             Entregavel[]            @relation("EntregavelCriador")
   entregaveisAtualizados         Entregavel[]            @relation("EntregavelAtualizador")
 
@@ -610,6 +616,8 @@ model Empreendimento {
   contratos              Contrato[]
   ordensServico          OrdemServico[]
   entregaveis            Entregavel[]
+  pendenciasCampo        PendenciaCampo[]
+  evidenciasCampo        EvidenciaCampo[]
 
   @@index([tenantId, ativo])
   @@index([tenantId, estado, cidade])
@@ -2585,6 +2593,8 @@ model OrdemServico {
   criadoPor      Usuario        @relation("OSCriador", fields: [criadoPorId], references: [id])
   atualizadoPor  Usuario?       @relation("OSAtualizador", fields: [atualizadoPorId], references: [id])
   entregaveis    Entregavel[]
+  pendencias     PendenciaCampo[]
+  evidencias     EvidenciaCampo[]
 
   @@unique([tenantId, numero])
   @@index([tenantId, status, dataPlanejada])
@@ -2733,4 +2743,89 @@ model MensagemPortal {
 
   @@index([tenantId, empreendimentoId, criadoEm])
   @@map("mensagens_portal")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CAMPO — Pendências e Evidências levantadas em vistoria (app da equipe)
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum PrioridadePendencia {
+  CRITICA
+  ALTA
+  MEDIA
+  BAIXA
+}
+
+enum StatusPendenciaCampo {
+  ABERTA
+  EM_ANDAMENTO
+  ENVIADA_CLIENTE
+  RESOLVIDA
+  CANCELADA
+}
+
+enum StatusValidacaoEvidencia {
+  PENDENTE
+  VALIDADA
+  REJEITADA
+}
+
+model PendenciaCampo {
+  id               String               @id @default(uuid())
+  tenantId         String               @map("tenant_id")
+  ordemServicoId   String               @map("ordem_servico_id")
+  empreendimentoId String               @map("empreendimento_id")
+  descricao        String               @db.Text
+  prioridade       PrioridadePendencia  @default(MEDIA)
+  status           StatusPendenciaCampo @default(ABERTA)
+  prazo            DateTime?            @db.Date
+  observacao       String?              @db.Text
+  criadoPorId      String               @map("criado_por_id")
+  responsavelId    String?              @map("responsavel_id")
+  resolvidoEm      DateTime?            @map("resolvido_em")
+  criadoEm         DateTime             @default(now()) @map("criado_em")
+  atualizadoEm     DateTime             @updatedAt @map("atualizado_em")
+
+  tenant         Tenant         @relation(fields: [tenantId], references: [id])
+  ordemServico   OrdemServico   @relation(fields: [ordemServicoId], references: [id], onDelete: Restrict)
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+  criadoPor      Usuario        @relation("PendenciaCriador", fields: [criadoPorId], references: [id])
+  responsavel    Usuario?       @relation("PendenciaResponsavel", fields: [responsavelId], references: [id])
+
+  @@index([tenantId, ordemServicoId, status])
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, status, prazo])
+  @@map("pendencias_campo")
+}
+
+model EvidenciaCampo {
+  id               String                   @id @default(uuid())
+  tenantId         String                   @map("tenant_id")
+  ordemServicoId   String                   @map("ordem_servico_id")
+  empreendimentoId String                   @map("empreendimento_id")
+  setor            String
+  nota             String                   @db.Text
+  chaveS3          String?                  @map("chave_s3")
+  arquivoNome      String?                  @map("arquivo_nome")
+  arquivoMime      String?                  @map("arquivo_mime")
+  arquivoBytes     BigInt?                  @map("arquivo_bytes")
+  latitude         Decimal?                 @db.Decimal(10, 8)
+  longitude        Decimal?                 @db.Decimal(11, 8)
+  statusValidacao  StatusValidacaoEvidencia @default(PENDENTE)
+  validadoPorId    String?                  @map("validado_por_id")
+  validadoEm       DateTime?                @map("validado_em")
+  capturadoPorId   String                   @map("capturado_por_id")
+  capturadoEm      DateTime                 @default(now()) @map("capturado_em")
+  criadoEm         DateTime                 @default(now()) @map("criado_em")
+
+  tenant         Tenant         @relation(fields: [tenantId], references: [id])
+  ordemServico   OrdemServico   @relation(fields: [ordemServicoId], references: [id], onDelete: Restrict)
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+  capturadoPor   Usuario        @relation("EvidenciaCapturador", fields: [capturadoPorId], references: [id])
+  validadoPor    Usuario?       @relation("EvidenciaValidador", fields: [validadoPorId], references: [id])
+
+  @@index([tenantId, ordemServicoId])
+  @@index([tenantId, empreendimentoId, statusValidacao])
+  @@index([tenantId, statusValidacao])
+  @@map("evidencias_campo")
 }
