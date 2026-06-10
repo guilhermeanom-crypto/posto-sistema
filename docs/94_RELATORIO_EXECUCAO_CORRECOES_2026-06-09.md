@@ -62,12 +62,32 @@ Bloqueadores que impediam `docker compose up`:
 > Recomenda-se rodar `docker compose -f docker-compose.prod.yml build` antes do deploy real
 > (a validação aqui foi de lógica + YAML, não um build completo).
 
-## 6. Config/observabilidade — PARCIAL (commit `af49ed4`)
+## 6. Config/observabilidade (commits `af49ed4`, `46e9f1d`)
 
 - ✅ Guard de produção no `prisma/seed.ts` (bloqueia seed demo em produção).
-- ⏳ **Pendente**: logging estruturado (pino) no worker; health endpoint + healthcheck do worker;
-  error tracking (Sentry); monitor de filas (bull-board); limpar `AUTH_COOKIE_SECRET` (var morta);
-  garantir `ANTHROPIC_API_KEY`/`TRUST_PROXY_HOPS` no `.env` de produção. (Requerem deps novas / lockfile.)
+- ✅ Health endpoint do worker (`GET :9090/health`, http nativo) + healthcheck no compose/Dockerfile.
+- ✅ `.env.example`: `WORKER_HEALTH_PORT`, `BACKUP_*`, `ALLOW_PROD_SEED` documentados.
+- ⏳ **Adiado (requer deps novas + config externa)**: logging estruturado pino no worker,
+  error tracking (Sentry — precisa DSN), monitor de filas (bull-board).
+
+## 7. Frontend / app de campo — PARCIAL (commit `2f0b4db`)
+
+- ✅ **Auth real da equipe**: `/equipe/login` deixou de ser fake — autentica na API (`/auth/login`)
+  e usa os cookies reais (`posto_access`/`refresh`), então `/equipe/os` mostra dados reais.
+  Login por e-mail+senha; layout/página índice usam `getSessao()`.
+- ✅ **Divergências de tipo**: motor-orçamento `score.atualizadoEm` → `calculadoEm`; lista de
+  documentos passou a trazer `versaoAtual.enviadoPor`.
+- ⏳ **Pendente**: wiring de `/equipe/inicio` (KPIs/OS/roteiro ainda mock) e `/equipe/checklists`
+  (estado só client); **novos endpoints de pendências e evidências de campo** (não existem no
+  backend — exigem modelos Prisma + migration + rotas + wiring); redirect global em 401 (`serverApi`).
+
+## 8. Limpeza — PARCIAL (commit `7ba68f6`)
+
+- ✅ Removido `wsn` (export PostScript de 35MB largado na raiz).
+- ✅ Arquivados em `docs/archive/` os 3 relatórios de 28/mai superados (sub-ondas 5.1/5.2/5.3),
+  resolvendo a colisão 89/90/91. Colisão 81-84 mantida (séries distintas; renumerar quebra refs).
+- ⏳ **Fora do repo (requer confirmação)**: cópias `ITECOLOGICA-copia/`, `posto-compliance-unico/`
+  e zips pesados (~470MB) no workspace.
 
 ## Validação acumulada
 
@@ -80,10 +100,15 @@ Bloqueadores que impediam `docker compose up`:
 
 ## Pendências (próximas sessões)
 
-- **Fase 6 (resto)**: observabilidade do worker (pino, health, Sentry, bull-board) + limpeza de env.
-- **Fase 7 — Frontend**: auth real do app `/equipe` (hoje é fake), ligar OS/checklists, criar endpoints
-  de pendências/evidências de campo, redirect em 401 (`serverApi` morto), corrigir divergências de tipo
-  (`atualizadoEm`/`calculadoEm`, `diasAteVencimento`, `enviadoPor`).
-- **Fase 8 — Limpeza**: renumerar/arquivar docs duplicados (81-84, 89-91), remover `wsn`, consolidar
-  cópias ITECOLOGICA, mover zips pesados, atualizar memória.
-- **Follow-up**: harness de testes do worker (adicionar vitest ao pacote).
+O que falta para 100% técnico, em ordem de valor:
+
+1. **Frontend do app de campo (maior peça)** — ligar `/equipe/inicio` (KPIs/OS/roteiro) e
+   `/equipe/checklists` à API, e **construir os endpoints de pendências e evidências de campo**
+   (modelos Prisma + migration + rotas + UI). É um build de feature, não ajuste.
+2. **Observabilidade com deps** — pino no worker, Sentry (precisa DSN), bull-board.
+3. **Redirect global em 401** — adotar `serverApi` (hoje morto) ou tratar expiração de token na UI.
+4. **Limpeza externa** — `ITECOLOGICA-copia`/`posto-compliance-unico` e zips (~470MB), fora do repo.
+5. **Harness de testes do worker** — adicionar vitest ao pacote (worker hoje sem testes).
+
+**Depende do usuário (não-código):** conferir aderência das regras a ANP/CETESB/Bombeiros;
+validar fluxo ponta a ponta com dados reais; definir operação/backup/primeiro cliente.
