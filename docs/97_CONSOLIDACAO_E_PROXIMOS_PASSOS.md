@@ -28,8 +28,9 @@ typecheck/testes não pegariam e refutou achados falsos da auditoria (401 já fu
   `src/lib/alertas-campo.ts` e coberta por `alertas-campo.test.ts` (8 testes): regressões de
   L-02 (alerta por faixa tolera dia perdido) e L-04 (streak VMP quebrado por medição conforme)
   + níveis por dias. **A harness do worker existe agora** (era zero).
-- _Follow-up incremental (a harness facilita):_ extrair/testar a consistência do score de risco
-  (L-01: pontos = contribuição) e o cálculo de datas (L-07).
+- ✅ _Follow-up concluído:_ L-01 eliminado por construção (score derivado de `somarFatores`) e
+  L-07 com teste determinístico (`diasAteData`). **13 testes do worker verdes.** A rede de
+  segurança do worker cobre agora L-01, L-02, L-04 e L-07.
 
 ### Fase B — Observabilidade de produção (pré-cliente)
 - ✅ **Logging estruturado (pino) no worker** — 59 console.* migrados; erros viram contexto
