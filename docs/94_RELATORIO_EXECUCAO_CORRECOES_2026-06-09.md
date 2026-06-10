@@ -82,9 +82,13 @@ Bloqueadores que impediam `docker compose up`:
   módulos `pendencias`/`evidencias` tenant-scoped, validação de OS, validação do analista, upload
   presigned de foto; +5 testes incl. isolamento), Bloco C (telas `/equipe/pendencias` e
   `/equipe/evidencias` ligadas à API). Decisões: pendência sempre via OS, foto opcional, analista valida.
-- ⏳ **Pendente (acabamento)**: wiring de `/equipe/inicio` (KPIs/OS/roteiro ainda mock) e
-  `/equipe/checklists` (estado só client); UI de captura/upload de foto (botão "Adicionar
-  evidência" — backend presigned já existe); redirect global em 401 (`serverApi`).
+- ✅ **App de campo `/equipe` 100% real** (acabamento concluído): `/equipe/inicio` (KPIs/OS/
+  evidências reais), UI de captura/upload de foto da evidência (server-side, verificada no MinIO),
+  `/equipe/checklists` (templates + execuções reais, link ao detalhe funcional). Redirect 401
+  **verificado já funcionando** (guard no `(app)/layout`) — ver doc 95. Telas: login · início ·
+  OS · pendências · evidências · checklists — todas reais.
+- ⏳ **Pendente (fora do `/equipe`, requer decisão)**: observabilidade com deps (pino/Sentry/
+  bull-board), testes do worker (adicionar vitest), fluxo de refresh-token, limpeza externa.
 
 ## 8. Limpeza — PARCIAL (commit `7ba68f6`)
 
