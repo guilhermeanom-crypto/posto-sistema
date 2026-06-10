@@ -32,8 +32,10 @@ typecheck/testes não pegariam e refutou achados falsos da auditoria (401 já fu
   (L-01: pontos = contribuição) e o cálculo de datas (L-07).
 
 ### Fase B — Observabilidade de produção (pré-cliente)
-- Logging estruturado (pino) no worker + error tracking (Sentry) + monitor de filas (bull-board).
-  Dep: deps novas + DSN do Sentry (usuário fornece).
+- ✅ **Logging estruturado (pino) no worker** — 59 console.* migrados; erros viram contexto
+  estruturado; verificado bootando (JSON pino). `src/lib/logger.ts`.
+- ⏳ **Error tracking (Sentry)** — precisa de um **DSN** (usuário fornece) ou wiring inerte gated em env.
+- ⏳ **Monitor de filas (bull-board)** — precisa de dep nova + decidir como servir (rota no worker/api).
 
 ### Fase C — UX de sessão
 - Fluxo de refresh-token: renovar o access (15min) via refresh (7d) silenciosamente.
