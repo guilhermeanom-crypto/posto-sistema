@@ -1,0 +1,565 @@
+  {
+  "base_oficial": {
+    "leis": [
+      {
+        "titulo": "Lei nº 11.445/2007",
+        "tipo": "Lei",
+        "numero": "11.445",
+        "ano": "2007",
+        "orgao": "Presidência da República",
+        "escopo": "Estabelece as diretrizes nacionais para o saneamento básico.",
+        "aplicacao_pratica": "Base federal para enquadrar atividades relacionadas a esgotamento sanitário, inclusive coleta, transporte, tratamento e disposição final de esgotos sanitários.",
+        "status_validacao": "",
+        "observacoes": [
+          "A redação compilada incorpora alterações da Lei nº 14.026/2020."
+        ]
+      },
+      {
+        "titulo": "Lei nº 14.026/2020",
+        "tipo": "Lei",
+        "numero": "14.026",
+        "ano": "2020",
+        "orgao": "Presidência da República",
+        "escopo": "Atualiza o marco legal do saneamento básico.",
+        "aplicacao_pratica": "Reforça a noção de esgotamento sanitário e de sistemas individuais alternativos de saneamento, relevante para soluções locais e temporárias de coleta e destinação de esgoto.",
+        "status_validacao": "",
+        "observacoes": []
+      },
+      {
+        "titulo": "Lei Complementar nº 140/2011",
+        "tipo": "Lei Complementar",
+        "numero": "140",
+        "ano": "2011",
+        "orgao": "Presidência da República",
+        "escopo": "Fixa normas de cooperação entre União, Estados, Distrito Federal e Municípios nas ações administrativas ambientais.",
+        "aplicacao_pratica": "É base para definir a competência licenciadora entre Município e Estado em Mato Grosso.",
+        "status_validacao": "",
+        "observacoes": []
+      },
+      {
+        "titulo": "Lei nº 6.938/1981",
+        "tipo": "Lei",
+        "numero": "6.938",
+        "ano": "1981",
+        "orgao": "Presidência da República",
+        "escopo": "Institui a Política Nacional do Meio Ambiente.",
+        "aplicacao_pratica": "Fornece a base geral do licenciamento ambiental e do Cadastro Técnico Federal para atividades potencialmente poluidoras.",
+        "status_validacao": "",
+        "observacoes": []
+      },
+      {
+        "titulo": "Lei nº 9.605/1998",
+        "tipo": "Lei",
+        "numero": "9.605",
+        "ano": "1998",
+        "orgao": "Presidência da República",
+        "escopo": "Dispõe sobre sanções penais e administrativas derivadas de condutas e atividades lesivas ao meio ambiente.",
+        "aplicacao_pratica": "Incide como regime sancionatório quando houver operação potencialmente poluidora sem licença ou em desacordo com padrões ambientais.",
+        "status_validacao": "",
+        "observacoes": []
+      },
+      {
+        "titulo": "Lei nº 11.088/2020",
+        "tipo": "Lei Estadual",
+        "numero": "11.088",
+        "ano": "2020",
+        "orgao": "Estado de Mato Grosso",
+        "escopo": "Dispõe sobre a Política Estadual de Recursos Hídricos e o regime de outorga em Mato Grosso.",
+        "aplicacao_pratica": "Base estadual para exigir outorga quando houver lançamento de esgotos e demais resíduos líquidos em corpo de água.",
+        "status_validacao": "",
+        "observacoes": []
+      }
+    ],
+    "decretos": [
+      {
+        "titulo": "Decreto nº 695/2020",
+        "tipo": "Decreto Estadual",
+        "numero": "695",
+        "ano": "2020",
+        "orgao": "Estado de Mato Grosso",
+        "escopo": "Regulamenta procedimentos e taxas relativos a cadastros, outorgas e licenças ambientais no âmbito da SEMA/MT.",
+        "aplicacao_pratica": "Relevante para processos de licenciamento ambiental estadual e para a verificação de enquadramento em procedimentos simplificados ou ordinários.",
+        "status_validacao": "",
+        "observacoes": [
+          "A coleta não confirmou, nesta etapa, a tipologia específica da atividade de locação de banheiros químicos com sucção no anexo aplicável."
+        ]
+      }
+    ],
+    "instrucoes_normativas": [
+      {
+        "titulo": "Instrução Normativa Ibama nº 13/2021",
+        "tipo": "Instrução Normativa",
+        "numero": "13",
+        "ano": "2021",
+        "orgao": "IBAMA",
+        "escopo": "Regulamenta a obrigação de inscrição no Cadastro Técnico Federal de Atividades Potencialmente Poluidoras e Utilizadoras de Recursos Ambientais.",
+        "aplicacao_pratica": "Serve de base para verificar inscrição e declaração de atividades no CTF/APP quando a operação estiver sujeita a controle ambiental.",
+        "status_validacao": "",
+        "observacoes": []
+      }
+    ],
+    "resolucoes": [
+      {
+        "titulo": "Resolução CONAMA nº 237/1997",
+        "tipo": "Resolução",
+        "numero": "237",
+        "ano": "1997",
+        "orgao": "CONAMA",
+        "escopo": "Dispõe sobre licenciamento ambiental e normas de procedimento.",
+        "aplicacao_pratica": "Base infralegal para exigibilidade de licenciamento ambiental e para a repartição prática de competência entre órgãos ambientais.",
+        "status_validacao": "",
+        "observacoes": []
+      },
+      {
+        "titulo": "Resolução CONAMA nº 357/2005",
+        "tipo": "Resolução",
+        "numero": "357",
+        "ano": "2005",
+        "orgao": "CONAMA",
+        "escopo": "Classifica corpos de água e estabelece condições e padrões de lançamento de efluentes.",
+        "aplicacao_pratica": "É referência nacional para qualidade do corpo receptor e para o regime geral de lançamento de efluentes.",
+        "status_validacao": "",
+        "observacoes": [
+          "Texto oficial indica alteração posterior pela Resolução CONAMA nº 430/2011."
+        ]
+      },
+      {
+        "titulo": "Resolução CONAMA nº 430/2011",
+        "tipo": "Resolução",
+        "numero": "430",
+        "ano": "2011",
+        "orgao": "CONAMA",
+        "escopo": "Dispõe sobre condições, parâmetros, padrões e diretrizes para gestão do lançamento de efluentes em corpos de água receptores.",
+        "aplicacao_pratica": "Aplica-se quando houver lançamento direto ou indireto de efluentes no corpo receptor, inclusive em interface com sistemas de esgotamento sanitário.",
+        "status_validacao": "",
+        "observacoes": [
+          "Título, número e função normativa confirmados em fonte oficial do governo federal; o texto integral não foi reaberto nesta coleta."
+        ]
+      },
+      {
+        "titulo": "Resolução CONSEMA nº 74/2025",
+        "tipo": "Resolução",
+        "numero": "74",
+        "ano": "2025",
+        "orgao": "CONSEMA/MT",
+        "escopo": "Define atividades e empreendimentos que causam ou possam causar impacto ambiental local em Mato Grosso.",
+        "aplicacao_pratica": "É relevante para verificar se o licenciamento da atividade concreta cabe ao Município descentralizado ou à SEMA/MT.",
+        "status_validacao": "",
+        "observacoes": [
+          "A coleta não confirmou o enquadramento nominal da atividade de locação de banheiros químicos com sucção dentro do anexo."
+        ]
+      }
+    ],
+    "normas_tecnicas": [
+      {
+        "titulo": "ABNT NBR 7229",
+        "tipo": "Norma Técnica",
+        "numero": "7229",
+        "ano": "1993",
+        "orgao": "ABNT",
+        "escopo": "Projeto, construção e operação de sistemas de tanques sépticos.",
+        "aplicacao_pratica": "Referência técnica potencial para soluções locais de tratamento de esgotos quando o arranjo envolver tanques sépticos e manejo correlato de efluentes.",
+        "status_validacao": "pendente_confirmacao_abnt",
+        "observacoes": [
+          "A confirmação fina em catálogo oficial ABNT não foi concluída nesta coleta."
+        ]
+      },
+      {
+        "titulo": "ABNT NBR 13969",
+        "tipo": "Norma Técnica",
+        "numero": "13969",
+        "ano": "1997",
+        "orgao": "ABNT",
+        "escopo": "Unidades de tratamento complementar e disposição final dos efluentes líquidos de tanques sépticos.",
+        "aplicacao_pratica": "Referência técnica potencial para disposição final e tratamento complementar de efluentes em sistemas locais, quando tecnicamente aplicável ao arranjo concreto.",
+        "status_validacao": "pendente_confirmacao_abnt",
+        "observacoes": [
+          "A confirmação fina em catálogo oficial ABNT não foi concluída nesta coleta."
+        ]
+      }
+    ],
+    "portarias": [],
+    "orgaos_envolvidos": [
+      {
+        "nome": "CONAMA",
+        "esfera": "federal",
+        "papel": "Edição de resoluções nacionais sobre licenciamento ambiental e lançamento de efluentes.",
+        "observacoes": []
+      },
+      {
+        "nome": "IBAMA",
+        "esfera": "federal",
+        "papel": "Administração do Cadastro Técnico Federal de Atividades Potencialmente Poluidoras e Utilizadoras de Recursos Ambientais.",
+        "observacoes": []
+      },
+      {
+        "nome": "Secretaria de Estado de Meio Ambiente de Mato Grosso - SEMA/MT",
+        "esfera": "estadual",
+        "papel": "Órgão ambiental estadual competente para licenciamento, outorga e sistemas oficiais em Mato Grosso, nos casos não atribuídos ao Município.",
+        "observacoes": []
+      },
+      {
+        "nome": "Prefeitura Municipal de Cocalinho/MT",
+        "esfera": "municipal",
+        "papel": "Titular local do serviço público de saneamento e mantenedora do portal oficial de legislação e estrutura administrativa municipal.",
+        "observacoes": [
+          "A coleta confirmou a existência de Secretaria de Meio Ambiente, Obras e Serviços Urbanos e Saúde no portal oficial do Município."
+        ]
+      },
+      {
+        "nome": "Secretaria Municipal de Meio Ambiente de Cocalinho/MT",
+        "esfera": "municipal",
+        "papel": "Possível interface local para temas ambientais e, se houver descentralização efetiva aplicável, para licenciamento de impacto local.",
+        "observacoes": [
+          "A competência licenciadora específica para a atividade concreta não foi confirmada nesta coleta."
+        ]
+      }
+    ],
+    "sistemas_oficiais": [
+      {
+        "nome": "SIMLAM",
+        "orgao": "SEMA/MT",
+        "escopo": "Sistema Integrado de Monitoramento e Licenciamento Ambiental do Estado de Mato Grosso.",
+        "aplicacao_pratica": "Consulta e tramitação de licenciamento ambiental estadual.",
+        "observacoes": []
+      },
+      {
+        "nome": "SIGA Hídrico",
+        "orgao": "SEMA/MT",
+        "escopo": "Sistema oficial relacionado a recursos hídricos e outorga em Mato Grosso.",
+        "aplicacao_pratica": "Verificação e instrução de pedidos de outorga quando houver uso ou lançamento sujeito ao regime hídrico estadual.",
+        "observacoes": []
+      },
+      {
+        "nome": "SNIS",
+        "orgao": "Ministério das Cidades",
+        "escopo": "Sistema Nacional de Informações sobre Saneamento.",
+        "aplicacao_pratica": "Consulta institucional sobre prestação de serviços de água e esgotamento sanitário.",
+        "observacoes": []
+      },
+      {
+        "nome": "SIC/Legislação da Prefeitura de Cocalinho",
+        "orgao": "Prefeitura Municipal de Cocalinho/MT",
+        "escopo": "Portal oficial municipal de legislação e documentos.",
+        "aplicacao_pratica": "Rastreabilidade de leis, decretos e estrutura municipal local.",
+        "observacoes": []
+      }
+    ],
+    "instrumentos_oficiais": [
+      {
+        "nome": "Licença ambiental emitida pelo órgão competente",
+        "orgao": "Município competente ou SEMA/MT",
+        "escopo": "Instrumento formal de autorização para atividade potencialmente poluidora, quando exigível.",
+        "aplicacao_pratica": "Comprovação formal de regularidade ambiental da operação.",
+        "observacoes": [
+          "A modalidade exata depende do enquadramento concreto da atividade e da competência licenciadora."
+        ]
+      },
+      {
+        "nome": "Outorga de direito de uso de recursos hídricos",
+        "orgao": "SEMA/MT",
+        "escopo": "Instrumento formal para usos sujeitos ao regime de outorga, inclusive lançamento em corpo de água.",
+        "aplicacao_pratica": "Comprovação formal quando houver lançamento de esgotos ou resíduos líquidos em corpo hídrico.",
+        "observacoes": [
+          "Não pode ser presumida apenas pela locação com sucção; depende da configuração concreta da destinação final."
+        ]
+      },
+      {
+        "nome": "Comprovante de inscrição no CTF/APP",
+        "orgao": "IBAMA",
+        "escopo": "Comprovante cadastral para atividades potencialmente poluidoras e utilizadoras de recursos ambientais.",
+        "aplicacao_pratica": "Rastreabilidade cadastral do agente regulado perante o IBAMA, quando exigível.",
+        "observacoes": []
+      }
+    ],
+    "fontes_oficiais": [
+      {
+        "titulo_fonte": "Lei nº 11.445/2007 - texto compilado",
+        "orgao": "Presidência da República",
+        "tipo_fonte": "legislação federal",
+        "url": "https://www.planalto.gov.br/ccivil_03/_Ato2007-2010/2007/Lei/L11445compilado.htm",
+        "descricao_relacionada": "Diretrizes nacionais para saneamento básico e conceito de esgotamento sanitário.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Lei nº 14.026/2020",
+        "orgao": "Presidência da República",
+        "tipo_fonte": "legislação federal",
+        "url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2020/Lei/L14026.htm",
+        "descricao_relacionada": "Atualização do marco legal do saneamento básico.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Lei Complementar nº 140/2011",
+        "orgao": "Presidência da República",
+        "tipo_fonte": "legislação federal",
+        "url": "https://www.planalto.gov.br/ccivil_03/LEIS/LCP/Lcp140.htm",
+        "descricao_relacionada": "Competência licenciadora entre entes federativos.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Lei nº 6.938/1981",
+        "orgao": "Presidência da República",
+        "tipo_fonte": "legislação federal",
+        "url": "https://www.planalto.gov.br/ccivil_03/leis/l6938.htm",
+        "descricao_relacionada": "Política Nacional do Meio Ambiente, licenciamento e CTF.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Lei nº 9.605/1998",
+        "orgao": "Presidência da República",
+        "tipo_fonte": "legislação federal",
+        "url": "https://www.planalto.gov.br/ccivil_03/LEIS/L9605.htm",
+        "descricao_relacionada": "Sanções por infrações ambientais.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Resolução CONAMA nº 237/1997",
+        "orgao": "CONAMA",
+        "tipo_fonte": "resolução",
+        "url": "https://conama.mma.gov.br/?id=237&option=com_sisconama&task=arquivo.download",
+        "descricao_relacionada": "Normas e procedimentos de licenciamento ambiental.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Resolução CONAMA nº 357/2005",
+        "orgao": "CONAMA",
+        "tipo_fonte": "resolução",
+        "url": "https://conama.mma.gov.br/?id=450&option=com_sisconama&task=arquivo.download",
+        "descricao_relacionada": "Classificação dos corpos de água e padrões gerais de lançamento de efluentes.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Referência oficial à Resolução CONAMA nº 430/2011",
+        "orgao": "Ministério do Meio Ambiente e Mudança do Clima",
+        "tipo_fonte": "consulta pública oficial",
+        "url": "https://www.gov.br/participamaisbrasil/consulta-publica-sobre-alteracao-da-resolucao-conama-n-430-de-13-de-maio-de-2011drenagem-urbana-e-parametros-para-lancamento-de-efluentes",
+        "descricao_relacionada": "Confirmação oficial de vigência e objeto da Resolução CONAMA nº 430/2011.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Lei Estadual MT nº 11.088/2020",
+        "orgao": "SEMA/MT",
+        "tipo_fonte": "legislação estadual",
+        "url": "https://www.sema.mt.gov.br/site/phocadownload/DecisaoColegiada-CEHIDRO/LEI%20N%2011.088%20de%2009%20de%20maro%20de%202020.pdf",
+        "descricao_relacionada": "Política Estadual de Recursos Hídricos e outorga em Mato Grosso.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Manual de Procedimentos de Outorga",
+        "orgao": "SEMA/MT",
+        "tipo_fonte": "manual oficial",
+        "url": "https://sema.mt.gov.br/site/phocadownload/RecursosHidricos/Manual%20de%20Outorga.pdf",
+        "descricao_relacionada": "Procedimentos administrativos e técnicos de outorga em Mato Grosso.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Portal SEMA/MT - Sistemas oficiais",
+        "orgao": "SEMA/MT",
+        "tipo_fonte": "portal institucional",
+        "url": "https://sema.mt.gov.br/",
+        "descricao_relacionada": "Referência institucional para SIMLAM, SIGA Hídrico, Outorga e Licença Ambiental Simplificada.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Municípios Descentralizados - SEMA/MT",
+        "orgao": "SEMA/MT",
+        "tipo_fonte": "portal institucional",
+        "url": "https://sema.mt.gov.br/site/index.php/unidades-administrativas/munic%C3%ADpios-descentralizados",
+        "descricao_relacionada": "Referência sobre descentralização do licenciamento ambiental e Resolução CONSEMA nº 74/2025.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "SNIS - Sistema Nacional de Informações sobre Saneamento",
+        "orgao": "Ministério das Cidades",
+        "tipo_fonte": "sistema oficial",
+        "url": "https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/saneamento/pmss/snis",
+        "descricao_relacionada": "Sistema oficial de informações sobre água e esgotamento sanitário.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Portal oficial da Prefeitura de Cocalinho/MT",
+        "orgao": "Prefeitura Municipal de Cocalinho/MT",
+        "tipo_fonte": "portal institucional",
+        "url": "https://www.cocalinho.mt.gov.br/",
+        "descricao_relacionada": "Estrutura administrativa municipal e acesso à legislação local.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Portal de legislação municipal de Cocalinho/MT",
+        "orgao": "Prefeitura Municipal de Cocalinho/MT",
+        "tipo_fonte": "portal institucional",
+        "url": "https://www.cocalinho.mt.gov.br/sic-legislacao/leis-municipal",
+        "descricao_relacionada": "Acesso oficial às leis ordinárias do Município.",
+        "observacoes": [
+          "Não foi localizada, nesta coleta, norma municipal específica sobre banheiros químicos ou sucção de efluentes sanitários."
+        ]
+      }
+    ],
+    "atos_setoriais_correlatos": []
+  },
+  "enquadramento": {
+    "quem_se_sujeita": [
+      "Pessoa jurídica que execute a locação de banheiros químicos com remoção periódica por sucção, transporte e destinação de efluentes sanitários, quando a atividade concreta estiver submetida a licenciamento ou controle ambiental pelo órgão competente.",
+      "Agente que realize lançamento de efluentes sanitários ou resíduos líquidos em corpo de água, na hipótese de operação própria ou vinculada ao empreendimento."
+    ],
+    "quem_pode_ser_afetado_indiretamente": [
+      "Tomador do serviço onde os banheiros químicos são instalados, quando não executar diretamente a coleta, o transporte, o tratamento, a destinação final ou o lançamento dos efluentes, mas depender de solução sanitária temporária regular."
+    ],
+    "quando_aplica": [
+      "Quando o objeto analisado compreende coleta, transporte, tratamento ou disposição final de esgotos sanitários e lodos oriundos da operação de banheiros químicos ou de sistemas locais correlatos.",
+      "Quando houver necessidade de licenciamento ambiental por se tratar de atividade potencialmente poluidora ou capaz de causar degradação ambiental, conforme definição do órgão competente.",
+      "Quando houver lançamento em corpo de água ou uso de recurso hídrico sujeito a outorga estadual."
+    ],
+    "quando_nao_aplica": [
+      "Quando o agente analisado não executa a coleta, a sucção, o transporte, o tratamento, a disposição final ou o lançamento dos efluentes sanitários.",
+      "Quando a operação estiver integralmente absorvida por sistema público regularmente instituído e o agente analisado não desempenhar etapa regulada fora desse sistema.",
+      "Quando não houver lançamento em corpo de água nem uso de recurso hídrico sujeito a outorga, para fins específicos da Lei Estadual MT nº 11.088/2020."
+    ],
+    "criterios_de_entrada": [
+      "Existência de atividade de locação de banheiros químicos com armazenamento temporário de dejetos e remoção por sucção.",
+      "Existência de transporte e destinação de efluentes sanitários ou lodos fora de rede pública imediata.",
+      "Existência de ponto de recepção, tratamento ou disposição final ambientalmente adequado e passível de controle pelo órgão competente.",
+      "Existência de lançamento em corpo de água, quando aplicável."
+    ],
+    "criterios_de_exclusao": [
+      "Tema restrito à mera disponibilização de estrutura sem execução, pelo agente analisado, da etapa de sucção, transporte ou destinação.",
+      "Ausência de elemento normativo confirmado, nesta coleta, que enquadre automaticamente o tomador do serviço como sujeito principal apenas por contratar a solução sanitária temporária.",
+      "Ausência de lançamento em corpo de água para fins de incidência específica de outorga de lançamento."
+    ],
+    "delimitacao_objeto": [
+      "serviço regulado",
+      "cadeia específica correlata ao esgotamento sanitário",
+      "não é tema de produto ou embalagem",
+      "envolve solução temporária ou local de coleta, sucção, transporte e destinação de efluentes sanitários",
+      "a sujeição principal depende da execução efetiva das etapas reguladas e da existência de sistema ou licenciamento aplicável"
+    ],
+    "objeto_obrigacao": [
+      "Operar a atividade somente sob o regime de controle ambiental aplicável, sem lançar efluentes em desacordo com as normas ambientais.",
+      "Assegurar destinação final ambientalmente adequada dos esgotos sanitários e lodos sob responsabilidade do agente.",
+      "Obter e manter licenças, cadastros e outorga quando a configuração concreta da atividade assim exigir perante o órgão competente."
+    ]
+  },
+  "auditoria": {
+    "erros_criticos": [],
+    "inconsistencias": [],
+    "extrapolacoes": [],
+    "generalizacoes": [],
+    "itens_sem_base": [],
+    "riscos_regulatorios": [
+      {
+        "campo": "enquadramento.quando_aplica",
+        "item": "critério de licenciamento ambiental por atividade potencialmente poluidora",
+        "motivo": "A base normativa confirmada define o licenciamento de forma geral, mas a tipologia específica da atividade em Cocalinho/MT não foi localizada em ato municipal ou estadual específico nesta coleta."
+      },
+      {
+        "campo": "enquadramento.quando_aplica",
+        "item": "critério de outorga",
+        "motivo": "A exigência de outorga está expressamente vinculada a lançamento em corpo de água ou outro uso hídrico enquadrável; sua incidência não pode ser presumida apenas pela locação com sucção."
+      },
+      {
+        "campo": "enquadramento.quem_se_sujeita",
+        "item": "prestador privado do serviço",
+        "motivo": "A base normativa disponível permite enquadramento ambiental e hídrico por atividade, mas não confirmou, nesta coleta, delegação municipal específica de serviço público de esgotamento sanitário ao agente privado em Cocalinho/MT."
+      }
+    ],
+    "nivel_risco": "medio",
+    "status_validacao": "parcialmente_validado"
+  },
+  "operacional": {
+    "fluxo_operacional": [
+      "Confirmar se o objeto concreto inclui apenas locação ou também sucção, transporte e destinação de efluentes sanitários.",
+      "Definir o órgão competente para licenciamento e controle da atividade concreta, entre Município e SEMA/MT.",
+      "Verificar licenciamento ambiental aplicável e inscrição no CTF/APP, quando exigíveis.",
+      "Identificar e validar o ponto receptor, sistema ou unidade apta a receber os efluentes sanitários coletados.",
+      "Verificar necessidade de outorga e de condicionantes de lançamento, quando houver lançamento em corpo de água ou uso hídrico enquadrável.",
+      "Executar sucção, transporte e destinação somente com rastreabilidade documental da operação.",
+      "Arquivar evidências e monitorar condicionantes, laudos e vencimentos dos atos autorizativos aplicáveis."
+    ],
+    "etapas_execucao": [
+      "Cadastrar o recorte do atendimento no sistema com informação expressa sobre locação, sucção, transporte e destino final.",
+      "Bloquear a programação da operação se não houver definição do órgão competente ou do destino final regular.",
+      "Associar cada atendimento ao instrumento de regularidade disponível ou à pendência regulatória registrada.",
+      "Vincular a operação ao ponto de recepção ou tratamento previamente identificado.",
+      "Registrar a comprovação final da coleta, transporte e descarga regular."
+    ],
+    "documentos_necessarios": [
+      "Licença ambiental ou manifestação do órgão competente, quando exigível.",
+      "Comprovante de inscrição no CTF/APP, quando enquadrável.",
+      "Outorga de direito de uso de recursos hídricos, quando houver lançamento sujeito ao regime hídrico estadual.",
+      "Identificação formal do ponto receptor, sistema ou unidade de destinação final.",
+      "Laudos ou relatórios analíticos, quando exigidos por licença, outorga ou órgão competente."
+    ],
+    "pontos_de_controle": [
+      "Confirmação do recorte do objeto regulado antes da execução.",
+      "Confirmação da competência licenciadora aplicável.",
+      "Validação do destino final antes da coleta.",
+      "Checagem de vencimento e aderência dos instrumentos autorizativos.",
+      "Rastreabilidade entre atendimento executado e comprovação documental final."
+    ],
+    "provas_obrigatorias": [
+      "Comprovante cadastral ou autorizativo aplicável ao agente regulado.",
+      "Registro identificável do atendimento executado.",
+      "Comprovação do destino final regular dos efluentes sanitários coletados.",
+      "Laudos e documentos técnicos exigidos pelo órgão competente, quando houver."
+    ],
+    "riscos_operacionais": [
+      "Executar sucção e destinação sem definição formal do órgão competente.",
+      "Programar atendimento sem destino final regular previamente identificado.",
+      "Pressupor dispensa de outorga sem verificar a forma concreta de lançamento ou disposição.",
+      "Confundir contratação do serviço com sujeição principal automática do tomador."
+    ]
+  },
+  "servico": {
+    "descricao_servico": "Estruturação técnico-regulatória da operação de locação de banheiros químicos com sucção e destinação de efluentes sanitários em Cocalinho/MT, limitada ao recorte normativo parcialmente validado.",
+    "escopo": [
+      "Validar o recorte do objeto regulado e a competência licenciadora aplicável.",
+      "Montar checklist de licenças, cadastros e outorga potencialmente incidentes.",
+      "Estruturar fluxo operacional mínimo com rastreabilidade documental.",
+      "Definir pontos de controle e evidências obrigatórias da operação."
+    ],
+    "entregaveis": [
+      "Matriz de enquadramento regulatório auditada.",
+      "Checklist documental regulatório da operação.",
+      "Fluxo operacional executável com bloqueios de conformidade.",
+      "Matriz de pontos de controle e evidências."
+    ],
+    "delimitacao_escopo": [
+      "Não inclui obtenção automática de licença, outorga ou cadastro perante o órgão público.",
+      "Não inclui presunção de sujeição principal do tomador do serviço sem base normativa expressa.",
+      "Não inclui definição conclusiva de tipologia municipal ou estadual sem confirmação oficial adicional.",
+      "Não inclui autorização para lançamento em corpo hídrico sem ato específico aplicável."
+    ]
+  },
+  "precificacao": {
+    "modelo": "projeto",
+    "variaveis": [
+      "necessidade de confirmação de competência licenciadora municipal ou estadual",
+      "existência de unidade própria de sucção e transporte",
+      "necessidade de mapear ponto receptor e destinação final",
+      "necessidade de verificar outorga ou condicionantes de lançamento",
+      "volume, frequência e dispersão geográfica dos atendimentos"
+    ],
+    "faixa_valor": "",
+    "observacoes": [
+      "A faixa de valor foi mantida vazia porque a base recebida não contém parâmetros econômicos ou de volume operacional suficientes."
+    ]
+  },
+  "interface": {
+    "regras_interface": [
+      "Bloquear avanço se auditoria.erros_criticos possuir itens.",
+      "Bloquear avanço se auditoria.nivel_risco for igual a alto.",
+      "Bloquear avanço se auditoria.status_validacao for igual a reprovado.",
+      "Exigir seleção expressa do objeto: locação apenas ou locação com sucção, transporte e destinação.",
+      "Exigir indicação do órgão competente antes da liberação operacional.",
+      "Exigir cadastro do ponto receptor ou destinação final antes da ordem de execução.",
+      "Exigir informação específica sobre lançamento em corpo de água para abertura do checklist hídrico."
+    ],
+    "gatilhos_automacao": [
+      "Se o atendimento incluir sucção, transporte ou destinação de efluentes, abrir checklist de licenciamento e CTF/APP.",
+      "Se o atendimento incluir lançamento em corpo de água, abrir checklist de outorga e padrões de lançamento.",
+      "Se a auditoria estiver parcialmente_validado, encaminhar para revisão humana antes da execução.",
+      "Se não houver destino final identificado, bloquear emissão de ordem de serviço."
+    ]
+  }
+}

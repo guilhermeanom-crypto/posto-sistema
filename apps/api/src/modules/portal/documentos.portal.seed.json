@@ -1,0 +1,152 @@
+[
+  {
+    "codigo": "contrato_social",
+    "nome": "Contrato social ou última alteração",
+    "momento": "ANTES_PROCESSO",
+    "categoria": "DOCUMENTO_SOCIETARIO",
+    "descricaoCliente": "Documento societário atualizado da empresa (contrato social consolidado ou última alteração registrada na Junta Comercial).",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {
+      "cnpj": "empresa.cnpj",
+      "razaoSocial": "empresa.razaoSocial"
+    }
+  },
+  {
+    "codigo": "cartao_cnpj",
+    "nome": "Cartão CNPJ",
+    "momento": "ANTES_PROCESSO",
+    "categoria": "DOCUMENTO_SOCIETARIO",
+    "descricaoCliente": "Comprovante de inscrição e situação cadastral emitido pela Receita Federal.",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {
+      "cnpj": "empresa.cnpj"
+    }
+  },
+  {
+    "codigo": "doc_representante",
+    "nome": "Documento do representante legal",
+    "momento": "ANTES_PROCESSO",
+    "categoria": "DOCUMENTO_SOCIETARIO",
+    "descricaoCliente": "RG, CNH ou documento oficial com foto do sócio administrador ou representante legal.",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "procuracao",
+    "nome": "Procuração, quando aplicável",
+    "momento": "ANTES_PROCESSO",
+    "categoria": "CONTRATO",
+    "descricaoCliente": "Procuração outorgada à Hábilis ou ao responsável técnico, quando o representante legal não atuar diretamente nos protocolos.",
+    "obrigatorio": false,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "matricula_imovel",
+    "nome": "Matrícula ou documento do imóvel",
+    "momento": "ANTES_PROCESSO",
+    "categoria": "DOCUMENTO_SOCIETARIO",
+    "descricaoCliente": "Matrícula atualizada do cartório de registro de imóveis ou contrato de locação registrado.",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {
+      "endereco": "empreendimento.endereco"
+    }
+  },
+  {
+    "codigo": "uso_solo",
+    "nome": "Certidão de uso do solo",
+    "momento": "ANTES_PROCESSO",
+    "categoria": "CERTIFICADO",
+    "descricaoCliente": "Documento municipal que confirma a compatibilidade da atividade com o zoneamento do local.",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {
+      "municipio": "empreendimento.municipio",
+      "endereco": "empreendimento.endereco"
+    }
+  },
+  {
+    "codigo": "comprovante_protocolo",
+    "nome": "Comprovante de protocolo",
+    "momento": "DURANTE_PROCESSO",
+    "categoria": "COMPROVANTE",
+    "descricaoCliente": "Comprovante oficial de protocolo do pedido de licença junto ao órgão ambiental.",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "publicacao_pedido_licenca",
+    "nome": "Publicação do pedido de licença",
+    "momento": "DURANTE_PROCESSO",
+    "categoria": "COMPROVANTE",
+    "descricaoCliente": "Publicação do pedido de licença em jornal de grande circulação e/ou Diário Oficial, conforme exigência do órgão.",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "resposta_pendencias",
+    "nome": "Resposta a pendências do órgão ambiental",
+    "momento": "DURANTE_PROCESSO",
+    "categoria": "DECLARACAO",
+    "descricaoCliente": "Documentos e informações complementares solicitados pelo órgão ambiental durante a análise do processo.",
+    "obrigatorio": false,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "comprovante_taxa",
+    "nome": "Comprovante de pagamento de taxa",
+    "momento": "DURANTE_PROCESSO",
+    "categoria": "COMPROVANTE",
+    "descricaoCliente": "Comprovante de pagamento das taxas de análise e/ou vistoria do órgão ambiental.",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "licenca_emitida",
+    "nome": "Licença ambiental emitida",
+    "momento": "APOS_EMISSAO",
+    "categoria": "LICENCA",
+    "descricaoCliente": "Documento oficial da licença ambiental emitida pelo órgão competente.",
+    "obrigatorio": true,
+    "aceitaJustificativa": false,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "condicionantes_licenca",
+    "nome": "Condicionantes da licença",
+    "momento": "APOS_EMISSAO",
+    "categoria": "LICENCA",
+    "descricaoCliente": "Lista de condicionantes anexa ou descrita na licença ambiental — itens que precisam ser cumpridos durante a operação.",
+    "obrigatorio": true,
+    "aceitaJustificativa": false,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "atendimento_condicionantes",
+    "nome": "Comprovantes de atendimento das condicionantes",
+    "momento": "APOS_EMISSAO",
+    "categoria": "COMPROVANTE",
+    "descricaoCliente": "Comprovantes de cumprimento de cada condicionante da licença (relatórios, fotos, protocolos, recibos, etc.).",
+    "obrigatorio": true,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {}
+  },
+  {
+    "codigo": "relatorios_laudos_fotos",
+    "nome": "Relatórios, laudos ou registros fotográficos",
+    "momento": "APOS_EMISSAO",
+    "categoria": "RELATORIO",
+    "descricaoCliente": "Relatórios periódicos de operação, laudos técnicos e registros fotográficos exigidos para acompanhamento da licença.",
+    "obrigatorio": false,
+    "aceitaJustificativa": true,
+    "camposPreenchimento": {}
+  }
+]

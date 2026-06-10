@@ -1,0 +1,674 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Tokens espelhados de apps/web — paleta unificada com o sistema */
+    --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+
+    --background: 45 29% 97%;
+    --foreground: 220 27% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 10%;
+
+    --border: 38 16% 84%;
+    --input: 38 16% 84%;
+
+    /* Primary — laranja Posto Compliance (#ea580c) */
+    --primary: 21 90% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 42 20% 92%;
+    --secondary-foreground: 220 15% 18%;
+
+    --muted: 42 17% 94%;
+    --muted-foreground: 220 8% 48%;
+
+    --accent: 40 20% 90%;
+    --accent-foreground: 220 15% 14%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --ring: 21 90% 48%;
+    --radius: 0.625rem;
+
+    /* Acentos da marca Hábilis (logo oficial) — usar via bg-brand-green / text-brand-orange */
+    --brand-green: 145 100% 31%;       /* #009E3C */
+    --brand-green-soft: 145 65% 40%;
+    --brand-orange: 35 100% 48%;       /* #F39200 */
+    --brand-orange-soft: 35 100% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(243, 146, 0, 0.05), transparent 28%),
+      radial-gradient(circle at top right, rgba(0, 158, 60, 0.05), transparent 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(243, 244, 241, 0.68));
+    min-height: 100vh;
+    overflow-x: clip;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-foreground tracking-tight;
+  }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.3); }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-container px-6 lg:px-10;
+  }
+
+  /* Eyebrow — padrão do sistema (uppercase, tracking-largo, micro) */
+  .eyebrow {
+    @apply text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground;
+  }
+
+  /* Badge pulsante — exato do login */
+  .badge-pill {
+    @apply inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 border;
+    border-color: hsl(var(--primary) / 0.25);
+    background: hsl(var(--primary) / 0.06);
+  }
+  .badge-pill-label {
+    @apply text-[10px] font-semibold uppercase tracking-widest text-primary;
+  }
+  .badge-pill-dot {
+    @apply h-1.5 w-1.5 rounded-full bg-primary animate-pulse;
+  }
+
+  /* Glass card — exato do login */
+  .glass-card {
+    background: rgba(255, 252, 247, 0.74);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow:
+      0 24px 70px rgba(56, 46, 27, 0.10),
+      0 6px 20px rgba(234, 88, 12, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  }
+
+  /* Divisor gradiente da marca — laranja Hábilis (#F39200) → verde Hábilis (#009E3C) */
+  .gradient-divider {
+    height: 1px;
+    background: linear-gradient(to right,
+      transparent,
+      rgba(243, 146, 0, 0.45),
+      rgba(0, 158, 60, 0.35),
+      transparent
+    );
+  }
+
+  /* Buttons padronizados */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn text-primary-foreground shadow-sm;
+    background: hsl(var(--primary));
+  }
+  .btn-primary:hover {
+    background: hsl(var(--primary) / 0.9);
+  }
+  .btn-outline {
+    @apply btn border border-input backdrop-blur hover:text-accent-foreground;
+    background: hsl(var(--background) / 0.78);
+  }
+  .btn-outline:hover {
+    background: hsl(var(--accent));
+  }
+  .btn-ghost {
+    @apply btn hover:bg-accent hover:text-accent-foreground;
+  }
+
+  /* Card padrão do dashboard */
+  .card {
+    @apply rounded-xl border text-card-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+    background: hsl(var(--card) / 0.80);
+    box-shadow: 0 12px 28px rgba(47, 41, 27, 0.05);
+  }
+
+  /* KPI tile com barra colorida no topo (padrão dashboard) */
+  .kpi-tile {
+    @apply relative overflow-hidden rounded-xl border p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md;
+    background: hsl(var(--card) / 0.76);
+  }
+  .kpi-tile-bar {
+    @apply absolute inset-x-0 top-0 h-0.5;
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.6), hsl(var(--primary)));
+  }
+
+  /* Fundo neutro com grid de pontos — mesmo do apps/web */
+  .main-bg {
+    background-color: hsl(45 29% 97%);
+    background-image:
+      linear-gradient(135deg, rgba(255,255,255,0.75), rgba(255,248,238,0.52)),
+      radial-gradient(hsl(32 22% 72% / 0.28) 1px, transparent 1px);
+    background-size: auto, 28px 28px;
+  }
+
+  .section-shell {
+    @apply relative overflow-hidden border;
+    border-radius: 1.75rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(252, 249, 243, 0.72));
+    box-shadow: 0 20px 60px rgba(56, 46, 27, 0.06);
+  }
+
+  .section-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at top right, rgba(243, 146, 0, 0.10), transparent 28%),
+      radial-gradient(circle at bottom left, rgba(0, 158, 60, 0.08), transparent 32%);
+    pointer-events: none;
+  }
+
+  .brand-mark-shell {
+    @apply relative isolate grid place-items-center overflow-hidden border;
+    border-color: rgba(255, 255, 255, 0.85);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(252, 248, 241, 0.94));
+    box-shadow:
+      0 10px 26px rgba(243, 146, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  }
+
+  .brand-mark-shell::before {
+    content: '';
+    position: absolute;
+    inset: 18%;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(243, 146, 0, 0.12), transparent 55%),
+      radial-gradient(circle at 70% 70%, rgba(0, 158, 60, 0.12), transparent 58%);
+    opacity: 0.95;
+  }
+
+  .brand-mark-orbit {
+    @apply absolute inset-0 opacity-90;
+    border-radius: inherit;
+    background:
+      linear-gradient(125deg, rgba(243, 146, 0, 0.16), transparent 36%),
+      linear-gradient(305deg, rgba(0, 158, 60, 0.12), transparent 40%);
+  }
+
+  .brand-mark-core {
+    @apply relative z-10 grid place-items-center;
+    background: rgba(255, 255, 255, 0.92);
+    height: 68%;
+    width: 68%;
+    border-radius: 28%;
+  }
+
+  .brand-signature-rule {
+    @apply block h-px;
+    background: linear-gradient(90deg, rgba(243, 146, 0, 0.65), rgba(0, 158, 60, 0.25));
+  }
+
+  .trace-panel {
+    @apply relative overflow-hidden border backdrop-blur;
+    background: rgba(255, 255, 255, 0.62);
+    border-radius: 1.25rem;
+    box-shadow: 0 16px 40px rgba(56, 46, 27, 0.07);
+  }
+
+  .trace-panel::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(243, 146, 0, 0.6), rgba(0, 158, 60, 0.4), transparent);
+  }
+
+  /* =========================================================
+     PRODUCT / SYSTEM SURFACES — UI de plataforma (não landing)
+     ========================================================= */
+
+  /* Painel “de produto”: borda fina, sombra técnica, leve grid de pontos. */
+  .product-surface {
+    @apply relative overflow-hidden rounded-2xl border;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.96), rgba(252,250,246,0.93));
+    border-color: hsl(var(--border) / 0.85);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.9) inset,
+      0 1px 2px rgba(56,46,27,0.04),
+      0 24px 60px -28px rgba(56,46,27,0.18);
+  }
+
+  .product-surface-grid {
+    background-image:
+      linear-gradient(180deg, rgba(255,255,255,0.92), rgba(252,250,246,0.86)),
+      radial-gradient(hsl(32 22% 72% / 0.32) 1px, transparent 1px);
+    background-size: auto, 22px 22px;
+  }
+
+  /* Cabeçalho de painel — barra fininha tipo app chrome. */
+  .panel-chrome {
+    @apply flex items-center gap-2 border-b bg-white/85 px-3 py-2 backdrop-blur;
+    border-color: hsl(var(--border) / 0.8);
+  }
+
+  .panel-dot {
+    @apply h-2 w-2 rounded-full;
+  }
+
+  /* Mono micro label, padrão dashboard interno. */
+  .mono-tag {
+    @apply rounded bg-muted/80 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground;
+  }
+
+  /* =========================================================
+     STATUS — pílulas com a paleta operacional (5 estados)
+     ========================================================= */
+  .status-pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-semibold;
+  }
+  .status-pill > .dot {
+    @apply h-1.5 w-1.5 rounded-full;
+  }
+  .status-regular   { @apply border-emerald-200 bg-emerald-50 text-emerald-700; }
+  .status-regular   .dot { @apply bg-emerald-500; }
+  .status-atencao   { @apply border-amber-200  bg-amber-50  text-amber-700; }
+  .status-atencao   .dot { @apply bg-amber-500; }
+  .status-vencendo  { @apply border-orange-200 bg-orange-50 text-orange-700; }
+  .status-vencendo  .dot { @apply bg-orange-500; }
+  .status-pendente  { @apply border-sky-200    bg-sky-50    text-sky-700; }
+  .status-pendente  .dot { @apply bg-sky-500; }
+  .status-critico   { @apply border-red-200    bg-red-50    text-red-700; }
+  .status-critico   .dot { @apply bg-red-500; }
+
+  /* =========================================================
+     MÓDULO — card de bloco operacional (não bloco promocional)
+     ========================================================= */
+  .module-card {
+    @apply relative isolate flex h-full flex-col overflow-hidden rounded-xl border bg-white/85 p-5 transition-all duration-200;
+    border-color: hsl(var(--border) / 0.85);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.9) inset,
+      0 1px 2px rgba(56,46,27,0.04),
+      0 14px 32px -20px rgba(56,46,27,0.16);
+  }
+  .module-card:hover {
+    @apply -translate-y-0.5;
+    border-color: hsl(var(--primary) / 0.35);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.95) inset,
+      0 18px 36px -18px rgba(234,88,12,0.20);
+  }
+  .module-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, hsl(var(--primary) / 0), hsl(var(--primary) / 0.7), hsl(var(--primary) / 0));
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  .module-card:hover::before { opacity: 1; }
+
+  .module-icon {
+    @apply grid h-10 w-10 place-items-center rounded-lg text-primary;
+    background: linear-gradient(180deg, rgba(243,146,0,0.10), rgba(0,158,60,0.06));
+    border: 1px solid hsl(var(--primary) / 0.18);
+  }
+
+  /* =========================================================
+     HERO STAT — micro KPI inline no hero (sem tom de marketing)
+     ========================================================= */
+  .hero-stat {
+    @apply relative flex items-baseline gap-1.5 rounded-md border bg-white/70 px-3 py-2 backdrop-blur;
+    border-color: hsl(var(--border) / 0.85);
+  }
+  .hero-stat-val {
+    @apply text-base font-bold tabular-nums tracking-tight text-foreground;
+  }
+  .hero-stat-label {
+    @apply text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground;
+  }
+
+  /* =========================================================
+     NAV / HEADER — barra superior estilo produto
+     ========================================================= */
+  .nav-pill {
+    @apply inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors;
+  }
+  .nav-pill:hover { @apply bg-muted/80 text-foreground; }
+  .nav-pill[data-active="true"] {
+    @apply bg-primary/10 text-primary;
+  }
+
+  /* =========================================================
+     MINI BAR / METER — barras de progresso e meters dashboard
+     ========================================================= */
+  .meter-track {
+    @apply relative h-1.5 w-full overflow-hidden rounded-full bg-muted;
+  }
+  .meter-fill {
+    @apply absolute inset-y-0 left-0 rounded-full;
+    background: linear-gradient(90deg, hsl(var(--brand-green)), hsl(var(--brand-orange)));
+  }
+  .meter-fill-warn { background: linear-gradient(90deg, hsl(35 100% 55%), hsl(15 100% 55%)); }
+  .meter-fill-crit { background: linear-gradient(90deg, hsl(15 90% 55%), hsl(0 75% 50%)); }
+
+  /* =========================================================
+     FLOW — pílulas e conectores do fluxo regulatório
+     ========================================================= */
+  .flow-step {
+    @apply relative flex flex-col items-center text-center;
+  }
+  .flow-bubble {
+    @apply grid h-12 w-12 place-items-center rounded-xl border bg-white text-primary transition-all;
+    border-color: hsl(var(--border) / 0.85);
+    box-shadow: 0 8px 18px -10px rgba(56,46,27,0.18);
+  }
+  .flow-step[data-active="true"] .flow-bubble {
+    background: linear-gradient(180deg, hsl(var(--primary) / 0.96), hsl(var(--primary) / 0.85));
+    @apply text-primary-foreground;
+    box-shadow: 0 12px 24px -10px rgba(234,88,12,0.45);
+    border-color: transparent;
+  }
+  .flow-connector {
+    height: 1px;
+    background: linear-gradient(90deg, hsl(var(--primary) / 0.3), hsl(var(--primary) / 0.18), hsl(var(--brand-green) / 0.18));
+  }
+
+  /* =========================================================
+     CHIPS / PILLS de domínio (com dot colorido)
+     ========================================================= */
+  .domain-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border bg-white/85 px-3 py-1 text-[11px] font-semibold text-foreground;
+    border-color: hsl(var(--border) / 0.85);
+  }
+  .domain-chip .dot { @apply h-1.5 w-1.5 rounded-full bg-primary; }
+
+  /* =========================================================
+     TABLE-LIKE rows — uso em previews documentais
+     ========================================================= */
+  .row-cell {
+    @apply flex items-center gap-2 px-3 py-2 text-[11px];
+  }
+  .row-cell + .row-cell { @apply border-t border-border/60; }
+
+  /* Subtle dotted background — uso em previews tipo mapa territorial */
+  .dotted-canvas {
+    background-image:
+      radial-gradient(hsl(35 100% 48% / 0.18) 1px, transparent 1px),
+      radial-gradient(hsl(145 100% 31% / 0.14) 1px, transparent 1px);
+    background-size: 18px 18px, 28px 28px;
+    background-position: 0 0, 9px 9px;
+  }
+
+  .site-atmosphere {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .site-atmosphere-canvas {
+    position: absolute;
+    inset: 0;
+    opacity: 0.92;
+  }
+
+  .site-atmosphere-noise {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 14% 18%, rgba(243, 146, 0, 0.08), transparent 18%),
+      radial-gradient(circle at 82% 12%, rgba(0, 158, 60, 0.07), transparent 22%),
+      radial-gradient(circle at 68% 74%, rgba(243, 146, 0, 0.06), transparent 20%);
+    opacity: 0.65;
+  }
+
+  .site-atmosphere-glow {
+    position: absolute;
+    left: 50%;
+    width: min(92vw, 1300px);
+    border-radius: 999px;
+    transform: translateX(-50%);
+    filter: blur(40px);
+    opacity: 0.45;
+  }
+
+  .site-atmosphere-glow-top {
+    top: 2rem;
+    height: 18rem;
+    background: radial-gradient(circle, rgba(255,255,255,0.78), rgba(255,255,255,0));
+  }
+
+  .site-atmosphere-glow-bottom {
+    bottom: 1rem;
+    height: 22rem;
+    background: radial-gradient(circle, rgba(249,249,244,0.70), rgba(255,255,255,0));
+  }
+
+  .site-atmosphere-trace {
+    position: absolute;
+    opacity: 0.28;
+    filter: blur(0.2px);
+  }
+
+  .site-atmosphere-trace-top {
+    top: 9vh;
+    left: -3rem;
+    width: 26rem;
+    height: 10rem;
+  }
+
+  .site-atmosphere-trace-upper {
+    top: 28vh;
+    right: -5rem;
+    width: 28rem;
+    height: 10rem;
+    opacity: 0.20;
+  }
+
+  .site-atmosphere-trace-mid {
+    top: 50vh;
+    left: -6rem;
+    width: 34rem;
+    height: 12rem;
+    opacity: 0.20;
+  }
+
+  .site-atmosphere-trace-lower {
+    top: 68vh;
+    right: -7rem;
+    width: 32rem;
+    height: 11rem;
+    opacity: 0.20;
+  }
+
+  .site-atmosphere-trace-bottom {
+    bottom: 1.5rem;
+    left: 4%;
+    width: 30rem;
+    height: 11rem;
+    opacity: 0.22;
+  }
+
+  /* =========================================================
+     IMAGENS CONTEXTUAIS DE BORDA — padrão site oficial Hábilis
+     ========================================================= */
+
+  /* Slot lateral com máscara orgânica multi-stop que apaga as imagens em
+     direção ao centro com curva suave (sem divisória visível).
+     Combina mask horizontal (foco no fade pro centro) com mask vertical
+     (suaviza encontro com topo e rodapé) via mask-composite. */
+  .edge-image {
+    -webkit-mask-image:
+      linear-gradient(to right,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,0.95) 25%,
+        rgba(0,0,0,0.7) 55%,
+        rgba(0,0,0,0.25) 80%,
+        rgba(0,0,0,0) 100%),
+      linear-gradient(to bottom,
+        rgba(0,0,0,0.4) 0%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,1) 75%,
+        rgba(0,0,0,0.4) 100%);
+    -webkit-mask-composite: source-in;
+            mask-image:
+      linear-gradient(to right,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,0.95) 25%,
+        rgba(0,0,0,0.7) 55%,
+        rgba(0,0,0,0.25) 80%,
+        rgba(0,0,0,0) 100%),
+      linear-gradient(to bottom,
+        rgba(0,0,0,0.4) 0%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,1) 75%,
+        rgba(0,0,0,0.4) 100%);
+            mask-composite: intersect;
+  }
+
+  .edge-image-right {
+    -webkit-mask-image:
+      linear-gradient(to left,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,0.95) 25%,
+        rgba(0,0,0,0.7) 55%,
+        rgba(0,0,0,0.25) 80%,
+        rgba(0,0,0,0) 100%),
+      linear-gradient(to bottom,
+        rgba(0,0,0,0.4) 0%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,1) 75%,
+        rgba(0,0,0,0.4) 100%);
+            mask-image:
+      linear-gradient(to left,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,0.95) 25%,
+        rgba(0,0,0,0.7) 55%,
+        rgba(0,0,0,0.25) 80%,
+        rgba(0,0,0,0) 100%),
+      linear-gradient(to bottom,
+        rgba(0,0,0,0.4) 0%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,1) 75%,
+        rgba(0,0,0,0.4) 100%);
+  }
+
+  /* Faixa de fade lateral genérica (pode ser usada sobre qualquer container). */
+  .edge-fade-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.7) 18%,
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0.7) 82%,
+      transparent 100%
+    );
+            mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.7) 18%,
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0.7) 82%,
+      transparent 100%
+    );
+  }
+
+  /* Card leve: variação mais respirável do .card, sem sombra forte,
+     ideal para quando temos imagens contextuais ao fundo. */
+  .card-soft {
+    @apply relative overflow-hidden rounded-2xl border transition-all duration-200;
+    background: rgba(255, 255, 255, 0.78);
+    border-color: hsl(var(--border) / 0.7);
+    box-shadow: 0 6px 18px rgba(56, 46, 27, 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .card-soft:hover {
+    border-color: hsl(var(--primary) / 0.25);
+    box-shadow: 0 14px 30px rgba(56, 46, 27, 0.08);
+  }
+
+  /* Section shell central (conteúdo principal em destaque sobre bordas
+     contextuais). Mantém leitura no centro mesmo com imagens nas bordas. */
+  .center-stage {
+    @apply relative z-10 mx-auto;
+    max-width: 78rem;
+  }
+  .center-stage-narrow {
+    @apply relative z-10 mx-auto;
+    max-width: 64rem;
+  }
+
+  /* Bloco de acesso (login/CTAs) — substitui o antigo bloco comprimido. */
+  .access-card {
+    @apply relative isolate flex flex-col gap-4 overflow-hidden rounded-2xl border p-6 transition-all duration-200;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(252, 248, 241, 0.92));
+    border-color: hsl(var(--border) / 0.8);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.92) inset,
+      0 18px 40px -22px rgba(56, 46, 27, 0.18);
+  }
+  .access-card:hover {
+    border-color: hsl(var(--primary) / 0.35);
+    transform: translateY(-2px);
+  }
+  .access-card-icon {
+    @apply grid h-11 w-11 place-items-center rounded-xl text-primary;
+    background: linear-gradient(180deg, rgba(243, 146, 0, 0.12), rgba(0, 158, 60, 0.08));
+    border: 1px solid hsl(var(--primary) / 0.18);
+  }
+
+  /* Responsividade: em mobile/tablet, esconder as bordas e dar foco ao centro. */
+  @media (max-width: 1023px) {
+    .edge-image { display: none; }
+  }
+}
+
+/* Animações — exato do apps/web */
+.animate-panel-in {
+  animation: panel-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-rise-in {
+  animation: rise-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-fade-in {
+  animation: fade-in 600ms ease both;
+}
+.animate-stagger-1 { animation-delay: 60ms; }
+.animate-stagger-2 { animation-delay: 120ms; }
+.animate-stagger-3 { animation-delay: 180ms; }
+.animate-stagger-4 { animation-delay: 240ms; }
+.animate-stagger-5 { animation-delay: 300ms; }
+.animate-stagger-6 { animation-delay: 360ms; }
+
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

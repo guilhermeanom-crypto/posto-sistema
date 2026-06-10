@@ -1,0 +1,36 @@
+{
+  "name": "regposto",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Plataforma de gestão regulatória para rede de postos de combustíveis",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "db:generate": "turbo run db:generate",
+    "db:migrate": "turbo run db:migrate",
+    "db:seed": "turbo run db:seed",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "clean": "turbo run clean && rimraf node_modules",
+    "demo": "turbo run dev --filter=@posto/site --filter=@posto/web",
+    "demo:site": "pnpm --filter @posto/site dev",
+    "demo:web": "pnpm --filter @posto/web dev",
+    "demo:api": "pnpm --filter @repo/api dev",
+    "demo:infra": "docker compose up -d",
+    "demo:check": "turbo run lint typecheck --filter=@posto/site --filter=@posto/web"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "prettier": "^3.3.0",
+    "rimraf": "^5.0.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.14.0"
+}

@@ -1,0 +1,974 @@
+{
+  "base_oficial": {
+    "leis": [
+      {
+        "titulo": "Lei nº 10.257/2001 (Estatuto da Cidade)",
+        "tipo": "Lei federal",
+        "numero": "10.257",
+        "ano": "2001",
+        "orgao": "União",
+        "escopo": "Regulamenta os arts. 182 e 183 da Constituição Federal e estabelece diretrizes gerais da política urbana.",
+        "aplicacao_pratica": "Base federal oficial para diretrizes gerais da política urbana.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "Fonte oficial indicada: Portal Planalto."
+        ]
+      },
+      {
+        "titulo": "Lei nº 6.766/1979",
+        "tipo": "Lei federal",
+        "numero": "6.766",
+        "ano": "1979",
+        "orgao": "União",
+        "escopo": "Dispõe sobre o parcelamento do solo urbano.",
+        "aplicacao_pratica": "Base federal oficial sobre parcelamento do solo urbano.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "Fonte oficial indicada: Portal Planalto."
+        ]
+      },
+      {
+        "titulo": "Lei Orgânica Municipal nº 1, de 16 de março de 1990",
+        "tipo": "Lei Orgânica Municipal",
+        "numero": "1",
+        "ano": "1990",
+        "orgao": "Município de Iturama / Câmara Municipal de Iturama",
+        "escopo": "Organização municipal, com texto compilado e alterações posteriores disponíveis no SAPL.",
+        "aplicacao_pratica": "Base orgânica municipal oficial para consulta institucional e normativa local de Iturama.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "O SAPL da Câmara Municipal de Iturama confirma a norma e informa texto compilado com alterações posteriores."
+        ]
+      },
+      {
+        "titulo": "Lei Complementar nº 06/2003, de 23 de dezembro de 2003",
+        "tipo": "Lei Complementar municipal",
+        "numero": "06",
+        "ano": "2003",
+        "orgao": "Município de Iturama",
+        "escopo": "Institui o Código de Diretrizes Urbanísticas e fixa objetivos, diretrizes e estratégias do Plano Diretor de Desenvolvimento de Iturama.",
+        "aplicacao_pratica": "Eixo do Plano Diretor de Desenvolvimento de Iturama.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "A evidência confirma que a LC 06/2003 é o eixo do plano diretor.",
+          "A evidência confirma que a LC 06/2003 lista o código de parcelamento do solo."
+        ]
+      },
+      {
+        "titulo": "Lei Complementar nº 07/2003, de 23 de dezembro de 2003",
+        "tipo": "Lei Complementar municipal",
+        "numero": "07",
+        "ano": "2003",
+        "orgao": "Município de Iturama",
+        "escopo": "Institui o Código de Parcelamento do Solo no Município de Iturama.",
+        "aplicacao_pratica": "Referência municipal oficial para parcelamento do solo urbano em Iturama.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "A evidência confirma que a LC 07/2003 exige prévia licença e fiscalização municipal para parcelamento do solo urbano."
+        ]
+      },
+      {
+        "titulo": "Lei Complementar nº 08/2003, de 23 de dezembro de 2003",
+        "tipo": "Lei Complementar municipal",
+        "numero": "08",
+        "ano": "2003",
+        "orgao": "Município de Iturama",
+        "escopo": "Trata do macrozoneamento e zoneamento urbano.",
+        "aplicacao_pratica": "Referência municipal oficial sobre macrozoneamento e zoneamento urbano em Iturama.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "A evidência confirma que a LC 08/2003 disciplina macrozoneamento e zoneamento."
+        ]
+      },
+      {
+        "titulo": "Lei Complementar nº 09/2003, de 23 de dezembro de 2003",
+        "tipo": "Lei Complementar municipal",
+        "numero": "09",
+        "ano": "2003",
+        "orgao": "Município de Iturama",
+        "escopo": "Institui o Código de Obras do Município de Iturama.",
+        "aplicacao_pratica": "Referência municipal oficial indicada na página do Plano Diretor para Código de Obras de Iturama.",
+        "status_validacao": "confirmado em portal oficial informado",
+        "observacoes": [
+          "A página oficial 'Plano Diretor' da Prefeitura de Iturama informa a existência da LC 09/2003.",
+          "Não foi fornecida, nas evidências, URL específica do PDF da LC 09/2003."
+        ]
+      },
+      {
+        "titulo": "Lei Complementar nº 10/2003, de 23 de dezembro de 2003",
+        "tipo": "Lei Complementar municipal",
+        "numero": "10",
+        "ano": "2003",
+        "orgao": "Município de Iturama",
+        "escopo": "Institui o Código de Posturas do Município de Iturama.",
+        "aplicacao_pratica": "Referência municipal oficial para higiene, costumes, segurança, ordem pública e funcionamento de atividades econômicas em Iturama.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "A evidência confirma que a LC 10/2003 regula higiene, costumes, segurança, ordem pública e funcionamento de atividades econômicas."
+        ]
+      },
+      {
+        "titulo": "Lei Complementar nº 11/2003, de 23 de dezembro de 2003",
+        "tipo": "Lei Complementar municipal",
+        "numero": "11",
+        "ano": "2003",
+        "orgao": "Município de Iturama",
+        "escopo": "Institui o Código Ambiental do Município de Iturama.",
+        "aplicacao_pratica": "Referência municipal oficial para o Código Ambiental de Iturama.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "A evidência confirma que a LC 11/2003 institui o código ambiental municipal."
+        ]
+      },
+      {
+        "titulo": "Lei Orgânica de Indiaporã nº 1, de 05 de abril de 1990",
+        "tipo": "Lei Orgânica Municipal",
+        "numero": "1",
+        "ano": "1990",
+        "orgao": "Município de Indiaporã / Câmara Municipal de Indiaporã",
+        "escopo": "Organização municipal, confirmada no SAPL como norma relacionada alterada por emendas posteriores.",
+        "aplicacao_pratica": "Base orgânica municipal oficial para consulta institucional e normativa local de Indiaporã.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "A evidência oficial localizada via SAPL confirma a Lei Orgânica de Indiaporã nº 1/1990."
+        ]
+      }
+    ],
+    "decretos": [],
+    "instrucoes_normativas": [],
+    "resolucoes": [],
+    "normas_tecnicas": [],
+    "portarias": [],
+    "orgaos_envolvidos": [
+      {
+        "nome": "Presidência da República / Casa Civil / Portal Planalto",
+        "esfera": "federal",
+        "papel": "Fonte oficial de consulta dos atos federais informados.",
+        "observacoes": [
+          "As evidências federais foram indicadas com URL oficial do Planalto."
+        ]
+      },
+      {
+        "nome": "Câmara Municipal de Iturama",
+        "esfera": "municipal",
+        "papel": "Mantém o SAPL com referência oficial da Lei Orgânica Municipal e de emenda à Lei Orgânica.",
+        "observacoes": [
+          "URL oficial informada do SAPL: sapl.iturama.mg.leg.br."
+        ]
+      },
+      {
+        "nome": "Prefeitura Municipal de Iturama",
+        "esfera": "municipal",
+        "papel": "Mantém portal oficial com página do Plano Diretor, secretariados e sistemas institucionais.",
+        "observacoes": [
+          "As evidências oficiais incluem página do Plano Diretor, secretariados, transparência, protocolo e NFS-e."
+        ]
+      },
+      {
+        "nome": "Secretaria de Planejamento de Iturama",
+        "esfera": "municipal",
+        "papel": "Órgão municipal listado no portal oficial de secretariados.",
+        "observacoes": []
+      },
+      {
+        "nome": "Procuradoria Geral do Município de Iturama",
+        "esfera": "municipal",
+        "papel": "Órgão municipal listado no portal oficial de secretariados.",
+        "observacoes": []
+      },
+      {
+        "nome": "Controladoria Geral do Município de Iturama",
+        "esfera": "municipal",
+        "papel": "Órgão municipal listado no portal oficial de secretariados.",
+        "observacoes": []
+      },
+      {
+        "nome": "Secretaria de Obras e Infraestrutura de Iturama",
+        "esfera": "municipal",
+        "papel": "Órgão municipal listado no portal oficial de secretariados.",
+        "observacoes": []
+      },
+      {
+        "nome": "Secretaria de Agricultura de Iturama",
+        "esfera": "municipal",
+        "papel": "Órgão municipal listado no portal oficial de secretariados.",
+        "observacoes": []
+      },
+      {
+        "nome": "Secretaria de Finanças de Iturama",
+        "esfera": "municipal",
+        "papel": "Órgão municipal listado no portal oficial de secretariados.",
+        "observacoes": []
+      },
+      {
+        "nome": "Secretaria de Indústria e Comércio de Iturama",
+        "esfera": "municipal",
+        "papel": "Órgão municipal listado no portal oficial de secretariados.",
+        "observacoes": []
+      },
+      {
+        "nome": "Câmara Municipal de Indiaporã",
+        "esfera": "municipal",
+        "papel": "Mantém o SAPL com referência oficial da Lei Orgânica Municipal e emendas correlatas.",
+        "observacoes": [
+          "URL oficial informada do SAPL: sapl.indiapora.sp.leg.br."
+        ]
+      },
+      {
+        "nome": "Prefeitura Municipal de Indiaporã",
+        "esfera": "municipal",
+        "papel": "Mantém portal oficial de legislação, secretarias e sistemas institucionais.",
+        "observacoes": [
+          "As evidências oficiais incluem portal de legislação e páginas de secretarias."
+        ]
+      },
+      {
+        "nome": "Secretaria/Departamento de Saúde de Indiaporã",
+        "esfera": "municipal",
+        "papel": "Organiza e disciplina vigilância sanitária e outros serviços de saúde.",
+        "observacoes": [
+          "Descrição conforme página oficial indicada."
+        ]
+      },
+      {
+        "nome": "Secretaria/Departamento de Meio Ambiente e Agricultura de Indiaporã",
+        "esfera": "municipal",
+        "papel": "Coordena a política municipal de agricultura, abastecimento, meio ambiente e recursos naturais, em cooperação com órgãos estaduais e federais.",
+        "observacoes": [
+          "Descrição conforme página oficial indicada."
+        ]
+      }
+    ],
+    "sistemas_oficiais": [
+      {
+        "nome": "Diário Oficial",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "escopo": "Canal institucional oficial listado no portal municipal.",
+        "aplicacao_pratica": "Veiculação e consulta de publicações oficiais.",
+        "observacoes": [
+          "Listagem confirmada nas evidências oficiais."
+        ]
+      },
+      {
+        "nome": "Portal da Transparência",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "escopo": "Canal institucional oficial de transparência.",
+        "aplicacao_pratica": "Consulta de informações disponibilizadas pela administração municipal.",
+        "observacoes": [
+          "URL oficial informada nas evidências."
+        ]
+      },
+      {
+        "nome": "Protocolo Online",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "escopo": "Canal institucional oficial listado pela Prefeitura.",
+        "aplicacao_pratica": "Protocolo e acompanhamento de demandas administrativas, conforme denominação do sistema.",
+        "observacoes": [
+          "URL oficial informada nas evidências."
+        ]
+      },
+      {
+        "nome": "Iturama Inteligente",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "escopo": "Canal institucional oficial listado no portal municipal.",
+        "aplicacao_pratica": "Sistema institucional identificado no portal oficial.",
+        "observacoes": [
+          "A evidência confirma a listagem do canal, sem detalhamento material adicional."
+        ]
+      },
+      {
+        "nome": "SAPL/Legislação",
+        "orgao": "Câmara Municipal de Iturama",
+        "escopo": "Sistema oficial de consulta legislativa.",
+        "aplicacao_pratica": "Consulta de normas e atos legislativos municipais.",
+        "observacoes": [
+          "O portal municipal lista o acesso ao SAPL/Legislação."
+        ]
+      },
+      {
+        "nome": "Nota Fiscal Eletrônica",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "escopo": "Sistema oficial eletrônico municipal.",
+        "aplicacao_pratica": "Emissão e consulta eletrônica, conforme denominação do sistema.",
+        "observacoes": [
+          "URL oficial informada nas evidências."
+        ]
+      },
+      {
+        "nome": "ISSQN Online",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "escopo": "Sistema oficial eletrônico tributário municipal.",
+        "aplicacao_pratica": "Operações eletrônicas relacionadas ao ISSQN, conforme denominação do sistema.",
+        "observacoes": [
+          "O canal foi listado nas evidências oficiais."
+        ]
+      },
+      {
+        "nome": "e-Sic",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "escopo": "Canal institucional oficial de acesso à informação.",
+        "aplicacao_pratica": "Registro e acompanhamento de pedidos de informação.",
+        "observacoes": [
+          "O canal foi listado nas evidências oficiais."
+        ]
+      },
+      {
+        "nome": "Legislação",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "escopo": "Portal oficial de legislação municipal.",
+        "aplicacao_pratica": "Consulta a atos municipais e a índices por assunto.",
+        "observacoes": [
+          "URL oficial informada nas evidências."
+        ]
+      },
+      {
+        "nome": "Portal Compras",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "escopo": "Canal institucional oficial listado no portal municipal.",
+        "aplicacao_pratica": "Sistema institucional identificado no portal oficial.",
+        "observacoes": [
+          "A evidência confirma a listagem do canal, sem detalhamento material adicional."
+        ]
+      },
+      {
+        "nome": "Serviços Online",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "escopo": "Canal institucional oficial listado no portal municipal.",
+        "aplicacao_pratica": "Acesso a serviços eletrônicos municipais, conforme denominação do canal.",
+        "observacoes": [
+          "A evidência confirma a listagem do canal, sem detalhamento material adicional."
+        ]
+      },
+      {
+        "nome": "Transparência",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "escopo": "Canal institucional oficial de transparência.",
+        "aplicacao_pratica": "Consulta de informações disponibilizadas pela administração municipal.",
+        "observacoes": [
+          "Canal listado nas evidências oficiais."
+        ]
+      },
+      {
+        "nome": "SIC",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "escopo": "Canal institucional oficial de acesso à informação.",
+        "aplicacao_pratica": "Registro e acompanhamento de pedidos de informação.",
+        "observacoes": [
+          "Canal listado nas evidências oficiais."
+        ]
+      },
+      {
+        "nome": "Diário Oficial",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "escopo": "Canal institucional oficial listado no portal municipal.",
+        "aplicacao_pratica": "Veiculação e consulta de publicações oficiais.",
+        "observacoes": [
+          "Canal listado nas evidências oficiais."
+        ]
+      },
+      {
+        "nome": "Carta de Serviços",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "escopo": "Canal institucional oficial listado no portal municipal.",
+        "aplicacao_pratica": "Consulta de serviços públicos disponibilizados pelo município, conforme denominação do canal.",
+        "observacoes": [
+          "Canal listado nas evidências oficiais."
+        ]
+      },
+      {
+        "nome": "APP E-Municipio",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "escopo": "Aplicativo institucional oficial listado no portal municipal.",
+        "aplicacao_pratica": "Acesso institucional por aplicativo, conforme denominação do canal.",
+        "observacoes": [
+          "Canal listado nas evidências oficiais."
+        ]
+      }
+    ],
+    "instrumentos_oficiais": [
+      {
+        "nome": "Plano Diretor de Desenvolvimento de Iturama",
+        "orgao": "Município de Iturama",
+        "escopo": "Instrumento urbanístico municipal referenciado na LC 06/2003 e na página oficial 'Plano Diretor'.",
+        "aplicacao_pratica": "Organiza, no âmbito evidenciado, diretrizes, objetivos e estratégias do desenvolvimento urbano municipal.",
+        "observacoes": [
+          "A evidência confirma a página oficial específica do Plano Diretor.",
+          "As LC 06/2003 a LC 11/2003 foram apresentadas no contexto desse instrumento."
+        ]
+      },
+      {
+        "nome": "Código de Diretrizes Urbanísticas de Iturama",
+        "orgao": "Município de Iturama",
+        "escopo": "Instrumento instituído pela LC 06/2003.",
+        "aplicacao_pratica": "Estabelece objetivos, diretrizes e estratégias do Plano Diretor de Desenvolvimento de Iturama.",
+        "observacoes": []
+      },
+      {
+        "nome": "Código de Parcelamento do Solo de Iturama",
+        "orgao": "Município de Iturama",
+        "escopo": "Instrumento instituído pela LC 07/2003.",
+        "aplicacao_pratica": "Disciplina o parcelamento do solo no município, com exigência de prévia licença e fiscalização municipal conforme evidência.",
+        "observacoes": []
+      },
+      {
+        "nome": "Macrozoneamento e Zoneamento Urbano de Iturama",
+        "orgao": "Município de Iturama",
+        "escopo": "Instrumento tratado pela LC 08/2003.",
+        "aplicacao_pratica": "Referência oficial municipal para macrozoneamento e zoneamento urbano.",
+        "observacoes": []
+      },
+      {
+        "nome": "Código de Obras de Iturama",
+        "orgao": "Município de Iturama",
+        "escopo": "Instrumento instituído pela LC 09/2003.",
+        "aplicacao_pratica": "Referência oficial municipal indicada na página do Plano Diretor.",
+        "observacoes": [
+          "Confirmação localizada na página oficial do Plano Diretor."
+        ]
+      },
+      {
+        "nome": "Código de Posturas de Iturama",
+        "orgao": "Município de Iturama",
+        "escopo": "Instrumento instituído pela LC 10/2003.",
+        "aplicacao_pratica": "Referência oficial municipal para higiene, costumes, segurança, ordem pública e funcionamento de atividades econômicas.",
+        "observacoes": []
+      },
+      {
+        "nome": "Código Ambiental de Iturama",
+        "orgao": "Município de Iturama",
+        "escopo": "Instrumento instituído pela LC 11/2003.",
+        "aplicacao_pratica": "Referência oficial municipal ambiental.",
+        "observacoes": []
+      },
+      {
+        "nome": "Lei Orgânica Municipal de Iturama",
+        "orgao": "Município de Iturama / Câmara Municipal de Iturama",
+        "escopo": "Instrumento orgânico municipal confirmado no SAPL.",
+        "aplicacao_pratica": "Base institucional e normativa local de Iturama.",
+        "observacoes": [
+          "Texto compilado e alterações posteriores informados no SAPL."
+        ]
+      },
+      {
+        "nome": "Lei Orgânica do Município de Indiaporã",
+        "orgao": "Município de Indiaporã / Câmara Municipal de Indiaporã",
+        "escopo": "Instrumento orgânico municipal confirmado no SAPL.",
+        "aplicacao_pratica": "Base institucional e normativa local de Indiaporã.",
+        "observacoes": [
+          "Norma relacionada a emendas posteriores, conforme SAPL."
+        ]
+      }
+    ],
+    "fontes_oficiais": [
+      {
+        "titulo_fonte": "Constituição da República Federativa do Brasil de 1988",
+        "orgao": "Presidência da República / Casa Civil / Portal Planalto",
+        "tipo_fonte": "texto constitucional oficial",
+        "url": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
+        "descricao_relacionada": "Fonte oficial da Constituição Federal, especialmente para organização político-administrativa e política urbana.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Lei nº 10.257/2001 - Estatuto da Cidade",
+        "orgao": "Presidência da República / Casa Civil / Portal Planalto",
+        "tipo_fonte": "texto legal oficial",
+        "url": "https://www.planalto.gov.br/ccivil_03/LEIS/LEIS_2001/L10257.htm",
+        "descricao_relacionada": "Fonte oficial da lei federal que estabelece diretrizes gerais da política urbana.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Lei nº 6.766/1979 - Parcelamento do Solo Urbano",
+        "orgao": "Presidência da República / Casa Civil / Portal Planalto",
+        "tipo_fonte": "texto legal oficial compilado",
+        "url": "https://www.planalto.gov.br/ccivil_03/Leis/L6766compilado.htm",
+        "descricao_relacionada": "Fonte oficial da lei federal sobre parcelamento do solo urbano.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "SAPL da Câmara Municipal de Iturama - Lei Orgânica Municipal nº 1/1990",
+        "orgao": "Câmara Municipal de Iturama",
+        "tipo_fonte": "sistema oficial de legislação",
+        "url": "https://sapl.iturama.mg.leg.br/norma/4479",
+        "descricao_relacionada": "Confirma a Lei Orgânica Municipal nº 1, de 16 de março de 1990, com texto compilado e alterações posteriores.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "SAPL da Câmara Municipal de Iturama - Emenda à Lei Orgânica Municipal nº 41/2022",
+        "orgao": "Câmara Municipal de Iturama",
+        "tipo_fonte": "sistema oficial de legislação",
+        "url": "https://sapl.iturama.mg.leg.br/norma/8453",
+        "descricao_relacionada": "Confirma a Emenda à Lei Orgânica Municipal nº 41, de 07 de novembro de 2022, e relaciona a LOM nº 1/1990 como norma alterada.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Prefeitura de Iturama - Página Plano Diretor",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "portal oficial temático",
+        "url": "https://www.iturama.mg.gov.br/governo/plano-diretor",
+        "descricao_relacionada": "Página oficial que reúne as leis complementares do Plano Diretor de Iturama.",
+        "observacoes": [
+          "A evidência confirma a LC 06/2003, LC 07/2003, LC 08/2003, LC 09/2003, LC 10/2003 e LC 11/2003."
+        ]
+      },
+      {
+        "titulo_fonte": "LC 06/2003 - Código de Diretrizes Urbanísticas",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "PDF oficial",
+        "url": "https://www.iturama.mg.gov.br/images/stories/pdf/plano_diretor/lc06.pdf",
+        "descricao_relacionada": "Texto oficial da LC 06/2003.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "LC 07/2003 - Código de Parcelamento do Solo",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "PDF oficial",
+        "url": "https://iturama.mg.gov.br/images/stories/pdf/plano_diretor/lc07.pdf",
+        "descricao_relacionada": "Texto oficial da LC 07/2003.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "LC 08/2003 - Macrozoneamento e Zoneamento Urbano",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "PDF oficial",
+        "url": "https://www.iturama.mg.gov.br/images/stories/pdf/plano_diretor/lc08.pdf",
+        "descricao_relacionada": "Texto oficial da LC 08/2003.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "LC 10/2003 - Código de Posturas",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "PDF oficial",
+        "url": "https://www.iturama.mg.gov.br/images/stories/pdf/plano_diretor/lc10.pdf",
+        "descricao_relacionada": "Texto oficial da LC 10/2003.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "LC 11/2003 - Código Ambiental",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "PDF oficial",
+        "url": "https://www.iturama.mg.gov.br/images/stories/pdf/plano_diretor/lc11.pdf",
+        "descricao_relacionada": "Texto oficial da LC 11/2003.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Prefeitura de Iturama - Secretariados",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "portal oficial institucional",
+        "url": "https://iturama.mg.gov.br/secretariados",
+        "descricao_relacionada": "Fonte oficial de confirmação da estrutura de secretariados e órgãos municipais listados.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Prefeitura de Iturama - Secretaria de Planejamento",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "página oficial institucional",
+        "url": "https://www.iturama.mg.gov.br/secretariados/secretaria-de-planejamento",
+        "descricao_relacionada": "Fonte oficial de confirmação da existência da Secretaria de Planejamento.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Prefeitura de Iturama - Portal da Transparência",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "sistema oficial",
+        "url": "https://www.iturama.mg.gov.br/portal-da-transparencia",
+        "descricao_relacionada": "Fonte oficial de transparência municipal.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Prefeitura de Iturama - Protocolo Online",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "sistema oficial",
+        "url": "https://servidor.iturama.mg.gov.br/downloadsProtocolo",
+        "descricao_relacionada": "Fonte oficial relacionada ao protocolo online municipal.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Prefeitura de Iturama - Nota Fiscal Eletrônica",
+        "orgao": "Prefeitura Municipal de Iturama",
+        "tipo_fonte": "sistema oficial",
+        "url": "https://nfe.iturama.mg.gov.br/",
+        "descricao_relacionada": "Fonte oficial do sistema de nota fiscal eletrônica municipal.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "SAPL da Câmara Municipal de Indiaporã - Lei Orgânica nº 1/1990",
+        "orgao": "Câmara Municipal de Indiaporã",
+        "tipo_fonte": "sistema oficial de legislação",
+        "url": "https://sapl.indiapora.sp.leg.br/norma/1794",
+        "descricao_relacionada": "Confirma a Lei Orgânica de Indiaporã nº 1, de 05 de abril de 1990.",
+        "observacoes": [
+          "A evidência informa que a norma foi alterada por emendas posteriores."
+        ]
+      },
+      {
+        "titulo_fonte": "SAPL/Diário Oficial de Indiaporã - Emenda à Lei Orgânica nº 13/2023",
+        "orgao": "Câmara Municipal de Indiaporã",
+        "tipo_fonte": "PDF oficial",
+        "url": "https://sapl.indiapora.sp.leg.br/media/sapl/public/normajuridica/2023/3235/emenda_lei_organica_13_indiapora_06.03.2023.pdf",
+        "descricao_relacionada": "Texto oficial da Emenda à Lei Orgânica nº 13, de 06 de março de 2023.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "SAPL de Indiaporã - Pesquisa oficial de normas",
+        "orgao": "Câmara Municipal de Indiaporã",
+        "tipo_fonte": "sistema oficial de pesquisa legislativa",
+        "url": "https://sapl.indiapora.sp.leg.br/norma/pesquisar?ano=&assuntos=&data_0=&data_1=&data_publicacao_0=&data_publicacao_1=&ementa=&numero=&page=2&salvar=Pesquisar&tipo=",
+        "descricao_relacionada": "Referência oficial localizada para a Emenda à Lei Orgânica nº 15, de 23 de abril de 2025.",
+        "observacoes": [
+          "A evidência associa essa referência à alteração da Emenda à Lei Orgânica nº 9/2006, com novos prazos para PPA e LDO."
+        ]
+      },
+      {
+        "titulo_fonte": "Prefeitura de Indiaporã - Portal de legislação",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "tipo_fonte": "portal oficial de legislação",
+        "url": "https://www.indiapora.sp.gov.br/portal/leis_decretos/",
+        "descricao_relacionada": "Portal oficial de legislação com acesso a atos municipais e referências constitucionais.",
+        "observacoes": [
+          "A evidência informa acesso à Constituição Federal, à Constituição Estadual e a atos municipais."
+        ]
+      },
+      {
+        "titulo_fonte": "Prefeitura de Indiaporã - Índice por assunto da legislação",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "tipo_fonte": "portal oficial de consulta",
+        "url": "https://www.indiapora.sp.gov.br/portal/leis_decretos/indice-assunto",
+        "descricao_relacionada": "Índice oficial por assunto para consulta da legislação municipal.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Prefeitura de Indiaporã - Secretaria/Departamento de Saúde",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "tipo_fonte": "página oficial institucional",
+        "url": "https://www.indiapora.sp.gov.br/portal/secretarias/28/saude",
+        "descricao_relacionada": "Fonte oficial que confirma a existência do órgão e sua atuação em vigilância sanitária e outros serviços de saúde.",
+        "observacoes": [
+          "A mesma página foi indicada nas evidências como ponto de listagem de sistemas e canais institucionais."
+        ]
+      },
+      {
+        "titulo_fonte": "Prefeitura de Indiaporã - Secretaria/Departamento de Meio Ambiente e Agricultura",
+        "orgao": "Prefeitura Municipal de Indiaporã",
+        "tipo_fonte": "página oficial institucional",
+        "url": "https://www.indiapora.sp.gov.br/portal/secretarias/27/meio-ambiente-e-agricultura",
+        "descricao_relacionada": "Fonte oficial que confirma a existência do órgão e sua atuação em agricultura, abastecimento, meio ambiente e recursos naturais.",
+        "observacoes": []
+      }
+    ],
+    "atos_setoriais_correlatos": [
+      {
+        "titulo": "Constituição da República Federativa do Brasil de 1988",
+        "tipo": "Constituição Federal",
+        "numero": "",
+        "ano": "1988",
+        "orgao": "União",
+        "escopo": "Organização político-administrativa e política urbana, conforme destaque das evidências.",
+        "aplicacao_pratica": "Base constitucional oficial para organização político-administrativa e política urbana.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "Fonte oficial indicada: Portal Planalto."
+        ]
+      },
+      {
+        "titulo": "Emenda à Lei Orgânica Municipal nº 41, de 07 de novembro de 2022",
+        "tipo": "Emenda à Lei Orgânica Municipal",
+        "numero": "41",
+        "ano": "2022",
+        "orgao": "Município de Iturama / Câmara Municipal de Iturama",
+        "escopo": "Altera a Lei Orgânica Municipal de Iturama.",
+        "aplicacao_pratica": "Registro oficial de alteração da Lei Orgânica Municipal de Iturama.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": [
+          "A referência oficial relaciona a LOM nº 1/1990 como norma alterada."
+        ]
+      },
+      {
+        "titulo": "Emenda à Lei Orgânica nº 13, de 06 de março de 2023",
+        "tipo": "Emenda à Lei Orgânica Municipal",
+        "numero": "13",
+        "ano": "2023",
+        "orgao": "Município de Indiaporã / Câmara Municipal de Indiaporã",
+        "escopo": "Acrescenta o art. 138-B à Lei Orgânica do Município de Indiaporã.",
+        "aplicacao_pratica": "Registro oficial de alteração da Lei Orgânica do Município de Indiaporã.",
+        "status_validacao": "confirmado em fonte oficial informada",
+        "observacoes": []
+      },
+      {
+        "titulo": "Emenda à Lei Orgânica nº 15, de 23 de abril de 2025",
+        "tipo": "Emenda à Lei Orgânica Municipal",
+        "numero": "15",
+        "ano": "2025",
+        "orgao": "Município de Indiaporã / Câmara Municipal de Indiaporã",
+        "escopo": "Altera a Emenda à Lei Orgânica nº 9, de 04 de dezembro de 2006, com novos prazos para PPA e LDO.",
+        "aplicacao_pratica": "Registro oficial de alteração normativa correlata à Lei Orgânica de Indiaporã, conforme referência oficial de pesquisa SAPL.",
+        "status_validacao": "confirmado em referência oficial informada",
+        "observacoes": [
+          "A evidência apresentada é a URL oficial de pesquisa do SAPL de Indiaporã."
+        ]
+      }
+    ]
+  },
+  "enquadramento": {
+    "quem_se_sujeita": [
+      "Iturama/MG: Município de Iturama e sua estrutura administrativa oficialmente identificada para organização normativa e territorial local, no âmbito da Lei Orgânica Municipal e dos instrumentos do Plano Diretor de Desenvolvimento de Iturama. Base: Lei Orgânica Municipal nº 1/1990 de Iturama; Lei Complementar nº 06/2003; Lei Complementar nº 07/2003; Lei Complementar nº 08/2003; Lei Complementar nº 09/2003; Lei Complementar nº 10/2003; Lei Complementar nº 11/2003.",
+      "Iturama/MG: Interessados ou proponentes de parcelamento do solo urbano no Município de Iturama, porque a base confirmada informa exigência de prévia licença e fiscalização municipal. Base: Lei nº 6.766/1979; Lei Complementar nº 07/2003 de Iturama.",
+      "Indiaporã/SP: Município de Indiaporã e sua estrutura institucional oficialmente confirmada para organização normativa local e consulta legislativa/administrativa, restrito ao que consta na Lei Orgânica e nos canais institucionais identificados. Base: Lei Orgânica de Indiaporã nº 1/1990; Portal oficial de legislação de Indiaporã; SAPL da Câmara Municipal de Indiaporã."
+    ],
+    "quem_pode_ser_afetado_indiretamente": [
+      "Iturama/MG: Proprietários, ocupantes, empreendedores e demais administrados alcançados indiretamente pelos instrumentos territoriais municipais confirmados, especialmente parcelamento do solo, macrozoneamento, zoneamento urbano, código de obras, código de posturas e código ambiental. Base: Lei Complementar nº 07/2003; Lei Complementar nº 08/2003; Lei Complementar nº 09/2003; Lei Complementar nº 10/2003; Lei Complementar nº 11/2003.",
+      "Iturama/MG e Indiaporã/SP: Munícipes e interessados que utilizem ou dependam dos canais oficiais de consulta normativa, transparência, protocolo, diário oficial e acesso à informação identificados na base institucional. Base: sistemas oficiais das Prefeituras de Iturama e Indiaporã; SAPL das Câmaras Municipais de Iturama e Indiaporã.",
+      "Indiaporã/SP: Administrados potencialmente impactados pela organização institucional municipal e pelos canais oficiais de legislação e serviços, sem individualização de sujeição privada material além do que foi confirmado. Base: Lei Orgânica de Indiaporã nº 1/1990; Portal oficial de legislação de Indiaporã; sistemas oficiais da Prefeitura de Indiaporã."
+    ],
+    "quando_aplica": [
+      "Iturama/MG: quando o levantamento tratar do sistema municipal territorial oficialmente confirmado, composto pelo Plano Diretor de Desenvolvimento de Iturama e pelos códigos urbanísticos, de posturas e ambiental vinculados às LC 06/2003 a 11/2003.",
+      "Iturama/MG: quando a matéria envolver parcelamento do solo urbano em Iturama, em articulação entre a disciplina federal e o código municipal confirmado.",
+      "Iturama/MG e Indiaporã/SP: quando o objeto for mapeamento institucional e normativo municipal com base em Lei Orgânica, SAPL, portal de legislação, diário oficial, transparência, SIC e demais canais oficiais identificados.",
+      "Iturama/MG e Indiaporã/SP: quando o enquadramento exigir base federal geral da política urbana e do parcelamento do solo urbano para leitura do contexto municipal."
+    ],
+    "quando_nao_aplica": [
+      "Indiaporã/SP: não aplica para afirmar existência de Plano Diretor, macrozoneamento, zoneamento urbano ou Código de Obras, porque esses instrumentos não foram confirmados na base recebida.",
+      "Iturama/MG e Indiaporã/SP: não aplica para converter, por si só, a existência de secretaria, portal, sistema oficial ou Lei Orgânica em obrigação material para particulares sem comando normativo expresso.",
+      "Iturama/MG e Indiaporã/SP: não aplica fora do escopo de levantamento normativo territorial e institucional dos municípios indicados.",
+      "Indiaporã/SP: não aplica para individualizar sujeição privada urbanística específica em Indiaporã além do que está expressamente confirmado na Lei Orgânica e nos canais institucionais identificados."
+    ],
+    "criterios_de_entrada": [
+      "Iturama/MG e Indiaporã/SP: o assunto deve estar territorialmente vinculado a Iturama/MG ou Indiaporã/SP.",
+      "Iturama/MG e Indiaporã/SP: deve existir fonte oficial ou sistema oficial identificado na base para sustentar o item levantado.",
+      "Iturama/MG: para enquadramento territorial municipal específico, o tema deve se conectar aos instrumentos confirmados do Plano Diretor e códigos complementares de Iturama.",
+      "Indiaporã/SP: o enquadramento de entrada fica restrito ao plano institucional e orgânico confirmado: Lei Orgânica, SAPL, portal de legislação, órgãos e sistemas oficiais identificados."
+    ],
+    "criterios_de_exclusao": [
+      "Indiaporã/SP: excluem-se afirmações sobre instrumentos urbanísticos municipais não confirmados na base recebida.",
+      "Iturama/MG e Indiaporã/SP: excluem-se itens sem amarração expressa a lei, instrumento oficial, órgão oficial ou sistema oficial efetivamente listado.",
+      "Iturama/MG e Indiaporã/SP: excluem-se deveres materiais de particulares inferidos apenas da existência de portais, secretarias, transparência, SIC, protocolo ou aplicativos institucionais.",
+      "Iturama/MG e Indiaporã/SP: excluem-se atos infralegais ou setoriais não fornecidos na base, inclusive decretos, resoluções, portarias, instruções normativas e normas técnicas não identificados."
+    ],
+    "delimitacao_objeto": [
+      "Iturama/MG e Indiaporã/SP: o objeto é o levantamento do sistema geral territorial e institucional municipal com apoio na base federal de política urbana e parcelamento do solo urbano.",
+      "Iturama/MG: no plano territorial municipal, o objeto inclui os instrumentos oficialmente confirmados de Iturama: Plano Diretor de Desenvolvimento, Código de Diretrizes Urbanísticas, Código de Parcelamento do Solo, Macrozoneamento e Zoneamento Urbano, Código de Obras, Código de Posturas e Código Ambiental.",
+      "Iturama/MG e Indiaporã/SP: no plano institucional, o objeto inclui Lei Orgânica, SAPL, portais oficiais de legislação, diário oficial, transparência, protocolo e canais oficiais de acesso à informação confirmados.",
+      "Indiaporã/SP: o objeto territorial/institucional fica limitado ao que foi oficialmente confirmado: Lei Orgânica, alterações correlatas, portal de legislação, SAPL, órgãos e sistemas institucionais listados."
+    ],
+    "objeto_obrigacao": [
+      "Iturama/MG: obtenção de prévia licença municipal e sujeição à fiscalização municipal para parcelamento do solo urbano. Base: Lei Complementar nº 07/2003 de Iturama; Lei nº 6.766/1979."
+    ]
+  },
+  "auditoria": {
+    "erros_criticos": [],
+    "inconsistencias": [
+      {
+        "campo": "criterios_de_exclusao[2] em confronto com quem_pode_ser_afetado_indiretamente[1]",
+        "item": "uso de portais, transparência, SIC, protocolo e sistemas oficiais como fator de alcance subjetivo indireto",
+        "motivo": "O enquadramento exclui a inferência de efeitos materiais para particulares a partir de canais institucionais, mas em outro bloco utiliza esses mesmos canais para definir grupo afetado indiretamente, sem amarração normativa expressa na base."
+      },
+      {
+        "campo": "quando_aplica[2] e delimitacao_objeto[2]",
+        "item": "\"diário oficial\", \"transparência\", \"protocolo\" e \"acesso à informação\" tratados como elementos confirmados da base",
+        "motivo": "A base fornecida não apresenta listagem material desses canais; a redação afirma confirmação institucional que não é demonstrável apenas a partir da base normativa entregue."
+      }
+    ],
+    "extrapolacoes": [
+      {
+        "campo": "quem_se_sujeita[2]",
+        "item": "\"canais institucionais identificados\" em Indiaporã",
+        "motivo": "A base confirmada para Indiaporã sustenta a Lei Orgânica e a existência de validação via SAPL, mas não materializa um conjunto de canais institucionais como fundamento autônomo de sujeição."
+      },
+      {
+        "campo": "quem_pode_ser_afetado_indiretamente[1]",
+        "item": "\"munícipes e interessados que utilizem ou dependam dos canais oficiais de consulta normativa, transparência, protocolo, diário oficial e acesso à informação\"",
+        "motivo": "Uso ou dependência de canais institucionais não configura, por si, categoria de afetação regulatória material sustentada pelas leis constantes da base."
+      },
+      {
+        "campo": "criterios_de_entrada[3]",
+        "item": "\"órgãos e sistemas oficiais identificados\" como critério de entrada em Indiaporã",
+        "motivo": "O critério amplia o enquadramento para infraestrutura institucional não individualizada na base normativa fornecida."
+      },
+      {
+        "campo": "delimitacao_objeto[2]",
+        "item": "inclusão de \"diário oficial, transparência, protocolo e canais oficiais de acesso à informação\" no objeto",
+        "motivo": "O objeto deixa de se manter estritamente na base normativa e passa a abarcar estruturas operacionais/institucionais não materialmente demonstradas na base entregue."
+      }
+    ],
+    "generalizacoes": [
+      {
+        "campo": "quem_pode_ser_afetado_indiretamente[0]",
+        "item": "\"proprietários, ocupantes, empreendedores e demais administrados\" alcançados pelos instrumentos de Iturama",
+        "motivo": "A base confirma a existência dos instrumentos municipais, mas não discrimina, de modo agregado e uniforme, todo esse espectro subjetivo para cada código citado; a formulação amplia o alcance por generalização."
+      },
+      {
+        "campo": "quem_pode_ser_afetado_indiretamente[2]",
+        "item": "\"administrados potencialmente impactados\" em Indiaporã",
+        "motivo": "A base de Indiaporã é institucional/orgânica e não confirma incidência urbanística privada específica; a expressão projeta impacto subjetivo amplo sem base material individualizada."
+      }
+    ],
+    "itens_sem_base": [
+      {
+        "campo": "quem_se_sujeita[2].base_normativa",
+        "item": "\"Portal oficial de legislação de Indiaporã\"",
+        "motivo": "Esse item não aparece nominalmente na base normativa fornecida."
+      },
+      {
+        "campo": "quem_pode_ser_afetado_indiretamente[1].base_normativa",
+        "item": "\"Sistemas oficiais da Prefeitura de Iturama\" e \"Sistemas oficiais da Prefeitura de Indiaporã\"",
+        "motivo": "A base fornecida lista leis e observações sobre fontes oficiais, mas não enumera esses sistemas como base normativa ou institucional autônoma."
+      },
+      {
+        "campo": "quando_aplica[3].base_normativa",
+        "item": "\"Constituição da República Federativa do Brasil de 1988\"",
+        "motivo": "A Constituição não consta na base normativa recebida como item confirmado."
+      },
+      {
+        "campo": "criterios_de_entrada[1] e criterios_de_exclusao[1].base_normativa",
+        "item": "\"Fontes oficiais listadas\", \"Sistemas oficiais listados\" e \"órgãos e sistemas oficiais listados na base\"",
+        "motivo": "Essas remissões genéricas não correspondem a itens individualizados na base apresentada."
+      },
+      {
+        "campo": "criterios_de_exclusao[3].base_normativa",
+        "item": "\"Campos de decretos, instruções normativas, resoluções, normas técnicas e portarias vazios na base\"",
+        "motivo": "A estrutura da base fornecida não apresenta esses campos, de modo que a exclusão referencia elemento não constante do material auditado."
+      },
+      {
+        "campo": "delimitacao_objeto[2].base_normativa",
+        "item": "\"Sistemas oficiais listados para Iturama\" e \"Sistemas oficiais listados para Indiaporã\"",
+        "motivo": "Tais itens não foram individualizados na base normativa fornecida."
+      },
+      {
+        "campo": "delimitacao_objeto[3].base_normativa",
+        "item": "\"Emenda à Lei Orgânica nº 13/2023\" e \"Emenda à Lei Orgânica nº 15/2025\"",
+        "motivo": "A base apenas menciona alterações posteriores da Lei Orgânica de Indiaporã, sem identificar esses números de emenda."
+      }
+    ],
+    "riscos_regulatorios": [
+      {
+        "campo": "quem_pode_ser_afetado_indiretamente[1] e quem_pode_ser_afetado_indiretamente[2]",
+        "item": "atribuição de impacto regulatório a particulares a partir de uso de canais institucionais",
+        "motivo": "Há risco de ampliar a incidência subjetiva para munícipes, interessados e administrados sem comando normativo material expresso, especialmente em Indiaporã, cuja base confirmada é apenas institucional/orgânica."
+      },
+      {
+        "campo": "delimitacao_objeto[2] e criterios_de_entrada[3]",
+        "item": "mistura entre infraestrutura institucional e escopo normativo territorial",
+        "motivo": "A incorporação de portais, protocolo, transparência, SIC e sistemas oficiais como núcleo do enquadramento reduz a rastreabilidade material entre obrigação/enquadramento e a base legal efetivamente confirmada."
+      },
+      {
+        "campo": "delimitacao_objeto[3].base_normativa",
+        "item": "citação de emendas específicas não confirmadas",
+        "motivo": "O uso de atos identificados por número sem confirmação na base pode gerar aparência de lastro normativo municipal mais amplo do que o efetivamente demonstrado."
+      }
+    ],
+    "nivel_risco": "médio",
+    "status_validacao": "parcialmente_validado_com_ressalvas"
+  },
+  "operacional": {
+    "fluxo_operacional": [
+      "Receber o recorte territorial do trabalho em Iturama/MG e Indiaporã/SP e validar que o objeto é diagnóstico/mapeamento normativo-institucional.",
+      "Consolidar a base federal aplicável ao tema territorial, limitada ao Estatuto da Cidade e à Lei de Parcelamento do Solo Urbano.",
+      "Levantar e organizar, para Iturama/MG, a Lei Orgânica e os instrumentos municipais confirmados: LC 06/2003 a LC 11/2003.",
+      "Levantar e organizar, para Indiaporã/SP, apenas a Lei Orgânica, o registro legislativo oficial e a base institucional oficialmente confirmada, sem presumir instrumentos urbanísticos não demonstrados.",
+      "Identificar, em Iturama/MG, a única obrigação material clara confirmada no enquadramento: prévia licença municipal para parcelamento do solo urbano, com sujeição à fiscalização municipal.",
+      "Submeter os pontos frágeis a revisão humana obrigatória antes da emissão do diagnóstico final, especialmente referências institucionais de Indiaporã/SP e qualquer tentativa de converter canal oficial em obrigação regulatória.",
+      "Emitir relatório final com matriz territorial, institucional e normativa separada por município e com ressalvas explícitas da auditoria."
+    ],
+    "etapas_execucao": [
+      "Abrir ficha do caso com tema, território, objeto e exclusões normativas expressas.",
+      "Catalogar as fontes oficiais fornecidas e anexar evidência mínima de autenticidade de cada ato normativo utilizado.",
+      "Montar quadro normativo de Iturama/MG com separação entre base orgânica, plano diretor/códigos e obrigação material efetivamente confirmada.",
+      "Montar quadro institucional de Indiaporã/SP com separação entre Lei Orgânica e meios oficiais de consulta legislativa efetivamente confirmados.",
+      "Classificar cada item como: base normativa material, base orgânica/institucional ou referência complementar.",
+      "Marcar em Iturama/MG o ponto específico de incidência material relativo ao parcelamento do solo urbano.",
+      "Aplicar filtro de exclusão para impedir inserção de Plano Diretor, zoneamento, macrozoneamento, código de obras ou obrigações materiais não confirmadas para Indiaporã/SP.",
+      "Executar revisão humana de conformidade sobre todos os trechos que mencionem portais, SAPL ou outros canais institucionais.",
+      "Gerar versão final do diagnóstico com escopo, limites, evidências e pendências documentais."
+    ],
+    "documentos_necessarios": [
+      "Texto oficial da Lei nº 10.257/2001.",
+      "Texto oficial da Lei nº 6.766/1979.",
+      "Texto oficial ou compilado da Lei Orgânica Municipal nº 1/1990 de Iturama.",
+      "Texto oficial da Lei Complementar nº 06/2003 de Iturama.",
+      "Texto oficial da Lei Complementar nº 07/2003 de Iturama.",
+      "Texto oficial da Lei Complementar nº 08/2003 de Iturama.",
+      "Comprovação oficial da existência da Lei Complementar nº 09/2003 de Iturama, com ressalva de que a evidência disponível não trouxe URL específica do PDF.",
+      "Texto oficial da Lei Complementar nº 10/2003 de Iturama.",
+      "Texto oficial da Lei Complementar nº 11/2003 de Iturama.",
+      "Texto oficial ou compilado da Lei Orgânica nº 1/1990 de Indiaporã.",
+      "Evidência oficial de consulta legislativa de Indiaporã via SAPL e/ou portal oficial de legislação."
+    ],
+    "pontos_de_controle": [
+      "Confirmar que o objeto do serviço permaneça como diagnóstico/mapeamento normativo-institucional e não migre para licenciamento automático.",
+      "Validar que, em Iturama/MG, a obrigação material seja descrita apenas nos limites confirmados: prévia licença municipal para parcelamento do solo urbano e fiscalização municipal.",
+      "Validar que, em Indiaporã/SP, não sejam incluídos instrumentos urbanísticos não confirmados na base.",
+      "Impor revisão humana obrigatória em qualquer menção a portais, SAPL, transparência, SIC, protocolo ou canais institucionais para evitar conversão indevida em núcleo de obrigação regulatória.",
+      "Registrar ressalva expressa quando a evidência oficial indicar existência do ato, mas não disponibilizar o texto integral no conjunto documental recebido.",
+      "Bloquear conclusão operacional que atribua efeito material a particulares sem comando normativo expresso."
+    ],
+    "provas_obrigatorias": [
+      "Cópia, transcrição controlada ou link oficial de cada norma utilizada no relatório.",
+      "Registro da fonte oficial de validação de cada ato municipal citado.",
+      "Trecho probatório da LC 07/2003 de Iturama demonstrando a exigência de prévia licença municipal para parcelamento do solo urbano.",
+      "Registro probatório da existência da Lei Orgânica de Indiaporã e do ambiente oficial de consulta legislativa correspondente.",
+      "Matriz de rastreabilidade ligando cada afirmação do diagnóstico à respectiva base normativa ou institucional confirmada.",
+      "Checklist de revisão humana assinado ou registrado para os pontos com ressalva da auditoria."
+    ],
+    "riscos_operacionais": [
+      "Risco de extrapolação regulatória ao tratar canais institucionais como fundamento autônomo de obrigação material.",
+      "Risco de inferir instrumentos urbanísticos para Indiaporã/SP sem confirmação documental na base recebida.",
+      "Risco de misturar infraestrutura institucional com conteúdo normativo material, reduzindo a rastreabilidade do diagnóstico.",
+      "Risco de sobreleitura dos códigos municipais de Iturama/MG para além do recorte efetivamente necessário ao levantamento.",
+      "Risco documental em Iturama/MG quanto à LC 09/2003, cuja existência foi confirmada, mas sem URL específica do texto integral nas evidências recebidas."
+    ]
+  },
+  "servico": {
+    "descricao_servico": "Serviço técnico de diagnóstico e mapeamento normativo-institucional para os territórios de Iturama/MG e Indiaporã/SP, com organização da base legal confirmada, identificação de competências e instrumentos oficialmente demonstrados e registro expresso das limitações de escopo e das ressalvas de auditoria.",
+    "escopo": [
+      "Mapeamento da base federal de referência aplicável ao tema territorial urbano.",
+      "Organização do quadro normativo municipal confirmado de Iturama/MG.",
+      "Organização do quadro orgânico-institucional oficialmente confirmado de Indiaporã/SP.",
+      "Identificação da obrigação material clara confirmada para Iturama/MG no tema parcelamento do solo urbano.",
+      "Emissão de matriz de evidências e de limites de interpretação por município."
+    ],
+    "entregaveis": [
+      "Relatório de diagnóstico normativo-institucional por município.",
+      "Matriz de atos normativos confirmados com indicação de fonte oficial.",
+      "Quadro de distinção entre base material, base orgânica/institucional e itens não confirmados.",
+      "Nota específica sobre Iturama/MG indicando a exigência de prévia licença municipal para parcelamento do solo urbano.",
+      "Checklist de ressalvas e pontos sujeitos a validação humana."
+    ],
+    "delimitacao_escopo": [
+      "O serviço não realiza licenciamento, protocolo, aprovação administrativa ou automação de pedidos perante o poder público.",
+      "O serviço não presume, para Indiaporã/SP, existência de Plano Diretor, zoneamento, macrozoneamento, código de obras ou outros instrumentos urbanísticos não confirmados na base.",
+      "Canais institucionais e sistemas oficiais podem ser usados apenas como suporte de localização e validação documental, não como núcleo autônomo de obrigação regulatória.",
+      "Em Iturama/MG, a operacionalização material fica limitada à identificação da exigência de prévia licença municipal para parcelamento do solo urbano, sem ampliar obrigações além do que consta da base.",
+      "Itens sem texto normativo confirmado ou sem lastro expresso permanecem como pendência, ressalva ou exclusão do escopo."
+    ]
+  },
+  "precificacao": {
+    "modelo": "Preço fixo por território analisado, com adicional por profundidade documental e por rodada formal de revisão humana.",
+    "variaveis": [
+      "Quantidade de municípios incluídos no diagnóstico.",
+      "Número de atos normativos efetivamente confirmados e tratados.",
+      "Necessidade de consolidação de evidências oficiais dispersas.",
+      "Quantidade de checkpoints de revisão humana exigidos pelas ressalvas da auditoria.",
+      "Existência de lacunas documentais que demandem tratamento por pendência e ressalva."
+    ],
+    "faixa_valor": "Sob orçamento técnico, dimensionado por município e profundidade do levantamento.",
+    "observacoes": [
+      "A precificação deve considerar que Indiaporã/SP tem escopo mais restrito e predominantemente institucional/orgânico.",
+      "A presença de revisão humana obrigatória nas partes frágeis deve compor o custo-base do serviço.",
+      "Não incluir preço de licenciamento, protocolo ou acompanhamento administrativo, pois esses itens não integram o escopo deste serviço."
+    ]
+  },
+  "interface": {
+    "regras_interface": [
+      "Exibir separadamente, para cada município, o que é base normativa confirmada, o que é base institucional confirmada e o que está excluído por falta de confirmação.",
+      "Sinalizar visualmente a única obrigação material clara identificada para Iturama/MG sem replicá-la para Indiaporã/SP.",
+      "Exigir aceite humano antes de publicar conclusões que dependam de leitura de canais institucionais ou de evidência incompleta.",
+      "Bloquear campos que permitam inferir licenciamento automático, obrigação material genérica ou instrumento urbanístico não confirmado.",
+      "Manter trilha de auditoria com fonte oficial, data de consulta e observação de ressalvas por item."
+    ],
+    "gatilhos_automacao": [
+      "Acionar revisão humana quando o sistema identificar menção a portal, SAPL, transparência, SIC, protocolo ou canal institucional como fundamento de obrigação.",
+      "Acionar alerta quando houver tentativa de cadastrar, para Indiaporã/SP, Plano Diretor, zoneamento, macrozoneamento, código de obras ou obrigação urbanística sem prova confirmada.",
+      "Acionar validação reforçada quando o item tratar de parcelamento do solo urbano em Iturama/MG.",
+      "Gerar pendência documental quando houver confirmação de existência do ato, mas ausência de texto integral ou referência oficial suficiente no dossiê."
+    ]
+  }
+}

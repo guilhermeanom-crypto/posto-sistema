@@ -1,0 +1,979 @@
+{
+  "app": {
+    "id": "habilis_estanqueidade_sasc",
+    "name": "Hábilis Estanqueidade SASC",
+    "version": "1.0.0",
+    "status": "estrutura_base",
+    "language": "pt-BR",
+    "owner": "Hábilis Consultoria Ambiental",
+    "description": "Base estruturada para interface operacional, técnica e documental de serviços de estanqueidade em SASC.",
+    "theme": {
+      "mode": "dark",
+      "accent": "amber",
+      "layout": "sidebar_tabs_panel"
+    }
+  },
+  "ui": {
+    "sidebar": {
+      "sections": [
+        {
+          "id": "visao_geral",
+          "label": "Visão Geral",
+          "icon": "layout-dashboard",
+          "enabled": true
+        },
+        {
+          "id": "fluxo_operacional",
+          "label": "Fluxo Operacional",
+          "icon": "workflow",
+          "enabled": true
+        },
+        {
+          "id": "checklists",
+          "label": "Checklists",
+          "icon": "check-square",
+          "enabled": true
+        },
+        {
+          "id": "decisao_passivo",
+          "label": "Decisão e Passivo",
+          "icon": "scale",
+          "enabled": true
+        },
+        {
+          "id": "controle_rastreabilidade",
+          "label": "Controle e Rastreabilidade",
+          "icon": "clipboard-list",
+          "enabled": true
+        },
+        {
+          "id": "modelos_documentos",
+          "label": "Modelos e Documentos",
+          "icon": "file-text",
+          "enabled": true
+        },
+        {
+          "id": "matriz_regulatoria",
+          "label": "Matriz Regulatória",
+          "icon": "book-open",
+          "enabled": true
+        },
+        {
+          "id": "fontes_referencias",
+          "label": "Fontes e Referências",
+          "icon": "library",
+          "enabled": true
+        }
+      ]
+    },
+    "topbar": {
+      "search": true,
+      "actions": [
+        "expandir_tudo",
+        "recolher_tudo",
+        "imprimir",
+        "exportar_json"
+      ]
+    },
+    "views": {
+      "default": "visao_geral",
+      "supports": [
+        "cards",
+        "accordion",
+        "timeline",
+        "tree",
+        "modal",
+        "drawer",
+        "tabs"
+      ]
+    }
+  },
+  "dashboard": {
+    "cards": [
+      {
+        "id": "card_objetivo",
+        "title": "Objetivo do Sistema",
+        "type": "summary",
+        "content": "Estruturar a operação de estanqueidade de SASC com lógica técnica, rastreabilidade documental, critérios decisórios e integração com modelos e controles.",
+        "priority": 1
+      },
+      {
+        "id": "card_entregaveis",
+        "title": "Entregáveis-Chave",
+        "type": "tags",
+        "content": [
+          "Planejamento do serviço",
+          "Checklist pré-campo",
+          "Execução técnica",
+          "Registro de evidências",
+          "Laudo",
+          "Decisão técnica",
+          "Controle de histórico"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "card_pilares",
+        "title": "Pilares Operacionais",
+        "type": "tags",
+        "content": [
+          "Conformidade",
+          "Rastreabilidade",
+          "Padronização",
+          "Critério técnico",
+          "Defensabilidade documental"
+        ],
+        "priority": 3
+      }
+    ]
+  },
+  "contexto_servico": {
+    "nome_servico": "Estanqueidade de SASC",
+    "sigla": "SASC",
+    "escopo_macro": [
+      "Planejamento do atendimento",
+      "Validação cadastral e técnica",
+      "Preparação do local e sistema",
+      "Execução do ensaio",
+      "Interpretação técnica",
+      "Emissão documental",
+      "Rastreabilidade e histórico"
+    ],
+    "atores_padrao": [
+      {
+        "id": "ator_consultoria",
+        "nome": "Consultoria",
+        "papel": "Gestão técnica, coordenação, emissão documental e controle"
+      },
+      {
+        "id": "ator_tecnico_campo",
+        "nome": "Técnico de Campo",
+        "papel": "Execução, inspeção, registros e evidências"
+      },
+      {
+        "id": "ator_responsavel_empreendimento",
+        "nome": "Responsável pelo Empreendimento",
+        "papel": "Disponibilização de informações, acesso, apoio operacional e ciência"
+      },
+      {
+        "id": "ator_responsavel_tecnico",
+        "nome": "Responsável Técnico",
+        "papel": "Validação metodológica, análise crítica e assinatura quando aplicável"
+      }
+    ]
+  },
+  "fluxos": [
+    {
+      "id": "fluxo_01_triagem",
+      "ordem": 1,
+      "titulo": "Triagem Inicial",
+      "objetivo": "Receber a demanda, compreender o sistema envolvido e iniciar a abertura técnica do atendimento.",
+      "entradas": [
+        "Solicitação do cliente",
+        "Dados do empreendimento",
+        "Identificação preliminar do sistema"
+      ],
+      "atividades": [
+        "Cadastrar cliente e unidade",
+        "Identificar tipo de atendimento",
+        "Solicitar documentos mínimos",
+        "Abrir protocolo interno"
+      ],
+      "saidas": [
+        "Atendimento registrado",
+        "Pendências documentais mapeadas",
+        "Fluxo autorizado para pré-análise"
+      ],
+      "responsaveis": [
+        "Consultoria"
+      ],
+      "documentos_relacionados": [
+        "ficha_abertura",
+        "checklist_documental_inicial"
+      ],
+      "checklists_relacionados": [
+        "chk_01_abertura"
+      ],
+      "decisoes_relacionadas": [
+        "dec_01_documentacao_minima"
+      ]
+    },
+    {
+      "id": "fluxo_02_preanalise",
+      "ordem": 2,
+      "titulo": "Pré-Análise Técnica e Documental",
+      "objetivo": "Validar se há base mínima para agendamento e execução do serviço.",
+      "entradas": [
+        "Cadastro do atendimento",
+        "Documentos recebidos",
+        "Informações do sistema"
+      ],
+      "atividades": [
+        "Conferir cadastro",
+        "Conferir identificação do sistema",
+        "Avaliar histórico disponível",
+        "Checar compatibilidade do escopo"
+      ],
+      "saidas": [
+        "Apto para agendamento",
+        "Necessidade de complementação",
+        "Necessidade de reclassificação do atendimento"
+      ],
+      "responsaveis": [
+        "Consultoria",
+        "Responsável Técnico"
+      ],
+      "documentos_relacionados": [
+        "matriz_analise_previa",
+        "solicitacao_complementacao"
+      ],
+      "checklists_relacionados": [
+        "chk_02_preanalise"
+      ],
+      "decisoes_relacionadas": [
+        "dec_02_aptidao_execucao"
+      ]
+    },
+    {
+      "id": "fluxo_03_planejamento",
+      "ordem": 3,
+      "titulo": "Planejamento da Execução",
+      "objetivo": "Definir logística, requisitos prévios, equipe, janela operacional e estratégia de registro.",
+      "entradas": [
+        "Pré-análise aprovada",
+        "Agenda",
+        "Disponibilidade do cliente"
+      ],
+      "atividades": [
+        "Agendar visita ou execução",
+        "Definir equipe",
+        "Preparar instrumentação e formulários",
+        "Emitir instruções prévias ao cliente"
+      ],
+      "saidas": [
+        "Execução programada",
+        "Equipe orientada",
+        "Kit documental preparado"
+      ],
+      "responsaveis": [
+        "Consultoria",
+        "Técnico de Campo"
+      ],
+      "documentos_relacionados": [
+        "ordem_servico",
+        "instrucao_pre_execucao"
+      ],
+      "checklists_relacionados": [
+        "chk_03_planejamento"
+      ],
+      "decisoes_relacionadas": []
+    },
+    {
+      "id": "fluxo_04_pre_campo",
+      "ordem": 4,
+      "titulo": "Preparação Pré-Campo",
+      "objetivo": "Garantir que as condições operacionais e documentais estão adequadas antes do ensaio.",
+      "entradas": [
+        "Ordem de serviço",
+        "Dados do sistema",
+        "Checklist de planejamento"
+      ],
+      "atividades": [
+        "Confirmar acesso",
+        "Confirmar condições do local",
+        "Conferir identificação dos componentes",
+        "Conferir integridade visual e condições preliminares"
+      ],
+      "saidas": [
+        "Sistema pronto para ensaio",
+        "Registro de não conformidades preliminares",
+        "Bloqueio técnico se necessário"
+      ],
+      "responsaveis": [
+        "Técnico de Campo",
+        "Responsável pelo Empreendimento"
+      ],
+      "documentos_relacionados": [
+        "ficha_pre_campo",
+        "registro_fotografico_inicial"
+      ],
+      "checklists_relacionados": [
+        "chk_04_pre_campo"
+      ],
+      "decisoes_relacionadas": [
+        "dec_03_condicoes_execucao"
+      ]
+    },
+    {
+      "id": "fluxo_05_execucao_ensaio",
+      "ordem": 5,
+      "titulo": "Execução do Ensaio",
+      "objetivo": "Executar o procedimento técnico previsto, com registro integral das condições, parâmetros e resultado.",
+      "entradas": [
+        "Sistema apto",
+        "Equipe preparada",
+        "Instrumentação disponível"
+      ],
+      "atividades": [
+        "Aplicar procedimento técnico definido",
+        "Registrar parâmetros de execução",
+        "Registrar intercorrências",
+        "Documentar evidências"
+      ],
+      "saidas": [
+        "Resultado bruto do ensaio",
+        "Evidências registradas",
+        "Ocorrências anotadas"
+      ],
+      "responsaveis": [
+        "Técnico de Campo"
+      ],
+      "documentos_relacionados": [
+        "boletim_campo",
+        "registro_evidencias"
+      ],
+      "checklists_relacionados": [
+        "chk_05_execucao"
+      ],
+      "decisoes_relacionadas": [
+        "dec_04_resultado_ensaio"
+      ]
+    },
+    {
+      "id": "fluxo_06_analise_critica",
+      "ordem": 6,
+      "titulo": "Análise Crítica e Interpretação",
+      "objetivo": "Interpretar tecnicamente os registros e definir a conclusão do atendimento.",
+      "entradas": [
+        "Resultado bruto",
+        "Registros de campo",
+        "Histórico disponível"
+      ],
+      "atividades": [
+        "Validar consistência dos dados",
+        "Classificar resultado",
+        "Avaliar necessidade de aprofundamento",
+        "Definir conclusão técnica"
+      ],
+      "saidas": [
+        "Conclusão técnica",
+        "Encaminhamento decisório",
+        "Instrução para documento final"
+      ],
+      "responsaveis": [
+        "Responsável Técnico",
+        "Consultoria"
+      ],
+      "documentos_relacionados": [
+        "parecer_tecnico_interno"
+      ],
+      "checklists_relacionados": [
+        "chk_06_analise_critica"
+      ],
+      "decisoes_relacionadas": [
+        "dec_05_classificacao_resultado",
+        "dec_06_indicio_passivo"
+      ]
+    },
+    {
+      "id": "fluxo_07_documentacao",
+      "ordem": 7,
+      "titulo": "Emissão Documental",
+      "objetivo": "Consolidar o atendimento em documento rastreável, padronizado e defensável.",
+      "entradas": [
+        "Conclusão técnica",
+        "Registros de campo",
+        "Modelos aplicáveis"
+      ],
+      "atividades": [
+        "Preencher modelo correto",
+        "Consolidar anexos",
+        "Revisar consistência",
+        "Emitir documento final"
+      ],
+      "saidas": [
+        "Laudo emitido",
+        "Anexos organizados",
+        "Versão protocolável ou arquivável"
+      ],
+      "responsaveis": [
+        "Consultoria",
+        "Responsável Técnico"
+      ],
+      "documentos_relacionados": [
+        "laudo_estanqueidade",
+        "anexo_fotografico",
+        "anexo_checklists"
+      ],
+      "checklists_relacionados": [
+        "chk_07_emissao_documental"
+      ],
+      "decisoes_relacionadas": []
+    },
+    {
+      "id": "fluxo_08_controle_historico",
+      "ordem": 8,
+      "titulo": "Controle, Histórico e Rastreabilidade",
+      "objetivo": "Manter histórico técnico e gerencial do atendimento e apoiar futuras decisões.",
+      "entradas": [
+        "Laudo emitido",
+        "Arquivos finais",
+        "Metadados do atendimento"
+      ],
+      "atividades": [
+        "Arquivar documentos",
+        "Atualizar histórico do cliente",
+        "Registrar vencimentos e recorrências",
+        "Classificar criticidade"
+      ],
+      "saidas": [
+        "Histórico atualizado",
+        "Atendimento encerrado ou monitorado",
+        "Base pronta para auditoria"
+      ],
+      "responsaveis": [
+        "Consultoria"
+      ],
+      "documentos_relacionados": [
+        "registro_historico",
+        "painel_controle"
+      ],
+      "checklists_relacionados": [
+        "chk_08_encerramento"
+      ],
+      "decisoes_relacionadas": [
+        "dec_07_monitoramento_futuro"
+      ]
+    }
+  ],
+  "checklists": [
+    {
+      "id": "chk_01_abertura",
+      "titulo": "Checklist de Abertura",
+      "categoria": "documental",
+      "itens": [
+        "Cliente identificado",
+        "Unidade identificada",
+        "Responsável local informado",
+        "Escopo preliminar registrado",
+        "Contato operacional validado"
+      ]
+    },
+    {
+      "id": "chk_02_preanalise",
+      "titulo": "Checklist de Pré-Análise",
+      "categoria": "documental_tecnica",
+      "itens": [
+        "Informações mínimas recebidas",
+        "Histórico anterior verificado",
+        "Sistema identificado",
+        "Documentação mínima conferida",
+        "Pendências registradas"
+      ]
+    },
+    {
+      "id": "chk_03_planejamento",
+      "titulo": "Checklist de Planejamento",
+      "categoria": "operacional",
+      "itens": [
+        "Data alinhada",
+        "Equipe definida",
+        "Kit documental separado",
+        "Instrumentação conferida",
+        "Orientações prévias enviadas ao cliente"
+      ]
+    },
+    {
+      "id": "chk_04_pre_campo",
+      "titulo": "Checklist Pré-Campo",
+      "categoria": "campo",
+      "itens": [
+        "Acesso liberado",
+        "Identificação do sistema confirmada",
+        "Condições preliminares registradas",
+        "Evidências fotográficas iniciais capturadas",
+        "Interferências e restrições anotadas"
+      ]
+    },
+    {
+      "id": "chk_05_execucao",
+      "titulo": "Checklist de Execução",
+      "categoria": "campo_tecnico",
+      "itens": [
+        "Procedimento selecionado",
+        "Parâmetros anotados",
+        "Sequência operacional registrada",
+        "Intercorrências registradas",
+        "Resultado bruto consolidado"
+      ]
+    },
+    {
+      "id": "chk_06_analise_critica",
+      "titulo": "Checklist de Análise Crítica",
+      "categoria": "tecnica",
+      "itens": [
+        "Consistência dos dados validada",
+        "Resultado classificado",
+        "Necessidade de aprofundamento avaliada",
+        "Critérios decisórios aplicados",
+        "Conclusão técnica registrada"
+      ]
+    },
+    {
+      "id": "chk_07_emissao_documental",
+      "titulo": "Checklist de Emissão Documental",
+      "categoria": "documental_final",
+      "itens": [
+        "Modelo correto utilizado",
+        "Dados obrigatórios preenchidos",
+        "Anexos incluídos",
+        "Revisão final realizada",
+        "Versão final salva"
+      ]
+    },
+    {
+      "id": "chk_08_encerramento",
+      "titulo": "Checklist de Encerramento",
+      "categoria": "controle",
+      "itens": [
+        "Documento final arquivado",
+        "Histórico atualizado",
+        "Metadados registrados",
+        "Próxima ação definida",
+        "Status final do atendimento concluído"
+      ]
+    }
+  ],
+  "decisoes": [
+    {
+      "id": "dec_01_documentacao_minima",
+      "titulo": "Há documentação mínima para prosseguir?",
+      "tipo": "binaria",
+      "pergunta": "Existe base mínima para seguir com pré-análise?",
+      "se_sim": "Prosseguir para pré-análise técnica",
+      "se_nao": "Emitir solicitação de complementação",
+      "impacto": "Não prosseguir sem registro formal da pendência"
+    },
+    {
+      "id": "dec_02_aptidao_execucao",
+      "titulo": "O atendimento está apto para execução?",
+      "tipo": "binaria",
+      "pergunta": "As informações e condições são suficientes para agendamento e execução?",
+      "se_sim": "Liberar planejamento",
+      "se_nao": "Manter em pendência técnica"
+    },
+    {
+      "id": "dec_03_condicoes_execucao",
+      "titulo": "As condições de campo permitem execução?",
+      "tipo": "binaria",
+      "pergunta": "O local, o sistema e as condições operacionais estão adequados?",
+      "se_sim": "Executar ensaio",
+      "se_nao": "Bloquear tecnicamente e registrar motivo"
+    },
+    {
+      "id": "dec_04_resultado_ensaio",
+      "titulo": "Qual o status inicial do ensaio?",
+      "tipo": "classificacao",
+      "opcoes": [
+        "Conforme",
+        "Não conforme",
+        "Inconclusivo",
+        "Requer nova verificação"
+      ]
+    },
+    {
+      "id": "dec_05_classificacao_resultado",
+      "titulo": "Como classificar tecnicamente o resultado?",
+      "tipo": "classificacao",
+      "opcoes": [
+        "Aprovado",
+        "Reprovado",
+        "Com restrição técnica",
+        "Indeterminado"
+      ]
+    },
+    {
+      "id": "dec_06_indicio_passivo",
+      "titulo": "Há indício técnico de passivo ou necessidade de aprofundamento?",
+      "tipo": "binaria",
+      "pergunta": "Os registros apontam indícios que exigem aprofundamento ou encaminhamento específico?",
+      "se_sim": "Abrir trilha de análise de passivo/encaminhamento técnico",
+      "se_nao": "Encerrar no fluxo documental"
+    },
+    {
+      "id": "dec_07_monitoramento_futuro",
+      "titulo": "É necessário monitoramento ou recorrência futura?",
+      "tipo": "classificacao",
+      "opcoes": [
+        "Sim, programar controle futuro",
+        "Sim, com prioridade alta",
+        "Não, encerrar",
+        "Depende de ação do cliente"
+      ]
+    }
+  ],
+  "regras_decisorias": [
+    {
+      "id": "regra_01",
+      "nome": "Bloqueio por ausência de base mínima",
+      "condicao": "documentacao_minima=false",
+      "acao": "suspender_fluxo",
+      "resultado": "pendencia_documental"
+    },
+    {
+      "id": "regra_02",
+      "nome": "Bloqueio por condição inadequada de execução",
+      "condicao": "condicoes_execucao=false",
+      "acao": "registrar_bloqueio_tecnico",
+      "resultado": "nao_executado"
+    },
+    {
+      "id": "regra_03",
+      "nome": "Encaminhamento por indício técnico relevante",
+      "condicao": "indicio_passivo=true",
+      "acao": "abrir_encaminhamento_especifico",
+      "resultado": "analise_complementar"
+    },
+    {
+      "id": "regra_04",
+      "nome": "Controle de recorrência",
+      "condicao": "monitoramento_futuro=sim",
+      "acao": "gerar_alerta_controle",
+      "resultado": "monitoramento_programado"
+    }
+  ],
+  "documentos": [
+    {
+      "id": "ficha_abertura",
+      "titulo": "Ficha de Abertura",
+      "categoria": "interno",
+      "origem_pasta": "05_MODELOS",
+      "campos_chave": [
+        "cliente",
+        "empreendimento",
+        "contato",
+        "escopo",
+        "data_abertura",
+        "responsavel_interno"
+      ]
+    },
+    {
+      "id": "checklist_documental_inicial",
+      "titulo": "Checklist Documental Inicial",
+      "categoria": "interno",
+      "origem_pasta": "04_CHECKLISTS",
+      "campos_chave": [
+        "documento",
+        "recebido",
+        "observacao"
+      ]
+    },
+    {
+      "id": "ordem_servico",
+      "titulo": "Ordem de Serviço",
+      "categoria": "operacional",
+      "origem_pasta": "05_MODELOS",
+      "campos_chave": [
+        "numero_os",
+        "cliente",
+        "data_execucao",
+        "equipe",
+        "escopo"
+      ]
+    },
+    {
+      "id": "ficha_pre_campo",
+      "titulo": "Ficha Pré-Campo",
+      "categoria": "campo",
+      "origem_pasta": "04_CHECKLISTS",
+      "campos_chave": [
+        "condicoes_acesso",
+        "identificacao_sistema",
+        "interferencias",
+        "observacoes"
+      ]
+    },
+    {
+      "id": "boletim_campo",
+      "titulo": "Boletim de Campo",
+      "categoria": "campo",
+      "origem_pasta": "05_MODELOS",
+      "campos_chave": [
+        "parametros_execucao",
+        "sequencia_operacional",
+        "ocorrencias",
+        "resultado_bruto"
+      ]
+    },
+    {
+      "id": "registro_evidencias",
+      "titulo": "Registro de Evidências",
+      "categoria": "anexo",
+      "origem_pasta": "05_MODELOS",
+      "campos_chave": [
+        "fotos",
+        "legendas",
+        "timestamp",
+        "responsavel_registro"
+      ]
+    },
+    {
+      "id": "parecer_tecnico_interno",
+      "titulo": "Parecer Técnico Interno",
+      "categoria": "tecnico",
+      "origem_pasta": "06_DECISAO_E_PASSIVO",
+      "campos_chave": [
+        "analise",
+        "classificacao",
+        "restricoes",
+        "encaminhamento"
+      ]
+    },
+    {
+      "id": "laudo_estanqueidade",
+      "titulo": "Laudo de Estanqueidade",
+      "categoria": "final",
+      "origem_pasta": "05_MODELOS",
+      "campos_chave": [
+        "identificacao",
+        "objetivo",
+        "metodologia",
+        "resultado",
+        "conclusao",
+        "responsavel_tecnico"
+      ]
+    },
+    {
+      "id": "anexo_fotografico",
+      "titulo": "Anexo Fotográfico",
+      "categoria": "anexo",
+      "origem_pasta": "05_MODELOS",
+      "campos_chave": [
+        "imagem",
+        "descricao",
+        "local",
+        "data"
+      ]
+    },
+    {
+      "id": "anexo_checklists",
+      "titulo": "Anexo de Checklists",
+      "categoria": "anexo",
+      "origem_pasta": "04_CHECKLISTS",
+      "campos_chave": [
+        "checklist",
+        "status",
+        "responsavel"
+      ]
+    },
+    {
+      "id": "registro_historico",
+      "titulo": "Registro de Histórico",
+      "categoria": "controle",
+      "origem_pasta": "07_CONTROLE",
+      "campos_chave": [
+        "cliente",
+        "unidade",
+        "data",
+        "resultado",
+        "observacoes"
+      ]
+    },
+    {
+      "id": "painel_controle",
+      "titulo": "Painel de Controle",
+      "categoria": "controle",
+      "origem_pasta": "09_PAINEL_HTML",
+      "campos_chave": [
+        "status_atendimento",
+        "criticidade",
+        "proxima_acao",
+        "prazo"
+      ]
+    }
+  ],
+  "matriz_regulatoria": {
+    "status": "preparada_para_vinculo_com_fontes_reais",
+    "itens": [
+      {
+        "id": "mr_01",
+        "tema": "Normas técnicas aplicáveis",
+        "descricao": "Bloco para vínculo com referências normativas e critérios técnicos efetivamente utilizados pela operação.",
+        "fonte": null,
+        "trecho": null,
+        "validado": false
+      },
+      {
+        "id": "mr_02",
+        "tema": "Critérios de emissão documental",
+        "descricao": "Bloco para vincular exigências formais, estrutura documental e requisitos mínimos de consistência.",
+        "fonte": null,
+        "trecho": null,
+        "validado": false
+      },
+      {
+        "id": "mr_03",
+        "tema": "Critérios de encaminhamento técnico",
+        "descricao": "Bloco para amarrar situações de reprovação, inconclusão, restrição e aprofundamento.",
+        "fonte": null,
+        "trecho": null,
+        "validado": false
+      }
+    ]
+  },
+  "fontes": {
+    "pastas_origem": [
+      {
+        "id": "src_00",
+        "pasta": "00_INDICE_E_FONTES",
+        "tipo": "indice_fontes",
+        "descricao": "Base para mapear fontes oficiais, normas, legislação e referências"
+      },
+      {
+        "id": "src_01",
+        "pasta": "01_MATRIZ_REGULATORIA",
+        "tipo": "regulatorio",
+        "descricao": "Base para obrigações, critérios e enquadramentos"
+      },
+      {
+        "id": "src_02",
+        "pasta": "02_IMPLANTACAO_EMPRESA",
+        "tipo": "implantacao",
+        "descricao": "Base para estruturação do serviço na empresa"
+      },
+      {
+        "id": "src_03",
+        "pasta": "03_POPS",
+        "tipo": "procedimento",
+        "descricao": "Base para fluxos operacionais detalhados"
+      },
+      {
+        "id": "src_04",
+        "pasta": "04_CHECKLISTS",
+        "tipo": "checklist",
+        "descricao": "Base para itens de verificação"
+      },
+      {
+        "id": "src_05",
+        "pasta": "05_MODELOS",
+        "tipo": "modelo_documental",
+        "descricao": "Base para formulários, laudos e anexos"
+      },
+      {
+        "id": "src_06",
+        "pasta": "06_DECISAO_E_PASSIVO",
+        "tipo": "decisorio",
+        "descricao": "Base para regras de decisão e possíveis encaminhamentos"
+      },
+      {
+        "id": "src_07",
+        "pasta": "07_CONTROLE",
+        "tipo": "controle",
+        "descricao": "Base para rastreabilidade, histórico e governança"
+      },
+      {
+        "id": "src_08",
+        "pasta": "08_REFERENCIA_ABNT",
+        "tipo": "normativo",
+        "descricao": "Base para padrões e referências normativas"
+      },
+      {
+        "id": "src_09",
+        "pasta": "09_PAINEL_HTML",
+        "tipo": "interface",
+        "descricao": "Base para componentes, navegação e layout do painel"
+      }
+    ]
+  },
+  "componentes_html": [
+    {
+      "id": "cmp_sidebar",
+      "tipo": "sidebar",
+      "usa_dados_de": [
+        "ui.sidebar.sections"
+      ]
+    },
+    {
+      "id": "cmp_dashboard_cards",
+      "tipo": "cards",
+      "usa_dados_de": [
+        "dashboard.cards"
+      ]
+    },
+    {
+      "id": "cmp_fluxo_operacional",
+      "tipo": "timeline_tree",
+      "usa_dados_de": [
+        "fluxos"
+      ]
+    },
+    {
+      "id": "cmp_checklists",
+      "tipo": "accordion_checklist",
+      "usa_dados_de": [
+        "checklists"
+      ]
+    },
+    {
+      "id": "cmp_decisoes",
+      "tipo": "decision_cards",
+      "usa_dados_de": [
+        "decisoes",
+        "regras_decisorias"
+      ]
+    },
+    {
+      "id": "cmp_documentos",
+      "tipo": "document_library",
+      "usa_dados_de": [
+        "documentos"
+      ]
+    },
+    {
+      "id": "cmp_matriz_regulatoria",
+      "tipo": "reference_table",
+      "usa_dados_de": [
+        "matriz_regulatoria.itens"
+      ]
+    },
+    {
+      "id": "cmp_fontes",
+      "tipo": "source_tree",
+      "usa_dados_de": [
+        "fontes.pastas_origem"
+      ]
+    }
+  ],
+  "filtros": {
+    "por_categoria": [
+      "documental",
+      "operacional",
+      "campo",
+      "tecnica",
+      "controle",
+      "regulatorio"
+    ],
+    "por_status": [
+      "pendente",
+      "em_analise",
+      "apto",
+      "bloqueado",
+      "concluido"
+    ],
+    "por_criticidade": [
+      "baixa",
+      "media",
+      "alta"
+    ]
+  },
+  "metadados": {
+    "criado_para": "Interface navegável de estanqueidade SASC",
+    "objetivo_uso": [
+      "alimentar HTML",
+      "servir de base para JS",
+      "padronizar interface",
+      "integrar conteúdo técnico"
+    ],
+    "observacao": "Estrutura pronta para ser enriquecida com o conteúdo real dos arquivos das pastas."
+  }
+}

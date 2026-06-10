@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../Downloads/habilis-fluxo-operacional-vscode/assets"
+		},
+		{
+			"path": "../../Downloads/habilis-fluxo-operacional-vscode/css"
+		},
+		{
+			"path": "../../Downloads/habilis-fluxo-operacional-vscode/js"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Projetos VS CODE"
+	}
+}

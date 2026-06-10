@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documento Técnico-Executivo · Regularização Ambiental · Auto Posto América · v2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1B5E20;
+  --verde-m: #2E7D32;
+  --verde-l: #4CAF50;
+  --verde-bg: #E8F5E9;
+  --verde-mid: #C8E6C9;
+  --amber: #F57F17;
+  --amber-l: #FFA000;
+  --amber-bg: #FFF8E1;
+  --vermelho: #B71C1C;
+  --vermelho-l: #E53935;
+  --vermelho-bg: #FFEBEE;
+  --azul: #0D47A1;
+  --azul-l: #1976D2;
+  --azul-bg: #E3F2FD;
+  --cinza-9: #1C1C1E;
+  --cinza-7: #3A3A3C;
+  --cinza-5: #6C6C70;
+  --cinza-3: #AEAEB2;
+  --cinza-1: #F2F2F7;
+  --cinza-0: #FAFAFA;
+  --borda: #E5E5EA;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cinza-1);
+  color: var(--cinza-9);
+  font-size: 10.5pt;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: 'DM Mono', monospace; }
+
+/* ========== PÁGINA A4 ========== */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 14mm auto;
+  background: #fff;
+  padding: 16mm 16mm 14mm;
+  box-shadow: 0 4px 28px rgba(0,0,0,.08);
+  position: relative;
+  page-break-after: always;
+}
+.page:last-child { page-break-after: auto; }
+
+.runhead {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid var(--borda);
+  padding-bottom: 5px; margin-bottom: 12px;
+  font-family: 'DM Mono', monospace; font-size: 8pt;
+  color: var(--cinza-5); letter-spacing: .04em; text-transform: uppercase;
+}
+.runhead strong { color: var(--verde); font-weight: 600; }
+
+.runfoot {
+  position: absolute;
+  bottom: 9mm; left: 16mm; right: 16mm;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--borda);
+  padding-top: 5px;
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .04em;
+}
+
+/* ========== CAPA ========== */
+.cover {
+  background: linear-gradient(180deg, #E8F5E9 0%, #F1F8F2 45%, #FAFAFA 100%);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 24mm 20mm;
+}
+.cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: linear-gradient(180deg, #164E1A 0%, #1B5E20 55%, #2E7D32 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 16px;
+}
+.brand-name { font-size: 15pt; font-weight: 600; color: var(--verde); letter-spacing: -.01em; }
+.brand-tag {
+  font-family: 'DM Mono', monospace; font-size: 8.5pt;
+  color: var(--cinza-5); letter-spacing: .04em; margin-top: 1px;
+}
+.cover-ref {
+  text-align: right; font-family: 'DM Mono', monospace;
+  font-size: 8.5pt; color: var(--cinza-5); letter-spacing: .04em;
+  line-height: 1.55;
+}
+.cover-ref strong { color: var(--cinza-9); font-weight: 600; }
+
+.cover-mid { margin-top: 30mm; }
+.cover-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 10pt;
+  color: var(--verde); letter-spacing: .22em; text-transform: uppercase;
+  font-weight: 600;
+}
+.cover-title {
+  font-size: 30pt; font-weight: 600; letter-spacing: -.02em; line-height: 1.1;
+  color: var(--cinza-9); margin-top: 8px;
+}
+.cover-sub {
+  font-size: 13pt; color: var(--cinza-7);
+  margin-top: 10px; line-height: 1.3;
+}
+.cover-lede {
+  margin-top: 16mm; max-width: 140mm;
+  font-size: 11pt; color: var(--cinza-7); line-height: 1.55;
+}
+.cover-lede strong { color: var(--cinza-9); font-weight: 600; }
+
+.cover-foot {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  padding-top: 12px; border-top: 1px solid var(--verde-mid);
+}
+.cover-foot-l {
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .1em; text-transform: uppercase;
+}
+.cover-foot-v { font-size: 10pt; color: var(--cinza-9); font-weight: 500; margin-top: 2px; }
+.cover-foot-v.mono { font-family: 'DM Mono', monospace; }
+
+/* ========== TIPOGRAFIA ========== */
+h2.section {
+  font-size: 15pt; color: var(--verde); font-weight: 600;
+  padding-bottom: 6px; border-bottom: 2px solid var(--verde);
+  margin-bottom: 12px;
+  display: flex; align-items: baseline; gap: 10px;
+}
+h2.section .n {
+  font-family: 'DM Mono', monospace; font-size: 10.5pt;
+  color: var(--verde-l); font-weight: 500;
+}
+h3 {
+  font-size: 11.5pt; color: var(--cinza-9); font-weight: 600;
+  margin-top: 12px; margin-bottom: 5px;
+  padding-left: 8px; border-left: 3px solid var(--verde);
+}
+h4 {
+  font-size: 9.5pt; color: var(--cinza-7); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .08em;
+  margin-top: 8px; margin-bottom: 3px;
+}
+p { margin-bottom: 6px; color: var(--cinza-7); }
+p strong { color: var(--cinza-9); font-weight: 600; }
+
+.lede {
+  font-size: 11pt; line-height: 1.55; color: var(--cinza-9);
+  padding: 10px 12px; background: var(--verde-bg);
+  border-left: 3px solid var(--verde);
+  margin-bottom: 12px;
+}
+
+ul, ol { padding-left: 18px; margin-bottom: 6px; }
+ul li, ol li { color: var(--cinza-7); margin-bottom: 2px; }
+ul li strong, ol li strong { color: var(--cinza-9); font-weight: 600; }
+
+/* ========== CALLOUTS ========== */
+.callout {
+  border-left: 3px solid var(--verde);
+  padding: 9px 12px;
+  background: var(--verde-bg);
+  margin: 8px 0;
+  border-radius: 0 4px 4px 0;
+}
+.callout.amber { border-left-color: var(--amber); background: var(--amber-bg); }
+.callout.red { border-left-color: var(--vermelho); background: var(--vermelho-bg); }
+.callout.blue { border-left-color: var(--azul); background: var(--azul-bg); }
+.callout h4 { margin-top: 0; color: var(--cinza-9); }
+
+/* ========== TABELAS ========== */
+table {
+  width: 100%; border-collapse: collapse; margin: 6px 0 10px;
+  font-size: 9pt;
+}
+th {
+  background: var(--verde); color: #fff;
+  font-weight: 600; text-align: left;
+  padding: 6px 8px;
+  font-size: 8pt; letter-spacing: .05em; text-transform: uppercase;
+  border-bottom: 2px solid var(--verde-m);
+}
+td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--borda);
+  color: var(--cinza-7); vertical-align: top;
+}
+td strong { color: var(--cinza-9); font-weight: 600; }
+tr:nth-child(even) td { background: var(--cinza-0); }
+tr:last-child td { border-bottom: 1px solid var(--verde-mid); }
+
+.badge {
+  display: inline-block; font-family: 'DM Mono', monospace;
+  font-size: 7.5pt; font-weight: 600;
+  padding: 2px 6px; border-radius: 3px;
+  letter-spacing: .04em; white-space: nowrap;
+}
+.badge.ok    { background: var(--verde-bg); color: var(--verde); }
+.badge.part  { background: var(--amber-bg); color: var(--amber); }
+.badge.miss  { background: var(--vermelho-bg); color: var(--vermelho); }
+.badge.info  { background: var(--azul-bg); color: var(--azul); }
+.badge.neut  { background: var(--cinza-1); color: var(--cinza-7); }
+.badge.f1    { background: var(--verde-bg); color: var(--verde); }
+.badge.f2    { background: #D1E8D4; color: var(--verde-m); }
+.badge.f3    { background: var(--amber-bg); color: var(--amber); }
+.badge.f4    { background: var(--vermelho-bg); color: var(--vermelho); }
+
+/* ========== KPIs ========== */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; margin: 8px 0 12px;
+}
+.kpi-card {
+  padding: 9px 11px;
+  background: var(--cinza-0);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  border-top: 3px solid var(--verde);
+}
+.kpi-card .l {
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .08em; text-transform: uppercase;
+}
+.kpi-card .v {
+  font-size: 16pt; font-weight: 600; color: var(--cinza-9);
+  line-height: 1.1; margin-top: 3px;
+  font-family: 'DM Mono', monospace;
+}
+.kpi-card .s { font-size: 8pt; color: var(--cinza-5); margin-top: 1px; }
+.kpi-card.amber { border-top-color: var(--amber); }
+.kpi-card.red { border-top-color: var(--vermelho); }
+.kpi-card.blue { border-top-color: var(--azul); }
+
+/* ========== ESCOPO SPLIT ========== */
+.scope-split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin: 8px 0 12px;
+}
+.scope-box {
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--borda);
+}
+.scope-box.in {
+  background: var(--verde-bg);
+  border-color: var(--verde-mid);
+  border-left: 4px solid var(--verde);
+}
+.scope-box.out {
+  background: var(--cinza-0);
+  border-left: 4px solid var(--cinza-3);
+}
+.scope-tag {
+  font-family: 'DM Mono', monospace; font-size: 8pt;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 3px; font-weight: 600;
+  display: inline-block; margin-bottom: 6px;
+}
+.scope-tag.in { background: var(--verde); color: #fff; }
+.scope-tag.out { background: var(--cinza-5); color: #fff; }
+.scope-box h3 {
+  border: none; padding: 0; margin: 0 0 6px 0;
+  font-size: 12pt; color: var(--cinza-9);
+}
+.scope-box ul { padding-left: 16px; font-size: 9.5pt; margin-bottom: 6px; }
+.scope-box ul li { margin-bottom: 2px; }
+.scope-box .note {
+  font-size: 9pt; color: var(--cinza-5);
+  padding-top: 6px; border-top: 1px dashed var(--borda);
+  margin-top: 6px; font-style: italic;
+}
+
+/* ========== CRONOGRAMA ========== */
+.phases {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 6px; margin: 8px 0 10px;
+}
+.phase {
+  padding: 10px;
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  background: #fff;
+  border-top: 3px solid var(--verde);
+}
+.phase.p2 { border-top-color: var(--verde-l); }
+.phase.p3 { border-top-color: var(--amber); }
+.phase.p4 { border-top-color: var(--vermelho); }
+.phase-n {
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .1em; text-transform: uppercase;
+}
+.phase-title { font-size: 11pt; font-weight: 600; color: var(--cinza-9); margin: 2px 0 3px; }
+.phase-date { font-family: 'DM Mono', monospace; font-size: 8.5pt; color: var(--cinza-5); margin-bottom: 5px; }
+.phase-obj {
+  font-size: 8.5pt; color: var(--cinza-7); line-height: 1.35;
+  padding-bottom: 5px; border-bottom: 1px dashed var(--borda); margin-bottom: 5px;
+}
+.phase-list { font-size: 8.5pt; color: var(--cinza-7); padding-left: 14px; }
+.phase-list li { margin-bottom: 1px; }
+
+/* ========== RESPONSABILIDADES (4 boxes) ========== */
+.raci-4 {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin: 8px 0 10px;
+}
+.raci-box {
+  padding: 11px 12px;
+  background: var(--cinza-0);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  border-left: 3px solid var(--verde);
+}
+.raci-box.cliente { border-left-color: var(--azul); }
+.raci-box.terc { border-left-color: var(--cinza-5); }
+.raci-box.indic { border-left-color: var(--amber); }
+.raci-box h4 { margin-top: 0; color: var(--cinza-9); font-size: 10pt; }
+.raci-box .sub {
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .1em; text-transform: uppercase;
+  margin-top: -3px; margin-bottom: 5px;
+}
+.raci-box ul { padding-left: 16px; font-size: 9pt; }
+.raci-box ul li { margin-bottom: 2px; }
+
+/* ========== PRINT ========== */
+@media print {
+  body { background: #fff; font-size: 9.5pt; }
+  .page {
+    box-shadow: none; margin: 0; padding: 14mm 14mm 12mm;
+    width: auto; min-height: auto;
+  }
+  .runfoot { position: fixed; bottom: 7mm; left: 14mm; right: 14mm; }
+  h2.section { page-break-after: avoid; }
+  tr { page-break-inside: avoid; }
+  .callout, .kpi-card, .phase, .raci-box, .scope-box { page-break-inside: avoid; }
+  @page { size: A4; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- =============== CAPA =============== -->
+<section class="page cover">
+  <div class="cover-top">
+    <div class="brand">
+      <div class="brand-mark">H</div>
+      <div>
+        <div class="brand-name">Hábilis</div>
+        <div class="brand-tag">Regularização Ambiental</div>
+      </div>
+    </div>
+    <div class="cover-ref">
+      <strong>Documento Técnico-Executivo</strong><br>
+      Versão 2.0 · Confidencial<br>
+      Abril de 2026
+    </div>
+  </div>
+
+  <div class="cover-mid">
+    <div class="cover-eyebrow">Processo de Regularização Ambiental</div>
+    <div class="cover-title">Auto Posto América</div>
+    <div class="cover-sub">Renovação LAO 033/2020 · SEMMA Guapó · Processo 22760/2020</div>
+
+    <p class="cover-lede">
+      Panorama técnico-executivo da condução do processo, destinado ao
+      <strong>Grupo Z+Z</strong>. Consolida escopo contratado, status atual, pendências,
+      checklist operacional, cronograma e responsabilidades até o protocolo de renovação.
+    </p>
+  </div>
+
+  <div class="cover-foot">
+    <div><div class="cover-foot-l">Destinatário</div><div class="cover-foot-v">Grupo Z+Z</div></div>
+    <div><div class="cover-foot-l">Emissor</div><div class="cover-foot-v">Hábilis</div></div>
+    <div><div class="cover-foot-l">Referência</div><div class="cover-foot-v mono">LAO 033/2020</div></div>
+    <div><div class="cover-foot-l">Emissão</div><div class="cover-foot-v mono">17/04/2026</div></div>
+  </div>
+</section>
+
+<!-- =============== 01 · RESUMO =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Regularização Ambiental</span>
+    <span>Resumo Executivo</span>
+  </div>
+
+  <h2 class="section"><span class="n">01</span> Resumo Executivo</h2>
+
+  <p class="lede">
+    O Auto Posto América opera sob a <strong>LAO 033/2020</strong>, vencimento
+    <strong>23/12/2026</strong>. O protocolo de renovação deve ocorrer até
+    <strong>24/08/2026</strong> — 120 dias antes do vencimento — para preservar a prorrogação
+    automática (CONAMA 237/97). Processo em condução, base documental sólida porém incompleta,
+    pronto para avançar à etapa de campo.
+  </p>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="l">Prazo · Protocolo</div>
+      <div class="v">24/08</div>
+      <div class="s">128 dias a partir de hoje</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="l">Vencimento LAO</div>
+      <div class="v">23/12</div>
+      <div class="s">249 dias a partir de hoje</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="l">Escopo contratado</div>
+      <div class="v">3</div>
+      <div class="s">frentes · uso do solo, LAO, condicionantes</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="l">Bloqueadora crítica</div>
+      <div class="v">LAI</div>
+      <div class="s">008/2020 expirada em 31/03</div>
+    </div>
+  </div>
+
+  <h3>Cenário</h3>
+  <p>
+    A base documental recebida em 14/04 cobre cerca de metade do rol exigido pela SEMMA.
+    Peças estruturais (LAO, RGI, plantas, estanqueidade, análises) estão em mãos. Pendem
+    certidões municipais, atualizações documentais, nova coleta laboratorial e inspeção
+    técnica. Nenhum indício de fato impeditivo à renovação.
+  </p>
+
+  <h3>Decisões sob o Grupo Z+Z (próximas 2 semanas)</h3>
+  <ul>
+    <li><strong>LAI 008/2020:</strong> definir caminho de regularização da licença de instalação expirada.</li>
+    <li><strong>Uso do Solo:</strong> autorizar Hábilis a protocolar requerimento junto à Prefeitura de Guapó.</li>
+    <li><strong>Inspeção de campo:</strong> liberar janela operacional na unidade.</li>
+    <li><strong>Responsável técnico:</strong> indicar profissional para emissão de ART no CREA/CAU.</li>
+  </ul>
+
+  <div class="callout">
+    <h4>Posição técnica</h4>
+    <p style="margin:0;">
+      Processo <strong>viável no prazo</strong>. Decisões tomadas até 30/04 mantêm o cronograma
+      confortável. Atrasos acima de 30 dias comprimem a margem, sem inviabilizar o protocolo.
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Regularização Ambiental</span><span>02 / 10</span>
+  </div>
+</section>
+
+<!-- =============== 02 · ESCOPO =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Regularização Ambiental</span>
+    <span>Delimitação de Escopo</span>
+  </div>
+
+  <h2 class="section"><span class="n">02</span> Delimitação de Escopo</h2>
+
+  <p>
+    Esta seção delimita o que está contratado com a Hábilis neste momento e o que fica fora
+    do escopo atual. A separação é essencial para dirigir a atenção do cliente ao que efetivamente
+    drive o protocolo de renovação em 24/08.
+  </p>
+
+  <div class="scope-split">
+    <div class="scope-box in">
+      <div class="scope-tag in">Regularização · Escopo contratado</div>
+      <h3>O que a Hábilis está conduzindo</h3>
+      <ul>
+        <li><strong>Uso do Solo</strong> — Certidão de Uso e Ocupação (Prefeitura de Guapó)</li>
+        <li><strong>Renovação da LAO 033/2020</strong> — dossiê técnico, relatório consolidado, protocolo no Processo SEMMA 22760/2020</li>
+        <li><strong>Condicionantes da LAO vigente</strong> — plano de atendimento e evidenciação das 14 condicionantes</li>
+      </ul>
+      <div class="note">
+        Frentes com impacto direto no recebimento e deferimento do protocolo de renovação
+        pela SEMMA Guapó.
+      </div>
+    </div>
+
+    <div class="scope-box out">
+      <div class="scope-tag out">Compliance · Fora do escopo atual</div>
+      <h3>O que não está contratado neste momento</h3>
+      <ul>
+        <li><strong>ANP</strong> — cadastro, declarações e obrigações junto à Agência Nacional do Petróleo</li>
+        <li><strong>IBAMA</strong> — CTF/APP, RAPP e demais obrigações federais</li>
+        <li><strong>NR-20</strong> — segurança do trabalho com inflamáveis e combustíveis</li>
+        <li><strong>Resíduos (PNRS)</strong> — plano de gerenciamento, MTR e destinação</li>
+        <li><strong>Monitoramentos contínuos</strong> — rotinas periódicas pós-protocolo (água, efluentes, vapores)</li>
+      </ul>
+      <div class="note">
+        O compliance não faz parte do escopo contratado neste momento, podendo ser tratado
+        posteriormente em contrato específico.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <h4>Observação importante</h4>
+    <p style="margin:0;">
+      Autuações nessas frentes de compliance — ainda que fora do escopo atual da Hábilis —
+      podem gerar impacto reputacional e financeiro ao titular e, em casos extremos, contaminar
+      a análise do processo de renovação pela SEMMA. Recomenda-se tratá-las em janela
+      posterior, após estabilização da LAO renovada.
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Regularização Ambiental</span><span>03 / 10</span>
+  </div>
+</section>
+
+<!-- =============== 03 · HISTÓRICO =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Regularização Ambiental</span>
+    <span>Histórico da Condução</span>
+  </div>
+
+  <h2 class="section"><span class="n">03</span> Histórico da Condução</h2>
+
+  <p>Marcos objetivos desde a contratação até a emissão deste documento.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 16%;">Data</th>
+        <th style="width: 28%;">Evento</th>
+        <th style="width: 56%;">Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono"><strong>Março/2026</strong></td>
+        <td><strong>Contratação</strong></td>
+        <td>Formalização do escopo de renovação da LAO 033/2020 e abertura de processo interno.</td>
+      </tr>
+      <tr>
+        <td class="mono"><strong>Início abr/2026</strong></td>
+        <td><strong>Levantamento regulatório</strong></td>
+        <td>Checklist interno de exigências SEMMA cruzado com as 14 condicionantes da LAO vigente.</td>
+      </tr>
+      <tr>
+        <td class="mono"><strong>08/04/2026</strong></td>
+        <td><strong>Solicitação documental</strong></td>
+        <td>Envio ao Grupo Z+Z da lista priorizada de documentos necessários.</td>
+      </tr>
+      <tr>
+        <td class="mono"><strong>14/04/2026</strong></td>
+        <td><strong>Recebimento do 1º lote</strong></td>
+        <td>Entrada de 13 documentos. Triagem, classificação e análise cruzada iniciadas.</td>
+      </tr>
+      <tr>
+        <td class="mono"><strong>17/04/2026</strong></td>
+        <td><strong>Emissão deste documento</strong></td>
+        <td>Consolidação do status, pendências e cronograma ao Grupo Z+Z.</td>
+      </tr>
+      <tr>
+        <td class="mono"><strong>Próx. 2 semanas</strong></td>
+        <td><strong>Desbloqueio F1</strong></td>
+        <td>Aguardando decisões do cliente sobre LAI, uso do solo, janela de campo e RT.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Documentação recebida em 14/04/2026</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 34%;">Documento</th>
+        <th style="width: 11%;">Situação</th>
+        <th style="width: 13%;">Validade</th>
+        <th style="width: 42%;">Observação técnica</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>LAO 033/2020</strong></td>
+        <td><span class="badge ok">Vigente</span></td>
+        <td class="mono">23/12/2026</td>
+        <td>Peça-base do processo. Referencia as 14 condicionantes.</td>
+      </tr>
+      <tr>
+        <td><strong>RGI do imóvel · 2025</strong></td>
+        <td><span class="badge ok">Atual</span></td>
+        <td class="mono">Vigente</td>
+        <td>Aproveitável integralmente no protocolo.</td>
+      </tr>
+      <tr>
+        <td><strong>Extrato de Condicionantes · 05/2024</strong></td>
+        <td><span class="badge part">Desatualizado</span></td>
+        <td class="mono">05/2024</td>
+        <td>Referência interna. Requer revalidação contra status atual.</td>
+      </tr>
+      <tr>
+        <td><strong>Planta Baixa, SASC e mecânica · 05/2024</strong></td>
+        <td><span class="badge part">A validar</span></td>
+        <td class="mono">05/2024</td>
+        <td>Validação em campo. Exige nova ART se houve modificação.</td>
+      </tr>
+      <tr>
+        <td><strong>Planta de Piso · Nível 1</strong></td>
+        <td><span class="badge part">A validar</span></td>
+        <td class="mono">—</td>
+        <td>Mesmo procedimento de validação em campo.</td>
+      </tr>
+      <tr>
+        <td><strong>Mapa do Posto</strong></td>
+        <td><span class="badge ok">Ok</span></td>
+        <td class="mono">—</td>
+        <td>Suporta caracterização locacional.</td>
+      </tr>
+      <tr>
+        <td><strong>MCE</strong></td>
+        <td><span class="badge part">A revisar</span></td>
+        <td class="mono">—</td>
+        <td>Atualização pela Hábilis para refletir cenário 2026.</td>
+      </tr>
+      <tr>
+        <td><strong>Teste de Estanqueidade · 10/2024</strong></td>
+        <td><span class="badge ok">Vigente</span></td>
+        <td class="mono">10/2025 → 10/2026</td>
+        <td>Exigirá novo ensaio no 2º sem/2026 para o dossiê.</td>
+      </tr>
+      <tr>
+        <td><strong>Análise Qualitativa de Efluentes · 2024</strong></td>
+        <td><span class="badge part">Envelhecido</span></td>
+        <td class="mono">2024</td>
+        <td>Nova coleta em 2026, antes do protocolo.</td>
+      </tr>
+      <tr>
+        <td><strong>Análise de Água · Vida Ambiental 03/2024</strong></td>
+        <td><span class="badge part">Envelhecido</span></td>
+        <td class="mono">03/2024</td>
+        <td>Nova coleta em 2026, antes do protocolo.</td>
+      </tr>
+      <tr>
+        <td><strong>Dispensa de Outorga · 2023</strong></td>
+        <td><span class="badge part">Revalidar</span></td>
+        <td class="mono">2023</td>
+        <td>Confirmar vigência junto à SEMARH/GO.</td>
+      </tr>
+      <tr>
+        <td><strong>Despacho DNIT 4374748</strong></td>
+        <td><span class="badge ok">Ok</span></td>
+        <td class="mono">Definitivo</td>
+        <td>Viabilidade junto à faixa de domínio. Aproveitável.</td>
+      </tr>
+      <tr>
+        <td><strong>Cercon · Protocolo 161726</strong></td>
+        <td><span class="badge info">A analisar</span></td>
+        <td class="mono">—</td>
+        <td>Relevância definida em função do escopo final.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="runfoot">
+    <span>Hábilis · Regularização Ambiental</span><span>04 / 10</span>
+  </div>
+</section>
+
+<!-- =============== 04 · PANORAMA =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Regularização Ambiental</span>
+    <span>Panorama Atual</span>
+  </div>
+
+  <h2 class="section"><span class="n">04</span> Panorama Atual da Regularização</h2>
+
+  <p>Três frentes contratadas, tratadas em paralelo dentro do cronograma.</p>
+
+  <h3>4.1 Uso do Solo · Prefeitura de Guapó</h3>
+  <ul>
+    <li><strong>Documento:</strong> Certidão de Uso e Ocupação do Solo, atualizada.</li>
+    <li><strong>Status:</strong> frente aberta, aguardando autorização do Grupo Z+Z para protocolo municipal.</li>
+    <li><strong>Prazo municipal típico:</strong> 15 a 45 dias — protocolar até início de maio.</li>
+    <li><strong>Próximo passo:</strong> Hábilis monta o requerimento; Grupo Z+Z assina e recolhe taxa.</li>
+  </ul>
+
+  <h3>4.2 Renovação da LAO 033/2020 · SEMMA Guapó</h3>
+  <ul>
+    <li><strong>Processo:</strong> SEMMA 22760/2020 · 26 peças documentais obrigatórias.</li>
+    <li><strong>Status:</strong> cerca de 35% do dossiê montado com base nos documentos recebidos.</li>
+    <li><strong>Pendente:</strong> ART do RT, plantas validadas, relatório técnico consolidado, novos laudos, certidões.</li>
+    <li><strong>Próximo passo:</strong> inspeção de campo para confirmar a configuração atual e identificar eventuais intervenções não documentadas.</li>
+  </ul>
+
+  <h3>4.3 Condicionantes da LAO vigente</h3>
+  <ul>
+    <li><strong>Universo:</strong> 14 condicionantes técnicas.</li>
+    <li><strong>Status (cruzamento extrato 05/2024 × documentação recebida):</strong> 0 integralmente atendidas no padrão de evidência exigido · 9 parcialmente atendidas · 5 pendentes.</li>
+    <li><strong>Parciais (9):</strong> exigem recomposição de evidências documentais — relatórios, ARTs, comprovantes de destinação, laudos de ensaio.</li>
+    <li><strong>Pendentes (5):</strong> exigem execução física ou contratação de terceiros.</li>
+    <li><strong>Próximo passo:</strong> emissão do plano de atendimento, com responsável e prazo por condicionante.</li>
+  </ul>
+
+  <div class="callout blue">
+    <h4>Leitura técnica</h4>
+    <p style="margin:0;">
+      A base documental é boa. O gargalo está em <strong>temporalidade</strong> (análises
+      envelhecidas, extrato de condicionantes desatualizado) e em <strong>validação de
+      campo</strong> (plantas x configuração real). Nenhum item é de difícil recomposição
+      dentro do cronograma.
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Regularização Ambiental</span><span>05 / 10</span>
+  </div>
+</section>
+
+<!-- =============== 05 · CHECKLIST =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Regularização Ambiental</span>
+    <span>Checklist Executivo</span>
+  </div>
+
+  <h2 class="section"><span class="n">05</span> Checklist Executivo</h2>
+
+  <p>
+    Consolidação operacional de todas as pendências reais do escopo contratado, amarradas ao
+    cronograma (Fases F1 a F4). Serve como instrumento único de acompanhamento.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 32%;">Item</th>
+        <th style="width: 12%;">Status</th>
+        <th style="width: 20%;">Responsável</th>
+        <th style="width: 16%;">Prazo</th>
+        <th style="width: 8%;">Fase</th>
+        <th style="width: 12%;">Frente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Decisão sobre LAI 008/2020</strong></td>
+        <td><span class="badge miss">Bloqueadora</span></td>
+        <td>Cliente + Hábilis</td>
+        <td class="mono">30/04/2026</td>
+        <td><span class="badge f1">F1</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Autorização protocolo Uso do Solo</strong></td>
+        <td><span class="badge miss">Bloqueadora</span></td>
+        <td>Cliente</td>
+        <td class="mono">05/05/2026</td>
+        <td><span class="badge f1">F1</span></td>
+        <td>Uso do Solo</td>
+      </tr>
+      <tr>
+        <td><strong>Protocolo Certidão Uso e Ocupação</strong></td>
+        <td><span class="badge part">Em preparação</span></td>
+        <td>Hábilis</td>
+        <td class="mono">10/05/2026</td>
+        <td><span class="badge f1">F1</span></td>
+        <td>Uso do Solo</td>
+      </tr>
+      <tr>
+        <td><strong>Indicação do Responsável Técnico (RT)</strong></td>
+        <td><span class="badge miss">Pendente</span></td>
+        <td>Cliente</td>
+        <td class="mono">10/05/2026</td>
+        <td><span class="badge f1">F1</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Emissão de ART no CREA/CAU</strong></td>
+        <td><span class="badge miss">Pendente</span></td>
+        <td>RT (terceiro)</td>
+        <td class="mono">15/05/2026</td>
+        <td><span class="badge f1">F1</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Liberação de janela para inspeção</strong></td>
+        <td><span class="badge miss">Bloqueadora</span></td>
+        <td>Cliente</td>
+        <td class="mono">15/05/2026</td>
+        <td><span class="badge f1">F1</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Inspeção técnica de campo</strong></td>
+        <td><span class="badge neut">Agendar</span></td>
+        <td>Hábilis</td>
+        <td class="mono">20/05/2026</td>
+        <td><span class="badge f2">F2</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Validação em campo das plantas</strong></td>
+        <td><span class="badge neut">Agendar</span></td>
+        <td>Hábilis</td>
+        <td class="mono">20/05/2026</td>
+        <td><span class="badge f2">F2</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Nova análise de efluentes</strong></td>
+        <td><span class="badge neut">Contratar</span></td>
+        <td>Laboratório (terceiro)</td>
+        <td class="mono">10/06/2026</td>
+        <td><span class="badge f2">F2</span></td>
+        <td>Condicionantes</td>
+      </tr>
+      <tr>
+        <td><strong>Nova análise de água</strong></td>
+        <td><span class="badge neut">Contratar</span></td>
+        <td>Laboratório (terceiro)</td>
+        <td class="mono">10/06/2026</td>
+        <td><span class="badge f2">F2</span></td>
+        <td>Condicionantes</td>
+      </tr>
+      <tr>
+        <td><strong>Atualização do MCE</strong></td>
+        <td><span class="badge neut">Em produção</span></td>
+        <td>Hábilis</td>
+        <td class="mono">20/06/2026</td>
+        <td><span class="badge f2">F2</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Plano de atendimento das 14 condicionantes</strong></td>
+        <td><span class="badge neut">Em produção</span></td>
+        <td>Hábilis</td>
+        <td class="mono">30/05/2026</td>
+        <td><span class="badge f2">F2</span></td>
+        <td>Condicionantes</td>
+      </tr>
+      <tr>
+        <td><strong>Revalidação Dispensa de Outorga</strong></td>
+        <td><span class="badge part">Em análise</span></td>
+        <td>SEMARH + Hábilis</td>
+        <td class="mono">30/06/2026</td>
+        <td><span class="badge f2">F2</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Atendimento evidencial das condicionantes parciais (9)</strong></td>
+        <td><span class="badge part">Em execução</span></td>
+        <td>Hábilis + Cliente</td>
+        <td class="mono">31/07/2026</td>
+        <td><span class="badge f3">F3</span></td>
+        <td>Condicionantes</td>
+      </tr>
+      <tr>
+        <td><strong>Execução das condicionantes pendentes (5)</strong></td>
+        <td><span class="badge miss">A contratar</span></td>
+        <td>Terceiros + Hábilis</td>
+        <td class="mono">31/07/2026</td>
+        <td><span class="badge f3">F3</span></td>
+        <td>Condicionantes</td>
+      </tr>
+      <tr>
+        <td><strong>Novo teste de estanqueidade</strong></td>
+        <td><span class="badge neut">Contratar</span></td>
+        <td>Empresa credenciada (terceiro)</td>
+        <td class="mono">31/07/2026</td>
+        <td><span class="badge f3">F3</span></td>
+        <td>Condicionantes</td>
+      </tr>
+      <tr>
+        <td><strong>Revisão de plantas (se necessário)</strong></td>
+        <td><span class="badge info">Condicional</span></td>
+        <td>Projetista (terceiro)</td>
+        <td class="mono">15/07/2026</td>
+        <td><span class="badge f3">F3</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Relatório técnico consolidado (draft)</strong></td>
+        <td><span class="badge neut">Em produção</span></td>
+        <td>Hábilis</td>
+        <td class="mono">15/07/2026</td>
+        <td><span class="badge f3">F3</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Aprovação do relatório pelo cliente</strong></td>
+        <td><span class="badge neut">Futura</span></td>
+        <td>Cliente</td>
+        <td class="mono">05/08/2026</td>
+        <td><span class="badge f3">F3</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Checklist final cruzado</strong></td>
+        <td><span class="badge neut">Futura</span></td>
+        <td>Hábilis</td>
+        <td class="mono">20/08/2026</td>
+        <td><span class="badge f4">F4</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Pagamento de taxas de protocolo</strong></td>
+        <td><span class="badge neut">Futura</span></td>
+        <td>Cliente</td>
+        <td class="mono">22/08/2026</td>
+        <td><span class="badge f4">F4</span></td>
+        <td>LAO</td>
+      </tr>
+      <tr>
+        <td><strong>Protocolo no Processo SEMMA 22760/2020</strong></td>
+        <td><span class="badge neut">Marco final</span></td>
+        <td>Hábilis</td>
+        <td class="mono">24/08/2026</td>
+        <td><span class="badge f4">F4</span></td>
+        <td>LAO</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="runfoot">
+    <span>Hábilis · Regularização Ambiental</span><span>06 / 10</span>
+  </div>
+</section>
+
+<!-- =============== 06 · CRONOGRAMA =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Regularização Ambiental</span>
+    <span>Cronograma Operacional</span>
+  </div>
+
+  <h2 class="section"><span class="n">06</span> Cronograma Operacional</h2>
+
+  <p>
+    Quatro fases sequenciais com objetivo claro, entregáveis e dependências. O marco final é
+    o protocolo de renovação em <strong>24/08/2026</strong>.
+  </p>
+
+  <div class="phases">
+    <div class="phase">
+      <div class="phase-n">F1 · 30 dias</div>
+      <div class="phase-title">Desbloqueio</div>
+      <div class="phase-date">15/04 → 15/05</div>
+      <div class="phase-obj">
+        <strong>Objetivo:</strong> destravar pendências que dependem de decisão do cliente e abrir caminho para campo.
+      </div>
+      <ul class="phase-list">
+        <li>Decisão LAI 008/2020</li>
+        <li>Autorização e protocolo uso do solo</li>
+        <li>Indicação do RT e ART</li>
+        <li>Agendamento da inspeção</li>
+      </ul>
+    </div>
+
+    <div class="phase p2">
+      <div class="phase-n">F2 · 45 dias</div>
+      <div class="phase-title">Consolidação</div>
+      <div class="phase-date">15/05 → 30/06</div>
+      <div class="phase-obj">
+        <strong>Objetivo:</strong> validar realidade de campo e repor a base documental.
+      </div>
+      <ul class="phase-list">
+        <li>Inspeção técnica de campo</li>
+        <li>Atualização do MCE</li>
+        <li>Novas análises (água, efluentes)</li>
+        <li>Plano das 14 condicionantes</li>
+      </ul>
+    </div>
+
+    <div class="phase p3">
+      <div class="phase-n">F3 · 45 dias</div>
+      <div class="phase-title">Execução Técnica</div>
+      <div class="phase-date">01/07 → 15/08</div>
+      <div class="phase-obj">
+        <strong>Objetivo:</strong> produzir o dossiê e atender às condicionantes.
+      </div>
+      <ul class="phase-list">
+        <li>Relatório técnico consolidado</li>
+        <li>Atendimento das 14 condicionantes</li>
+        <li>Novo teste de estanqueidade</li>
+        <li>Revisão de plantas (se aplicável)</li>
+      </ul>
+    </div>
+
+    <div class="phase p4">
+      <div class="phase-n">F4 · 9 dias</div>
+      <div class="phase-title">Protocolo SEMMA</div>
+      <div class="phase-date">16/08 → 24/08</div>
+      <div class="phase-obj">
+        <strong>Objetivo:</strong> submeter o dossiê completo no prazo ideal.
+      </div>
+      <ul class="phase-list">
+        <li>Checklist final cruzado</li>
+        <li>Assinaturas e taxas</li>
+        <li>Submissão no 22760/2020</li>
+        <li>Acompanhamento pós-protocolo</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Dependências</h3>
+  <ul>
+    <li><strong>F1 → F2:</strong> inspeção só ocorre com decisão LAI tomada e uso do solo protocolado.</li>
+    <li><strong>F2 → F3:</strong> relatório depende do MCE atualizado e dos novos laudos laboratoriais.</li>
+    <li><strong>F3 → F4:</strong> protocolo depende do atendimento evidenciado das condicionantes e da aprovação formal do relatório pelo Grupo Z+Z.</li>
+  </ul>
+
+  <div class="callout red">
+    <h4>Marco crítico · 24/08/2026</h4>
+    <p style="margin:0;">
+      Protocolar após 24/08 ainda é válido até 23/12. Após 23/12, o empreendimento opera sem
+      licença vigente — sujeito a embargo, multa (R$ 500 a R$ 10 MM) e responsabilização
+      criminal do titular (Lei 9.605/98).
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Regularização Ambiental</span><span>07 / 10</span>
+  </div>
+</section>
+
+<!-- =============== 07 · RESPONSABILIDADES =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Regularização Ambiental</span>
+    <span>Responsabilidades</span>
+  </div>
+
+  <h2 class="section"><span class="n">07</span> Responsabilidades</h2>
+
+  <p>
+    Atribuição operacional. Separa o que a Hábilis executa diretamente, o que depende do cliente,
+    o que passa por terceiros obrigatórios e o que a Hábilis conduz em caráter de consultoria
+    e validação.
+  </p>
+
+  <div class="raci-4">
+    <div class="raci-box">
+      <h4>1 · Hábilis — execução técnica direta</h4>
+      <div class="sub">Conduz e entrega</div>
+      <ul>
+        <li>Análise documental e gestão do checklist</li>
+        <li>Inspeção técnica de campo e parecer interno</li>
+        <li>Atualização do MCE</li>
+        <li>Plano de atendimento das 14 condicionantes</li>
+        <li>Relatório técnico consolidado</li>
+        <li>Montagem e protocolo do dossiê no 22760/2020</li>
+        <li>Interlocução com a SEMMA e acompanhamento pós-protocolo</li>
+      </ul>
+    </div>
+
+    <div class="raci-box cliente">
+      <h4>2 · Cliente (Grupo Z+Z) — decisão e liberação</h4>
+      <div class="sub">Decide, autoriza, paga, assina</div>
+      <ul>
+        <li>Decisões sobre pendências bloqueadoras (LAI, uso do solo, janela de campo)</li>
+        <li>Indicação do Responsável Técnico externo</li>
+        <li>Assinaturas em requerimentos, procurações e formulários</li>
+        <li>Pagamento de taxas (municipais, SEMMA, laboratórios, terceiros)</li>
+        <li>Liberação operacional da unidade para inspeção</li>
+        <li>Aprovação formal do relatório técnico antes do protocolo</li>
+        <li>Retorno em até 5 dias úteis às solicitações formais da Hábilis</li>
+      </ul>
+    </div>
+
+    <div class="raci-box terc">
+      <h4>3 · Terceiros obrigatórios</h4>
+      <div class="sub">Atuação obrigatória por força normativa</div>
+      <ul>
+        <li><strong>SEMMA Guapó</strong> — órgão licenciador</li>
+        <li><strong>Prefeitura de Guapó</strong> — Certidão de Uso e Ocupação</li>
+        <li><strong>SEMARH/GO</strong> — dispensa de outorga</li>
+        <li><strong>Responsável Técnico (CREA/CAU)</strong> — emissão de ART</li>
+        <li><strong>Laboratórios acreditados</strong> — análises de água e efluentes</li>
+        <li><strong>Empresa credenciada</strong> — teste de estanqueidade</li>
+        <li><strong>Projetista (se aplicável)</strong> — revisão de plantas</li>
+      </ul>
+    </div>
+
+    <div class="raci-box indic">
+      <h4>4 · Hábilis — consultoria e indicação</h4>
+      <div class="sub">Orienta, valida, não executa</div>
+      <ul>
+        <li>Indicação de laboratórios e profissionais de mercado</li>
+        <li>Validação técnica de laudos e ARTs emitidos por terceiros</li>
+        <li>Revisão de escopo de serviços terceirizados</li>
+        <li>Orientação sobre o melhor caminho técnico em pendências complexas</li>
+        <li>Interface com terceiros para garantir aderência ao dossiê da SEMMA</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <h4>Delimitação de atuação</h4>
+    <p style="margin:0;">
+      A Hábilis não executa serviços que exigem profissionais específicos (ensaios laboratoriais,
+      emissão de ART, estanqueidade, projeto arquitetônico), <strong>atuando apenas na
+      orientação e validação técnica</strong>. Esses serviços são contratados pelo Grupo Z+Z
+      junto a terceiros, com indicação e acompanhamento da Hábilis.
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Regularização Ambiental</span><span>08 / 10</span>
+  </div>
+</section>
+
+<!-- =============== 08 · CONCLUSÃO =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Regularização Ambiental</span>
+    <span>Conclusão Técnica</span>
+  </div>
+
+  <h2 class="section"><span class="n">08</span> Conclusão Técnica</h2>
+
+  <p class="lede">
+    Base de regularidade consolidada, processo viável, pronto para campo. O cumprimento do
+    prazo de 24/08 depende essencialmente de <strong>decisões do Grupo Z+Z nas próximas duas
+    semanas</strong>.
+  </p>
+
+  <h3>1 · Empreendimento em condição de renovação</h3>
+  <p>
+    Não há, nesta etapa, fato impeditivo à renovação da LAO 033/2020. O que existe é
+    <strong>déficit de atualização</strong>, não déficit de regularidade.
+  </p>
+
+  <h3>2 · Processo pode avançar para campo</h3>
+  <p>
+    O lote recebido em 14/04 é suficiente para mobilizar a inspeção. Pendências documentais
+    rodam em paralelo ao trabalho técnico.
+  </p>
+
+  <h3>3 · Três decisões abrem o cronograma</h3>
+  <p>
+    LAI, uso do solo e janela de inspeção. Tomadas até 30/04, preservam a folga de cronograma.
+    Além de 30 dias de atraso, a margem comprime sem inviabilizar o protocolo.
+  </p>
+
+  <h3>4 · Escopo de compliance deve ser tratado à parte</h3>
+  <p>
+    ANP, IBAMA, NR-20, PNRS e monitoramentos contínuos não compõem o escopo atual e não
+    interferem no recebimento do protocolo. Recomenda-se abrir frente específica após a
+    estabilização da LAO renovada.
+  </p>
+
+  <div class="callout">
+    <h4>Posição final</h4>
+    <p style="margin:0;">
+      O Auto Posto América está em posição de <strong>conduzir a renovação de forma ordenada,
+      sem urgência e sem contingência</strong>. As próximas duas semanas definem se o processo
+      chega ao protocolo com folga ou no limite. Em qualquer cenário, o objetivo de protocolar
+      em 24/08/2026 permanece viável e é a meta operacional da Hábilis.
+    </p>
+  </div>
+
+  <h3>Próximas 6 entregas</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 50%;">Entrega</th>
+        <th style="width: 28%;">Responsável</th>
+        <th style="width: 22%;">Prazo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Decisão sobre LAI 008/2020</td><td>Cliente + Hábilis</td><td class="mono">30/04/2026</td></tr>
+      <tr><td>Autorização para protocolo de uso do solo</td><td>Cliente</td><td class="mono">05/05/2026</td></tr>
+      <tr><td>Indicação do Responsável Técnico</td><td>Cliente</td><td class="mono">10/05/2026</td></tr>
+      <tr><td>Janela de inspeção técnica liberada</td><td>Cliente</td><td class="mono">15/05/2026</td></tr>
+      <tr><td>Plano detalhado das 14 condicionantes</td><td>Hábilis</td><td class="mono">30/05/2026</td></tr>
+      <tr><td>Protocolo no Processo SEMMA 22760/2020</td><td>Hábilis</td><td class="mono">24/08/2026</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--borda);
+              display: flex; justify-content: space-between; align-items: flex-end;">
+    <div>
+      <div style="font-family: 'DM Mono', monospace; font-size: 8pt;
+                  color: var(--cinza-5); letter-spacing: .08em; text-transform: uppercase;">
+        Documento emitido por
+      </div>
+      <div style="font-size: 13pt; font-weight: 600; color: var(--verde); margin-top: 4px;">
+        Hábilis Consultoria
+      </div>
+      <div style="font-size: 9pt; color: var(--cinza-5); margin-top: 1px;">
+        Regularização Ambiental · Sistema Operacional
+      </div>
+    </div>
+    <div style="text-align: right; font-family: 'DM Mono', monospace;
+                font-size: 8.5pt; color: var(--cinza-5); letter-spacing: .04em;">
+      <div>Versão 2.0 · Confidencial</div>
+      <div>Emitido em 17/04/2026</div>
+      <div>Destinatário: Grupo Z+Z</div>
+    </div>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Regularização Ambiental</span><span>09 / 10</span>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,673 @@
+const POSTO_SEGURANCA_DO_TRABALHO_OPERACIONAL = {
+  empreendimento: {
+    tipo: "Posto de Combustíveis",
+    objetivo: "Estruturar a operação completa de Segurança do Trabalho para ambiente com inflamáveis, circulação de pessoas, atividades de abastecimento, conveniência, descarga de combustíveis, troca de óleo, lavagem e apoio operacional.",
+    escopo: [
+      "Gestão de riscos ocupacionais",
+      "Rotinas operacionais seguras",
+      "Controle documental de SST",
+      "Treinamentos obrigatórios",
+      "Inspeções de campo",
+      "Gestão de EPIs e EPCs",
+      "Planos de emergência",
+      "Prevenção de acidentes",
+      "Auditoria e melhoria contínua"
+    ]
+  },
+
+  setores_operacionais: {
+    pista_de_abastecimento: {
+      objetivo: "Controlar riscos de explosão, incêndio, atropelamento, contato com combustíveis, benzeno e acidentes operacionais.",
+      perigos_principais: [
+        "Atmosfera inflamável",
+        "Derramamento de combustíveis",
+        "Contato dérmico e inalatório com vapores",
+        "Atropelamento",
+        "Queda no mesmo nível",
+        "Uso inadequado de celular ou fontes de ignição"
+      ],
+      controles: [
+        "Proibição de fumar e uso de chama",
+        "Sinalização visível",
+        "Organização da pista",
+        "Treinamento do frentista",
+        "Uso de EPIs definidos",
+        "Disponibilização de extintores e kit de resposta"
+      ],
+      rotinas: [
+        "Verificar ordem e limpeza da pista",
+        "Inspecionar bombas, mangueiras e bicos",
+        "Observar comportamento inseguro de clientes",
+        "Garantir distância de fontes de ignição",
+        "Conferir sinalização e equipamentos de emergência"
+      ]
+    },
+
+    area_de_descarga: {
+      objetivo: "Executar o recebimento de combustíveis com segurança máxima, controlando riscos de inflamáveis, extravasamento e acidentes graves.",
+      perigos_principais: [
+        "Incêndio e explosão",
+        "Extravasamento",
+        "Descarga eletrostática",
+        "Atropelamento e colisão",
+        "Contato com vapores e líquidos inflamáveis"
+      ],
+      controles: [
+        "Isolamento da área",
+        "Proibição de circulação indevida",
+        "Aterramento quando aplicável",
+        "Checklist pré-descarga",
+        "Comunicação entre equipe do posto e motorista",
+        "Disponibilidade de extintores e materiais absorventes"
+      ],
+      rotinas: [
+        "Liberar área de descarga",
+        "Inspecionar integridade dos bocais e conexões",
+        "Acompanhar o procedimento do início ao fim",
+        "Registrar qualquer anormalidade",
+        "Confirmar encerramento seguro da operação"
+      ]
+    },
+
+    tanques_e_sasc: {
+      sigla: "SASC",
+      objetivo: "Assegurar integridade operacional e segurança das estruturas de armazenamento subterrâneo.",
+      perigos_principais: [
+        "Vazamento invisível",
+        "Acúmulo de vapores",
+        "Falhas em tampas, câmaras e linhas",
+        "Explosividade em ambientes confinados ou parcialmente confinados"
+      ],
+      controles: [
+        "Inspeção periódica",
+        "Restrição de acesso",
+        "Manutenção especializada",
+        "Procedimentos formais para intervenção",
+        "Controle de fontes de ignição"
+      ]
+    },
+
+    troca_de_oleo_e_lubrificacao: {
+      objetivo: "Controlar riscos químicos, escorregamento, contato com óleo usado e uso de ferramentas.",
+      perigos_principais: [
+        "Contato com agentes químicos",
+        "Piso escorregadio",
+        "Cortes e perfurações",
+        "Postura inadequada",
+        "Respingos"
+      ],
+      controles: [
+        "Uso de luvas adequadas",
+        "Organização da área",
+        "Recipientes apropriados",
+        "Limpeza imediata de vazamentos",
+        "Treinamento de manuseio"
+      ]
+    },
+
+    lavagem_veicular: {
+      objetivo: "Controlar riscos de eletricidade, escorregamento, produtos químicos e movimentação de veículos.",
+      perigos_principais: [
+        "Choque elétrico",
+        "Queda por piso molhado",
+        "Contato com saneantes e detergentes",
+        "Colisão e atropelamento"
+      ],
+      controles: [
+        "Inspeção elétrica",
+        "Uso de botas e luvas adequadas",
+        "Organização de mangueiras e cabos",
+        "Controle de acesso e tráfego"
+      ]
+    },
+
+    loja_de_conveniencia: {
+      objetivo: "Controlar riscos ergonômicos, elétricos, quedas e rotinas de atendimento.",
+      perigos_principais: [
+        "Quedas",
+        "Choque elétrico",
+        "Sobrecarga ergonômica",
+        "Stress ocupacional",
+        "Acidentes com prateleiras e estoque"
+      ],
+      controles: [
+        "Organização do ambiente",
+        "Treinamento de postura e atendimento",
+        "Sinalização de áreas molhadas",
+        "Inspeção de instalações elétricas"
+      ]
+    },
+
+    patio_e_circulacao: {
+      objetivo: "Controlar riscos de trânsito interno, atropelamento, colisão e acessos inseguros.",
+      perigos_principais: [
+        "Atropelamento",
+        "Colisão",
+        "Queda no mesmo nível",
+        "Acesso indevido a áreas críticas"
+      ],
+      controles: [
+        "Fluxo bem definido",
+        "Faixas e sinalização",
+        "Barreiras físicas quando necessário",
+        "Organização do tráfego interno"
+      ]
+    }
+  },
+
+  programas_e_documentos: {
+    obrigatorios_gerais: [
+      "PGR - Programa de Gerenciamento de Riscos",
+      "PCMSO - Programa de Controle Médico de Saúde Ocupacional",
+      "ASO - Atestado de Saúde Ocupacional",
+      "Inventário de riscos ocupacionais",
+      "Plano de resposta a emergências",
+      "Fichas de EPI",
+      "Ordens de serviço de SST",
+      "Registros de treinamentos",
+      "Inspeções de segurança",
+      "Relatórios de incidentes e quase acidentes"
+    ],
+    complementares_conforme_cenario: [
+      "LTCAT",
+      "Laudos complementares",
+      "APR - Análise Preliminar de Risco",
+      "Procedimentos operacionais seguros",
+      "Plano de abandono de área",
+      "Controle de terceiros"
+    ]
+  },
+
+  nr_aplicaveis: {
+    principais: [
+      {
+        norma: "NR 01",
+        aplicacao: "Gerenciamento de riscos ocupacionais e disposições gerais"
+      },
+      {
+        norma: "NR 06",
+        aplicacao: "Equipamentos de Proteção Individual"
+      },
+      {
+        norma: "NR 07",
+        aplicacao: "PCMSO e monitoramento da saúde ocupacional"
+      },
+      {
+        norma: "NR 09",
+        aplicacao: "Avaliação e controle das exposições ocupacionais"
+      },
+      {
+        norma: "NR 10",
+        aplicacao: "Segurança em instalações e serviços em eletricidade"
+      },
+      {
+        norma: "NR 11",
+        aplicacao: "Movimentação e manuseio quando houver operações aplicáveis"
+      },
+      {
+        norma: "NR 17",
+        aplicacao: "Ergonomia"
+      },
+      {
+        norma: "NR 20",
+        aplicacao: "Segurança e saúde no trabalho com inflamáveis e combustíveis"
+      },
+      {
+        norma: "NR 23",
+        aplicacao: "Proteção contra incêndios"
+      },
+      {
+        norma: "NR 24",
+        aplicacao: "Condições de higiene e conforto"
+      },
+      {
+        norma: "NR 26",
+        aplicacao: "Sinalização de segurança"
+      }
+    ],
+    observacao: "A aplicação exata depende das atividades existentes no posto, quantidade de trabalhadores, presença de troca de óleo, lavagem, conveniência, manutenção, serviços elétricos e classificação das áreas com inflamáveis."
+  },
+
+  funcao_por_funcao: {
+    frentista: {
+      riscos: [
+        "Exposição a vapores de combustíveis e benzeno",
+        "Derramamentos e respingos",
+        "Incêndio e explosão",
+        "Atropelamento",
+        "Jornada em pé",
+        "Condições climáticas"
+      ],
+      controles: [
+        "Treinamento operacional seguro",
+        "Uso de uniforme adequado e EPI definido",
+        "Proibição de práticas inseguras",
+        "Procedimento para derramamento",
+        "Orientação ao cliente durante abastecimento"
+      ]
+    },
+
+    caixa_e_atendimento: {
+      riscos: [
+        "Ergonômicos",
+        "Stress ocupacional",
+        "Queda",
+        "Choque elétrico em equipamentos",
+        "Assaltos e ocorrências críticas"
+      ],
+      controles: [
+        "Posto de trabalho ajustado",
+        "Organização do layout",
+        "Treinamento de rotina",
+        "Inspeção elétrica",
+        "Plano de resposta para emergências"
+      ]
+    },
+
+    lubrificador: {
+      riscos: [
+        "Contato com óleo usado",
+        "Posturas forçadas",
+        "Piso escorregadio",
+        "Ferramentas manuais",
+        "Respingos"
+      ],
+      controles: [
+        "Luvas compatíveis",
+        "Botas de segurança",
+        "Organização da área",
+        "Procedimento de coleta e limpeza",
+        "Treinamento específico"
+      ]
+    },
+
+    gerente_ou_encarregado: {
+      riscos: [
+        "Stress ocupacional",
+        "Exposição eventual em pista e áreas operacionais",
+        "Sobrecarga de jornada",
+        "Acidentes por circulação no posto"
+      ],
+      controles: [
+        "Treinamento de liderança em SST",
+        "Inspeções gerenciais",
+        "Controle de equipe e terceiros",
+        "Acompanhamento de não conformidades"
+      ]
+    }
+  },
+
+  gestao_de_riscos: {
+    grupos_de_risco: {
+      fisicos: [
+        "Ruído",
+        "Calor",
+        "Radiação não ionizante eventual",
+        "Umidade em áreas específicas"
+      ],
+      quimicos: [
+        "Vapores de combustíveis",
+        "Benzeno",
+        "Óleos e graxas",
+        "Produtos de limpeza"
+      ],
+      biologicos: [
+        "Sanitários e resíduos em áreas de apoio"
+      ],
+      ergonomicos: [
+        "Postura em pé prolongada",
+        "Movimentos repetitivos",
+        "Levantamento de cargas",
+        "Stress ocupacional"
+      ],
+      acidentes: [
+        "Incêndio",
+        "Explosão",
+        "Atropelamento",
+        "Choque elétrico",
+        "Quedas",
+        "Cortes",
+        "colisões",
+        "falha operacional em descarga"
+      ]
+    },
+
+    metodologia: [
+      "Identificar perigos por setor e atividade",
+      "Avaliar severidade e probabilidade",
+      "Definir medidas de eliminação, substituição, engenharia, administrativas e EPI",
+      "Monitorar eficácia dos controles",
+      "Revisar riscos após incidentes, mudanças ou ampliações"
+    ]
+  },
+
+  epis_e_epcs: {
+    epis_minimos_por_atividade: {
+      abastecimento: [
+        "Uniforme adequado",
+        "Calçado de segurança compatível",
+        "Luvas quando aplicável à atividade",
+        "Proteção adicional conforme análise de risco"
+      ],
+      troca_de_oleo: [
+        "Luvas compatíveis",
+        "Botas/calçado de segurança",
+        "Óculos de proteção quando houver risco de respingo",
+        "Uniforme adequado"
+      ],
+      lavagem: [
+        "Botas impermeáveis",
+        "Luvas compatíveis",
+        "Avental, quando aplicável",
+        "Proteção ocular conforme produto/atividade"
+      ]
+    },
+
+    epcs_essenciais: [
+      "Extintores dimensionados e sinalizados",
+      "Sinalização de segurança",
+      "Faixas e isolamento de áreas críticas",
+      "Kit de emergência",
+      "Chuveiro/lava-olhos quando exigível pelo cenário",
+      "Aterramento e proteção elétrica conforme instalação",
+      "Iluminação adequada",
+      "Sistema de combate a incêndio conforme projeto aplicável"
+    ],
+
+    controles: [
+      "Entrega formal com ficha",
+      "Treinamento de uso, guarda e substituição",
+      "Inspeção de conservação",
+      "Substituição por desgaste ou dano"
+    ]
+  },
+
+  treinamentos: {
+    obrigatorios_ou_criticos: [
+      {
+        treinamento: "Integração de SST",
+        objetivo: "Apresentar regras do posto, riscos e condutas seguras"
+      },
+      {
+        treinamento: "NR 20",
+        objetivo: "Capacitar trabalhadores que atuam com inflamáveis e combustíveis"
+      },
+      {
+        treinamento: "Prevenção e combate a incêndio",
+        objetivo: "Preparar equipe para resposta inicial"
+      },
+      {
+        treinamento: "Uso correto de EPI",
+        objetivo: "Garantir proteção adequada e consciente"
+      },
+      {
+        treinamento: "Resposta a emergências e abandono",
+        objetivo: "Padronizar atuação em cenários críticos"
+      },
+      {
+        treinamento: "Benzeno e exposição química",
+        objetivo: "Orientar prevenção e cuidados ocupacionais"
+      }
+    ],
+
+    reciclagens: [
+      "Conforme validade legal e matriz interna de treinamentos",
+      "Sempre que houver mudança de função, processo, incidente relevante ou retorno de desvio crítico"
+    ]
+  },
+
+  rotina_operacional: {
+    diaria: [
+      "Inspecionar pista, extintores, sinalização e organização",
+      "Verificar ausência de fontes de ignição indevidas",
+      "Conferir condições visuais de bombas, mangueiras e piso",
+      "Observar uso correto de EPI",
+      "Registrar desvios críticos imediatamente"
+    ],
+
+    semanal: [
+      "Aplicar checklist de segurança por setor",
+      "Inspecionar validade aparente e acesso aos extintores",
+      "Revisar armazenamento de produtos e resíduos",
+      "Conversar com equipe sobre quase acidentes e condutas inseguras"
+    ],
+
+    mensal: [
+      "Realizar inspeção técnica de SST",
+      "Revisar PGR, ações pendentes e evidências",
+      "Atualizar indicadores",
+      "Fazer DDS ou orientação formal de segurança",
+      "Auditar documentos e treinamentos"
+    ],
+
+    trimestral: [
+      "Simulado ou revisão de prontidão para emergências",
+      "Auditoria gerencial de segurança",
+      "Revisão de matriz de risco"
+    ],
+
+    anual: [
+      "Revisão completa do sistema de SST",
+      "Planejamento anual de treinamentos e melhorias",
+      "Revisão documental estratégica"
+    ]
+  },
+
+  checklists: {
+    checklist_pista: [
+      "Extintores acessíveis e sinalizados",
+      "Piso sem condição crítica de escorregamento",
+      "Bombas e mangueiras em bom estado aparente",
+      "Sem fontes de ignição indevidas",
+      "Sinalização de segurança visível",
+      "Equipe com conduta segura",
+      "Área organizada"
+    ],
+
+    checklist_descarga: [
+      "Área isolada",
+      "Equipe orientada",
+      "Extintores próximos e acessíveis",
+      "Ausência de circulação indevida",
+      "Conexões íntegras",
+      "Procedimento conhecido",
+      "Comunicação ativa durante a descarga"
+    ],
+
+    checklist_epi: [
+      "Empregado utilizando EPI previsto",
+      "EPI em bom estado",
+      "Substituição controlada",
+      "Ficha de entrega atualizada"
+    ],
+
+    checklist_documental: [
+      "PGR atualizado",
+      "PCMSO vigente",
+      "ASOs organizados",
+      "Treinamentos registrados",
+      "Ordens de serviço assinadas",
+      "Inspeções arquivadas",
+      "Plano de emergência disponível"
+    ],
+
+    checklist_emergencia: [
+      "Extintores sinalizados",
+      "Rotas desobstruídas",
+      "Contatos de emergência disponíveis",
+      "Equipe orientada",
+      "Kit de contenção disponível",
+      "Ponto de encontro definido quando aplicável"
+    ]
+  },
+
+  incidentes_e_nao_conformidades: {
+    exemplos: [
+      {
+        nc: "Frentista sem EPI previsto",
+        acao_imediata: "Interromper atividade até regularização",
+        acao_corretiva: "Reorientar, registrar e controlar reposição/uso",
+        evidencia: "Registro fotográfico e ficha de orientação"
+      },
+      {
+        nc: "Extintor obstruído",
+        acao_imediata: "Desobstruir acesso",
+        acao_corretiva: "Reorganizar área e reforçar rotina de inspeção",
+        evidencia: "Checklist e foto"
+      },
+      {
+        nc: "Conduta insegura durante abastecimento",
+        acao_imediata: "Corrigir no ato",
+        acao_corretiva: "Treinamento e reforço de procedimento",
+        evidencia: "Registro de orientação"
+      },
+      {
+        nc: "Vazamento em mangueira/bico",
+        acao_imediata: "Interditar ponto",
+        acao_corretiva: "Manutenção corretiva e liberação segura",
+        evidencia: "OS e foto pós-correção"
+      }
+    ],
+
+    fluxo: [
+      "Identificar incidente, quase acidente ou não conformidade",
+      "Registrar ocorrência",
+      "Controlar risco imediatamente",
+      "Investigar causa",
+      "Definir ação corretiva e preventiva",
+      "Acompanhar prazo e responsável",
+      "Verificar eficácia",
+      "Encerrar com evidência"
+    ]
+  },
+
+  plano_de_emergencia: {
+    cenarios_criticos: [
+      "Princípio de incêndio",
+      "Derramamento com risco de ignição",
+      "Explosão ou ameaça de explosividade",
+      "Choque elétrico",
+      "Mal súbito de trabalhador ou cliente",
+      "Atropelamento/colisão interna"
+    ],
+
+    resposta_padrao: [
+      "Interromper operação quando seguro fazê-lo",
+      "Isolar área",
+      "Acionar responsável treinado",
+      "Utilizar meios iniciais de resposta apenas quando houver segurança",
+      "Acionar emergência externa quando necessário",
+      "Realizar evacuação/abandono conforme cenário",
+      "Registrar e investigar ocorrência"
+    ],
+
+    estrutura_minima: [
+      "Equipe minimamente orientada",
+      "Relação de contatos úteis",
+      "Extintores e sinalização",
+      "Procedimento interno escrito",
+      "Responsáveis definidos"
+    ]
+  },
+
+  saude_ocupacional: {
+    controles: [
+      "Exames admissionais, periódicos, retorno, mudança de função e demissionais",
+      "Monitoramento compatível com riscos do inventário",
+      "Acompanhamento de afastamentos e restrições",
+      "Integração entre PCMSO e PGR"
+    ],
+
+    pontos_de_atencao: [
+      "Exposição a vapores e agentes químicos",
+      "Jornada em pé prolongada",
+      "Calor e desconforto térmico",
+      "Stress e pressão operacional"
+    ]
+  },
+
+  indicadores_kpi: {
+    taxa_de_treinamento_concluido: {
+      formula: "(colaboradores treinados / colaboradores previstos) * 100",
+      meta: "100%"
+    },
+    aderencia_ao_epi: {
+      formula: "(colaboradores usando EPI corretamente / colaboradores observados) * 100",
+      meta: ">= 95%"
+    },
+    inspecoes_realizadas: {
+      formula: "(inspeções executadas / inspeções programadas) * 100",
+      meta: "100%"
+    },
+    nc_de_sst_abertas: {
+      formula: "quantidade de não conformidades em aberto",
+      meta: "redução contínua"
+    },
+    tempo_medio_de_fechamento: {
+      formula: "dias para fechar desvios / quantidade de desvios fechados",
+      meta: "o menor possível conforme criticidade"
+    },
+    taxa_de_incidentes: {
+      formula: "incidentes no período / efetivo ou horas trabalhadas",
+      meta: "redução contínua"
+    }
+  },
+
+  papeis_e_responsabilidades: {
+    consultoria_habilis: [
+      "Estruturar o sistema de SST do posto",
+      "Realizar inspeções técnicas",
+      "Emitir relatórios e planos de ação",
+      "Apoiar implementação documental",
+      "Orientar treinamentos e rotinas",
+      "Monitorar indicadores e conformidade"
+    ],
+
+    gerente_do_posto: [
+      "Garantir cumprimento das rotinas de segurança",
+      "Controlar equipe e terceiros",
+      "Acompanhar desvios e correções",
+      "Disponibilizar recursos mínimos de segurança"
+    ],
+
+    encarregado_ou_lider_operacional: [
+      "Aplicar checklists",
+      "Corrigir desvios imediatos",
+      "Orientar equipe no dia a dia",
+      "Comunicar incidentes e quase acidentes"
+    ],
+
+    trabalhadores: [
+      "Cumprir procedimentos",
+      "Usar corretamente EPIs",
+      "Comunicar condições inseguras",
+      "Participar de treinamentos"
+    ]
+  },
+
+  entrega_habilis: {
+    implantacao: [
+      "Levantamento inicial de SST",
+      "Diagnóstico do posto",
+      "Estruturação documental",
+      "Matriz de risco por área e função",
+      "Plano de inspeções e treinamentos"
+    ],
+
+    operacao_continua: [
+      "Inspeções periódicas",
+      "Relatório mensal de segurança",
+      "Controle de pendências",
+      "Acompanhamento de indicadores",
+      "Suporte à gestão do posto"
+    ],
+
+    governanca: [
+      "Painel de conformidade SST",
+      "Histórico de incidentes e desvios",
+      "Plano de ação ativo",
+      "Cronograma de treinamentos",
+      "Roteiro de melhoria contínua"
+    ]
+  }
+};

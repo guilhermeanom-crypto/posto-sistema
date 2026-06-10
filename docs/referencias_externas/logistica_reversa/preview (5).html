@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Matriz Interativa de Precificação — Logística Reversa</title>
+<style>
+:root {
+  --bg: #0b1220;
+  --panel: #121b2d;
+  --panel-2: #17233a;
+  --soft: #1d2c48;
+  --text: #e8eef8;
+  --muted: #a8b4c9;
+  --line: rgba(255,255,255,.10);
+  --accent: #7cc5ff;
+  --accent-2: #90e0c7;
+  --warn: #ffd166;
+  --ok: #8fd694;
+  --danger: #ff7b72;
+  --shadow: 0 18px 42px rgba(0,0,0,.30);
+  --radius: 18px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top right, rgba(124,197,255,.12), transparent 28%),
+    radial-gradient(circle at left bottom, rgba(144,224,199,.10), transparent 22%),
+    linear-gradient(180deg, #08111d 0%, #0b1220 100%);
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.layout {
+  display: grid;
+  grid-template-columns: 290px minmax(0,1fr);
+  min-height: 100vh;
+}
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 24px 18px;
+  border-right: 1px solid var(--line);
+  background: rgba(9,14,24,.88);
+  backdrop-filter: blur(12px);
+}
+.brand {
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(124,197,255,.08), rgba(255,255,255,.02));
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 18px;
+}
+.brand h1 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  line-height: 1.2;
+}
+.brand p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.nav {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+.nav a {
+  display: block;
+  padding: 11px 12px;
+  border-radius: 12px;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid transparent;
+}
+.nav a:hover {
+  background: rgba(124,197,255,.08);
+  border-color: rgba(124,197,255,.18);
+  text-decoration: none;
+}
+.side-note {
+  margin-top: 20px;
+  padding: 14px;
+  color: var(--muted);
+  font-size: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+}
+.main {
+  padding: 26px;
+}
+.hero {
+  padding: 28px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(124,197,255,.14), rgba(144,224,199,.08) 48%, rgba(255,255,255,.03));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  margin-bottom: 22px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(124,197,255,.12);
+  border: 1px solid rgba(124,197,255,.18);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.hero h2 {
+  margin: 14px 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.08;
+}
+.hero p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 980px;
+}
+.hero-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+}
+.kpi {
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(7,12,20,.35);
+}
+.kpi .label { color: var(--muted); font-size: 12px; }
+.kpi .value { font-size: 24px; font-weight: 800; margin-top: 8px; }
+.section {
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: rgba(18,27,45,.74);
+  box-shadow: var(--shadow);
+}
+.section h3 {
+  margin: 0 0 14px;
+  font-size: 24px;
+}
+.section .sub {
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 16px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 14px;
+}
+.card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255,255,255,.03);
+}
+.card h4 { margin: 0 0 10px; font-size: 16px; }
+.card p, .card li { color: var(--muted); }
+ul.clean {
+  margin: 0;
+  padding-left: 18px;
+}
+.table-wrap {
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 780px;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--line);
+}
+thead th {
+  position: sticky;
+  top: 0;
+  background: #10213b;
+  z-index: 1;
+  font-size: 13px;
+}
+tbody tr:hover {
+  background: rgba(124,197,255,.05);
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+}
+.tag.low { color: var(--ok); }
+.tag.mid { color: var(--warn); }
+.tag.high { color: #ffb86b; }
+.tag.crit { color: var(--danger); }
+.controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 14px;
+}
+.field {
+  display: grid;
+  gap: 6px;
+}
+.field label {
+  font-weight: 700;
+  font-size: 13px;
+}
+.field select, .field input {
+  appearance: none;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #0d1728;
+  color: var(--text);
+}
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+button {
+  cursor: pointer;
+  border: 0;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+button.primary {
+  background: linear-gradient(135deg, var(--accent), #5aa8ff);
+  color: #03111d;
+}
+button.secondary {
+  background: rgba(255,255,255,.08);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.results {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+}
+.result {
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(7,12,20,.35);
+}
+.result .label {
+  color: var(--muted);
+  font-size: 12px;
+}
+.result .value {
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: 800;
+}
+.notice {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,209,102,.28);
+  background: rgba(255,209,102,.08);
+  color: #ffe7ad;
+}
+.small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.footer {
+  padding: 18px 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 1100px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: relative;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-grid, .results, .grid-3, .controls, .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 760px) {
+  .main { padding: 14px; }
+  .sidebar { padding: 14px; }
+  .hero, .section { padding: 16px; border-radius: 18px; }
+  .hero-grid, .results, .grid-3, .controls, .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>Matriz Interativa de Precificação</h1>
+      <p>Logística reversa — método, serviços, simulador e justificativas em formato navegável.</p>
+    </div>
+    <nav class="nav">
+      <a href="#visao-geral">Visão geral</a>
+      <a href="#definicoes">Definições</a>
+      <a href="#metodo">Método</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#matriz">Matriz principal</a>
+      <a href="#simulador">Simulador</a>
+      <a href="#premissas">Premissas e valores</a>
+      <a href="#casos">Casos práticos</a>
+      <a href="#fontes">Fontes</a>
+    </nav>
+    <div class="side-note">
+      Esta versão HTML foi estruturada para leitura executiva e uso comercial.<br><br>
+      O simulador reproduz a lógica da planilha: <strong>score + multiplicadores + preço-base por pacote</strong>.
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="hero" id="visao-geral">
+      <div class="eyebrow">Manual + Matriz + Simulador</div>
+      <h2>Precificação clara, legível e defensável para logística reversa</h2>
+      <p>Referência prática para Goiás: manual de método, serviços, simulador e valores-base de venda para consultoria especializada.</p>
+      <div class="hero-grid">
+        <div class="kpi"><div class="label">Pacotes-base</div><div class="value">4</div></div>
+        <div class="kpi"><div class="label">Faixas de complexidade</div><div class="value">5</div></div>
+        <div class="kpi"><div class="label">Cenários típicos</div><div class="value">10</div></div>
+        <div class="kpi"><div class="label">Casos ilustrativos</div><div class="value">4</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid-2">
+        <div class="card">
+          <h4>O que este material resolve</h4>
+          <ul class="clean">
+            <li>• Padroniza a leitura do cenário: tipo de empreendimento, papel real na cadeia, tipo de cadeia de logística reversa e risco de comprovação.</li><li>• Separa claramente o que é diagnóstico, regularização, estruturação avançada e gestão mensal.</li><li>• Mostra uma matriz legível por qualquer leitor, sem depender de conhecimento prévio da legislação.</li><li>• Transforma a precificação em método: score de complexidade + multiplicadores operacionais + preço-base por pacote.</li><li>• Gera preço de referência, faixa comercial e justificativa objetiva para proposta.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Como usar</h4>
+          <ul class="clean">
+            <li>1. Leia 01_Definições para alinhar conceitos.</li><li>2. Valide o método em 02_Método e o escopo em 03_Serviços.</li><li>3. Use 04_Matriz para enquadrar o empreendimento em um cenário típico.</li><li>4. Refine o preço no 05_Simulador com papel, cadeia, maturidade documental, prova, abrangência, urgência e fiscalização.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h4>Lógica central do preço</h4>
+          <ul class="clean">
+            <li>Premissas importantes</li><li>• Os valores deste arquivo são valores de referência para venda consultiva; não são tabela oficial do poder público nem preço obrigatório de mercado.</li><li>• As faixas não incluem: compra de créditos, taxa de entidade gestora, taxa de operador, verificador, deslocamentos, custos jurídicos, passivos retroativos e tributos não previstos.</li><li>• Para cadeias específicas (ex.: pneus, eletroeletrônicos, medicamentos, óleos e embalagens de defensivos), a obrigação pode ter rito próprio e o preço nunca deve ser tratado como &#x27;cadastro simples&#x27;.</li><li>• Em Goiás, embalagens em geral estão no ambiente do Recicla Goiás; cadeias específicas podem exigir checagem adicional do rito federal/estadual aplicável.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Cuidados para não subprecificar</h4>
+          <ul class="clean">
+            <li>• A Lei nº 12.305/2010 instituiu a Política Nacional de Resíduos Sólidos; fabricantes, importadores, distribuidores e comerciantes devem adotar medidas necessárias para implementar e operacionalizar sistemas de logística reversa sob sua responsabilidade.</li><li>• O Decreto federal nº 10.936/2022 regulamenta a PNRS; o Decreto nº 11.413/2023 institui certificados como CCRLR/CERE e reforça a operacionalização da logística reversa.</li><li>• Em Goiás, o Decreto estadual nº 10.255/2023 regulamenta embalagens em geral e institui o RECICLAGOIÁS.</li><li>• No segundo ciclo estadual, a meta informada pela Semad para o próximo ano-base foi de pelo menos 30% para vidro, papel/papelão, plástico e metal.</li><li>• Em 2026, a Campanha de Orientação em Goiás reforçou regularização declaratória, plano de logística reversa, cumprimento de metas e adesão das empresas obrigadas.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="definicoes">
+      <h3>Definições claras</h3>
+      <div class="sub">Organizado para que qualquer leitor entenda o que está sendo precificado e por quê.</div>
+      <div class="grid-2">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Papel</th><th>Como reconhecer</th><th>Peso no preço</th><th>Leitura comercial</th></tr></thead>
+            <tbody>
+              <tr><td>Papel na cadeia</td><td>Posição real da empresa: comerciante, distribuidor, importador, fabricante ou combinação.</td><td>Supermercado com marca própria deixa de ser só comerciante.</td><td>É o fator com maior peso no preço.</td></tr><tr><td>Cadeia predominante</td><td>Tipo de obrigação principal: embalagens em geral, cadeia específica do art. 33 ou multicadeia.</td><td>Posto com conveniência e lubrificantes = multicadeia.</td><td>Muda prova, risco e escopo.</td></tr><tr><td>Maturidade documental</td><td>Qualidade do acervo do cliente: notas, volumes, contratos, relatórios, responsáveis.</td><td>Cliente que não separa notas e volumes gera retrabalho.</td><td>Cliente desorganizado consome mais horas.</td></tr><tr><td>Tipo de prova</td><td>Nível de comprovação exigido: simples, documental, rastreável ou auditável/verificador.</td><td>Indústria e cadeias específicas tendem a pedir prova mais robusta.</td><td>Quanto mais auditável, maior o preço.</td></tr><tr><td>Abrangência</td><td>Quantidade de unidades/CNPJs, volume de operação e dispersão do cliente.</td><td>Rede varejista com 8 lojas.</td><td>Aumenta padronização, coleta de dados e governança.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Papel</th><th>Como reconhecer</th><th>Peso no preço</th><th>Leitura comercial</th></tr></thead>
+            <tbody>
+              <tr><td>Comerciante</td><td>Revende sem importar/fabricar.</td><td>Baixo a médio</td><td>Pode começar em pacote enxuto, salvo multicadeia.</td></tr><tr><td>Distribuidor</td><td>Intermedia volumes e múltiplos fornecedores.</td><td>Médio</td><td>Geralmente exige mais validação documental.</td></tr><tr><td>Importador</td><td>Coloca produto/embalagem importada no mercado.</td><td>Alto</td><td>Risco regulatório maior; evite preço de varejo simples.</td></tr><tr><td>Fabricante / marca própria</td><td>Produz ou responde pela colocação do produto/embalagem no mercado.</td><td>Crítico</td><td>Base para pacotes mais robustos.</td></tr><tr><td>Misto</td><td>Acumula dois ou mais papéis.</td><td>Crítico</td><td>Nunca tratar como caso padrão.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="metodo">
+      <h3>Método de precificação</h3>
+      <div class="sub">Sequência objetiva para transformar um cenário regulatório em proposta comercial coerente.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Passo</th><th>O que fazer</th><th>Pergunta-chave</th><th>Por que isso afeta o preço</th></tr></thead>
+          <tbody>
+            <tr><td>1. Identificar o papel real</td><td>Mapear se a empresa atua como comerciante, distribuidor, importador, fabricante ou mais de um papel.</td><td>Quem realmente coloca o produto/embalagem no mercado?</td><td>Define a obrigação principal e o peso regulatório.</td></tr><tr><td>2. Identificar a cadeia</td><td>Separar embalagens em geral, cadeia específica ou multicadeia.</td><td>Há apenas embalagens comuns ou existem fluxos próprios?</td><td>Evita vender &#x27;cadastro&#x27; para caso que exige estruturação.</td></tr><tr><td>3. Medir maturidade documental</td><td>Avaliar notas, relatórios, contratos, responsáveis e histórico.</td><td>O cliente consegue provar o que diz?</td><td>Determina retrabalho, coleta e revisão.</td></tr><tr><td>4. Medir tipo de prova</td><td>Classificar a necessidade de prova simples, documental, rastreável ou auditável.</td><td>A comprovação será só declaratória ou precisará de lastro robusto?</td><td>Quanto mais robusta, maior a responsabilidade técnica.</td></tr><tr><td>5. Medir abrangência</td><td>Contar unidades/CNPJs e dispersão da operação.</td><td>É uma loja ou uma rede multiunidade?</td><td>Aumenta governança, padrão e consolidação.</td></tr><tr><td>6. Medir pressão de prazo</td><td>Apurar urgência e fiscalização ativa.</td><td>Há notificação, campanha, diligência ou prazo curto?</td><td>Justifica adicional e revisão de risco.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h4>Regras de cálculo</h4>
+          <ul class="clean">
+            <li>• Preço de referência = preço-base do pacote × multiplicador de score × multiplicador de nº de cadeias × multiplicador de abrangência × multiplicador de urgência × multiplicador de fiscalização</li><li>• Score = papel na cadeia + tipo de cadeia + maturidade documental + tipo de prova</li><li>• Faixa comercial sugerida = preço de referência ± 10%</li><li>• Recomenda-se manter desconto estratégico e urgência fora da proposta padrão, para preservar a leitura de valor.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Delimitação de escopo</h4>
+          <ul class="clean">
+            <li>O que sempre entra / pode entrar / deve ficar fora</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicos">
+      <h3>Catálogo de serviços</h3>
+      <div class="sub">O que entra em cada pacote e como sustentar a cobrança.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item de serviço</th><th>Diagnóstico</th><th>Regularização</th><th>Avançado</th><th>Gestão mensal</th><th>Observação comercial</th><th>Cobrança sugerida</th></tr></thead>
+          <tbody>
+            <tr><td>Triagem e briefing inicial</td><td>Incluído</td><td>Incluído</td><td>Incluído</td><td>Incluído</td><td>Base de todo trabalho.</td><td>Dentro do pacote</td></tr><tr><td>Enquadramento regulatório</td><td>Incluído</td><td>Incluído</td><td>Incluído</td><td>Revisões pontuais</td><td>Nunca vender separado de triagem.</td><td>Dentro do pacote</td></tr><tr><td>Mapa de cadeias / papéis</td><td>Incluído</td><td>Incluído</td><td>Incluído</td><td>Atualização quando mudar operação</td><td>Essencial para multicadeia.</td><td>Dentro do pacote</td></tr><tr><td>Checklist documental</td><td>Incluído</td><td>Incluído</td><td>Incluído</td><td>Atualização mensal</td><td>Escopo mínimo obrigatório.</td><td>Dentro do pacote</td></tr><tr><td>Cadastro / adesão ao sistema</td><td>Não</td><td>Incluído</td><td>Incluído</td><td>Somente manutenção</td><td>Cobrar no mínimo como regularização.</td><td>Dentro do pacote</td></tr><tr><td>Plano de logística reversa</td><td>Não</td><td>Incluído</td><td>Incluído</td><td>Atualização / revisão</td><td>Pode exigir coleta interna de dados.</td><td>Dentro do pacote</td></tr><tr><td>Contato com entidade gestora / parceiro</td><td>Opcional</td><td>Incluído</td><td>Incluído</td><td>Opcional</td><td>Só se estiver no escopo.</td><td>Adicional quando extrapolar</td></tr><tr><td>Análise de notas e massa</td><td>Não</td><td>Opcional</td><td>Incluído</td><td>Opcional</td><td>É um dos maiores geradores de hora.</td><td>Avançado ou adicional</td></tr><tr><td>Consolidação multiunidade</td><td>Não</td><td>Opcional</td><td>Incluído</td><td>Incluído</td><td>Cobrar por abrangência.</td><td>Avançado ou adicional</td></tr><tr><td>Revisão de prova e evidências</td><td>Não</td><td>Opcional</td><td>Incluído</td><td>Incluído</td><td>Evita autodeclaração frágil.</td><td>Avançado ou adicional</td></tr><tr><td>Resposta a diligência/fiscalização</td><td>Não</td><td>Não</td><td>Opcional</td><td>Opcional</td><td>Sempre tratar como adicional ou pacote premium.</td><td>Adicional</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h4>Notas comerciais</h4>
+        <ul class="clean">
+          <li>Exclusões recomendadas na proposta</li><li>• Compra de CCRLR/CERE, certificados equivalentes, taxa de operador, taxa de gestora ou de verificador.</li><li>• Custos de deslocamento, visitas presenciais fora do combinado e despesas de viagem.</li><li>• Atuação contenciosa, defesa administrativa/jurídica, emissão de parecer jurídico ou regularização de passivo histórico omitido.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="matriz">
+      <h3>Matriz principal</h3>
+      <div class="sub">Leitura rápida por tipo de empreendimento. Para caso real, use sempre o simulador.</div>
+      <div class="field" style="max-width:360px; margin-bottom:14px;">
+        <label for="matrixFilter">Filtrar segmento</label>
+        <input id="matrixFilter" type="text" placeholder="Ex.: posto, indústria, supermercado..." />
+      </div>
+      <div class="table-wrap">
+        <table id="matrixTable">
+          <thead><tr><th>Segmento</th><th>Exemplo</th><th>Papel típico</th><th>Cadeia típica</th><th>Nº cadeias</th><th>Abrangência típica</th><th>Maturidade</th><th>Tipo de prova</th><th>Score</th><th>Complexidade</th><th>Diagnóstico</th><th>Regularização</th><th>Avançado</th><th>Gestão mensal</th><th>Observação de venda</th></tr></thead>
+          <tbody>
+            <tr><td>Comércio local simples</td><td>Loja, farmácia, papelaria</td><td>Comerciante</td><td>Embalagens em geral</td><td>1</td><td>1 CNPJ / 1 unidade</td><td>Média</td><td>Declaratória simples</td><td>7</td><td>Baixa</td><td>1300</td><td>2750</td><td>4600</td><td>850</td><td>Entrada ideal para pacote diagnóstico ou regularização enxuta.</td></tr><tr><td>E-commerce / seller pequeno</td><td>Operação própria com despacho de embalagens</td><td>Misto / mais de um papel</td><td>Embalagens em geral</td><td>1</td><td>1 CNPJ / 1 unidade</td><td>Média</td><td>Documental consolidada</td><td>11</td><td>Alta</td><td>1800</td><td>3850</td><td>6500</td><td>1150</td><td>Atenção para marca própria e importação.</td></tr><tr><td>Varejo alimentar</td><td>Mercado, atacarejo local</td><td>Comerciante</td><td>Embalagens em geral</td><td>1</td><td>2-3 unidades ou CNPJs</td><td>Baixa</td><td>Documental consolidada</td><td>9</td><td>Moderada</td><td>1700</td><td>3550</td><td>5950</td><td>1050</td><td>Costuma consumir tempo em notas, volume e coordenação interna.</td></tr><tr><td>Rede varejista / franquia</td><td>Rede de lojas</td><td>Comerciante</td><td>Multicadeia</td><td>2</td><td>4-10 unidades ou CNPJs</td><td>Baixa</td><td>Rastreabilidade</td><td>13</td><td>Alta</td><td>2600</td><td>5550</td><td>9350</td><td>1650</td><td>Nunca vender como um único cadastro.</td></tr><tr><td>Atacado / distribuição</td><td>Distribuidor regional</td><td>Distribuidor</td><td>Embalagens em geral</td><td>1</td><td>2-3 unidades ou CNPJs</td><td>Baixa</td><td>Rastreabilidade</td><td>11</td><td>Alta</td><td>2000</td><td>4250</td><td>7150</td><td>1300</td><td>Volume e múltiplos fornecedores elevam a complexidade.</td></tr><tr><td>Indústria leve</td><td>Alimentos, cosméticos, saneantes</td><td>Fabricante / Marca própria</td><td>Embalagens em geral</td><td>1</td><td>1 CNPJ / 1 unidade</td><td>Média</td><td>Documental consolidada</td><td>11</td><td>Alta</td><td>1800</td><td>3850</td><td>6500</td><td>1150</td><td>Preço deve refletir papel de fabricante.</td></tr><tr><td>Indústria alta complexidade</td><td>Química, plástico, metal, múltiplas linhas</td><td>Fabricante / Marca própria</td><td>Multicadeia</td><td>2</td><td>2-3 unidades ou CNPJs</td><td>Baixa</td><td>Rastreabilidade</td><td>16</td><td>Muito alta</td><td>2700</td><td>5700</td><td>9600</td><td>1700</td><td>Tende a pedir pacote avançado e gestão.</td></tr><tr><td>Importador / marca própria</td><td>Importador com distribuição nacional/regional</td><td>Importador</td><td>Embalagens em geral</td><td>1</td><td>1 CNPJ / 1 unidade</td><td>Baixa</td><td>Documental consolidada</td><td>11</td><td>Alta</td><td>1800</td><td>3850</td><td>6500</td><td>1150</td><td>Evitar preço de varejo simples.</td></tr><tr><td>Posto + conveniência + lubrificantes</td><td>Posto com loja e venda de lubrificantes</td><td>Comerciante</td><td>Multicadeia</td><td>2</td><td>1 CNPJ / 1 unidade</td><td>Baixa</td><td>Auditável / verificador</td><td>14</td><td>Muito alta</td><td>2450</td><td>5200</td><td>8700</td><td>1550</td><td>Clássico caso de multicadeia; tende a subir de preço rápido.</td></tr><tr><td>Agro revenda</td><td>Revenda de insumos / defensivos</td><td>Distribuidor</td><td>Cadeia específica art. 33</td><td>1</td><td>1 CNPJ / 1 unidade</td><td>Baixa</td><td>Auditável / verificador</td><td>14</td><td>Muito alta</td><td>2100</td><td>4500</td><td>7600</td><td>1350</td><td>Cadeia específica não deve ser tratada como pacote simples.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="simulador">
+      <h3>Simulador interativo</h3>
+      <div class="sub">Preencha o caso do cliente. O cálculo gera score, faixa de complexidade, preço de referência e faixa comercial.</div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="controls">
+            <div class="field">
+              <label for="role">Papel na cadeia</label>
+              <select id="role"></select>
+            </div>
+            <div class="field">
+              <label for="chain">Cadeia predominante</label>
+              <select id="chain"></select>
+            </div>
+            <div class="field">
+              <label for="numChains">Nº de cadeias</label>
+              <select id="numChains"></select>
+            </div>
+            <div class="field">
+              <label for="scope">Abrangência</label>
+              <select id="scope"></select>
+            </div>
+            <div class="field">
+              <label for="maturity">Maturidade documental</label>
+              <select id="maturity"></select>
+            </div>
+            <div class="field">
+              <label for="proof">Tipo de prova</label>
+              <select id="proof"></select>
+            </div>
+            <div class="field">
+              <label for="urgency">Urgência</label>
+              <select id="urgency"></select>
+            </div>
+            <div class="field">
+              <label for="inspection">Fiscalização / notificação ativa</label>
+              <select id="inspection"></select>
+            </div>
+          </div>
+
+          <div class="button-row">
+            <button class="primary" id="resetCase">Resetar caso</button>
+            <button class="secondary" id="applyPosto">Exemplo: posto</button>
+            <button class="secondary" id="applyIndustria">Exemplo: indústria</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>Preços-base editáveis</h4>
+          <div class="controls">
+            <div class="field">
+              <label for="baseDiag">Diagnóstico</label>
+              <input id="baseDiag" type="number" min="0" step="50" value="1500" />
+            </div>
+            <div class="field">
+              <label for="baseReg">Regularização</label>
+              <input id="baseReg" type="number" min="0" step="50" value="3200" />
+            </div>
+            <div class="field">
+              <label for="baseAdv">Avançado</label>
+              <input id="baseAdv" type="number" min="0" step="50" value="5400" />
+            </div>
+            <div class="field">
+              <label for="baseGest">Gestão mensal</label>
+              <input id="baseGest" type="number" min="0" step="50" value="950" />
+            </div>
+          </div>
+          <div class="small" style="margin-top:10px;">
+            Altere esses valores para adequar o posicionamento comercial da consultoria sem mexer na lógica do método.
+          </div>
+        </div>
+      </div>
+
+      <div class="results" style="margin-top:16px;">
+        <div class="result"><div class="label">Score</div><div class="value" id="outScore">-</div></div>
+        <div class="result"><div class="label">Complexidade</div><div class="value" id="outComplexity">-</div></div>
+        <div class="result"><div class="label">Multiplicador total</div><div class="value" id="outMult">-</div></div>
+        <div class="result"><div class="label">Leitura executiva</div><div class="value" id="outExecutive" style="font-size:18px;">-</div></div>
+      </div>
+
+      <div class="table-wrap" style="margin-top:16px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Pacote</th>
+              <th>Preço-base</th>
+              <th>Preço de referência</th>
+              <th>Faixa comercial sugerida</th>
+              <th>Objetivo</th>
+            </tr>
+          </thead>
+          <tbody id="pricingBody"></tbody>
+        </table>
+      </div>
+
+      <div class="notice" id="simNotice">
+        Este simulador calcula <strong>preço de referência</strong>. Desconto estratégico, itens fora de escopo, contratação de operador/entidade gestora, taxas públicas e passivos retroativos devem ser tratados à parte na proposta.
+      </div>
+    </section>
+
+    <section class="section" id="premissas">
+      <h3>Premissas, justificativas e valores-base</h3>
+      <div class="sub">Parte pensada para sustentar proposta, negociação e posicionamento de mercado.</div>
+      <div class="grid-2">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Pacote</th><th>Horas estimadas</th><th>Preço-base (editável)</th><th>Objetivo comercial</th><th>Quando usar</th></tr></thead>
+            <tbody>
+              <tr><td>Diagnóstico</td><td>7</td><td>1500</td><td>Abrir porta, enquadrar e transformar dúvida em decisão.</td><td>Cliente ainda não sabe se está obrigado ou como está enquadrado.</td></tr><tr><td>Regularização</td><td>15</td><td>3200</td><td>Resolver adesão, plano e base documental mínima.</td><td>Cliente já precisa se regularizar.</td></tr><tr><td>Avançado</td><td>26</td><td>5400</td><td>Estruturar prova, dados, multicadeia e multiunidade.</td><td>Indústria, multicadeia, grupo empresarial, maior exigência de prova.</td></tr><tr><td>Gestão mensal</td><td>5</td><td>950</td><td>Recorrência, governança e redução de risco.</td><td>Cliente quer manutenção e previsibilidade.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h4>Política de uso</h4>
+          <ul class="clean">
+            <li>Fiscalização</li><li>Como reposicionar os preços sem quebrar o método</li><li>• Posicionamento de entrada: reduza os preços-base em 10% a 15%, mas mantenha os multiplicadores.</li><li>• Posicionamento recomendado: use os preços-base da planilha e aplique apenas desconto estratégico pontual na proposta, nunca dentro da base.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <h4>Justificativa de posicionamento</h4>
+        <ul class="clean">
+          <li>• Os preços-base foram construídos como referência de venda, e não como custo puro. Eles refletem combinação de hora técnica, coordenação, risco regulatório e valor percebido pelo cliente.</li><li>• Como pano de fundo, médias salariais publicadas em 2026 para consultor e engenheiro ambiental no Brasil ficaram em torno de R$ 6,1 mil/mês e R$ 9,7 mil/mês, respectivamente; a conversão para preço de consultoria exige overhead, imposto, estrutura, coordenação e margem.</li><li>• Também há referências públicas de consultoria no Brasil mostrando grande amplitude de valor-hora (de faixas mais básicas até níveis especializados acima de R$ 500/h); por isso o arquivo trabalha com preço-base + multiplicadores, e não com um preço fixo universal.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="casos">
+      <h3>Casos práticos</h3>
+      <div class="sub">Exemplos ilustrativos usando a mesma lógica do simulador.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Caso</th><th>Perfil</th><th>Papel</th><th>Cadeia</th><th>Nº cadeias</th><th>Abrangência</th><th>Maturidade</th><th>Prova</th><th>Score</th><th>Complexidade</th><th>Diagnóstico</th><th>Regularização</th><th>Avançado</th><th>Mensagem de venda</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Farmácia de bairro</td><td>Comerciante</td><td>Embalagens em geral</td><td>1</td><td>1 CNPJ / 1 unidade</td><td>Média</td><td>Declaratória simples</td><td>4</td><td>Baixa</td><td>1300</td><td>2750</td><td>4600</td><td>Vender como entrada rápida para enquadrar e regularizar sem excesso de escopo.</td></tr><tr><td>2</td><td>Supermercado local</td><td>Comerciante</td><td>Embalagens em geral</td><td>1</td><td>2-3 unidades ou CNPJs</td><td>Baixa</td><td>Documental consolidada</td><td>4</td><td>Baixa</td><td>1450</td><td>3000</td><td>5050</td><td>Explicar que volume e documentos elevam o esforço, ainda que a cadeia seja simples.</td></tr><tr><td>3</td><td>Indústria de alimentos</td><td>Fabricante / Marca própria</td><td>Embalagens em geral</td><td>1</td><td>1 CNPJ / 1 unidade</td><td>Média</td><td>Documental consolidada</td><td>7</td><td>Baixa</td><td>1300</td><td>2750</td><td>4600</td><td>Posicionar o papel de fabricante como fator central do preço.</td></tr><tr><td>4</td><td>Posto com loja e lubrificantes</td><td>Comerciante</td><td>Multicadeia</td><td>2</td><td>1 CNPJ / 1 unidade</td><td>Baixa</td><td>Auditável / verificador</td><td>7</td><td>Baixa</td><td>1500</td><td>3150</td><td>5300</td><td>Mostrar que um único CNPJ pode ter mais de um módulo de obrigação.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="fontes">
+      <h3>Fontes e bases utilizadas</h3>
+      <div class="sub">As referências abaixo sustentam a leitura regulatória e a lógica de prova, reporte e verificação.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tema</th><th>Fonte / URL</th><th>Ponto usado</th><th>Observação</th><th>Tipo</th></tr></thead>
+          <tbody>
+            <tr><td>Goiás — página oficial</td><td>https://goias.gov.br/meioambiente/logistica-reversa/</td><td>Monitoramento contínuo, superação da meta de 22%, estrutura do sistema estadual e Comitê de Logística Reversa.</td><td>Base estadual oficial para embalagens em geral.</td><td>Oficial</td></tr><tr><td>Goiás — notícia oficial 2024</td><td>https://goias.gov.br/meioambiente/logistica-reversa-prazo-para-cadastro-de-empresas-que-geram-embalagens-reciclaveis-esta-aberto/</td><td>Cadastro obrigatório; meta de 30% no segundo ciclo; exigência de plano de logística reversa.</td><td>Usado para leitura de esforço e narrativa comercial.</td><td>Oficial</td></tr><tr><td>Goiás — Resolução SEMAD 1/2026</td><td>https://www.legisweb.com.br/legislacao/?id=489143</td><td>Campanha orientativa 2026, regularização, metas, plano e adesão.</td><td>Usado para reforçar necessidade de regularização contínua.</td><td>Reprodução de norma</td></tr><tr><td>SINIR — embalagens em geral</td><td>https://sinir.gov.br/perfis/logistica-reversa/logistica-reversa/embalagens-em-geral/</td><td>Acordo setorial, Decreto 11.413/2023, Portarias 1.011/2024, 1.102/2024 e 1.117/2024.</td><td>Base federal de operacionalização.</td><td>Oficial</td></tr><tr><td>DOU — Portaria 1.011/2024</td><td>https://www.in.gov.br/web/dou/-/portaria-gm/mma-n-1.011-de-11-de-marco-de-2024-547763337</td><td>Modelo padrão do relatório anual de resultados.</td><td>Usado na leitura de prova e reporte.</td><td>Oficial</td></tr><tr><td>DOU — Portaria 1.117/2024</td><td>https://www.in.gov.br/web/dou/-/portaria-gm/mma-n-1.117-de-1-de-agosto-de-2024-575976215</td><td>Critérios de habilitação dos verificadores de resultado.</td><td>Usado na leitura de casos auditáveis.</td><td>Oficial</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="footer">
+      Arquivo HTML interativo gerado a partir da matriz de precificação em Excel.
+    </div>
+  </main>
+</div>
+
+<script>
+const DATA = {"guide_intro": "Referência prática para Goiás: manual de método, serviços, simulador e valores-base de venda para consultoria especializada.", "guide_bullets": ["• Padroniza a leitura do cenário: tipo de empreendimento, papel real na cadeia, tipo de cadeia de logística reversa e risco de comprovação.", "• Separa claramente o que é diagnóstico, regularização, estruturação avançada e gestão mensal.", "• Mostra uma matriz legível por qualquer leitor, sem depender de conhecimento prévio da legislação.", "• Transforma a precificação em método: score de complexidade + multiplicadores operacionais + preço-base por pacote.", "• Gera preço de referência, faixa comercial e justificativa objetiva para proposta."], "guide_uses": ["1. Leia 01_Definições para alinhar conceitos.", "2. Valide o método em 02_Método e o escopo em 03_Serviços.", "3. Use 04_Matriz para enquadrar o empreendimento em um cenário típico.", "4. Refine o preço no 05_Simulador com papel, cadeia, maturidade documental, prova, abrangência, urgência e fiscalização."], "guide_logic": ["Premissas importantes", "• Os valores deste arquivo são valores de referência para venda consultiva; não são tabela oficial do poder público nem preço obrigatório de mercado.", "• As faixas não incluem: compra de créditos, taxa de entidade gestora, taxa de operador, verificador, deslocamentos, custos jurídicos, passivos retroativos e tributos não previstos.", "• Para cadeias específicas (ex.: pneus, eletroeletrônicos, medicamentos, óleos e embalagens de defensivos), a obrigação pode ter rito próprio e o preço nunca deve ser tratado como 'cadastro simples'.", "• Em Goiás, embalagens em geral estão no ambiente do Recicla Goiás; cadeias específicas podem exigir checagem adicional do rito federal/estadual aplicável."], "guide_cautions": ["• A Lei nº 12.305/2010 instituiu a Política Nacional de Resíduos Sólidos; fabricantes, importadores, distribuidores e comerciantes devem adotar medidas necessárias para implementar e operacionalizar sistemas de logística reversa sob sua responsabilidade.", "• O Decreto federal nº 10.936/2022 regulamenta a PNRS; o Decreto nº 11.413/2023 institui certificados como CCRLR/CERE e reforça a operacionalização da logística reversa.", "• Em Goiás, o Decreto estadual nº 10.255/2023 regulamenta embalagens em geral e institui o RECICLAGOIÁS.", "• No segundo ciclo estadual, a meta informada pela Semad para o próximo ano-base foi de pelo menos 30% para vidro, papel/papelão, plástico e metal.", "• Em 2026, a Campanha de Orientação em Goiás reforçou regularização declaratória, plano de logística reversa, cumprimento de metas e adesão das empresas obrigadas."], "terms": [["Papel", "Como reconhecer", "Peso no preço", "Leitura comercial"], ["Papel na cadeia", "Posição real da empresa: comerciante, distribuidor, importador, fabricante ou combinação.", "Supermercado com marca própria deixa de ser só comerciante.", "É o fator com maior peso no preço."], ["Cadeia predominante", "Tipo de obrigação principal: embalagens em geral, cadeia específica do art. 33 ou multicadeia.", "Posto com conveniência e lubrificantes = multicadeia.", "Muda prova, risco e escopo."], ["Maturidade documental", "Qualidade do acervo do cliente: notas, volumes, contratos, relatórios, responsáveis.", "Cliente que não separa notas e volumes gera retrabalho.", "Cliente desorganizado consome mais horas."], ["Tipo de prova", "Nível de comprovação exigido: simples, documental, rastreável ou auditável/verificador.", "Indústria e cadeias específicas tendem a pedir prova mais robusta.", "Quanto mais auditável, maior o preço."], ["Abrangência", "Quantidade de unidades/CNPJs, volume de operação e dispersão do cliente.", "Rede varejista com 8 lojas.", "Aumenta padronização, coleta de dados e governança."]], "paper_defs": [["Papel", "Como reconhecer", "Peso no preço", "Leitura comercial"], ["Comerciante", "Revende sem importar/fabricar.", "Baixo a médio", "Pode começar em pacote enxuto, salvo multicadeia."], ["Distribuidor", "Intermedia volumes e múltiplos fornecedores.", "Médio", "Geralmente exige mais validação documental."], ["Importador", "Coloca produto/embalagem importada no mercado.", "Alto", "Risco regulatório maior; evite preço de varejo simples."], ["Fabricante / marca própria", "Produz ou responde pela colocação do produto/embalagem no mercado.", "Crítico", "Base para pacotes mais robustos."], ["Misto", "Acumula dois ou mais papéis.", "Crítico", "Nunca tratar como caso padrão."]], "method_steps": [["Passo", "O que fazer", "Pergunta-chave", "Por que isso afeta o preço"], ["1. Identificar o papel real", "Mapear se a empresa atua como comerciante, distribuidor, importador, fabricante ou mais de um papel.", "Quem realmente coloca o produto/embalagem no mercado?", "Define a obrigação principal e o peso regulatório."], ["2. Identificar a cadeia", "Separar embalagens em geral, cadeia específica ou multicadeia.", "Há apenas embalagens comuns ou existem fluxos próprios?", "Evita vender 'cadastro' para caso que exige estruturação."], ["3. Medir maturidade documental", "Avaliar notas, relatórios, contratos, responsáveis e histórico.", "O cliente consegue provar o que diz?", "Determina retrabalho, coleta e revisão."], ["4. Medir tipo de prova", "Classificar a necessidade de prova simples, documental, rastreável ou auditável.", "A comprovação será só declaratória ou precisará de lastro robusto?", "Quanto mais robusta, maior a responsabilidade técnica."], ["5. Medir abrangência", "Contar unidades/CNPJs e dispersão da operação.", "É uma loja ou uma rede multiunidade?", "Aumenta governança, padrão e consolidação."], ["6. Medir pressão de prazo", "Apurar urgência e fiscalização ativa.", "Há notificação, campanha, diligência ou prazo curto?", "Justifica adicional e revisão de risco."]], "method_rules": ["• Preço de referência = preço-base do pacote × multiplicador de score × multiplicador de nº de cadeias × multiplicador de abrangência × multiplicador de urgência × multiplicador de fiscalização", "• Score = papel na cadeia + tipo de cadeia + maturidade documental + tipo de prova", "• Faixa comercial sugerida = preço de referência ± 10%", "• Recomenda-se manter desconto estratégico e urgência fora da proposta padrão, para preservar a leitura de valor."], "service_matrix": [["Item de serviço", "Diagnóstico", "Regularização", "Avançado", "Gestão mensal", "Observação comercial", "Cobrança sugerida"], ["Triagem e briefing inicial", "Incluído", "Incluído", "Incluído", "Incluído", "Base de todo trabalho.", "Dentro do pacote"], ["Enquadramento regulatório", "Incluído", "Incluído", "Incluído", "Revisões pontuais", "Nunca vender separado de triagem.", "Dentro do pacote"], ["Mapa de cadeias / papéis", "Incluído", "Incluído", "Incluído", "Atualização quando mudar operação", "Essencial para multicadeia.", "Dentro do pacote"], ["Checklist documental", "Incluído", "Incluído", "Incluído", "Atualização mensal", "Escopo mínimo obrigatório.", "Dentro do pacote"], ["Cadastro / adesão ao sistema", "Não", "Incluído", "Incluído", "Somente manutenção", "Cobrar no mínimo como regularização.", "Dentro do pacote"], ["Plano de logística reversa", "Não", "Incluído", "Incluído", "Atualização / revisão", "Pode exigir coleta interna de dados.", "Dentro do pacote"], ["Contato com entidade gestora / parceiro", "Opcional", "Incluído", "Incluído", "Opcional", "Só se estiver no escopo.", "Adicional quando extrapolar"], ["Análise de notas e massa", "Não", "Opcional", "Incluído", "Opcional", "É um dos maiores geradores de hora.", "Avançado ou adicional"], ["Consolidação multiunidade", "Não", "Opcional", "Incluído", "Incluído", "Cobrar por abrangência.", "Avançado ou adicional"], ["Revisão de prova e evidências", "Não", "Opcional", "Incluído", "Incluído", "Evita autodeclaração frágil.", "Avançado ou adicional"], ["Resposta a diligência/fiscalização", "Não", "Não", "Opcional", "Opcional", "Sempre tratar como adicional ou pacote premium.", "Adicional"]], "service_notes": ["Exclusões recomendadas na proposta", "• Compra de CCRLR/CERE, certificados equivalentes, taxa de operador, taxa de gestora ou de verificador.", "• Custos de deslocamento, visitas presenciais fora do combinado e despesas de viagem.", "• Atuação contenciosa, defesa administrativa/jurídica, emissão de parecer jurídico ou regularização de passivo histórico omitido."], "matrix_rows": [["Segmento", "Exemplo", "Papel típico", "Cadeia típica", "Nº cadeias", "Abrangência típica", "Maturidade", "Tipo de prova", "Score", "Complexidade", "Diagnóstico", "Regularização", "Avançado", "Gestão mensal", "Observação de venda"], ["Comércio local simples", "Loja, farmácia, papelaria", "Comerciante", "Embalagens em geral", "1", "1 CNPJ / 1 unidade", "Média", "Declaratória simples", 7, "Baixa", 1300, 2750, 4600, 850, "Entrada ideal para pacote diagnóstico ou regularização enxuta."], ["E-commerce / seller pequeno", "Operação própria com despacho de embalagens", "Misto / mais de um papel", "Embalagens em geral", "1", "1 CNPJ / 1 unidade", "Média", "Documental consolidada", 11, "Alta", 1800, 3850, 6500, 1150, "Atenção para marca própria e importação."], ["Varejo alimentar", "Mercado, atacarejo local", "Comerciante", "Embalagens em geral", "1", "2-3 unidades ou CNPJs", "Baixa", "Documental consolidada", 9, "Moderada", 1700, 3550, 5950, 1050, "Costuma consumir tempo em notas, volume e coordenação interna."], ["Rede varejista / franquia", "Rede de lojas", "Comerciante", "Multicadeia", "2", "4-10 unidades ou CNPJs", "Baixa", "Rastreabilidade", 13, "Alta", 2600, 5550, 9350, 1650, "Nunca vender como um único cadastro."], ["Atacado / distribuição", "Distribuidor regional", "Distribuidor", "Embalagens em geral", "1", "2-3 unidades ou CNPJs", "Baixa", "Rastreabilidade", 11, "Alta", 2000, 4250, 7150, 1300, "Volume e múltiplos fornecedores elevam a complexidade."], ["Indústria leve", "Alimentos, cosméticos, saneantes", "Fabricante / Marca própria", "Embalagens em geral", "1", "1 CNPJ / 1 unidade", "Média", "Documental consolidada", 11, "Alta", 1800, 3850, 6500, 1150, "Preço deve refletir papel de fabricante."], ["Indústria alta complexidade", "Química, plástico, metal, múltiplas linhas", "Fabricante / Marca própria", "Multicadeia", "2", "2-3 unidades ou CNPJs", "Baixa", "Rastreabilidade", 16, "Muito alta", 2700, 5700, 9600, 1700, "Tende a pedir pacote avançado e gestão."], ["Importador / marca própria", "Importador com distribuição nacional/regional", "Importador", "Embalagens em geral", "1", "1 CNPJ / 1 unidade", "Baixa", "Documental consolidada", 11, "Alta", 1800, 3850, 6500, 1150, "Evitar preço de varejo simples."], ["Posto + conveniência + lubrificantes", "Posto com loja e venda de lubrificantes", "Comerciante", "Multicadeia", "2", "1 CNPJ / 1 unidade", "Baixa", "Auditável / verificador", 14, "Muito alta", 2450, 5200, 8700, 1550, "Clássico caso de multicadeia; tende a subir de preço rápido."], ["Agro revenda", "Revenda de insumos / defensivos", "Distribuidor", "Cadeia específica art. 33", "1", "1 CNPJ / 1 unidade", "Baixa", "Auditável / verificador", 14, "Muito alta", 2100, 4500, 7600, 1350, "Cadeia específica não deve ser tratada como pacote simples."]], "prem_base": [["Pacote", "Horas estimadas", "Preço-base (editável)", "Objetivo comercial", "Quando usar"], ["Diagnóstico", 7, 1500, "Abrir porta, enquadrar e transformar dúvida em decisão.", "Cliente ainda não sabe se está obrigado ou como está enquadrado."], ["Regularização", 15, 3200, "Resolver adesão, plano e base documental mínima.", "Cliente já precisa se regularizar."], ["Avançado", 26, 5400, "Estruturar prova, dados, multicadeia e multiunidade.", "Indústria, multicadeia, grupo empresarial, maior exigência de prova."], ["Gestão mensal", 5, 950, "Recorrência, governança e redução de risco.", "Cliente quer manutenção e previsibilidade."]], "prem_policy": ["Fiscalização", "Como reposicionar os preços sem quebrar o método", "• Posicionamento de entrada: reduza os preços-base em 10% a 15%, mas mantenha os multiplicadores.", "• Posicionamento recomendado: use os preços-base da planilha e aplique apenas desconto estratégico pontual na proposta, nunca dentro da base."], "cases_rows": [["Caso", "Perfil", "Papel", "Cadeia", "Nº cadeias", "Abrangência", "Maturidade", "Prova", "Score", "Complexidade", "Diagnóstico", "Regularização", "Avançado", "Mensagem de venda"], ["1", "Farmácia de bairro", "Comerciante", "Embalagens em geral", "1", "1 CNPJ / 1 unidade", "Média", "Declaratória simples", 4, "Baixa", 1300, 2750, 4600, "Vender como entrada rápida para enquadrar e regularizar sem excesso de escopo."], ["2", "Supermercado local", "Comerciante", "Embalagens em geral", "1", "2-3 unidades ou CNPJs", "Baixa", "Documental consolidada", 4, "Baixa", 1450, 3000, 5050, "Explicar que volume e documentos elevam o esforço, ainda que a cadeia seja simples."], ["3", "Indústria de alimentos", "Fabricante / Marca própria", "Embalagens em geral", "1", "1 CNPJ / 1 unidade", "Média", "Documental consolidada", 7, "Baixa", 1300, 2750, 4600, "Posicionar o papel de fabricante como fator central do preço."], ["4", "Posto com loja e lubrificantes", "Comerciante", "Multicadeia", "2", "1 CNPJ / 1 unidade", "Baixa", "Auditável / verificador", 7, "Baixa", 1500, 3150, 5300, "Mostrar que um único CNPJ pode ter mais de um módulo de obrigação."]], "sources_rows": [["Tema", "Fonte / URL", "Ponto usado", "Observação", "Tipo"], ["Goiás — página oficial", "https://goias.gov.br/meioambiente/logistica-reversa/", "Monitoramento contínuo, superação da meta de 22%, estrutura do sistema estadual e Comitê de Logística Reversa.", "Base estadual oficial para embalagens em geral.", "Oficial"], ["Goiás — notícia oficial 2024", "https://goias.gov.br/meioambiente/logistica-reversa-prazo-para-cadastro-de-empresas-que-geram-embalagens-reciclaveis-esta-aberto/", "Cadastro obrigatório; meta de 30% no segundo ciclo; exigência de plano de logística reversa.", "Usado para leitura de esforço e narrativa comercial.", "Oficial"], ["Goiás — Resolução SEMAD 1/2026", "https://www.legisweb.com.br/legislacao/?id=489143", "Campanha orientativa 2026, regularização, metas, plano e adesão.", "Usado para reforçar necessidade de regularização contínua.", "Reprodução de norma"], ["SINIR — embalagens em geral", "https://sinir.gov.br/perfis/logistica-reversa/logistica-reversa/embalagens-em-geral/", "Acordo setorial, Decreto 11.413/2023, Portarias 1.011/2024, 1.102/2024 e 1.117/2024.", "Base federal de operacionalização.", "Oficial"], ["DOU — Portaria 1.011/2024", "https://www.in.gov.br/web/dou/-/portaria-gm/mma-n-1.011-de-11-de-marco-de-2024-547763337", "Modelo padrão do relatório anual de resultados.", "Usado na leitura de prova e reporte.", "Oficial"], ["DOU — Portaria 1.117/2024", "https://www.in.gov.br/web/dou/-/portaria-gm/mma-n-1.117-de-1-de-agosto-de-2024-575976215", "Critérios de habilitação dos verificadores de resultado.", "Usado na leitura de casos auditáveis.", "Oficial"]], "roles": {"Comerciante": 2, "Distribuidor": 3, "Importador": 4, "Fabricante / Marca própria": 5, "Misto / mais de um papel": 5}, "chains": {"Embalagens em geral": 2, "Cadeia específica art. 33": 4, "Multicadeia": 5}, "maturity": {"Alta": 1, "Média": 2, "Baixa": 3, "Crítica": 4}, "proof": {"Declaratória simples": 1, "Documental consolidada": 2, "Rastreabilidade": 3, "Auditável / verificador": 4}, "num_chains": {"1": 1, "2": 1.15, "3": 1.3, "4+": 1.45}, "scope": {"1 CNPJ / 1 unidade": 1, "2-3 unidades ou CNPJs": 1.1, "4-10 unidades ou CNPJs": 1.25, "11+ unidades ou CNPJs": 1.4}, "urgency": {"Normal": 1, "Até 15 dias": 1.1, "Até 7 dias": 1.2}, "inspection": {"Não": 1, "Sim": 1.15}, "score_bands": [{"min": 0, "complexity": "Baixa", "mult": 0.85}, {"min": 8, "complexity": "Moderada", "mult": 1}, {"min": 11, "complexity": "Alta", "mult": 1.2}, {"min": 14, "complexity": "Muito alta", "mult": 1.4}, {"min": 17, "complexity": "Crítica", "mult": 1.6}], "package_prices": {"Diagnóstico": 1500, "Regularização": 3200, "Avançado": 5400, "Gestão mensal": 950}, "package_hours": {"Diagnóstico": 7, "Regularização": 15, "Avançado": 26, "Gestão mensal": 5}, "package_objective": {"Diagnóstico": "Abrir porta, enquadrar e transformar dúvida em decisão.", "Regularização": "Resolver adesão, plano e base documental mínima.", "Avançado": "Estruturar prova, dados, multicadeia e multiunidade.", "Gestão mensal": "Recorrência, governança e redução de risco."}, "package_when": {"Diagnóstico": "Cliente ainda não sabe se está obrigado ou como está enquadrado.", "Regularização": "Cliente já precisa se regularizar.", "Avançado": "Indústria, multicadeia, grupo empresarial, maior exigência de prova.", "Gestão mensal": "Cliente quer manutenção e previsibilidade."}};
+
+const formatBRL = (value) => new Intl.NumberFormat('pt-BR', {
+  style: 'currency', currency: 'BRL', maximumFractionDigits: 0
+}).format(value);
+
+function populateSelect(id, optionsObj) {
+  const select = document.getElementById(id);
+  select.innerHTML = '';
+  Object.keys(optionsObj).forEach(key => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = key;
+    select.appendChild(opt);
+  });
+}
+
+populateSelect('role', DATA.roles);
+populateSelect('chain', DATA.chains);
+populateSelect('numChains', DATA.num_chains);
+populateSelect('scope', DATA.scope);
+populateSelect('maturity', DATA.maturity);
+populateSelect('proof', DATA.proof);
+populateSelect('urgency', DATA.urgency);
+populateSelect('inspection', DATA.inspection);
+
+function getComplexity(score) {
+  let chosen = DATA.score_bands[0];
+  DATA.score_bands.forEach(b => {
+    if (score >= b.min) chosen = b;
+  });
+  return chosen;
+}
+
+function round50(v) {
+  return Math.ceil(v / 50) * 50;
+}
+
+function calc() {
+  const role = document.getElementById('role').value;
+  const chain = document.getElementById('chain').value;
+  const numChains = document.getElementById('numChains').value;
+  const scope = document.getElementById('scope').value;
+  const maturity = document.getElementById('maturity').value;
+  const proof = document.getElementById('proof').value;
+  const urgency = document.getElementById('urgency').value;
+  const inspection = document.getElementById('inspection').value;
+
+  const score = (DATA.roles[role] || 0) + (DATA.chains[chain] || 0) + (DATA.maturity[maturity] || 0) + (DATA.proof[proof] || 0);
+  const complexity = getComplexity(score);
+  const mult = (complexity.mult || 1) * (DATA.num_chains[numChains] || 1) * (DATA.scope[scope] || 1) * (DATA.urgency[urgency] || 1) * (DATA.inspection[inspection] || 1);
+
+  document.getElementById('outScore').textContent = score;
+  document.getElementById('outComplexity').textContent = complexity.complexity;
+  document.getElementById('outMult').textContent = mult.toFixed(2).replace('.', ',') + 'x';
+
+  let exec = 'Caso enxuto';
+  if (complexity.complexity === 'Alta' || complexity.complexity === 'Muito alta') exec = 'Caso robusto';
+  if (complexity.complexity === 'Crítica') exec = 'Caso crítico';
+  document.getElementById('outExecutive').textContent = exec;
+
+  const bases = {
+    'Diagnóstico': Number(document.getElementById('baseDiag').value || 0),
+    'Regularização': Number(document.getElementById('baseReg').value || 0),
+    'Avançado': Number(document.getElementById('baseAdv').value || 0),
+    'Gestão mensal': Number(document.getElementById('baseGest').value || 0),
+  };
+
+  const tbody = document.getElementById('pricingBody');
+  tbody.innerHTML = '';
+  Object.keys(bases).forEach(pkg => {
+    const base = bases[pkg];
+    const ref = round50(base * mult);
+    const low = round50(ref * 0.9);
+    const high = round50(ref * 1.1);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${pkg}</strong></td>
+      <td>${formatBRL(base)}</td>
+      <td>${formatBRL(ref)}</td>
+      <td>${formatBRL(low)} a ${formatBRL(high)}</td>
+      <td>${DATA.package_objective[pkg] || ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+['role','chain','numChains','scope','maturity','proof','urgency','inspection','baseDiag','baseReg','baseAdv','baseGest'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calc);
+});
+
+document.getElementById('resetCase').addEventListener('click', () => {
+  document.getElementById('role').value = 'Comerciante';
+  document.getElementById('chain').value = 'Embalagens em geral';
+  document.getElementById('numChains').value = '1';
+  document.getElementById('scope').value = '1 CNPJ / 1 unidade';
+  document.getElementById('maturity').value = 'Média';
+  document.getElementById('proof').value = 'Declaratória simples';
+  document.getElementById('urgency').value = 'Normal';
+  document.getElementById('inspection').value = 'Não';
+  calc();
+});
+document.getElementById('applyPosto').addEventListener('click', () => {
+  document.getElementById('role').value = 'Comerciante';
+  document.getElementById('chain').value = 'Multicadeia';
+  document.getElementById('numChains').value = '2';
+  document.getElementById('scope').value = '1 CNPJ / 1 unidade';
+  document.getElementById('maturity').value = 'Baixa';
+  document.getElementById('proof').value = 'Auditável / verificador';
+  document.getElementById('urgency').value = 'Normal';
+  document.getElementById('inspection').value = 'Não';
+  calc();
+});
+document.getElementById('applyIndustria').addEventListener('click', () => {
+  document.getElementById('role').value = 'Fabricante / Marca própria';
+  document.getElementById('chain').value = 'Embalagens em geral';
+  document.getElementById('numChains').value = '1';
+  document.getElementById('scope').value = '1 CNPJ / 1 unidade';
+  document.getElementById('maturity').value = 'Média';
+  document.getElementById('proof').value = 'Documental consolidada';
+  document.getElementById('urgency').value = 'Normal';
+  document.getElementById('inspection').value = 'Não';
+  calc();
+});
+
+document.getElementById('matrixFilter').addEventListener('input', (e) => {
+  const term = e.target.value.toLowerCase().trim();
+  document.querySelectorAll('#matrixTable tbody tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+  });
+});
+
+document.getElementById('resetCase').click();
+</script>
+</body>
+</html>

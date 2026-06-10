@@ -1,0 +1,472 @@
+[
+  {
+    "id": "uso-do-solo",
+    "modulo": "01 — Uso do Solo",
+    "categoria": "Processo municipal / compatibilidade urbanística",
+    "perguntas_chave": [
+      "uso do solo posto",
+      "certidão de uso do solo",
+      "documentos uso do solo",
+      "prefeitura posto novo",
+      "aprovação municipal posto",
+      "zoneamento posto"
+    ],
+    "resposta_objetiva": "O Uso do Solo verifica se a atividade de posto de combustível é compatível com o imóvel, endereço, zoneamento e finalidade pretendida. Normalmente é etapa de entrada para licenciamento, alvará, reforma, ampliação, regularização ou renovação.",
+    "checklist": [
+      "CNPJ e contrato social/última alteração",
+      "Documento do representante legal e procuração, quando aplicável",
+      "IPTU, inscrição imobiliária ou cadastro municipal",
+      "Matrícula, escritura, contrato de locação ou documento de posse",
+      "Endereço completo, croqui de localização e coordenadas",
+      "CNAE e descrição da atividade pretendida",
+      "Planta, layout ou croqui do empreendimento, quando exigido",
+      "Licença anterior ou alvará anterior, quando houver",
+      "Requerimento municipal e comprovante de taxa"
+    ],
+    "estudos_documentos": [
+      "Análise de compatibilidade urbanística",
+      "Dossiê municipal de requerimento",
+      "Memória técnica simples de enquadramento",
+      "Croqui/planta de localização",
+      "Relatório de pendências e encaminhamento"
+    ],
+    "responsabilidades": {
+      "habilis_assume": "Condução técnica do processo de uso do solo dentro do escopo contratado.",
+      "habilis_executa": "Triagem, checklist, análise de compatibilidade, matriz de pendências, dossiê e apoio ao protocolo.",
+      "habilis_gere": "Prazos, pendências, comunicação com cliente, acompanhamento e evidências.",
+      "cliente": "Fornece documentos, autoriza protocolo, paga taxas e regulariza pendências próprias.",
+      "terceiros": "Podem elaborar planta, projeto, topografia ou documentos técnicos complementares.",
+      "orgao": "Prefeitura analisa, exige complementações e emite certidão, declaração ou despacho."
+    },
+    "terceiros_relacionados": [
+      "Arquiteto/engenheiro",
+      "Topografia",
+      "Apoio documental/cartório"
+    ],
+    "riscos": [
+      "Endereço divergente entre documentos",
+      "Imóvel sem vínculo claro com o empreendedor",
+      "CNAE ou atividade incompatível com zoneamento",
+      "Necessidade de projeto ou regularização edilícia antes da certidão",
+      "Indeferimento por restrição municipal"
+    ],
+    "fontes_internas": ["PDF 01 — Uso do Solo"]
+  },
+  {
+    "id": "licenciamento-ambiental",
+    "modulo": "02 — Licenciamento Ambiental",
+    "categoria": "Licença, renovação, regularização e exigências",
+    "perguntas_chave": [
+      "licença ambiental posto",
+      "renovação LAO posto",
+      "estudos licença posto",
+      "quais estudos pede uma licença para posto",
+      "documentos para licenciamento posto",
+      "condicionantes licença posto",
+      "relatorio ambiental posto"
+    ],
+    "resposta_objetiva": "O licenciamento ambiental de posto pode exigir um conjunto de documentos cadastrais, urbanísticos, ambientais, operacionais e de terceiros. Os estudos variam conforme órgão, fase, porte, histórico do empreendimento e existência de exigências ou condicionantes.",
+    "checklist": [
+      "CNPJ, contrato social e representante legal",
+      "Procuração, quando aplicável",
+      "Certidão/declaração de uso do solo",
+      "Documentos do imóvel",
+      "Licença anterior e condicionantes, quando houver",
+      "Comprovantes de taxa e publicações legais, quando exigidos",
+      "Laudo de estanqueidade do SASC",
+      "Documentos e evidências da SAO",
+      "PGRS/MCO ou documento equivalente, quando aplicável",
+      "MTR/CDF, OLUC e comprovantes de resíduos",
+      "Outorga, dispensa ou comprovação de rede pública, quando aplicável",
+      "AVCB/CERCON ou documento equivalente, quando exigido",
+      "Relatório fotográfico e plantas/croquis"
+    ],
+    "estudos_documentos": [
+      "Relatório ambiental ou memorial técnico",
+      "MCO ou plano/memorial de controle ambiental",
+      "PGRS",
+      "Laudo de estanqueidade",
+      "Relatório de atendimento de condicionantes",
+      "Análise de efluentes, quando exigida",
+      "Documentação de outorga/dispensa",
+      "Relatório fotográfico",
+      "Estudos complementares conforme exigência do órgão ambiental"
+    ],
+    "responsabilidades": {
+      "habilis_assume": "Condução técnica, organização documental e acompanhamento dentro do escopo contratado.",
+      "habilis_executa": "Diagnóstico, checklist, matriz de pendências, relatório, dossiê e apoio ao protocolo.",
+      "habilis_gere": "Prazos, exigências, terceiros, documentos, evidências e status report.",
+      "cliente": "Fornece documentos, autoriza ações, paga taxas e aprova terceiros.",
+      "terceiros": "Executam laudos, ensaios, projetos, análises e serviços especializados.",
+      "orgao": "Analisa, exige, defere, indefere e emite licença ou despacho."
+    },
+    "terceiros_relacionados": [
+      "Estanqueidade",
+      "Laboratório",
+      "Bombeiros",
+      "Resíduos",
+      "Engenharia",
+      "Outorga"
+    ],
+    "riscos": [
+      "Licença vencida ou ausência de licença",
+      "Condicionantes não atendidas",
+      "Laudos vencidos ou inconsistentes",
+      "Falta de uso do solo",
+      "Pendências de SASC, SAO, resíduos, água ou AVCB",
+      "Expectativa de aprovação sem depender do órgão"
+    ],
+    "fontes_internas": [
+      "PDF 02 — Licenciamento Ambiental",
+      "PDF 03 — Operação SASC",
+      "PDF 04 — SAO e Efluentes",
+      "PDF 05 — Resíduos",
+      "PDF 06 — Água/Outorga/Esgoto",
+      "PDF 07 — AVCB/ANP"
+    ]
+  },
+  {
+    "id": "operacao-sasc",
+    "modulo": "03 — Operação SASC",
+    "categoria": "Tanques, linhas, bombas, descarga, respiros e estanqueidade",
+    "perguntas_chave": [
+      "sasc posto",
+      "tanques posto",
+      "laudo estanqueidade",
+      "linhas bombas posto",
+      "descarga selada respiro sump",
+      "operação sasc responsabilidades"
+    ],
+    "resposta_objetiva": "A Operação SASC organiza a verificação dos componentes do sistema de armazenamento subterrâneo de combustíveis, incluindo tanques, linhas, bombas, descarga selada, respiros, sumps, pista, canaletas e laudo de estanqueidade.",
+    "checklist": [
+      "Relação de tanques, capacidades e produtos armazenados",
+      "Laudo de estanqueidade vigente",
+      "Identificação de linhas, bombas e conexões",
+      "Fotos de bocais, descarga selada, respiros e sumps",
+      "Evidências de vazamentos, infiltrações ou presença de combustível",
+      "Registro de manutenção ou intervenções",
+      "Cadastro técnico ou memorial do SASC, se existir",
+      "Documento de terceiro responsável pelo ensaio/manutenção"
+    ],
+    "estudos_documentos": [
+      "Checklist técnico de vistoria SASC",
+      "Relatório fotográfico dos componentes",
+      "Laudo de estanqueidade",
+      "Plano de ação para manutenção/adequação",
+      "Dossiê de evidências para licenciamento"
+    ],
+    "responsabilidades": {
+      "habilis_assume": "Diagnóstico e condução técnica documental/operacional do SASC.",
+      "habilis_executa": "Checklist, análise visual/documental, matriz de pendências e integração ao dossiê.",
+      "habilis_gere": "Acionamento e acompanhamento de terceiros, prazos, evidências e laudos.",
+      "cliente": "Permite acesso, fornece dados, aprova orçamento e executa adequações.",
+      "terceiros": "Realizam ensaio de estanqueidade, manutenção, troca, instalação ou adequação.",
+      "orgao": "Exige documentação, avalia consistência e pode determinar complementações."
+    },
+    "terceiros_relacionados": [
+      "Empresa de estanqueidade",
+      "Manutenção SASC",
+      "Engenharia",
+      "Limpeza/emergência"
+    ],
+    "riscos": [
+      "Laudo vencido ou sem rastreabilidade",
+      "Sump com líquido ou combustível",
+      "Descarga sem vedação adequada",
+      "Respiros inadequados ou sem proteção",
+      "Indícios de vazamento",
+      "Terceiro sem qualificação/documentação"
+    ],
+    "fontes_internas": [
+      "PDF 03 — Operação SASC",
+      "PDF 03A — Terceiros na Operação SASC"
+    ]
+  },
+  {
+    "id": "sao-efluentes",
+    "modulo": "04 — SAO e Efluentes",
+    "categoria": "Caixa separadora, drenagem oleosa, parâmetros e manutenção",
+    "perguntas_chave": [
+      "sao posto",
+      "caixa separadora agua oleo",
+      "efluentes posto",
+      "parametros sao",
+      "periodicidade limpeza sao",
+      "analise efluente posto"
+    ],
+    "resposta_objetiva": "O bloco SAO e Efluentes organiza a verificação da drenagem oleosa, canaletas, caixa de areia, caixa separadora, ponto de amostragem, limpeza, destinação do lodo e análise de efluente quando exigida.",
+    "checklist": [
+      "Mapeamento da área que contribui para a SAO",
+      "Canaletas, ralos, caixas de passagem e caixa de areia",
+      "Caixa separadora água e óleo",
+      "Caixa de amostragem e ponto de lançamento",
+      "Registro de limpeza, sucção e destinação",
+      "MTR/CDF do lodo, quando aplicável",
+      "Laudo de análise de efluente, quando exigido",
+      "Fotos antes/depois e evidências de manutenção"
+    ],
+    "estudos_documentos": [
+      "Checklist de campo SAO",
+      "Relatório fotográfico",
+      "Plano de manutenção/limpeza",
+      "Laudo de efluente",
+      "Dossiê de destinação do lodo",
+      "Status report de não conformidades"
+    ],
+    "responsabilidades": {
+      "habilis_assume": "Condução técnica do diagnóstico e controle documental da SAO.",
+      "habilis_executa": "Vistoria, checklist, matriz de pendências e integração das evidências.",
+      "habilis_gere": "Terceiros de limpeza, laboratório, MTR/CDF e status.",
+      "cliente": "Opera corretamente, mantém limpeza, aprova terceiros e arca com custos.",
+      "terceiros": "Executam limpeza, sucção, transporte, destinação, análise laboratorial e manutenção.",
+      "orgao": "Define exigências e parâmetros aplicáveis ao caso."
+    },
+    "terceiros_relacionados": [
+      "Limpeza de SAO",
+      "Transportador/destinador",
+      "Laboratório",
+      "Manutenção civil/hidráulica"
+    ],
+    "riscos": [
+      "SAO sem manutenção",
+      "Lodo destinado sem MTR/CDF",
+      "Área contribuindo indevidamente para drenagem oleosa",
+      "Efluente fora de padrão",
+      "Mistura de água pluvial limpa com efluente oleoso",
+      "Ponto de lançamento sem clareza"
+    ],
+    "fontes_internas": ["PDF 04 — SAO e Efluentes", "PDF 04A — Terceiros SAO"]
+  },
+  {
+    "id": "residuos-oluc-mtr-cdf",
+    "modulo": "05 — Resíduos, OLUC, MTR e CDF",
+    "categoria": "Gestão de resíduos e evidências de destinação",
+    "perguntas_chave": [
+      "residuos posto",
+      "oluc",
+      "mtr cdf posto",
+      "pgrs posto",
+      "lodo sao",
+      "destinação filtros estopas contaminadas"
+    ],
+    "resposta_objetiva": "Este bloco organiza o inventário de resíduos do posto, armazenamento, transporte, destinação, documentos MTR/CDF, OLUC, lodo da SAO, filtros, estopas contaminadas e demais evidências de regularidade.",
+    "checklist": [
+      "Inventário de resíduos por origem",
+      "PGRS ou MCO, quando aplicável",
+      "Área de armazenamento temporário",
+      "Comprovantes de coleta de OLUC",
+      "MTR e CDF dos resíduos",
+      "Licenças/regularidade de transportador e destinador",
+      "Notas fiscais, certificados e relatórios de limpeza",
+      "Fotos do abrigo/área de armazenamento"
+    ],
+    "estudos_documentos": [
+      "Inventário de resíduos",
+      "PGRS",
+      "Matriz MTR/CDF",
+      "Dossiê de destinação",
+      "Plano de ação de armazenamento",
+      "Relatório de conformidade de resíduos"
+    ],
+    "responsabilidades": {
+      "habilis_assume": "Organização técnica e documental da gestão de resíduos dentro do escopo.",
+      "habilis_executa": "Inventário, checklist, matriz de pendências e dossiê.",
+      "habilis_gere": "Coleta de evidências, terceiros, prazos e documentos MTR/CDF.",
+      "cliente": "Segrega, armazena, contrata/aprova terceiros e mantém rotina operacional.",
+      "terceiros": "Coletam, transportam, destinam e emitem documentos formais.",
+      "orgao": "Fiscaliza, exige e avalia documentos."
+    },
+    "terceiros_relacionados": [
+      "Coletor OLUC",
+      "Transportador",
+      "Destinador",
+      "Limpeza SAO",
+      "Recicladores"
+    ],
+    "riscos": [
+      "Resíduo perigoso tratado como comum",
+      "MTR emitido errado ou ausente",
+      "CDF não retornado",
+      "Destinador irregular",
+      "Armazenamento sem contenção/identificação",
+      "OLUC sem certificado"
+    ],
+    "fontes_internas": [
+      "PDF 05 — Resíduos, OLUC, MTR e CDF",
+      "PDF 05A — Terceiros Resíduos"
+    ]
+  },
+  {
+    "id": "agua-outorga-esgoto",
+    "modulo": "06 — Água, Outorga e Esgoto",
+    "categoria": "Fonte de água, poço, outorga, esgoto e análises",
+    "perguntas_chave": [
+      "outorga posto",
+      "poço posto",
+      "água posto",
+      "esgoto posto",
+      "uso insignificante",
+      "terceiros outorga",
+      "dispensa outorga"
+    ],
+    "resposta_objetiva": "O bloco Água, Outorga e Esgoto identifica a fonte de abastecimento, necessidade de outorga ou registro, existência de poço, lançamento de efluente, rede pública, sistema individual e análises aplicáveis.",
+    "checklist": [
+      "Fonte de água: rede pública, poço, captação superficial ou caminhão-pipa",
+      "Documento de outorga, dispensa ou registro de uso insignificante",
+      "Coordenadas do ponto de captação/poço",
+      "Vazão, finalidade e consumo estimado",
+      "Documentos do poço e responsável técnico, quando aplicável",
+      "Comprovação de ligação à rede pública ou solução individual de esgoto",
+      "Laudos de análise de água/efluente, quando exigidos",
+      "Condicionantes e prazos vinculados ao uso da água"
+    ],
+    "estudos_documentos": [
+      "Diagnóstico hídrico do posto",
+      "Dossiê de outorga/dispensa/registro",
+      "Teste de vazão ou estudo hidrogeológico, quando necessário",
+      "Análise laboratorial",
+      "Memorial técnico de uso da água",
+      "Status report de regularização hídrica"
+    ],
+    "responsabilidades": {
+      "habilis_assume": "Enquadramento, organização e condução documental do processo hídrico.",
+      "habilis_executa": "Triagem, checklist, matriz de pendências e dossiê.",
+      "habilis_gere": "Terceiros, prazos, documentos técnicos e protocolo.",
+      "cliente": "Fornece dados, permite acesso, aprova custos e executa adequações.",
+      "terceiros": "Executam teste, laudo, análise, poço, topografia ou estudos técnicos.",
+      "orgao": "Analisa e emite outorga, registro, dispensa, exigência ou indeferimento."
+    },
+    "terceiros_relacionados": [
+      "Geólogo/hidrogeólogo",
+      "Empresa de poço",
+      "Laboratório",
+      "Topografia",
+      "Engenharia hidráulica"
+    ],
+    "riscos": [
+      "Uso de poço sem regularização",
+      "Dados de vazão inconsistentes",
+      "Captação em domínio diferente do órgão consultado",
+      "Falta de teste ou estudo técnico",
+      "Prazo do órgão ou sistema estadual",
+      "Cliente confundir rede pública com dispensa automática de todo controle"
+    ],
+    "fontes_internas": [
+      "PDF 06 — Água, Outorga e Esgoto",
+      "PDF 06B — Outorga",
+      "PDF 06C — Terceiros Outorga"
+    ]
+  },
+  {
+    "id": "avcb-anp-obrigacoes",
+    "modulo": "07 — AVCB, ANP e Obrigações Acessórias",
+    "categoria": "Bombeiros, ANP, extintores, alvará e obrigações complementares",
+    "perguntas_chave": [
+      "avcb posto",
+      "cercon bombeiros posto",
+      "anp posto",
+      "extintores posto",
+      "obrigações acessórias posto",
+      "alvará posto"
+    ],
+    "resposta_objetiva": "Este bloco organiza documentos de segurança contra incêndio, AVCB/CERCON, PSCIP, extintores, ANP, alvará, VISA e obrigações acessórias que podem interferir no licenciamento ou na regularidade operacional.",
+    "checklist": [
+      "AVCB/CERCON vigente ou protocolo",
+      "Projeto de incêndio/PSCIP, quando aplicável",
+      "Extintores, sinalização, iluminação e sistemas de emergência",
+      "Laudos técnicos correlatos, quando exigidos",
+      "Autorização/cadastro ANP e dados do revendedor",
+      "Alvará de funcionamento",
+      "VISA, se houver loja/lanchonete ou atividade sujeita",
+      "Registros de treinamentos/brigada, quando aplicável"
+    ],
+    "estudos_documentos": [
+      "Diagnóstico de obrigações acessórias",
+      "Matriz de vencimentos",
+      "Dossiê AVCB/ANP",
+      "Checklist de extintores e sistemas de emergência",
+      "Plano de ação de adequações"
+    ],
+    "responsabilidades": {
+      "habilis_assume": "Mapeamento e controle documental das obrigações acessórias no escopo contratado.",
+      "habilis_executa": "Checklist, matriz de pendências e integração ao dossiê.",
+      "habilis_gere": "Terceiros, prazos, evidências e status.",
+      "cliente": "Contrata/autoriza serviços, paga custos e executa adequações físicas.",
+      "terceiros": "Executam PSCIP, manutenção de extintores, SPDA, laudos, sinalização e adequações.",
+      "orgao": "Bombeiros/ANP/prefeitura/VISA analisam, fiscalizam e emitem documentos."
+    },
+    "terceiros_relacionados": [
+      "Engenharia de incêndio",
+      "Extintores",
+      "SPDA/elétrica",
+      "Sinalização",
+      "Consultoria ANP"
+    ],
+    "riscos": [
+      "AVCB vencido",
+      "Extintores vencidos ou sem rastreabilidade",
+      "Projeto desatualizado",
+      "Dados ANP divergentes",
+      "Alvará incompatível com atividade",
+      "Cliente achar que Hábilis executa adequação física sem contratar terceiro"
+    ],
+    "fontes_internas": ["PDF 07 — AVCB, ANP e Obrigações Acessórias"]
+  },
+  {
+    "id": "car",
+    "modulo": "CAR — Cadastro Ambiental Rural",
+    "categoria": "Imóvel rural, APP, Reserva Legal, SIGCAR/SICAR e regularização ambiental rural",
+    "perguntas_chave": [
+      "car",
+      "cadastro ambiental rural",
+      "sigcar",
+      "sicar",
+      "reserva legal",
+      "app imóvel rural",
+      "regularização car",
+      "retificação car"
+    ],
+    "resposta_objetiva": "O CAR é um registro eletrônico obrigatório para imóveis rurais e integra informações ambientais da propriedade ou posse, como APP, Reserva Legal, áreas consolidadas, remanescentes e uso do solo. A Hábilis pode conduzir diagnóstico, checklist, análise, cadastro/retificação e integração de terceiros.",
+    "checklist": [
+      "Documentos do proprietário/possuidor",
+      "CPF/CNPJ e comprovantes cadastrais",
+      "Matrícula, escritura, contrato ou documento de posse",
+      "CCIR, ITR ou documentos rurais complementares, quando houver",
+      "Coordenadas, perímetro, planta, shapefile/KML ou croqui",
+      "Informações de APP, Reserva Legal e uso consolidado",
+      "Acesso ao sistema estadual/nacional, quando necessário",
+      "Procuração ou autorização para atuação"
+    ],
+    "estudos_documentos": [
+      "Diagnóstico do CAR",
+      "Análise de consistência geoespacial",
+      "Mapa de APP/RL/uso do solo",
+      "Cadastro ou retificação",
+      "Status report de pendências",
+      "Dossiê fundiário e ambiental"
+    ],
+    "responsabilidades": {
+      "habilis_assume": "Condução técnica do processo do CAR dentro do escopo contratado.",
+      "habilis_executa": "Checklist, análise, organização documental, cadastro/retificação quando contratado e relatório.",
+      "habilis_gere": "Terceiros GIS, topografia, documentação fundiária e pendências.",
+      "cliente": "Fornece documentos, autoriza acesso e confirma informações do imóvel.",
+      "terceiros": "Executam geoprocessamento, topografia, análise ambiental, jurídico/cartório e campo/drone.",
+      "orgao": "Sistema/órgão ambiental analisa, valida ou emite pendências."
+    },
+    "terceiros_relacionados": [
+      "GIS/geoprocessamento",
+      "Topografia",
+      "Engenheiro florestal/agrônomo/biólogo",
+      "Cartório/jurídico",
+      "Drone/campo"
+    ],
+    "riscos": [
+      "Polígono incorreto ou sobreposição",
+      "Documento fundiário inconsistente",
+      "APP/RL mal delimitada",
+      "Cliente achar que CAR resolve toda a regularização rural",
+      "Necessidade de PRA, DAI ou regularização complementar"
+    ],
+    "fontes_internas": ["PDF CAR — Cadastro Ambiental Rural", "PDF CAR — Terceiros"]
+  }
+]

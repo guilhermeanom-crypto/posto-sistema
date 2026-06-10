@@ -1,0 +1,951 @@
+{
+  "base_oficial": {
+    "fontes_oficiais": [
+      {
+        "titulo_fonte": "Consulta de Decisoes de Processos de Licenciamento Ambiental",
+        "orgao": "SEMAD-MG",
+        "tipo_fonte": "sistema oficial de consulta",
+        "url": "https://sistemas.meioambiente.mg.gov.br/licenciamento/site/consulta-licenca?page=730&sort=cnpj",
+        "descricao_relacionada": "Registro oficial localizado para VALE DO RIO GRANDE ITURAMA LTDA, CNPJ 21.255.974/0001-96, protocolo 00003923/2021, modalidade LAS Cadastro, classe 2, atividade E-04-01-4, decisao deferida, publicacao em 12/08/2021.",
+        "observacoes": [
+          "Comprova a existencia de decisao publica no sistema consultado.",
+          "Nao substitui a integra do processo administrativo nem documentos urbanisticos e registrais."
+        ]
+      },
+      {
+        "titulo_fonte": "Consulta Publica do PACUERA da UHE Agua Vermelha",
+        "orgao": "Ibama",
+        "tipo_fonte": "pagina oficial",
+        "url": "https://www.gov.br/ibama/pt-br/acesso-a-informacao/editais-e-convites/consultas-publicas/consulta-publica-plano-ambiental-de-conservacao-e-uso-do-entorno-do-reservatorio-artificial-da-usina-hidreletrica-de-agua-vermelha",
+        "descricao_relacionada": "Pagina oficial com informacao de que a UHE Agua Vermelha opera por meio da LO no 345/2003 (1a Renovacao - 1a Retificacao) e de que o reservatorio nao tem APP, pois a cota maxima de operacao coincide com a maxima maximorum de 383,3 m.",
+        "observacoes": [
+          "A fonte refere-se ao reservatorio e seu entorno.",
+          "Nao individualiza a poligonal dos empreendimentos."
+        ]
+      },
+      {
+        "titulo_fonte": "Lei no 6.766/1979 - Parcelamento do Solo Urbano",
+        "orgao": "Planalto",
+        "tipo_fonte": "lei federal compilada",
+        "url": "https://www.planalto.gov.br/ccivil_03/Leis/L6766compilado.htm",
+        "descricao_relacionada": "Texto oficial compilado com regras gerais sobre parcelamento do solo urbano.",
+        "observacoes": [
+          "Fonte normativa federal principal para o caso do loteamento."
+        ]
+      },
+      {
+        "titulo_fonte": "Plano Diretor de Iturama",
+        "orgao": "Prefeitura de Iturama",
+        "tipo_fonte": "pagina oficial municipal",
+        "url": "https://www.iturama.mg.gov.br/governo/plano-diretor",
+        "descricao_relacionada": "Pagina oficial que disponibiliza LC 06/2003, LC 07/2003, LC 08/2003, LC 09/2003, LC 10/2003 e LC 11/2003.",
+        "observacoes": [
+          "Comprova a existencia da base normativa municipal.",
+          "Nao comprova aprovacao especifica do empreendimento."
+        ]
+      },
+      {
+        "titulo_fonte": "Portal de Legislacao de Indiapora",
+        "orgao": "Prefeitura de Indiapora",
+        "tipo_fonte": "base oficial municipal",
+        "url": "https://www.indiapora.sp.gov.br/portal/leis_decretos/",
+        "descricao_relacionada": "Portal oficial de leis e decretos do municipio de Indiapora/SP.",
+        "observacoes": [
+          "Nao foi localizada prova municipal especifica em nome de AGUA PORA LTDA ou SUN PARK HOTEL LTDA nas fontes consultadas ate 2026-04-07."
+        ]
+      },
+      {
+        "titulo_fonte": "Secretaria de Meio Ambiente e Agricultura de Indiapora",
+        "orgao": "Prefeitura de Indiapora",
+        "tipo_fonte": "pagina institucional",
+        "url": "https://www.indiapora.sp.gov.br/portal/secretarias/27/meio-ambiente-e-agricultura",
+        "descricao_relacionada": "Pagina oficial que confirma a existencia da secretaria municipal responsavel por meio ambiente e agricultura.",
+        "observacoes": [
+          "A existencia do orgao municipal esta comprovada.",
+          "A pagina institucional nao comprova regularidade especifica dos empreendimentos."
+        ]
+      },
+      {
+        "titulo_fonte": "Outorgas",
+        "orgao": "SP Aguas",
+        "tipo_fonte": "portal oficial tematico",
+        "url": "https://www.daee.sp.gov.br/site/outorga/",
+        "descricao_relacionada": "Portal oficial sobre outorgas de uso de recursos hidricos em Sao Paulo.",
+        "observacoes": [
+          "Base geral para captacoes, pocos, lancamentos e interferencias."
+        ]
+      },
+      {
+        "titulo_fonte": "Quem deve pedir Outorga?",
+        "orgao": "SP Aguas",
+        "tipo_fonte": "orientacao oficial",
+        "url": "https://www.daee.sp.gov.br/site/quem-deve-pedir-outorga/",
+        "descricao_relacionada": "Pagina oficial com hipoteses de exigencia de outorga, incluindo captacoes superficiais e subterraneas, pocos profundos e lancamentos.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Agua Mineral",
+        "orgao": "ANM",
+        "tipo_fonte": "perguntas frequentes oficiais",
+        "url": "https://www.gov.br/anm/pt-br/acesso-a-informacao/perguntas-frequentes/agua-mineral",
+        "descricao_relacionada": "Pagina oficial da ANM sobre autorizacao de pesquisa, concessao de lavra, laudos e classificacao de agua mineral e agua potavel de mesa.",
+        "observacoes": [
+          "Relevante se houver alegacao de exploracao mineral em Agua Pora."
+        ]
+      },
+      {
+        "titulo_fonte": "Agua mineral, adicionada de sais ou com sabor? Entenda",
+        "orgao": "Anvisa",
+        "tipo_fonte": "orientacao oficial",
+        "url": "https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa/2018/agua-mineral-adicionada-de-sais-ou-com-sabor-entenda",
+        "descricao_relacionada": "Pagina oficial que informa que agua mineral e agua adicionada de sais nao precisam de registro na Anvisa, mas exigem cumprimento de rotulagem e comunicacao ao orgao local de vigilancia sanitaria.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Licenca de Operacao - Documentacao Necessaria",
+        "orgao": "CETESB",
+        "tipo_fonte": "orientacao oficial",
+        "url": "https://cetesb.sp.gov.br/licenciamentoambiental/licenca-de-operacao/",
+        "descricao_relacionada": "Pagina oficial com documentacao basica para solicitacao de Licenca de Operacao no e-CETESB.",
+        "observacoes": [
+          "Nao prova licenciamento especifico de empreendimento determinado."
+        ]
+      },
+      {
+        "titulo_fonte": "Consulta de MCE no e-CETESB",
+        "orgao": "CETESB",
+        "tipo_fonte": "central de ajuda oficial",
+        "url": "https://e.cetesb.sp.gov.br/centralajuda/pergunta_frequente/novo-mce-como-consultar-o-mce-no-e-cetesb/",
+        "descricao_relacionada": "Pagina oficial que explica a consulta de Memoriais de Caracterizacao do Empreendimento no e-CETESB.",
+        "observacoes": [
+          "Confirma a existencia de mecanismo oficial de consulta de MCEs concluidos nao sigilosos."
+        ]
+      },
+      {
+        "titulo_fonte": "Servicos de Prevencao Contra Incendio",
+        "orgao": "CBMMG",
+        "tipo_fonte": "portal oficial",
+        "url": "https://bombeiros.mg.gov.br/servicos-sscip",
+        "descricao_relacionada": "Portal oficial com emissao de AVCB/CLCB, verificacao de autenticidade e consulta de regularidade de edificacao em MG.",
+        "observacoes": []
+      },
+      {
+        "titulo_fonte": "Portal do Corpo de Bombeiros do Estado de Sao Paulo",
+        "orgao": "CBPMESP",
+        "tipo_fonte": "portal oficial",
+        "url": "https://bombeiros.sp.gov.br/",
+        "descricao_relacionada": "Portal oficial localizado como base institucional para regularizacao contra incendio em Sao Paulo.",
+        "observacoes": [
+          "Nao foi localizada prova especifica de AVCB/CLCB dos empreendimentos paulistas nas fontes consultadas ate 2026-04-07."
+        ]
+      }
+    ],
+    "orgaos_envolvidos": [
+      {
+        "nome": "SEMAD-MG / URA Triangulo Mineiro",
+        "esfera": "estadual",
+        "papel": "Licenciamento ambiental estadual em Minas Gerais e publicacao de decisoes em sistema oficial.",
+        "observacoes": [
+          "Orgao diretamente relacionado ao registro do Vale do Rio Grande."
+        ]
+      },
+      {
+        "nome": "Ibama",
+        "esfera": "federal",
+        "papel": "Licenciamento ambiental federal da UHE Agua Vermelha e divulgacao oficial do PACUERA correspondente.",
+        "observacoes": []
+      },
+      {
+        "nome": "Prefeitura de Iturama",
+        "esfera": "municipal",
+        "papel": "Base normativa urbanistica e ambiental municipal e eventual aprovacao urbanistica de parcelamentos no municipio.",
+        "observacoes": []
+      },
+      {
+        "nome": "Prefeitura de Indiapora",
+        "esfera": "municipal",
+        "papel": "Base oficial municipal para atos administrativos e legislacao local.",
+        "observacoes": []
+      },
+      {
+        "nome": "SP Aguas",
+        "esfera": "estadual",
+        "papel": "Outorga, DVI, interferencias e cadastros/dispensas de uso de recursos hidricos em SP.",
+        "observacoes": []
+      },
+      {
+        "nome": "CETESB",
+        "esfera": "estadual",
+        "papel": "Licenciamento ambiental paulista e consulta de MCE no e-CETESB.",
+        "observacoes": []
+      },
+      {
+        "nome": "ANM",
+        "esfera": "federal",
+        "papel": "Titulos minerarios e atos relacionados a agua mineral e agua potavel de mesa.",
+        "observacoes": []
+      },
+      {
+        "nome": "Anvisa / Vigilancia Sanitaria local competente",
+        "esfera": "federal/municipal",
+        "papel": "Orientacao sanitaria geral e controle local de inicio de fabricacao/envase.",
+        "observacoes": []
+      },
+      {
+        "nome": "CBMMG / CBPMESP",
+        "esfera": "estadual",
+        "papel": "Regularizacao de seguranca contra incendio por AVCB/CLCB.",
+        "observacoes": []
+      }
+    ],
+    "regras_materiais": [
+      {
+        "titulo": "Lei no 6.766/1979 - admissibilidade do parcelamento do solo urbano",
+        "orgao": "Planalto",
+        "conteudo_objetivo": "O parcelamento do solo urbano deve observar a legislacao federal, estadual e municipal pertinente e somente e admitido em zonas urbanas, de expansao urbana ou de urbanizacao especifica definidas pelo plano diretor ou aprovadas por lei municipal.",
+        "aplicacao_no_dossie": "Base normativa principal para o exame documental do Vale do Rio Grande/Loteamento.",
+        "observacoes": [
+          "Nao comprova, por si, aprovacao urbanistica do empreendimento."
+        ]
+      },
+      {
+        "titulo": "Lei no 6.766/1979 - infraestrutura basica do parcelamento",
+        "orgao": "Planalto",
+        "conteudo_objetivo": "A infraestrutura basica do parcelamento inclui escoamento de aguas pluviais, iluminacao publica, esgotamento sanitario, abastecimento de agua potavel, energia eletrica publica e domiciliar e vias de circulacao.",
+        "aplicacao_no_dossie": "Indica as categorias documentais essenciais para fechar lacunas do loteamento quanto a drenagem e infraestrutura.",
+        "observacoes": []
+      },
+      {
+        "titulo": "Outorga, DVI e cadastro/dispensa para usos de recursos hidricos em Sao Paulo",
+        "orgao": "SP Aguas",
+        "conteudo_objetivo": "Captacoes superficiais e subterraneas, pocos profundos, lancamentos e diversas interferencias dependem de outorga, DVI ou cadastro/dispensa conforme o caso.",
+        "aplicacao_no_dossie": "Regra material relevante para Agua Pora e SunPark_Clube sempre que houver captacao, poco, uso intensivo de agua, lancamento ou outra interferencia hidrica em SP.",
+        "observacoes": []
+      },
+      {
+        "titulo": "Regime minerario para agua mineral e agua potavel de mesa",
+        "orgao": "ANM",
+        "conteudo_objetivo": "A pesquisa e a lavra de agua mineral e agua potavel de mesa se fazem pelos regimes de Autorizacao de Pesquisa e Concessao de Lavra, com estudos tecnicos e laudos oficiais para classificacao e continuidade do processo.",
+        "aplicacao_no_dossie": "Se houver alegacao de exploracao de agua mineral em Agua Pora, os titulos e atos da ANM sao centrais.",
+        "observacoes": []
+      },
+      {
+        "titulo": "Regras sanitarias gerais para agua mineral e agua adicionada de sais",
+        "orgao": "Anvisa",
+        "conteudo_objetivo": "Agua mineral e agua adicionada de sais nao precisam de registro na Anvisa, mas os fabricantes devem seguir regras de rotulagem e informar o orgao local de vigilancia sanitaria quando a fabricacao se inicia.",
+        "aplicacao_no_dossie": "Para Agua Pora, a ausencia de registro Anvisa, isoladamente, nao prova irregularidade; a prova relevante e local/sanitaria.",
+        "observacoes": []
+      }
+    ]
+  },
+  "matriz_regularizacao": [
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Licenca ambiental especifica do empreendimento",
+      "status": "nao comprovado",
+      "orgao_relacionado": "CETESB",
+      "funcao_regulatoria": "Licenciamento ambiental estadual da atividade e da operacao",
+      "lacuna_identificada": "Nao foi localizada prova oficial de LP, LI, LO, licenca simplificada, decisao administrativa ou MCE concluso vinculado ao empreendimento nas fontes oficiais consultadas ate 2026-04-07.",
+      "documento_que_fecha_a_lacuna": "LP/LI/LO, LO, licenca simplificada, decisao administrativa da CETESB ou MCE/processo oficial correlato.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para licenca ambiental em nome de AGUA PORA LTDA."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Outorga ou ato equivalente de uso/captacao de agua",
+      "status": "nao comprovado",
+      "orgao_relacionado": "SP Aguas",
+      "funcao_regulatoria": "Regularizacao de captacao, poco, lancamento, interferencia hidrica e viabilidade hidrica",
+      "lacuna_identificada": "Nao foi localizada prova oficial de outorga, DVI, cadastro, dispensa ou certidao equivalente para uso de recursos hidricos em nome do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Portaria de outorga, DVI, cadastro de uso insignificante, ato de dispensa/isencao ou certidao equivalente emitida pela SP Aguas.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para outorga ou ato equivalente."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Ato da ANM ou processo minerario aplicavel",
+      "status": "nao comprovado",
+      "orgao_relacionado": "ANM",
+      "funcao_regulatoria": "Titularidade mineraria e regularizacao de exploracao de agua mineral ou agua potavel de mesa, se aplicavel",
+      "lacuna_identificada": "Nao foi localizada prova oficial de Autorizacao de Pesquisa, aprovacao de Relatorio Final de Pesquisa, Concessao de Lavra, classificacao ou outro titulo minerario em nome do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Alvara de pesquisa, aprovacao de RFP, portaria de lavra, decisao de classificacao ou extrato oficial de titulo minerario da ANM.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' e ressalva que o item so e central se houver alegacao de agua mineral, agua potavel de mesa ou uso balneario."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Laudo hidrogeologico e analise oficial da agua",
+      "status": "nao comprovado",
+      "orgao_relacionado": "ANM / CPRM / laboratorio oficial competente",
+      "funcao_regulatoria": "Suporte tecnico oficial para classificacao da agua e instrucao de processo minerario, se aplicavel",
+      "lacuna_identificada": "Nao foi localizada prova oficial de laudo hidrogeologico, laudo oficial de classificacao, analise oficial LAMIN/CPRM ou equivalente vinculada ao empreendimento.",
+      "documento_que_fecha_a_lacuna": "Laudo hidrogeologico oficial, analises oficiais da agua, laudos LAMIN/CPRM e decisao oficial correlata.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para esses documentos tecnicos oficiais."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Aprovacao municipal de uso do solo e localizacao",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Prefeitura de Indiapora",
+      "funcao_regulatoria": "Compatibilizacao urbanistica e autorizacao municipal de implantacao/funcionamento",
+      "lacuna_identificada": "Nao foi localizada prova oficial de certidao de uso do solo, aprovacao municipal, alvara ou ato urbanistico especifico em nome do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Certidao municipal de uso do solo, alvara de funcionamento, licenca municipal pertinente, aprovacao de implantacao ou processo administrativo municipal correlato.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para a documentacao municipal especifica."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Matricula da area de captacao e da area operacional",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Registro de Imoveis competente",
+      "funcao_regulatoria": "Individualizacao registral da area utilizada pelo empreendimento",
+      "lacuna_identificada": "Nao foi apresentada nas fontes oficiais consultadas prova registral que individualize a area de captacao e a area operacional do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Matricula atualizada, certidao de inteiro teor, memorial descritivo e demais certidoes registrais das areas envolvidas.",
+      "observacao_objetiva": "A base coletada nao trouxe matriculas, certidoes registrais ou poligonais das areas de Agua Pora."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "ART ou RRT dos projetos e laudos",
+      "status": "nao comprovado",
+      "orgao_relacionado": "CREA/CAU e processo administrativo competente",
+      "funcao_regulatoria": "Responsabilidade tecnica por projetos, estudos e laudos",
+      "lacuna_identificada": "Nao foi apresentada prova oficial de ART ou RRT vinculada aos projetos e laudos do empreendimento nas fontes consultadas.",
+      "documento_que_fecha_a_lacuna": "ART ou RRT dos projetos, estudos e laudos tecnicos, com vinculacao ao processo ou ao empreendimento.",
+      "observacao_objetiva": "A base coletada nao localizou nem anexou ART/RRT oficiais para Agua Pora."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Autorizacao sanitaria se houver envase",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Vigilancia Sanitaria local competente",
+      "funcao_regulatoria": "Controle sanitario da fabricacao/envase e inicio de atividade",
+      "lacuna_identificada": "Nao foi localizada prova oficial de comunicacao de inicio da fabricacao, licenca sanitaria local, laudos sanitarios oficiais ou documento equivalente em nome do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Licenca sanitaria local, comunicacao formal de inicio da fabricacao, autos, certidoes e laudos oficiais da vigilancia sanitaria competente.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' e ressalva que a Anvisa informa inexistencia de registro federal para agua mineral e agua adicionada de sais."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Comprovacao de destinacao de residuos e efluentes se houver operacao",
+      "status": "nao comprovado",
+      "orgao_relacionado": "CETESB / Prefeitura / orgao ambiental ou sanitario competente",
+      "funcao_regulatoria": "Controle ambiental e sanitario de residuos e efluentes da operacao",
+      "lacuna_identificada": "Nao foi apresentada prova oficial de sistema aprovado, contrato, manifesto, licenca, autorizacao ou outro ato oficial que demonstre destinacao regular de residuos e efluentes do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Licencas ou autorizacoes aplicaveis, manifestos/certificados oficiais, contratos com operador licenciado, comprovantes de tratamento ou lancamento regular e documentos do processo ambiental/sanitario correspondente.",
+      "observacao_objetiva": "A base coletada nao trouxe documento oficial especifico sobre residuos ou efluentes de Agua Pora."
+    },
+    {
+      "empreendimento": "Agua Pora",
+      "documento_ou_ato": "Mencao empresarial aberta a AGUA PORA LTDA e CNAE de aguas envasadas",
+      "status": "citado sem prova",
+      "orgao_relacionado": "Base empresarial aberta nao oficial",
+      "funcao_regulatoria": "Referencia indicativa inicial, sem valor de prova regulatoria",
+      "lacuna_identificada": "A mencao empresarial nao substitui ato regulatorio ambiental, hidrico, sanitario, minerario ou municipal.",
+      "documento_que_fecha_a_lacuna": "Atos oficiais emitidos pelos orgaos competentes conforme a materia tratada.",
+      "observacao_objetiva": "A base coletada classifica expressamente essa informacao como 'citado_sem_prova_regulatoria'."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Licenca ambiental do clube, parque, hotel e estruturas associadas",
+      "status": "nao comprovado",
+      "orgao_relacionado": "CETESB",
+      "funcao_regulatoria": "Licenciamento ambiental estadual da implantacao e operacao",
+      "lacuna_identificada": "Nao foi localizada prova oficial de LP, LI, LO, licenca simplificada, decisao administrativa ou MCE concluso em nome de SUN PARK HOTEL LTDA nas fontes consultadas ate 2026-04-07.",
+      "documento_que_fecha_a_lacuna": "LP/LI/LO, LO, licenca simplificada, decisao administrativa da CETESB ou MCE/processo oficial correlato.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para licenca ambiental especifica."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Alvara municipal, ato de aprovacao e certidao de uso do solo",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Prefeitura de Indiapora",
+      "funcao_regulatoria": "Aprovacao urbanistica, uso do solo e autorizacao municipal de funcionamento/implantacao",
+      "lacuna_identificada": "Nao foi localizada prova oficial de alvara, certidao de uso do solo, aprovacao municipal ou ato urbanistico especifico do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Alvara municipal, certidao de uso do solo, licenca municipal pertinente, aprovacao de implantacao ou processo administrativo municipal correlato.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para a documentacao municipal especifica."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "AVCB ou ato do Corpo de Bombeiros",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Corpo de Bombeiros do Estado de Sao Paulo",
+      "funcao_regulatoria": "Seguranca contra incendio das edificacoes e estruturas",
+      "lacuna_identificada": "Nao foi localizada prova oficial de AVCB, CLCB ou certidao equivalente em nome do empreendimento.",
+      "documento_que_fecha_a_lacuna": "AVCB, CLCB ou consulta/autenticidade oficial emitida pelo Corpo de Bombeiros competente.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para AVCB/CLCB."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Regularidade sanitaria",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Vigilancia Sanitaria local competente",
+      "funcao_regulatoria": "Controle sanitario de estabelecimento, hospedagem, alimentos, lazer aquatico ou servicos correlatos, se aplicavel",
+      "lacuna_identificada": "Nao foi apresentada prova oficial de licenca sanitaria, alvara sanitario, auto ou certidao sanitaria especifica do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Licenca ou alvara sanitario, certidao da vigilancia sanitaria competente e atos oficiais correlatos.",
+      "observacao_objetiva": "A base coletada nao trouxe prova oficial especifica de regularidade sanitaria do SunPark_Clube."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Abastecimento de agua e esgotamento",
+      "status": "nao comprovado",
+      "orgao_relacionado": "SP Aguas / Prefeitura / concessionaria ou orgao competente",
+      "funcao_regulatoria": "Regularizacao de captacao, fornecimento e disposicao/tratamento de esgoto, conforme o caso",
+      "lacuna_identificada": "Nao foi localizada prova oficial especifica de outorga, ligacao regular, sistema aprovado ou ato correlato que individualize o atendimento do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Portaria de outorga ou DVI, declaracao oficial de abastecimento, aprovacao do sistema de esgotamento, licenca/anuencia sanitaria ou ambiental correspondente.",
+      "observacao_objetiva": "Existe apenas mencao historica municipal generica sobre saneamento no municipio e instalacao de agua no bairro Tupinamba, sem individualizacao do empreendimento."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Matriculas da area e averbacao das construcoes",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Registro de Imoveis competente",
+      "funcao_regulatoria": "Individualizacao registral da area e das edificacoes existentes",
+      "lacuna_identificada": "Nao foram apresentadas matriculas atualizadas, certidoes de inteiro teor ou averbacoes registrarias das construcoes vinculadas ao empreendimento.",
+      "documento_que_fecha_a_lacuna": "Matricula atualizada, certidao de inteiro teor, certidao de onus e averbacoes das construcoes/benfeitorias.",
+      "observacao_objetiva": "A base coletada nao trouxe prova registral especifica da area nem das edificacoes do SunPark_Clube."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Regularizacao das estruturas existentes",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Prefeitura de Indiapora e demais orgaos competentes",
+      "funcao_regulatoria": "Conformidade administrativa das edificacoes, instalacoes e ampliacoes existentes",
+      "lacuna_identificada": "Nao foi apresentada prova oficial de aprovacao de projetos, habite-se, regularizacao edilicia ou ato equivalente das estruturas existentes.",
+      "documento_que_fecha_a_lacuna": "Aprovacao de projeto, habite-se, certidao de regularizacao edilicia, alvara de construcao e atos administrativos correlatos.",
+      "observacao_objetiva": "A base coletada nao individualiza qualquer ato oficial de regularizacao das estruturas do empreendimento."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "APP, CAR e averbacoes ambientais se alegados",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Orgao ambiental competente / registro aplicavel",
+      "funcao_regulatoria": "Delimitacao e formalizacao de restricoes ambientais e, se cabivel, inscricao/cadastro aplicavel",
+      "lacuna_identificada": "Nao foi apresentada prova oficial especifica de APP delimitada, CAR vinculado ao empreendimento, averbacoes ambientais ou ato equivalente.",
+      "documento_que_fecha_a_lacuna": "Mapa georreferenciado oficial, CAR ou cadastro aplicavel, certidao/manifestacao ambiental, averbacoes registrais e atos autorizativos pertinentes.",
+      "observacao_objetiva": "A base coletada nao trouxe documentos oficiais que confirmem APP, CAR ou averbacoes ambientais especificas do SunPark_Clube."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Comprovacao de inexistencia ou tratamento de passivos ambientais",
+      "status": "nao comprovado",
+      "orgao_relacionado": "CETESB / orgao ambiental competente",
+      "funcao_regulatoria": "Comprovacao de situacao ambiental da area e de eventual remediacao/tratamento",
+      "lacuna_identificada": "Nao foi apresentada prova oficial de declaracao de inexistencia de passivo, investigacao confirmatoria, plano de intervencao, termo de encerramento ou documento equivalente.",
+      "documento_que_fecha_a_lacuna": "Certidao, parecer tecnico, relatorio oficial, termo ambiental ou ato administrativo que demonstre inexistencia ou tratamento regular de passivos ambientais.",
+      "observacao_objetiva": "A base coletada nao trouxe prova oficial sobre passivos ambientais do empreendimento."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Mencao empresarial aberta a SUN PARK HOTEL LTDA",
+      "status": "citado sem prova",
+      "orgao_relacionado": "Base empresarial aberta nao oficial",
+      "funcao_regulatoria": "Referencia indicativa inicial, sem valor de prova regulatoria",
+      "lacuna_identificada": "A citacao empresarial nao substitui licencas, alvaras, certidoes ou atos oficiais especificos do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Atos oficiais emitidos pelos orgaos competentes conforme a materia tratada.",
+      "observacao_objetiva": "A base coletada classifica expressamente essa informacao como 'citado_sem_prova_regulatoria'."
+    },
+    {
+      "empreendimento": "SunPark_Clube",
+      "documento_ou_ato": "Mencao institucional historica municipal sobre saneamento e instalacao de agua no bairro Tupinamba",
+      "status": "citado sem prova",
+      "orgao_relacionado": "Prefeitura de Indiapora",
+      "funcao_regulatoria": "Referencia historica institucional generica, sem individualizacao regulatoria do empreendimento",
+      "lacuna_identificada": "A mencao oficial historica nao individualiza atendimento, licenciamento ou regularidade especifica do SunPark_Clube.",
+      "documento_que_fecha_a_lacuna": "Atos oficiais do empreendimento relativos a abastecimento, esgotamento, licenciamento e aprovacoes administrativas.",
+      "observacao_objetiva": "Embora a fonte seja oficial, a propria base coletada a tratou como mencao sem prova regulatoria especifica do empreendimento."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Licenca ambiental do empreendimento",
+      "status": "comprovado",
+      "orgao_relacionado": "SEMAD-MG / URA Triangulo Mineiro",
+      "funcao_regulatoria": "Licenciamento ambiental estadual do loteamento",
+      "lacuna_identificada": "",
+      "documento_que_fecha_a_lacuna": "",
+      "observacao_objetiva": "Foi localizado no sistema oficial da SEMAD-MG o registro do empreendimento VALE DO RIO GRANDE ITURAMA LTDA, protocolo 00003923/2021, modalidade LAS Cadastro, classe 2, atividade E-04-01-4, decisao Deferida, publicacao em 12/08/2021."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Aprovacao do parcelamento/loteamento e aprovacao urbanistica municipal especifica",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Prefeitura de Iturama",
+      "funcao_regulatoria": "Aprovacao urbanistica municipal do parcelamento do solo",
+      "lacuna_identificada": "Nao foi localizada prova oficial especifica de aprovacao municipal do loteamento, diretrizes aprovadas, decreto, portaria, certidao de aprovacao urbanistica ou ato equivalente em nome do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Ato de aprovacao municipal do loteamento, certidao de aprovacao urbanistica, diretrizes municipais aprovadas, decreto, portaria ou processo administrativo municipal correlato.",
+      "observacao_objetiva": "A existencia da base normativa municipal de Iturama esta comprovada, mas ela nao comprova a aprovacao urbanistica especifica do empreendimento."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Uso do solo e compatibilizacao com a base normativa municipal",
+      "status": "citado sem prova",
+      "orgao_relacionado": "Prefeitura de Iturama",
+      "funcao_regulatoria": "Base normativa urbanistica aplicavel ao parcelamento do solo",
+      "lacuna_identificada": "A existencia das leis complementares municipais nao substitui certidao ou ato de enquadramento especifico do loteamento.",
+      "documento_que_fecha_a_lacuna": "Certidao municipal de uso do solo, parecer de enquadramento urbanistico ou ato especifico de aprovacao do empreendimento.",
+      "observacao_objetiva": "No portal oficial de Iturama foi confirmada a existencia de leis complementares do Plano Diretor, mas isso e material normativo geral, nao prova individual de regularizacao do loteamento."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Anuencia por interferencia em reservatorio, faixa ou cotas, se aplicavel",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Orgao ambiental ou ente competente pela area de reservatorio",
+      "funcao_regulatoria": "Controle de interferencias em area de reservatorio e entorno, se incidente sobre a poligonal do empreendimento",
+      "lacuna_identificada": "Nao foi localizada prova oficial especifica de anuencia, manifestacao, parecer ou autorizacao referente a interferencia do loteamento em reservatorio, faixa de protecao ou cotas aplicaveis.",
+      "documento_que_fecha_a_lacuna": "Anuencia formal, parecer tecnico, certidao ou autorizacao do orgao competente, com vinculacao expressa ao loteamento e sua poligonal.",
+      "observacao_objetiva": "A fonte oficial do Ibama trata do reservatorio da UHE Agua Vermelha e do PACUERA, mas nao individualiza a poligonal do empreendimento."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Matricula e poligonal do empreendimento",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Registro de Imoveis competente",
+      "funcao_regulatoria": "Individualizacao registral e espacial do loteamento",
+      "lacuna_identificada": "Nao foi localizada prova oficial especifica de matricula atualizada, memorial descritivo, planta registrada ou poligonal registrada que individualize o loteamento.",
+      "documento_que_fecha_a_lacuna": "Matricula atualizada, certidao de inteiro teor, memorial descritivo e planta/poligonal registrada do empreendimento.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para a documentacao registral especifica."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "APP oficialmente delimitada",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Orgao ambiental competente",
+      "funcao_regulatoria": "Delimitacao ambiental oficial de areas de preservacao permanente incidentes sobre a area do loteamento",
+      "lacuna_identificada": "Nao foi localizada prova oficial especifica de delimitacao georreferenciada de APP do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Mapa georreferenciado, parecer tecnico oficial, certidao ou manifestacao ambiental que delimite a APP na area do loteamento.",
+      "observacao_objetiva": "A pagina oficial do Ibama sobre o reservatorio nao substitui a delimitacao oficial da APP na poligonal do empreendimento."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Autorizacao para intervencao em APP, se houver",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Orgao ambiental competente",
+      "funcao_regulatoria": "Autorizacao ambiental especifica para intervencao em APP",
+      "lacuna_identificada": "Nao foi localizada prova oficial de ato autorizativo para intervencao em APP relacionado ao loteamento.",
+      "documento_que_fecha_a_lacuna": "Autorizacao ambiental especifica, licenca com condicionante pertinente, parecer tecnico ou certidao do orgao ambiental competente.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para autorizacao ou ato equivalente relacionado a APP."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Projeto de drenagem e infraestrutura",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Prefeitura de Iturama e demais orgaos competentes",
+      "funcao_regulatoria": "Aprovacao tecnica da infraestrutura basica do parcelamento",
+      "lacuna_identificada": "Nao foi localizada prova oficial especifica de projeto aprovado de drenagem, abastecimento de agua, esgotamento sanitario, energia, vias e demais componentes de infraestrutura basica do loteamento.",
+      "documento_que_fecha_a_lacuna": "Projetos aprovados de drenagem e infraestrutura, memoriais aprovados, termos tecnicos e atos administrativos correlatos.",
+      "observacao_objetiva": "A Lei 6.766/1979 foi identificada como regra material aplicavel, mas a base coletada nao trouxe prova especifica dos projetos aprovados do empreendimento."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Termos de areas verdes institucionais e corredores ecologicos",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Prefeitura de Iturama e orgao ambiental competente",
+      "funcao_regulatoria": "Formalizacao das destinacoes obrigatorias e condicionantes ambientais/urbanisticas do loteamento",
+      "lacuna_identificada": "Nao foi localizada prova oficial especifica de termos, memoriais, instrumentos de doacao/afetacao ou outros atos que formalizem areas verdes, institucionais ou corredores ecologicos do empreendimento.",
+      "documento_que_fecha_a_lacuna": "Termos administrativos, memoriais aprovados, instrumentos de doacao/afetacao, plantas aprovadas e atos ambientais/urbanisticos correlatos.",
+      "observacao_objetiva": "A base coletada registra expressamente 'nao localizado em fonte oficial' para esses instrumentos especificos."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Ato formal que confirme as cotas 388 e 389 como restricao aplicavel ao empreendimento",
+      "status": "inconsistente",
+      "orgao_relacionado": "Orgao ambiental, municipal ou tecnico competente",
+      "funcao_regulatoria": "Definicao altimetrica/regulatoria de restricoes incidentes sobre a area do loteamento",
+      "lacuna_identificada": "Nao foi localizada prova oficial especifica que confirme formalmente, para o empreendimento, as cotas 388 e 389; alem disso, a fonte oficial localizada do Ibama menciona cota 383,3 m do reservatorio da UHE Agua Vermelha, criando tensao material com a tese de 388/389.",
+      "documento_que_fecha_a_lacuna": "Levantamento topografico/georreferenciado, planta altimetrica, parecer tecnico oficial ou ato administrativo que relacione expressamente as cotas 388 e 389 a area do loteamento.",
+      "observacao_objetiva": "A auditoria concluiu que este item nao deve ficar apenas como 'nao comprovado', porque ha fonte oficial indicando 383,3 m para o reservatorio, o que tensiona materialmente a referencia a 388/389."
+    },
+    {
+      "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+      "documento_ou_ato": "Comprovacao de implantacao regular, se houver obra",
+      "status": "nao comprovado",
+      "orgao_relacionado": "Prefeitura de Iturama, orgao ambiental competente e demais entes setoriais",
+      "funcao_regulatoria": "Comprovacao de execucao regular das obras e implantacoes autorizadas",
+      "lacuna_identificada": "Nao foi apresentada prova oficial especifica de ordem de servico, aceite de obras, vistoria, termo de recebimento, certidao de implantacao ou ato equivalente relativo a eventual implantacao do loteamento.",
+      "documento_que_fecha_a_lacuna": "Termo de inicio/recebimento de obras, vistorias oficiais, certidoes municipais, termos de aceite e demais atos administrativos correlatos.",
+      "observacao_objetiva": "A base coletada nao trouxe documento oficial especifico de implantacao regular do empreendimento, alem da decisao de licenciamento ambiental ja localizada."
+    }
+  ],
+  "auditoria": {
+    "erros_criticos": [
+      {
+        "campo": "status",
+        "item": "Vale_do_Rio_Grande_Loteamento - Ato formal que confirme as cotas 388 e 389 como restricao aplicavel ao empreendimento",
+        "motivo": "O enquadramento como 'nao comprovado' e insuficiente. A base oficial do Ibama aponta cota maxima de 383,3 m para o reservatorio da UHE Agua Vermelha; assim, a referencia a cotas 388/389 nao esta apenas sem prova, mas materialmente tensionada por fonte oficial, o que exige classificacao como 'inconsistente'."
+      }
+    ],
+    "inconsistencias": [
+      {
+        "campo": "observacao_objetiva",
+        "item": "Vale_do_Rio_Grande_Loteamento - Ato formal que confirme as cotas 388 e 389 como restricao aplicavel ao empreendimento",
+        "motivo": "A propria observacao registra que a fonte oficial localizada menciona 383,3 m e nao confirma 388/389. Isso revela contradicao entre a tese auditada e a fonte oficial disponivel."
+      }
+    ],
+    "extrapolacoes": [],
+    "generalizacoes": [],
+    "itens_sem_base": [],
+    "riscos_regulatorios": [
+      {
+        "campo": "status",
+        "item": "Vale_do_Rio_Grande_Loteamento - Ato formal que confirme as cotas 388 e 389 como restricao aplicavel ao empreendimento",
+        "motivo": "Manter 388/389 como somente 'nao comprovado' preservaria uma restricao potencialmente contraditada por fonte oficial, podendo contaminar leituras sobre faixa de reservatorio, APP e viabilidade do empreendimento."
+      },
+      {
+        "campo": "criterio_de_classificacao",
+        "item": "Matriz como um todo",
+        "motivo": "A separacao entre 'citado sem prova' e referencias institucionais gerais foi, em regra, corretamente preservada, mas a falha inicial no tratamento do conflito 388/389 versus 383,3 m indica risco de subtratar contradicoes materiais como simples falta de prova."
+      }
+    ],
+    "nivel_risco": "medio",
+    "status_validacao": "parcialmente_validado"
+  },
+  "operacional": {
+    "fluxo_operacional": [
+      {
+        "ordem": 1,
+        "acao": "Segregar a diligencia por empreendimento e por item nuclear, de suporte e historico, mantendo a classificacao da auditoria como referencia de partida."
+      },
+      {
+        "ordem": 2,
+        "acao": "Solicitar e organizar somente os documentos ja previstos na matriz auditada, sem ampliar o rol documental."
+      },
+      {
+        "ordem": 3,
+        "acao": "Validar cada documento por fonte oficial, integridade, vinculo com o empreendimento e aderencia ao item auditado."
+      },
+      {
+        "ordem": 4,
+        "acao": "Classificar a prova documental por prioridade operacional e registrar se o item esta comprovado, nao comprovado ou inconsistente nos termos da auditoria."
+      },
+      {
+        "ordem": 5,
+        "acao": "Consolidar checklist probatorio por empreendimento, destacando lacunas documentais e limitacoes de conclusao."
+      },
+      {
+        "ordem": 6,
+        "acao": "Emitir plano de diligencia documental e quadro de servico Habilis sem afirmar regularidade final do empreendimento."
+      }
+    ],
+    "etapas_execucao": [
+      {
+        "etapa": "Triagem inicial",
+        "descricao": "Separar Agua Pora, SunPark_Clube e Vale_do_Rio_Grande_Loteamento conforme status auditado."
+      },
+      {
+        "etapa": "Montagem do checklist-base",
+        "descricao": "Estruturar checklist por prioridade 1, 2 e 3 com base exclusiva nos itens da matriz."
+      },
+      {
+        "etapa": "Diligencia documental",
+        "descricao": "Receber, nomear, indexar e relacionar cada documento ao item auditado correspondente."
+      },
+      {
+        "etapa": "Validacao probatoria",
+        "descricao": "Confirmar origem oficial, atualidade, aderencia territorial, aderencia ao uso pretendido e consistencia material."
+      },
+      {
+        "etapa": "Tratamento de inconsistencias",
+        "descricao": "Registrar como inconsistente o tema das cotas 388/389 no Vale_do_Rio_Grande_Loteamento diante da referencia oficial do Ibama a 383,3 m."
+      },
+      {
+        "etapa": "Consolidacao final",
+        "descricao": "Entregar quadro de documentos comprovados, nao comprovados e inconsistentes, com priorizacao operacional de novas buscas documentais."
+      }
+    ],
+    "documentos_prioritarios": [
+      {
+        "prioridade": 1,
+        "empreendimento": "Agua Pora",
+        "documento": "Licenciamento ambiental",
+        "finalidade": "Fechar prova nuclear de regularidade ambiental",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Agua Pora",
+        "documento": "Outorga / SP Aguas",
+        "finalidade": "Fechar prova nuclear de uso regular de recursos hidricos",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Agua Pora",
+        "documento": "ANM",
+        "finalidade": "Fechar prova nuclear mineraria, se aplicavel ao item auditado",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Agua Pora",
+        "documento": "Laudos oficiais",
+        "finalidade": "Fechar prova tecnica oficial vinculada ao empreendimento",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Agua Pora",
+        "documento": "Sanitario",
+        "finalidade": "Fechar prova nuclear de conformidade sanitaria",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Agua Pora",
+        "documento": "Uso do solo",
+        "finalidade": "Fechar prova nuclear urbanistica/municipal",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "SunPark_Clube",
+        "documento": "Licenciamento ambiental",
+        "finalidade": "Fechar prova nuclear de regularidade ambiental",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "SunPark_Clube",
+        "documento": "Alvara / uso do solo",
+        "finalidade": "Fechar prova nuclear urbanistica e municipal",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "SunPark_Clube",
+        "documento": "AVCB",
+        "finalidade": "Fechar prova nuclear de seguranca contra incendio",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "SunPark_Clube",
+        "documento": "Sanitario",
+        "finalidade": "Fechar prova nuclear de conformidade sanitaria",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "SunPark_Clube",
+        "documento": "Agua / esgoto",
+        "finalidade": "Fechar prova nuclear de infraestrutura essencial",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "SunPark_Clube",
+        "documento": "Registros imobiliarios",
+        "finalidade": "Fechar prova nuclear registral do imovel",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+        "documento": "Aprovacao urbanistica municipal",
+        "finalidade": "Fechar prova nuclear urbanistica do loteamento",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+        "documento": "Matricula / poligonal",
+        "finalidade": "Fechar prova nuclear dominial e territorial",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+        "documento": "APP / delimitacao",
+        "finalidade": "Fechar prova nuclear de enquadramento ambiental-territorial",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+        "documento": "Infraestrutura",
+        "finalidade": "Fechar prova nuclear de implantacao essencial vinculada ao loteamento",
+        "status_base": "nao comprovado"
+      },
+      {
+        "prioridade": 1,
+        "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+        "documento": "Situacao das cotas",
+        "finalidade": "Fechar prova material sobre restricao altimetrica aplicavel",
+        "status_base": "inconsistente"
+      },
+      {
+        "prioridade": 2,
+        "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+        "documento": "Licenca ambiental via SEMAD-MG",
+        "finalidade": "Documento oficial de suporte ja comprovado para validacao do quadro ambiental",
+        "status_base": "comprovado"
+      },
+      {
+        "prioridade": 2,
+        "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+        "documento": "Base normativa municipal geral",
+        "finalidade": "Documento oficial de suporte ja comprovado para enquadramento normativo municipal",
+        "status_base": "comprovado"
+      },
+      {
+        "prioridade": 3,
+        "empreendimento": "Agua Pora",
+        "documento": "Mencao empresarial nao oficial",
+        "finalidade": "Registro historico sem valor de prova nuclear",
+        "status_base": "citacao sem prova"
+      },
+      {
+        "prioridade": 3,
+        "empreendimento": "SunPark_Clube",
+        "documento": "Mencao empresarial nao oficial",
+        "finalidade": "Registro historico sem valor de prova nuclear",
+        "status_base": "citacao sem prova"
+      },
+      {
+        "prioridade": 3,
+        "empreendimento": "SunPark_Clube",
+        "documento": "Mencao historica municipal sobre agua/saneamento",
+        "finalidade": "Registro historico sem valor de prova nuclear suficiente",
+        "status_base": "citacao sem prova"
+      }
+    ],
+    "pontos_de_controle": [
+      {
+        "controle": "Fonte oficial",
+        "regra": "Somente documento emitido ou reconhecivel por orgao competente pode fechar prova nuclear."
+      },
+      {
+        "controle": "Vinculacao ao empreendimento",
+        "regra": "Cada documento deve identificar de forma verificavel o empreendimento, area, atividade ou titular relacionado."
+      },
+      {
+        "controle": "Aderencia ao item auditado",
+        "regra": "Documento de suporte nao substitui documento nuclear quando a matriz exigir prova principal especifica."
+      },
+      {
+        "controle": "Tratamento de citacoes sem prova",
+        "regra": "Mencao empresarial nao oficial e mencao historica municipal sem documento formal nao podem ser tratadas como comprovacao."
+      },
+      {
+        "controle": "Tratamento de inconsistencias materiais",
+        "regra": "No Vale_do_Rio_Grande_Loteamento, o tema cotas 388/389 deve permanecer marcado como inconsistente, e nao apenas nao comprovado."
+      },
+      {
+        "controle": "Limite de conclusao",
+        "regra": "A diligencia documental organiza e valida prova disponivel, mas nao declara regularidade final do empreendimento."
+      }
+    ],
+    "provas_obrigatorias": [
+      {
+        "empreendimento": "Agua Pora",
+        "provas": [
+          "Licenciamento ambiental",
+          "Outorga / SP Aguas",
+          "ANM",
+          "Laudos oficiais",
+          "Sanitario",
+          "Uso do solo"
+        ]
+      },
+      {
+        "empreendimento": "SunPark_Clube",
+        "provas": [
+          "Licenciamento ambiental",
+          "Alvara / uso do solo",
+          "AVCB",
+          "Sanitario",
+          "Agua / esgoto",
+          "Registros imobiliarios"
+        ]
+      },
+      {
+        "empreendimento": "Vale_do_Rio_Grande_Loteamento",
+        "provas": [
+          "Licenca ambiental via SEMAD-MG",
+          "Aprovacao urbanistica municipal",
+          "Matricula / poligonal",
+          "APP / delimitacao",
+          "Infraestrutura",
+          "Situacao das cotas"
+        ]
+      }
+    ],
+    "riscos_operacionais": [
+      {
+        "risco": "Confusao entre diligencia e regularidade final",
+        "impacto": "Conclusao indevida sobre situacao juridico-ambiental do empreendimento"
+      },
+      {
+        "risco": "Uso de citacao sem prova como se fosse documento comprobatorio",
+        "impacto": "Falso fechamento de prova nuclear em Agua Pora e SunPark_Clube"
+      },
+      {
+        "risco": "Tratamento neutro da questao das cotas 388/389",
+        "impacto": "Perda do achado critico de inconsistenca no Vale_do_Rio_Grande_Loteamento"
+      },
+      {
+        "risco": "Ausencia de documento nuclear",
+        "impacto": "Impossibilidade de validacao probatoria minima do item auditado"
+      },
+      {
+        "risco": "Documento de suporte usado como substituto de documento principal",
+        "impacto": "Checklist documental formalmente completo, mas materialmente insuficiente"
+      },
+      {
+        "risco": "Desalinhamento entre documento e area efetiva do empreendimento",
+        "impacto": "Falha de aderencia territorial, registral ou urbanistica"
+      }
+    ]
+  },
+  "servico": {
+    "descricao_servico": "Servico de estruturacao operacional de diligencia documental probatoria para regularizacao ambiental, com organizacao, priorizacao, conferencia e validacao formal dos documentos ja previstos na matriz auditada, sem ampliar obrigacoes e sem afirmar regularidade final.",
+    "escopo": [
+      "Montagem de checklist documental por empreendimento e por prioridade",
+      "Recepcao e organizacao indexada dos documentos ja previstos na matriz auditada",
+      "Conferencia de fonte oficial, integridade e aderencia de cada documento ao item auditado",
+      "Classificacao dos itens em comprovado, nao comprovado ou inconsistente conforme auditoria",
+      "Consolidacao de quadro probatorio para Agua Pora, SunPark_Clube e Vale_do_Rio_Grande_Loteamento",
+      "Sinalizacao destacada da inconsistenca material sobre cotas 388/389 no Vale_do_Rio_Grande_Loteamento"
+    ],
+    "entregaveis": [
+      "Checklist operacional de diligencia documental por empreendimento",
+      "Lista de documentos prioritarios 1, 2 e 3 com finalidade probatoria",
+      "Quadro de controle de comprovacao documental por item auditado",
+      "Mapa de pontos de controle para validacao formal da prova",
+      "Relatorio de riscos operacionais da diligencia documental",
+      "Consolidado de limitacoes do acervo e do alcance probatorio"
+    ],
+    "delimitacao_escopo": [
+      "O servico nao cria exigencia documental nova fora da matriz auditada",
+      "O servico nao converte ausencia de prova em conclusao favoravel de regularidade",
+      "O servico nao trata a inconsistencia das cotas 388/389 como simples pendencia neutra",
+      "O servico nao substitui analise juridica conclusiva nem declaracao de regularidade final",
+      "O servico nao atribui valor comprobatorio suficiente a mencoes empresariais nao oficiais ou a mencoes historicas sem documento formal"
+    ]
+  },
+  "interface": {
+    "regras_interface": [
+      "Exibir sempre o status por item auditado com uma das chaves: comprovado, nao comprovado ou inconsistente.",
+      "Bloquear qualquer linguagem que sugira regularidade final quando houver apenas diligencia documental.",
+      "Destacar visualmente prioridade 1 como prova nuclear, prioridade 2 como suporte tecnico/registral e prioridade 3 como item acessorio ou historico.",
+      "Em Vale_do_Rio_Grande_Loteamento, manter licenca ambiental como comprovada e a questao das cotas como inconsistente.",
+      "Em Agua Pora e SunPark_Clube, sinalizar que citacoes nao oficiais nao suprem prova nuclear.",
+      "Permitir rastreabilidade entre cada documento recebido e o item especifico da matriz auditada."
+    ],
+    "gatilhos_automacao": [
+      {
+        "gatilho": "Recebimento de documento oficial novo",
+        "acao": "Reprocessar o item correspondente e atualizar seu status dentro da classificacao auditada."
+      },
+      {
+        "gatilho": "Documento classificado como citacao sem prova",
+        "acao": "Marcar automaticamente como insuficiente para fechamento de prova nuclear."
+      },
+      {
+        "gatilho": "Documento relacionado ao tema cotas 388/389 no Vale_do_Rio_Grande_Loteamento",
+        "acao": "Encaminhar automaticamente para validacao critica por inconsistencia material frente a referencia oficial do Ibama sobre 383,3 m."
+      },
+      {
+        "gatilho": "Checklist com ausencia de item de prioridade 1",
+        "acao": "Sinalizar diligencia incompleta e impedir conclusao positiva de completude probatoria."
+      },
+      {
+        "gatilho": "Documento de suporte apresentado sem documento nuclear correspondente",
+        "acao": "Classificar como suporte isolado e manter o item nuclear como nao comprovado."
+      }
+    ]
+  }
+}

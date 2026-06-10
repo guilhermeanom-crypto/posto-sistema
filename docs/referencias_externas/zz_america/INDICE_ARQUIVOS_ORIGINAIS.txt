@@ -1,0 +1,122 @@
+./INDICE_ARQUIVOS_ORIGINAIS.txt
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Alinhamento_Executivo_AutoPostoAmerica_v2_rascunho.backup_pre_terceiros_clareza.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Alinhamento_Executivo_AutoPostoAmerica_v2_rascunho.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Cotações Terceirizados/build_onepager_docx.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Cotações Terceirizados/COT-2026-001_MCO_CONAMA273_AutoPostoAmerica.md
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Cotações Terceirizados/COT-2026-001_MCO_CONAMA273_AutoPostoAmerica_ONEPAGER.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Cotações Terceirizados/COT-2026-001_MCO_CONAMA273_AutoPostoAmerica_ONEPAGER.md
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Cotações Terceirizados/COT-2026-001_MCO_CONAMA273_AutoPostoAmerica_ONEPAGER.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Cotações Terceirizados/TEMPLATE_Briefing_Cotacao.md
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/2024 - Relatorio de Analise Qualitativa de Efluentes - Posto America.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/2 - SEI_DNIT - 4374748 - Despacho (DNIT) viabilidade posto américa.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/Cercon - Protocolo_161726.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/DISPENSA DA OURTORGA V. 2023.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/Extrato Condicionantes Licença - Posto América 05.2024.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/LICENÇA DE OPERAÇÃO AMÉRICA 2025.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/MAPA POSTO AMERICA-Model.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/MCE.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/Planta Baixa, sistema SASC e mecânico das instalações - Posto América - 03.05.24.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/posto america GUAPO - Planta de piso - Nível 1-Model.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/Relatório Analítico Água Vida Ambiental AMERICA AUTO POSTO 19.03.24.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/RGI DO IMOVEL 2025.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/13042026/TESTE DE ESTANQUEIDADE 10-2024.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Documentação Recebida 14042026/Re Solicitação de Documentação - Auto Posto América - Renovação da Licença Ambiental (LAO 0332020) (2).zip
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Oficiais enviados/Alinhamento_Executivo_AutoPostoAmerica__copia.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Oficiais enviados/Alinhamento_Executivo_AutoPostoAmerica__copia_v2.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Oficiais enviados/Alinhamento_Executivo_AutoPostoAmerica_.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Oficiais enviados/Alinhamento_Executivo_AutoPostoAmerica_.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Oficiais enviados/.~lock.Alinhamento_Executivo_AutoPostoAmerica__copia.docx#
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Mensagens_Cotacao_AutoPostoAmerica_v1.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/01 - Elaboração do MCO · Memorial de Caracterização/BIOPLAN.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/01 - Elaboração do MCO · Memorial de Caracterização/Lorena da Silva Alves Xavier – CREA 12.317D-GO.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/01 - Elaboração do MCO · Memorial de Caracterização/Premium AgroAmbiental.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/02 - Analíticos· ART/Lorena da Silva Alves Xavier – CREA 12.317D-GO.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/02 - Analíticos· ART/Orçamento 1 - Forms - De 1200 por 700,00.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/03 - Orçamentos - Análise laboratorial · RCA semestral/H2S SOLUÇÕES.png
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/03 - Orçamentos - Análise laboratorial · RCA semestral/Orçamento - AQUALIT.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/03 - Orçamentos - Análise laboratorial · RCA semestral/Orçamento - MLA Ambiental.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/04 - Análise complementar de efluentes e água/H2S SOLUÇÕES.png
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/05 - Publicação do pedido de licenciamento/JORNAL O HOJE - DOE.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/05 - Publicação do pedido de licenciamento/JORNAL O HOJE.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/05 - Publicação do pedido de licenciamento/O DIÁRIO DA MANHÃ.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/06 - Investigação confirmatória · NBR 15515-23/EngPetro.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos/Orçamentos.zip
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Orçamentos.zip
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Orçamentos Terceiros/Premium AgroAmbiental.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Alinhamento_Executivo_AutoPostoAmerica_v1.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Alinhamento_Executivo_AutoPostoAmerica_v1.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Alinhamento_Executivo_AutoPostoAmerica_v2.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Alinhamento_Executivo_AutoPostoAmerica_v2.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Alinhamento_Executivo_AutoPostoAmerica_v3.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Alinhamento_Executivo_AutoPostoAmerica_v3.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/ALinhamento Executivo proposto./Alinhamento_Executivo_AutoPostoAmerica_v1.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/ALinhamento Executivo proposto./Alinhamento_Executivo_AutoPostoAmerica_v1.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/ALinhamento Executivo proposto./Alinhamento_Executivo_AutoPostoAmerica_v2.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/ALinhamento Executivo proposto./Alinhamento_Executivo_AutoPostoAmerica_v2.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Briefing_Cotacao_Terceiros_AutoPostoAmerica_v1.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Briefing_Cotacao_Terceiros_AutoPostoAmerica_v1.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Briefing_Cotacao_Terceiros_AutoPostoAmerica_v3.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Briefing_Cotacao_Terceiros_AutoPostoAmerica_v3.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_alinhamento_docx.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_alinhamento_docx_v2.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_alinhamento_docx_v3.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_briefing_cotacao_v3.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_briefing_terceiros_docx.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_docx.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_docx_v2.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_mensagens_cotacao_v1.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_pedidos_cotacao_docx.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/build_tabela_unica_dono.py
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Dashboard_LAO_Auto_Posto_America_v5.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Documento_Consolidado_Final_AutoPostoAmerica_v1.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Documento_Consolidado_Final_AutoPostoAmerica_v1.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Documento_Consolidado_Final_AutoPostoAmerica_v1.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Documento_Consolidado_Final_AutoPostoAmerica_v2.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Documento_Consolidado_Final_AutoPostoAmerica_v2.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Mensagens_Cotacao_AutoPostoAmerica_v1.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Mensagens_Cotacao_AutoPostoAmerica_v1.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Pedidos_Cotacao_Terceiros_AutoPostoAmerica_v1.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Pedidos_Cotacao_Terceiros_AutoPostoAmerica_v1.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Quadro_Unico_AutoPostoAmerica_v1.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Apresentacao_Diretoria_Auto_Posto_America.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Apresentacao_Gestao_Diretoria_Auto_Posto_America.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Apresentacao_Proprietario_AutoPostoAmerica_v1.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/.Apresentacao_Proprietario_v1_backup_pre_habilis.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Dashboard_Cronograma_Embed.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Dashboard_LAO_Auto_Posto_America_v3.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Dashboard_LAO_Auto_Posto_America_v4.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Dashboard_VisaoGeral_Embed.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Deck_Executivo_Auto_Posto_America.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Deck_Executivo_Auto_Posto_America_v2.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Documento_Explicativo_Racional_v1.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Documento_Tecnico_Executivo_Regularizacao_Auto_Posto_America_v1.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Documento_Tecnico_Executivo_Regularizacao_Auto_Posto_America_v2.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Documento_Tecnico_Executivo_Regularizacao_Auto_Posto_America_v3.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/PDF/Plano_Regularizacao_Auto_Posto_America_abr2026.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/PDF/Relatorio_Grupo_ZZ_Status_Regularizacao_v1.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Relatorio_Grupo_ZZ_Status_Regularizacao_v1.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Relatorio_Grupo_ZZ_Status_Regularizacao_v2_executivo.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Relatorio_Grupo_ZZ_Status_Regularizacao_v3_executivo.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Painel de Gestão/Rascunhos/Relatorio_Mestre_Regularizacao_Auto_Posto_America.html
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Procuração/MODELO_PROCURAÇÃO_HÁBILIS (1).docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Procuração/MODELO_PROCURAÇÃO_HÁBILIS.docx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/Procuração/MODELO_PROCURAÇÃO_HÁBILIS.pdf
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0035.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0036.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0037.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0038.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0039.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0040.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0041.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0042.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0043.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Historico Processual/SCAN0044.PDF
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Notebooklm/Inventário Documental do Licenciamento Ambiental Auto Posto América_consolidacao (1).xlsx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/Notebooklm/Inventário Documental do Licenciamento Ambiental Auto Posto América.xlsx
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/TR/WhatsApp Image 2026-03-30 at 15.02.12.jpeg
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/TR/WhatsApp Image 2026-03-30 at 15.02.13 (1).jpeg
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/TR/WhatsApp Image 2026-03-30 at 15.02.13 (2).jpeg
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/TR/WhatsApp Image 2026-03-30 at 15.02.13 (3).jpeg
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/TR/WhatsApp Image 2026-03-30 at 15.02.13 (4).jpeg
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ/SEMMA GUAPÓ/TR/WhatsApp Image 2026-03-30 at 15.02.13.jpeg
+./PROJ_Z+Z_AMERICAPOSTO_GUAPÓ.zip

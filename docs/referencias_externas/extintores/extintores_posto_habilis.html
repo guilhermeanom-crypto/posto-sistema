@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Habilis | Extintores em Postos de Combustivel</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #52616f;
+      --paper: #f6f3ec;
+      --panel: #ffffff;
+      --line: #d8dee4;
+      --green: #166b52;
+      --blue: #225a8f;
+      --red: #b63b31;
+      --amber: #a76518;
+      --steel: #687684;
+      --soft: #eef3f1;
+      --shadow: 0 18px 50px rgba(31, 41, 51, .12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.52;
+    }
+
+    a { color: var(--blue); font-weight: 750; text-decoration: none; }
+
+    header {
+      min-height: 54vh;
+      display: grid;
+      align-items: end;
+      background:
+        linear-gradient(90deg, rgba(25, 34, 42, .84), rgba(25, 34, 42, .52)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='760' viewBox='0 0 1600 760'%3E%3Crect width='1600' height='760' fill='%23d9e1dd'/%3E%3Crect y='525' width='1600' height='235' fill='%238c9792'/%3E%3Crect x='185' y='256' width='895' height='58' rx='8' fill='%23f8f5ee'/%3E%3Crect x='220' y='314' width='36' height='232' fill='%23f8f5ee'/%3E%3Crect x='998' y='314' width='36' height='232' fill='%23f8f5ee'/%3E%3Crect x='286' y='345' width='80' height='168' rx='12' fill='%23225a8f'/%3E%3Crect x='418' y='345' width='80' height='168' rx='12' fill='%23225a8f'/%3E%3Crect x='550' y='345' width='80' height='168' rx='12' fill='%23225a8f'/%3E%3Crect x='712' y='364' width='238' height='150' rx='8' fill='%23fbfaf6'/%3E%3Crect x='1188' y='304' width='98' height='226' rx='25' fill='%23b63b31'/%3E%3Crect x='1218' y='256' width='38' height='56' rx='8' fill='%23687684'/%3E%3Crect x='1212' y='382' width='50' height='36' rx='4' fill='%23ffffff'/%3E%3Cpath d='M1278 286 C1354 286 1390 328 1390 386' fill='none' stroke='%23b63b31' stroke-width='16' stroke-linecap='round'/%3E%3Ccircle cx='1450' cy='208' r='80' fill='%23f1bf4b' opacity='.8'/%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 58px 0 46px;
+      color: #fff;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 999px;
+      background: rgba(255,255,255,.13);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    h1 {
+      max-width: 940px;
+      margin: 18px 0 14px;
+      font-size: clamp(36px, 5.2vw, 74px);
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 840px;
+      margin: 0;
+      font-size: clamp(17px, 2.1vw, 23px);
+      color: rgba(255,255,255,.9);
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 76px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: -56px 0 34px;
+    }
+
+    .metric, .card, .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .metric {
+      min-height: 138px;
+      padding: 18px;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--green);
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 24px;
+    }
+
+    .toc a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 30px 0;
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(25px, 3vw, 38px);
+      letter-spacing: 0;
+    }
+
+    .section > p {
+      max-width: 920px;
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      padding: 20px;
+      box-shadow: none;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #edf4f1;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 12px;
+    }
+
+    .tag.red { background: #fdecea; color: var(--red); }
+    .tag.blue { background: #eaf1f8; color: var(--blue); }
+    .tag.amber { background: #fff1de; color: var(--amber); }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 12px 28px rgba(31, 41, 51, .06);
+    }
+
+    table {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--steel);
+      background: #f4f6f7;
+    }
+
+    td {
+      color: var(--muted);
+      font-size: 14.5px;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(150px, 1fr));
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .step {
+      min-height: 185px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 16px;
+    }
+
+    .step b {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+      margin-bottom: 12px;
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .callout {
+      border-left: 5px solid var(--green);
+      background: #fff;
+      border-radius: 8px;
+      padding: 18px 20px;
+      color: var(--muted);
+      box-shadow: 0 12px 28px rgba(31, 41, 51, .06);
+    }
+
+    .callout strong { color: var(--ink); }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check {
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 56px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .box {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 2px solid var(--green);
+      position: relative;
+    }
+
+    .box::after {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 3px;
+      width: 8px;
+      height: 15px;
+      border: solid var(--green);
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+
+    .status {
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status.red { background: #fde9e7; color: var(--red); }
+    .status.amber { background: #fff2dd; color: var(--amber); }
+    .status.green { background: #e8f5ee; color: var(--green); }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .sources li { margin-bottom: 10px; color: var(--muted); }
+
+    footer {
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .summary, .grid, .grid.three, .grid.four, .split {
+        grid-template-columns: 1fr;
+      }
+
+      .summary {
+        margin-top: -30px;
+      }
+
+      .check {
+        grid-template-columns: 34px 1fr;
+      }
+
+      .status {
+        grid-column: 2;
+        justify-self: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <div class="kicker">Habilis | bloco unico</div>
+      <h1>Extintores em postos de combustivel</h1>
+      <p>Mercado, Inmetro, produtos, fornecedores, precos, documentos, recorrencias e frentes de atuacao da Habilis em um unico material.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="summary" aria-label="Resumo executivo">
+      <div class="metric">
+        <strong>1</strong>
+        <span>entrada recomendada: gestao e integracao, nao oficina propria no inicio</span>
+      </div>
+      <div class="metric">
+        <strong>6 m</strong>
+        <span>referencia critica para CO2: inspecao tecnica com pesagem</span>
+      </div>
+      <div class="metric">
+        <strong>12 m</strong>
+        <span>manutencao de segundo nivel como regra geral, com particularidades</span>
+      </div>
+      <div class="metric">
+        <strong>5 a</strong>
+        <span>terceiro nivel / ensaio hidrostatico, salvo antecipacao tecnica</span>
+      </div>
+    </section>
+
+    <nav class="toc" aria-label="Navegacao do documento">
+      <a href="#tese">Tese</a>
+      <a href="#mercado">Mercado</a>
+      <a href="#atuacao">Frentes Habilis</a>
+      <a href="#inmetro">Inmetro</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#precos">Precos</a>
+      <a href="#fornecedores">Fornecedores</a>
+      <a href="#rotina">Rotina</a>
+      <a href="#oferta">Oferta</a>
+      <a href="#fontes">Fontes</a>
+    </nav>
+
+    <section class="section" id="tese">
+      <h2>Tese do nicho</h2>
+      <p>O mercado de extintores em posto parece pequeno quando visto como "recarga anual". Ele fica interessante quando visto como gestao de risco: produto certo, fornecedor regular, documento no CNPJ correto, vencimento monitorado, evidencia fotografica, projeto Bombeiros coerente e equipe treinada.</p>
+      <div class="callout">
+        <strong>Posicionamento recomendado:</strong> a Habilis deve entrar como gestora/integratora de conformidade de extintores para postos. A empresa organiza o ciclo e aciona parceiros registrados quando houver manutencao/recarga. Oficina propria Inmetro pode ser uma etapa futura, mas nao precisa ser o primeiro movimento.
+      </div>
+    </section>
+
+    <section class="section" id="mercado">
+      <h2>Como funciona o mercado</h2>
+      <p>Na pratica, o cliente confunde tudo em uma unica despesa. Para vender bem, a Habilis precisa separar a cadeia de valor.</p>
+      <div class="grid three">
+        <article class="card">
+          <span class="tag blue">1. Produto</span>
+          <h3>Venda e reposicao</h3>
+          <p>Extintores novos, suportes, placas, abrigos, demarcacao e acessorios. O ganho vem de margem, padronizacao e compra recorrente.</p>
+        </article>
+        <article class="card">
+          <span class="tag red">2. Servico tecnico</span>
+          <h3>Recarga/manutencao</h3>
+          <p>Servico regulamentado pelo Inmetro. Quem executa precisa ser empresa registrada e deve entregar etiqueta, lacre, OS e NF.</p>
+        </article>
+        <article class="card">
+          <span class="tag amber">3. Projeto</span>
+          <h3>Bombeiros</h3>
+          <p>Quantidade, tipo, posicao e sinalizacao precisam bater com projeto aprovado e regras do Corpo de Bombeiros.</p>
+        </article>
+        <article class="card">
+          <span class="tag">4. Monitoramento</span>
+          <h3>Recorrencia</h3>
+          <p>Inventario, fotos, alertas, checklist mensal, dossie e plano de acao. E a melhor porta de entrada para a Habilis.</p>
+        </article>
+        <article class="card">
+          <span class="tag blue">5. Treinamento</span>
+          <h3>Prontidao</h3>
+          <p>NR-20, NR-23, plano de emergencia, orientacao da equipe e simulados. Aumenta valor percebido e reduz risco real.</p>
+        </article>
+        <article class="card">
+          <span class="tag">6. Software</span>
+          <h3>Escala</h3>
+          <p>Painel multiunidade, vencimentos, evidencias, fornecedores homologados e status semaforico por posto.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="atuacao">
+      <h2>Frentes de atuacao da Habilis</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Frente</th>
+              <th>O que vender</th>
+              <th>Precisa registro Inmetro?</th>
+              <th>Receita possivel</th>
+              <th>Risco/limite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Diagnostico inicial</td>
+              <td>Levantamento, fotos, matriz de vencimentos, nao conformidades e plano de acao.</td>
+              <td>Nao, se for auditoria visual/documental.</td>
+              <td>Valor fixo por posto.</td>
+              <td>Evitar chamar de inspecao tecnica Inmetro.</td>
+            </tr>
+            <tr>
+              <td>Monitoramento mensal</td>
+              <td>Checklist, fotos, alertas, cobranca de fornecedor e relatorio para gerente/dono.</td>
+              <td>Nao.</td>
+              <td>Mensalidade por posto ou por quantidade de extintores.</td>
+              <td>Nao rompe lacre, nao abre equipamento, nao recarrega.</td>
+            </tr>
+            <tr>
+              <td>Gestao de recarga/manutencao</td>
+              <td>Cotacao, agenda, retirada, base de troca, conferencia de retorno, NF e OS.</td>
+              <td>A Habilis nao, se apenas coordena. O parceiro sim.</td>
+              <td>Fee por campanha, fee por item ou margem contratual.</td>
+              <td>Responsabilidade tecnica deve ficar com prestador registrado.</td>
+            </tr>
+            <tr>
+              <td>Reposicao e venda</td>
+              <td>Extintor novo, suporte, placa, abrigo, sinalizacao e padronizacao.</td>
+              <td>Nao como manutencao, mas produto deve ser conforme.</td>
+              <td>Margem comercial ou taxa de compra assistida.</td>
+              <td>Conferir selo/registro, NF e compatibilidade com projeto.</td>
+            </tr>
+            <tr>
+              <td>Dossie Bombeiros/SST</td>
+              <td>Organizar projeto, certificado, evidencias, NR-20/NR-23, treinamento e plano de emergencia.</td>
+              <td>Nao para organizacao documental.</td>
+              <td>Valor por renovacao/fiscalizacao.</td>
+              <td>Projeto e ART/RRT ficam com profissional habilitado.</td>
+            </tr>
+            <tr>
+              <td>Oficina propria</td>
+              <td>Inspecao tecnica, manutencao, recarga, ensaio e selo.</td>
+              <td>Sim, Portaria Inmetro/ME 58/2022.</td>
+              <td>Receita tecnica por extintor/contrato.</td>
+              <td>Alto investimento, auditoria, instrumentos e responsabilidade operacional.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="inmetro">
+      <h2>Criterios Inmetro para a Habilis</h2>
+      <p>A pergunta central e: a Habilis vai apenas gerir ou vai executar manutencao? A resposta muda tudo.</p>
+      <div class="split">
+        <article class="card">
+          <span class="tag">Pode fazer como gestora</span>
+          <ul>
+            <li>Inventario por CNPJ, posto e local.</li>
+            <li>Checklist visual/operacional.</li>
+            <li>Fotos de lacre, etiqueta, manometro e sinalizacao.</li>
+            <li>Controle de vencimentos.</li>
+            <li>Consulta de fornecedor/produto no Registro Inmetro.</li>
+            <li>Gestao de cotacoes e dossie documental.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="tag red">Nao fazer sem registro</span>
+          <ul>
+            <li>Romper lacre ou abrir extintor.</li>
+            <li>Recarregar ou substituir componente tecnico.</li>
+            <li>Executar ensaio hidrostatico.</li>
+            <li>Emitir etiqueta de manutencao.</li>
+            <li>Declarar manutencao de 1, 2 ou 3 nivel.</li>
+            <li>Usar selo de conformidade como prestadora.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="section">
+        <h2>Se quiser virar prestadora registrada</h2>
+        <p>A Portaria Inmetro/ME 58/2022 trata do servico de inspecao tecnica e manutencao. O caminho exige estrutura operacional, procedimentos, responsavel, operadores capacitados, instrumentos, calibracoes e registro.</p>
+        <div class="grid three">
+          <article class="card">
+            <h3>Estrutura</h3>
+            <p>Oficina, recebimento, triagem, desmontagem, secagem, ensaios, envasamento, montagem e expedicao.</p>
+          </article>
+          <article class="card">
+            <h3>Controle tecnico</h3>
+            <p>Instrumentos, ferramentas, calibracoes, procedimentos escritos, registros, rastreabilidade e vigilancia de mercado.</p>
+          </article>
+          <article class="card">
+            <h3>Equipe</h3>
+            <p>Responsavel operacional vinculado, operadores capacitados e dominio dos tipos de extintores no escopo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="produtos">
+      <h2>Criterios para produtos e prestadores</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="tag blue">Produto</span>
+          <h3>O que conferir antes de comprar/aceitar</h3>
+          <ul>
+            <li>Selo ou identificacao de conformidade.</li>
+            <li>Registro Inmetro quando aplicavel.</li>
+            <li>Fabricante/importador identificavel.</li>
+            <li>NF no CNPJ correto.</li>
+            <li>Tipo de agente: ABC, BC, CO2, agua, espuma.</li>
+            <li>Capacidade/carga e capacidade extintora.</li>
+            <li>Classe de fogo e compatibilidade com projeto.</li>
+            <li>Manual/instrucoes, lacre, manometro e suporte.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="tag red">Prestador</span>
+          <h3>O que exigir da empresa de manutencao</h3>
+          <ul>
+            <li>Registro/regularidade no Registro de Objeto do Inmetro.</li>
+            <li>Programa correto: inspecao tecnica e manutencao de extintores.</li>
+            <li>Portaria 58/2022 no escopo.</li>
+            <li>OS, relatorio/certificado, etiqueta, lacre e NF.</li>
+            <li>Base de troca ou extintor substituto quando necessario.</li>
+            <li>Fotos e prazos enviados em formato digital.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="precos">
+      <h2>Precos de referencia</h2>
+      <p>Valores publicos observados em 21/04/2026. Servem como ancora de mercado, nao como cotacao formal. Preco muda com UF, frete, quantidade, base de troca, estado do casco, teste hidrostatico e urgencia.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Referencia observada</th>
+              <th>Preco/faixa</th>
+              <th>Como usar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Recarga/base de troca ABC 4 kg</td>
+              <td>Expresso Extintores</td>
+              <td>R$ 90,00</td>
+              <td>Ancora para campanha de pequenos equipamentos.</td>
+            </tr>
+            <tr>
+              <td>Recarga/base de troca ABC 6 kg</td>
+              <td>Expresso Extintores / BroadMaxx</td>
+              <td>R$ 83,00 a R$ 120,00</td>
+              <td>Item muito comum; pedir cotacao local em GO.</td>
+            </tr>
+            <tr>
+              <td>Recarga/base de troca PQS BC 12 kg</td>
+              <td>Expresso Extintores</td>
+              <td>R$ 150,00</td>
+              <td>Relevante para risco de liquidos inflamaveis, conforme projeto.</td>
+            </tr>
+            <tr>
+              <td>Recarga CO2 6 kg</td>
+              <td>Expresso Extintores</td>
+              <td>R$ 249,00</td>
+              <td>CO2 costuma pesar mais no orcamento e tem controle semestral.</td>
+            </tr>
+            <tr>
+              <td>Extintor ABC 6 kg novo</td>
+              <td>Loja Fadef / BroadMaxx / Mercado Livre</td>
+              <td>R$ 162,00 a R$ 300,00</td>
+              <td>Conferir validade, NF, registro, marca e frete.</td>
+            </tr>
+            <tr>
+              <td>Extintor PQS BC 12 kg novo</td>
+              <td>JP Extintores / FeuSafe</td>
+              <td>Cerca de R$ 228,00</td>
+              <td>Usar como referencia, nao substituir dimensionamento tecnico.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="fornecedores">
+      <h2>Fornecedores e homologacao</h2>
+      <p>A Habilis deve montar uma rede homologada. O ponto nao e escolher o mais barato; e escolher quem entrega regularidade, documento, prazo e rastreabilidade.</p>
+      <div class="grid three">
+        <article class="card">
+          <span class="tag blue">Fabricantes</span>
+          <h3>Exemplos a consultar</h3>
+          <p>Resil, Kidde, Protege, Extinorpi, Fusion, Sawex e outros encontrados no Registro de Objeto do Inmetro.</p>
+        </article>
+        <article class="card">
+          <span class="tag amber">Canais de preco</span>
+          <h3>Referencia publica</h3>
+          <p>Expresso Extintores, Loja Fadef, BroadMaxx, JP Extintores, FeuSafe e marketplaces. Sempre conferir NF e conformidade.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Goias</span>
+          <h3>Proximo filtro</h3>
+          <p>Listar fornecedores de Goiania/GO, consultar CNPJ no Registro Inmetro e pontuar SLA, escopo, preco e documentacao.</p>
+        </article>
+      </div>
+
+      <div class="section">
+        <h2>Score de homologacao</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Criterio</th>
+                <th>Peso</th>
+                <th>Como avaliar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Registro Inmetro ativo</td><td>5</td><td>Consulta no Registro de Objeto; criterio eliminatorio para manutencao.</td></tr>
+              <tr><td>NF correta</td><td>5</td><td>Emissao no CNPJ da unidade/posto.</td></tr>
+              <tr><td>Documentacao pos-servico</td><td>5</td><td>OS, relatorio, etiqueta, lacre, fotos e prazos.</td></tr>
+              <tr><td>SLA e emergencia</td><td>4</td><td>Retirada, base de troca, retorno e atendimento urgente.</td></tr>
+              <tr><td>Cobertura geografica</td><td>4</td><td>Goiania, interior e redes multiunidade.</td></tr>
+              <tr><td>Preco</td><td>3</td><td>Nao deve ser unico criterio.</td></tr>
+              <tr><td>Integracao digital</td><td>4</td><td>Envia documentos e fotos de forma organizada.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="rotina">
+      <h2>Recorrencias e rotina</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Quando</th>
+              <th>O que fazer</th>
+              <th>Responsavel tipico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mensal</td>
+              <td>Checklist visual: acesso, lacre, manometro, validade, suporte, sinalizacao, corrosao, dano, obstrucao e local correto.</td>
+              <td>Posto/Habilis.</td>
+            </tr>
+            <tr>
+              <td>A cada 6 meses</td>
+              <td>CO2: inspecao tecnica com avaliacao externa e pesagem.</td>
+              <td>Empresa registrada no Inmetro.</td>
+            </tr>
+            <tr>
+              <td>Anual</td>
+              <td>Manutencao de segundo nivel para agua, CO2, po BC/ABC, espuma e halogenado; primeira ao fim da garantia do fabricante.</td>
+              <td>Empresa registrada no Inmetro.</td>
+            </tr>
+            <tr>
+              <td>Ate 5 anos</td>
+              <td>No CO2, a manutencao de segundo nivel pode ser revalidada pela mesma empresa que fez a anterior, quando aplicavel.</td>
+              <td>Empresa registrada no Inmetro.</td>
+            </tr>
+            <tr>
+              <td>A cada 5 anos</td>
+              <td>Manutencao de terceiro nivel / ensaio hidrostatico, salvo antecipacao por dano, corrosao ou avaliacao tecnica.</td>
+              <td>Empresa registrada no Inmetro.</td>
+            </tr>
+            <tr>
+              <td>Imediato</td>
+              <td>Apos uso, descarga parcial, lacre violado, perda de pressao, queda, dano, corrosao ou suspeita de irregularidade.</td>
+              <td>Empresa registrada no Inmetro.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>Checklist do posto</h2>
+        <div class="checklist">
+          <div class="check"><span class="box"></span><span>Existe certificado/licenca do Corpo de Bombeiros vigente?</span><span class="status red">critico</span></div>
+          <div class="check"><span class="box"></span><span>Existe projeto/planta com a localizacao dos extintores?</span><span class="status amber">base</span></div>
+          <div class="check"><span class="box"></span><span>Todos os extintores estao inventariados com tipo, carga, local, foto e validade?</span><span class="status green">gestao</span></div>
+          <div class="check"><span class="box"></span><span>Etiquetas, lacres e manometros estao legiveis e integros?</span><span class="status red">critico</span></div>
+          <div class="check"><span class="box"></span><span>Fornecedor de manutencao foi validado no Registro Inmetro?</span><span class="status red">critico</span></div>
+          <div class="check"><span class="box"></span><span>Existe NF, OS/relatorio e evidencias por CNPJ correto?</span><span class="status red">critico</span></div>
+          <div class="check"><span class="box"></span><span>Equipe tem orientacao NR-20/NR-23 e sabe acionar emergencia?</span><span class="status amber">sst</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="oferta">
+      <h2>Oferta Habilis para o nicho</h2>
+      <div class="grid three">
+        <article class="card">
+          <span class="tag">Entrada</span>
+          <h3>Diagnostico Extintores 360</h3>
+          <p>Visita, inventario, fotos, vencimentos, documentos, nao conformidades, estimativa de regularizacao e plano de acao.</p>
+        </article>
+        <article class="card">
+          <span class="tag blue">Recorrencia</span>
+          <h3>Monitoramento Mensal</h3>
+          <p>Checklist, fotos, alertas, relatorio, cobranca de fornecedor e status semaforico por unidade.</p>
+        </article>
+        <article class="card">
+          <span class="tag amber">Campanha</span>
+          <h3>Gestao de Manutencao</h3>
+          <p>Cotacao, validacao Inmetro, agendamento, base de troca, conferencia de retorno, OS, NF e atualizacao do inventario.</p>
+        </article>
+        <article class="card">
+          <span class="tag red">Regularizacao</span>
+          <h3>Dossie Bombeiros/SST</h3>
+          <p>Projeto, certificado, evidencias, NR-20/NR-23, plano de emergencia e encaminhamento a parceiros tecnicos.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Compra</span>
+          <h3>Reposicao Assistida</h3>
+          <p>Extintor novo, placas, suportes e abrigos com conferencia de produto, NF, registro e compatibilidade com projeto.</p>
+        </article>
+        <article class="card">
+          <span class="tag blue">Rede</span>
+          <h3>Painel Multiunidade</h3>
+          <p>Status por posto, proximos vencimentos, fornecedor homologado, custo previsto e documentos em um so lugar.</p>
+        </article>
+      </div>
+
+      <div class="section">
+        <h2>Pitch comercial</h2>
+        <div class="callout">
+          "A Habilis nao vem so vender recarga. A gente transforma extintor em controle de conformidade: cada equipamento identificado, fotografado, com vencimento monitorado, fornecedor validado, documento no CNPJ certo e dossie pronto para Bombeiros, auditoria e SST."
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fontes">
+      <h2>Fontes oficiais e referencias</h2>
+      <ul class="sources">
+        <li>Inmetro, prazos de recarga/manutencao: <a href="https://www.gov.br/inmetro/pt-br/acesso-a-informacao/perguntas-frequentes/avaliacao-da-conformidade/extintores-de-incendio/qual-o-prazo-para-recarga-e-manutencao-de-extintor-de-incendio">gov.br/inmetro</a></li>
+        <li>Inmetro, produtos/servicos regulamentados: <a href="https://www.gov.br/inmetro/pt-br/acesso-a-informacao/perguntas-frequentes/avaliacao-da-conformidade/extintores-de-incendio/quais-sao-os-produtosservicos-na-area-de-prevencao-protecao-e-combate-a-incendios-regulamentados-pelo-inmetro">gov.br/inmetro</a></li>
+        <li>Inmetro, requisitos gerais para extintores: <a href="https://www.gov.br/inmetro/pt-br/acesso-a-informacao/perguntas-frequentes/avaliacao-da-conformidade/extintores-de-incendio/quais-sao-os-requisitos-gerais-exigidos-para-os-extintores-de-incendio">gov.br/inmetro</a></li>
+        <li>Registro de Objeto do Inmetro: <a href="https://registro.inmetro.gov.br/consulta/">registro.inmetro.gov.br</a></li>
+        <li>Portaria Inmetro/ME 58/2022, texto consolidado consultado: <a href="https://www.legisweb.com.br/legislacao/?id=479109">LegisWeb</a></li>
+        <li>Portaria Inmetro 108/2022, texto consolidado consultado: <a href="https://www.legisweb.com.br/legislacao/?id=479106">LegisWeb</a></li>
+        <li>NR-23, Protecao contra incendios: <a href="https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/arquivos/normas-regulamentadoras/nr-23-atualizada-2022.pdf">gov.br/trabalho-e-emprego</a></li>
+        <li>NR-20, Inflamaveis e combustiveis: <a href="https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/nr-20-atualizada-2025.pdf">gov.br/trabalho-e-emprego</a></li>
+        <li>CBMGO NT-21/2022: <a href="https://www.bombeiros.go.gov.br/wp-content/uploads/2021/03/NT-21_2022_-_Sistema_de_protecao_por_extintores_de_incendio.pdf">bombeiros.go.gov.br</a></li>
+        <li>Referencias comerciais de preco: Expresso Extintores, Loja Fadef, BroadMaxx, JP Extintores, FeuSafe e Mercado Livre, consultadas como ancora publica de mercado em 21/04/2026.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Documento unico Habilis sobre extintores em postos de combustivel. A definicao final de quantidade, tipo e local dos equipamentos deve seguir projeto aprovado, normas tecnicas e Corpo de Bombeiros competente.
+    </footer>
+  </main>
+</body>
+</html>

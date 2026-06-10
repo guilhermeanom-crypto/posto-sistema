@@ -1,0 +1,272 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// ENUMS DE DOMÍNIO — fonte única de verdade para frontend e backend
+// ─────────────────────────────────────────────────────────────────────────────
+
+export enum PerfilUsuario {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  ADMIN_TENANT = 'ADMIN_TENANT',
+  COORDENADOR = 'COORDENADOR',
+  ANALISTA = 'ANALISTA',
+  ANALISTA_CAMPO = 'ANALISTA_CAMPO',
+  EXECUTIVO = 'EXECUTIVO',
+  REPRESENTANTE_POSTO = 'REPRESENTANTE_POSTO',
+}
+
+export enum EsferaRegulatoria {
+  FEDERAL = 'FEDERAL',
+  ESTADUAL = 'ESTADUAL',
+  MUNICIPAL = 'MUNICIPAL',
+}
+
+export enum TipoOrgao {
+  AMBIENTAL = 'AMBIENTAL',
+  SEGURANCA = 'SEGURANCA',
+  COMERCIAL = 'COMERCIAL',
+  SANITARIO = 'SANITARIO',
+  METROLOGIA = 'METROLOGIA',
+  TRANSPORTE = 'TRANSPORTE',
+  TRIBUTARIO = 'TRIBUTARIO',
+  OUTROS = 'OUTROS',
+}
+
+export enum CategoriaProcesso {
+  LICENCA = 'LICENCA',
+  AUTORIZACAO = 'AUTORIZACAO',
+  CERTIFICACAO = 'CERTIFICACAO',
+  REGISTRO = 'REGISTRO',
+  CADASTRO = 'CADASTRO',
+  RENOVACAO = 'RENOVACAO',
+  ADITAMENTO = 'ADITAMENTO',
+  CANCELAMENTO = 'CANCELAMENTO',
+}
+
+export enum CategoriaDocumento {
+  LICENCA = 'LICENCA',
+  ALVARA = 'ALVARA',
+  CERTIFICADO = 'CERTIFICADO',
+  LAUDO = 'LAUDO',
+  RELATORIO = 'RELATORIO',
+  ART_RRT = 'ART_RRT',
+  CONTRATO = 'CONTRATO',
+  DOCUMENTO_SOCIETARIO = 'DOCUMENTO_SOCIETARIO',
+  COMPROVANTE = 'COMPROVANTE',
+  DECLARACAO = 'DECLARACAO',
+  OUTROS = 'OUTROS',
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATUS (MÁQUINAS DE ESTADO)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export enum StatusProcesso {
+  EM_ELABORACAO = 'EM_ELABORACAO',
+  AGUARDANDO_DOCUMENTOS = 'AGUARDANDO_DOCUMENTOS',
+  PRONTO_PROTOCOLO = 'PRONTO_PROTOCOLO',
+  PROTOCOLADO = 'PROTOCOLADO',
+  EM_ANALISE = 'EM_ANALISE',
+  EXIGENCIA_DOCUMENTAL = 'EXIGENCIA_DOCUMENTAL',
+  EM_VISTORIA = 'EM_VISTORIA',
+  DEFERIDO = 'DEFERIDO',
+  INDEFERIDO = 'INDEFERIDO',
+  EM_RECURSO = 'EM_RECURSO',
+  SUSPENSO = 'SUSPENSO',
+  CANCELADO = 'CANCELADO',
+  VENCIDO = 'VENCIDO',
+  EM_RENOVACAO = 'EM_RENOVACAO',
+  ARQUIVADO = 'ARQUIVADO',
+}
+
+export enum StatusDocumento {
+  PENDENTE = 'PENDENTE',
+  ENVIADO = 'ENVIADO',
+  EM_ANALISE = 'EM_ANALISE',
+  APROVADO = 'APROVADO',
+  REJEITADO = 'REJEITADO',
+  VENCIDO = 'VENCIDO',
+  A_RENOVAR = 'A_RENOVAR',
+  SUBSTITUIDO = 'SUBSTITUIDO',
+  DISPENSADO = 'DISPENSADO',
+}
+
+export enum StatusVersaoDocumento {
+  AGUARDANDO_UPLOAD = 'AGUARDANDO_UPLOAD',
+  ENVIADA = 'ENVIADA',
+  EM_VALIDACAO = 'EM_VALIDACAO',
+  ATIVA = 'ATIVA',
+  REJEITADA = 'REJEITADA',
+  SUBSTITUIDA = 'SUBSTITUIDA',
+  UPLOAD_FALHOU = 'UPLOAD_FALHOU',
+}
+
+export enum StatusCondicionante {
+  PENDENTE = 'PENDENTE',
+  EM_CUMPRIMENTO = 'EM_CUMPRIMENTO',
+  AGUARDANDO_EVIDENCIA = 'AGUARDANDO_EVIDENCIA',
+  CUMPRIDA = 'CUMPRIDA',
+  VENCIDA = 'VENCIDA',
+  DISPENSADA = 'DISPENSADA',
+}
+
+export enum PeriodicidadeCondicionante {
+  UNICA = 'UNICA',
+  MENSAL = 'MENSAL',
+  BIMESTRAL = 'BIMESTRAL',
+  TRIMESTRAL = 'TRIMESTRAL',
+  SEMESTRAL = 'SEMESTRAL',
+  ANUAL = 'ANUAL',
+  BIENAL = 'BIENAL',
+  PERSONALIZADA = 'PERSONALIZADA',
+}
+
+export enum TipoCondicionante {
+  DOCUMENTAL = 'DOCUMENTAL',
+  EXECUTIVA = 'EXECUTIVA',
+  MONITORAMENTO = 'MONITORAMENTO',
+  FINANCEIRA = 'FINANCEIRA',
+  CORRETIVA = 'CORRETIVA',
+}
+
+export enum StatusTarefa {
+  PENDENTE = 'PENDENTE',
+  EM_ANDAMENTO = 'EM_ANDAMENTO',
+  AGUARDANDO_APROVACAO = 'AGUARDANDO_APROVACAO',
+  APROVADA = 'APROVADA',
+  CONCLUIDA = 'CONCLUIDA',
+  CANCELADA = 'CANCELADA',
+  BLOQUEADA = 'BLOQUEADA',
+  ESCALONADA = 'ESCALONADA',
+}
+
+export enum PrioridadeTarefa {
+  CRITICA = 'CRITICA',
+  ALTA = 'ALTA',
+  MEDIA = 'MEDIA',
+  BAIXA = 'BAIXA',
+}
+
+export enum OrigemTarefa {
+  MANUAL = 'MANUAL',
+  REGRA_VENCIMENTO_DOC = 'REGRA_VENCIMENTO_DOC',
+  REGRA_VENCIMENTO_PROC = 'REGRA_VENCIMENTO_PROC',
+  REGRA_CONDICIONANTE = 'REGRA_CONDICIONANTE',
+  REGRA_REQUISITO_PENDENTE = 'REGRA_REQUISITO_PENDENTE',
+  WORKFLOW = 'WORKFLOW',
+  ESCALAMENTO = 'ESCALAMENTO',
+}
+
+export enum TipoEvidencia {
+  DOCUMENTO = 'DOCUMENTO',
+  FOTO = 'FOTO',
+  TEXTO = 'TEXTO',
+  LINK = 'LINK',
+}
+
+export enum TipoAlerta {
+  VENCIMENTO_DOCUMENTO = 'VENCIMENTO_DOCUMENTO',
+  VENCIMENTO_PROCESSO = 'VENCIMENTO_PROCESSO',
+  PRAZO_CONDICIONANTE = 'PRAZO_CONDICIONANTE',
+  TAREFA_SEM_INICIO = 'TAREFA_SEM_INICIO',
+  TAREFA_ATRASADA = 'TAREFA_ATRASADA',
+  DOCUMENTO_REJEITADO = 'DOCUMENTO_REJEITADO',
+  NOVO_REQUISITO = 'NOVO_REQUISITO',
+  TAREFA_ATRIBUIDA = 'TAREFA_ATRIBUIDA',
+  COMPLIANCE_CRITICO = 'COMPLIANCE_CRITICO',
+  COMPLIANCE_ATENCAO = 'COMPLIANCE_ATENCAO',
+  ESCALONAMENTO_TAREFA = 'ESCALONAMENTO_TAREFA',
+}
+
+export enum NivelAlerta {
+  CRITICO = 'CRITICO',
+  ALTO = 'ALTO',
+  MEDIO = 'MEDIO',
+  INFORMATIVO = 'INFORMATIVO',
+}
+
+export enum StatusCompliance {
+  REGULAR = 'REGULAR',
+  ATENCAO = 'ATENCAO',
+  CRITICO = 'CRITICO',
+  EMERGENCIA = 'EMERGENCIA',
+}
+
+export enum TipoAcaoAuditoria {
+  CRIADO = 'CRIADO',
+  ATUALIZADO = 'ATUALIZADO',
+  STATUS_ALTERADO = 'STATUS_ALTERADO',
+  FASE_AVANCADA = 'FASE_AVANCADA',
+  FASE_RETROCEDIDA = 'FASE_RETROCEDIDA',
+  VERSAO_ENVIADA = 'VERSAO_ENVIADA',
+  VERSAO_APROVADA = 'VERSAO_APROVADA',
+  VERSAO_REJEITADA = 'VERSAO_REJEITADA',
+  DOCUMENTO_VENCIDO = 'DOCUMENTO_VENCIDO',
+  CONDICIONANTE_CUMPRIDA = 'CONDICIONANTE_CUMPRIDA',
+  CONDICIONANTE_DISPENSADA = 'CONDICIONANTE_DISPENSADA',
+  CONDICIONANTE_VENCIDA = 'CONDICIONANTE_VENCIDA',
+  TAREFA_ATRIBUIDA = 'TAREFA_ATRIBUIDA',
+  TAREFA_CONCLUIDA = 'TAREFA_CONCLUIDA',
+  TAREFA_CANCELADA = 'TAREFA_CANCELADA',
+  TAREFA_ESCALONADA = 'TAREFA_ESCALONADA',
+  ACESSO_REALIZADO = 'ACESSO_REALIZADO',
+  PERMISSAO_ALTERADA = 'PERMISSAO_ALTERADA',
+  CONFIGURACAO_ALTERADA = 'CONFIGURACAO_ALTERADA',
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONSTANTES DE DOMÍNIO
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const ESTADOS_BR = [
+  'AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO',
+  'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR',
+  'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO',
+] as const
+
+export type EstadoBR = (typeof ESTADOS_BR)[number]
+
+/** Transições de status válidas para Processo */
+export const TRANSICOES_PROCESSO: Partial<Record<StatusProcesso, StatusProcesso[]>> = {
+  [StatusProcesso.EM_ELABORACAO]: [
+    StatusProcesso.AGUARDANDO_DOCUMENTOS,
+    StatusProcesso.PRONTO_PROTOCOLO,
+    StatusProcesso.CANCELADO,
+  ],
+  [StatusProcesso.AGUARDANDO_DOCUMENTOS]: [StatusProcesso.PRONTO_PROTOCOLO, StatusProcesso.CANCELADO],
+  [StatusProcesso.PRONTO_PROTOCOLO]: [StatusProcesso.PROTOCOLADO, StatusProcesso.CANCELADO],
+  [StatusProcesso.PROTOCOLADO]: [StatusProcesso.EM_ANALISE, StatusProcesso.CANCELADO],
+  [StatusProcesso.EM_ANALISE]: [
+    StatusProcesso.EXIGENCIA_DOCUMENTAL,
+    StatusProcesso.EM_VISTORIA,
+    StatusProcesso.DEFERIDO,
+    StatusProcesso.INDEFERIDO,
+  ],
+  [StatusProcesso.EXIGENCIA_DOCUMENTAL]: [StatusProcesso.EM_ANALISE, StatusProcesso.CANCELADO],
+  [StatusProcesso.EM_VISTORIA]: [
+    StatusProcesso.EM_ANALISE,
+    StatusProcesso.DEFERIDO,
+    StatusProcesso.INDEFERIDO,
+  ],
+  [StatusProcesso.DEFERIDO]: [StatusProcesso.EM_RENOVACAO, StatusProcesso.VENCIDO, StatusProcesso.SUSPENSO],
+  [StatusProcesso.INDEFERIDO]: [StatusProcesso.EM_RECURSO, StatusProcesso.CANCELADO],
+  [StatusProcesso.EM_RECURSO]: [StatusProcesso.EM_ANALISE, StatusProcesso.INDEFERIDO],
+  [StatusProcesso.VENCIDO]: [StatusProcesso.EM_RENOVACAO, StatusProcesso.ARQUIVADO],
+  [StatusProcesso.EM_RENOVACAO]: [StatusProcesso.PROTOCOLADO],
+  [StatusProcesso.SUSPENSO]: [StatusProcesso.DEFERIDO, StatusProcesso.CANCELADO],
+  [StatusProcesso.CANCELADO]: [StatusProcesso.ARQUIVADO],
+}
+
+/** Limites do score de compliance por faixa */
+export const COMPLIANCE_LIMITES = {
+  REGULAR: 85,
+  ATENCAO: 70,
+  CRITICO: 50,
+} as const
+
+/** Pesos do cálculo do Índice de Conformidade */
+export const COMPLIANCE_PESOS = {
+  DOCUMENTOS: 0.20,
+  PROCESSOS: 0.15,
+  CONDICIONANTES: 0.15,
+  LICENCAS: 0.15,
+  SST: 0.15,
+  INTEGRIDADE_TECNICA: 0.20,
+} as const

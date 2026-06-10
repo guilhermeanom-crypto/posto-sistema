@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto Posto América — Gestão da Renovação LAO</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1B5E20;
+  --verde-m: #2E7D32;
+  --verde-l: #4CAF50;
+  --verde-bg: #E8F5E9;
+  --verde-mid: #C8E6C9;
+  --amber: #F57F17;
+  --amber-l: #FFA000;
+  --amber-bg: #FFF8E1;
+  --amber-mid: #FFE082;
+  --vermelho: #B71C1C;
+  --vermelho-l: #E53935;
+  --vermelho-bg: #FFEBEE;
+  --azul: #0D47A1;
+  --azul-l: #1976D2;
+  --azul-bg: #E3F2FD;
+  --cinza-9: #1C1C1E;
+  --cinza-7: #3A3A3C;
+  --cinza-5: #6C6C70;
+  --cinza-3: #AEAEB2;
+  --cinza-1: #F2F2F7;
+  --cinza-0: #FAFAFA;
+  --branco: #FFFFFF;
+  --borda: #E5E5EA;
+  --sombra: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --sombra-m: 0 4px 12px rgba(0,0,0,.10);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cinza-0);
+  color: var(--cinza-9);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── TOPO ── */
+.topo {
+  background: var(--verde);
+  padding: 0;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.topo-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 24px;
+  height: 56px;
+}
+.topo-logo {
+  font-size: 12px; font-weight: 600; color: rgba(255,255,255,.5);
+  text-transform: uppercase; letter-spacing: .12em;
+  white-space: nowrap;
+}
+.topo-sep { width: 1px; height: 20px; background: rgba(255,255,255,.2); }
+.topo-title { font-size: 14px; font-weight: 500; color: #fff; }
+.topo-sub { font-size: 12px; color: rgba(255,255,255,.6); margin-left: auto; }
+.nav-tabs {
+  display: flex; gap: 2px; margin-left: auto;
+}
+.nav-tab {
+  padding: 6px 14px; font-size: 12px; font-weight: 500;
+  border-radius: 6px; cursor: pointer; border: none;
+  background: transparent; color: rgba(255,255,255,.65);
+  transition: all .15s;
+}
+.nav-tab:hover { background: rgba(255,255,255,.1); color: #fff; }
+.nav-tab.active { background: rgba(255,255,255,.18); color: #fff; }
+
+/* ── LAYOUT ── */
+.main { max-width: 1280px; margin: 0 auto; padding: 24px; }
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── MÉTRICAS ── */
+.metricas {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 10px; margin-bottom: 20px;
+}
+.metrica {
+  background: var(--branco); border: 1px solid var(--borda);
+  border-radius: 12px; padding: 14px 16px;
+  transition: box-shadow .15s;
+}
+.metrica:hover { box-shadow: var(--sombra-m); }
+.m-label { font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--cinza-5); margin-bottom: 6px; }
+.m-val { font-size: 28px; font-weight: 600; line-height: 1; color: var(--cinza-9); }
+.m-sub { font-size: 11px; color: var(--cinza-3); margin-top: 4px; }
+.m-val.danger { color: var(--vermelho-l); }
+.m-val.warn { color: var(--amber); }
+.m-val.ok { color: var(--verde-m); }
+
+/* ── LINHA DO TEMPO ── */
+.timeline-container {
+  background: var(--branco); border: 1px solid var(--borda);
+  border-radius: 16px; overflow: hidden; margin-bottom: 20px;
+}
+.timeline-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--borda);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+.timeline-header h2 { font-size: 13px; font-weight: 600; color: var(--cinza-9); }
+.filter-btns { display: flex; gap: 4px; }
+.fbtn {
+  padding: 4px 10px; font-size: 11px; font-weight: 500;
+  border-radius: 6px; border: 1px solid var(--borda);
+  background: var(--branco); color: var(--cinza-5); cursor: pointer;
+  font-family: inherit; transition: all .15s;
+}
+.fbtn:hover { border-color: var(--verde-m); color: var(--verde-m); }
+.fbtn.on { background: var(--verde); border-color: var(--verde); color: #fff; }
+
+.timeline-scroll { padding: 24px 20px; overflow-x: auto; }
+.timeline-track {
+  position: relative;
+  padding-bottom: 8px;
+}
+/* linha central */
+.tl-axis {
+  position: absolute; left: 0; right: 0; top: 36px;
+  height: 2px; background: var(--borda);
+}
+.tl-axis-fill {
+  height: 100%; background: linear-gradient(90deg, var(--verde) 0%, var(--verde-l) 100%);
+  transition: width .5s ease;
+}
+
+.tl-years {
+  display: flex; gap: 0; margin-bottom: 8px; position: relative;
+}
+.tl-year-block {
+  display: flex; flex-direction: column; align-items: flex-start;
+  min-width: 0;
+}
+.tl-year-label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--cinza-3);
+  padding: 2px 0; margin-bottom: 4px;
+}
+
+.tl-events {
+  display: flex; align-items: flex-start; gap: 0;
+  min-height: 240px; position: relative;
+}
+
+.tl-event {
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; cursor: pointer;
+  transition: transform .15s;
+  flex-shrink: 0;
+  width: 52px;
+}
+.tl-event:hover { transform: translateY(-2px); }
+.tl-event:hover .tl-card { box-shadow: var(--sombra-m); }
+
+.tl-stem {
+  width: 1px; background: var(--borda); flex-shrink: 0;
+}
+.tl-stem.up { height: 40px; order: 0; }
+.tl-stem.down { height: 40px; order: 2; }
+
+.tl-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--branco);
+  flex-shrink: 0; order: 1;
+  z-index: 2; position: relative;
+  margin: -5px 0;
+}
+.dot-ok { background: var(--verde-l); }
+.dot-vigente { background: var(--verde-m); box-shadow: 0 0 0 3px var(--verde-bg); }
+.dot-vencido { background: var(--vermelho-l); box-shadow: 0 0 0 3px var(--vermelho-bg); }
+.dot-warn { background: var(--amber-l); }
+.dot-pendente { background: var(--cinza-3); }
+.dot-semma { background: var(--azul-l); box-shadow: 0 0 0 3px var(--azul-bg); }
+
+.tl-card {
+  width: 44px; padding: 5px 5px; border-radius: 6px;
+  border: 1px solid var(--borda); background: var(--branco);
+  font-size: 8.5px; line-height: 1.3; text-align: center;
+  box-shadow: var(--sombra);
+  transition: box-shadow .15s;
+  word-break: break-word;
+}
+.tl-card.up { order: 2; margin-top: 4px; }
+.tl-card.down { order: 0; margin-bottom: 4px; }
+.tl-card .card-tipo {
+  font-size: 7.5px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .04em; margin-bottom: 2px;
+}
+.tl-card .card-nome { color: var(--cinza-7); font-weight: 500; }
+
+/* cores dos cards */
+.card-vigente { border-color: var(--verde-mid); background: var(--verde-bg); }
+.card-vigente .card-tipo { color: var(--verde-m); }
+.card-vencido { border-color: #FFCDD2; background: var(--vermelho-bg); }
+.card-vencido .card-tipo { color: var(--vermelho-l); }
+.card-semma { border-color: #BBDEFB; background: var(--azul-bg); }
+.card-semma .card-tipo { color: var(--azul-l); }
+.card-warn { border-color: var(--amber-mid); background: var(--amber-bg); }
+.card-warn .card-tipo { color: var(--amber); }
+
+/* tooltip */
+.tl-tooltip {
+  position: fixed; z-index: 999;
+  background: var(--cinza-9); color: #fff;
+  font-size: 11px; line-height: 1.5;
+  padding: 8px 12px; border-radius: 8px;
+  max-width: 260px; pointer-events: none;
+  opacity: 0; transition: opacity .15s;
+  box-shadow: 0 4px 16px rgba(0,0,0,.3);
+}
+.tl-tooltip.show { opacity: 1; }
+.tt-title { font-weight: 600; font-size: 11.5px; margin-bottom: 3px; }
+.tt-meta { color: rgba(255,255,255,.6); font-size: 10px; }
+.tt-status { display: inline-block; margin-top: 4px; font-size: 10px;
+  font-weight: 600; padding: 1px 6px; border-radius: 4px; }
+
+/* ── DOIS REQUERIMENTOS ── */
+.dois-tracks {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;
+}
+.track-card {
+  background: var(--branco); border: 1px solid var(--borda);
+  border-radius: 16px; overflow: hidden;
+}
+.track-header {
+  padding: 14px 18px; display: flex; align-items: flex-start; gap: 12px;
+}
+.track-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.icon-renov { background: var(--verde-bg); }
+.icon-solo { background: var(--azul-bg); }
+.track-title { font-size: 13px; font-weight: 600; color: var(--cinza-9); }
+.track-sub { font-size: 11px; color: var(--cinza-5); margin-top: 2px; }
+.track-body { padding: 0 18px 16px; }
+
+.req-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--cinza-1);
+}
+.req-item:last-child { border-bottom: none; }
+.req-num {
+  font-size: 10px; font-family: 'DM Mono', monospace;
+  color: var(--cinza-3); min-width: 18px; padding-top: 1px;
+}
+.req-icon {
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 700; flex-shrink: 0;
+}
+.ri-ok { background: var(--verde-bg); color: var(--verde-m); }
+.ri-warn { background: var(--amber-bg); color: var(--amber); }
+.ri-danger { background: var(--vermelho-bg); color: var(--vermelho-l); }
+.ri-pend { background: var(--cinza-1); color: var(--cinza-3); }
+
+.req-text { flex: 1; }
+.req-nome { font-size: 11.5px; color: var(--cinza-9); font-weight: 500; line-height: 1.3; }
+.req-obs { font-size: 10px; color: var(--cinza-5); margin-top: 2px; line-height: 1.3; }
+.req-tag {
+  font-size: 9.5px; font-weight: 600; padding: 1px 6px; border-radius: 4px;
+  flex-shrink: 0; margin-top: 2px; white-space: nowrap;
+  align-self: flex-start;
+}
+.tag-ok { background: var(--verde-bg); color: var(--verde-m); }
+.tag-warn { background: var(--amber-bg); color: var(--amber); }
+.tag-danger { background: var(--vermelho-bg); color: var(--vermelho-l); }
+.tag-pend { background: var(--cinza-1); color: var(--cinza-5); }
+
+.progresso-bar {
+  height: 4px; background: var(--cinza-1); border-radius: 2px;
+  overflow: hidden; margin: 12px 18px 0;
+}
+.pb-fill { height: 100%; border-radius: 2px; transition: width .5s; }
+
+/* ── MATRIZ DOCUMENTAL ── */
+.matrix-wrap {
+  display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; margin-bottom: 20px;
+}
+.matrix-panel, .matrix-table-card, .matrix-summary {
+  background: var(--branco); border: 1px solid var(--borda); border-radius: 16px;
+}
+.matrix-panel { padding: 18px 20px; }
+.matrix-title { font-size: 13px; font-weight: 600; color: var(--cinza-9); }
+.matrix-sub { font-size: 11px; color: var(--cinza-5); margin-top: 4px; line-height: 1.5; }
+.matrix-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; }
+.matrix-kpi {
+  border: 1px solid var(--borda); border-radius: 12px; padding: 12px 14px; background: var(--cinza-0);
+}
+.matrix-kpi .k-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--cinza-5); font-weight: 600; }
+.matrix-kpi .k-val { font-size: 26px; line-height: 1; font-weight: 600; margin-top: 6px; color: var(--cinza-9); }
+.matrix-kpi .k-sub { font-size: 10px; color: var(--cinza-3); margin-top: 4px; }
+.matrix-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.matrix-pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 10px; font-weight: 600;
+}
+.matrix-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+.pill-solo { background: var(--azul-bg); color: var(--azul-l); }
+.pill-renov { background: var(--verde-bg); color: var(--verde-m); }
+.pill-cliente { background: var(--amber-bg); color: var(--amber); }
+.pill-resta { background: var(--vermelho-bg); color: var(--vermelho-l); }
+.matrix-summary { padding: 16px 18px; }
+.matrix-summary h3 { font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+.summary-col { display: grid; gap: 10px; }
+.summary-card { border: 1px solid var(--borda); border-radius: 12px; padding: 12px 14px; }
+.summary-card h4 { font-size: 11px; font-weight: 700; margin-bottom: 6px; }
+.summary-card ul { margin-left: 16px; display: grid; gap: 4px; }
+.summary-card li { font-size: 10.5px; color: var(--cinza-7); line-height: 1.45; }
+.matrix-table-card { overflow: hidden; }
+.matrix-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--borda);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.matrix-header h2 { font-size: 13px; font-weight: 600; }
+.matrix-note { font-size: 11px; color: var(--cinza-5); }
+.matrix-scroll { overflow: auto; }
+.matrix-table { width: 100%; min-width: 980px; border-collapse: collapse; }
+.matrix-table th {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--cinza-5);
+  background: var(--cinza-0); padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--borda);
+  position: sticky; top: 0; z-index: 2;
+}
+.matrix-table td {
+  padding: 12px 14px; border-bottom: 1px solid var(--cinza-1); vertical-align: top; font-size: 11px;
+}
+.matrix-table tr:hover td { background: var(--cinza-0); }
+.matrix-doc { font-weight: 600; color: var(--cinza-9); line-height: 1.35; }
+.matrix-obs { font-size: 10px; color: var(--cinza-5); margin-top: 4px; line-height: 1.45; }
+.matrix-badge {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; border-radius: 999px;
+  font-size: 10px; font-weight: 700;
+}
+.mb-yes-solo { background: var(--azul-bg); color: var(--azul-l); }
+.mb-yes-renov { background: var(--verde-bg); color: var(--verde-m); }
+.mb-no { background: var(--cinza-1); color: var(--cinza-3); }
+.action-tag {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 999px; font-size: 10px; font-weight: 600;
+}
+.at-solicitar { background: var(--amber-bg); color: var(--amber); }
+.at-verificar { background: var(--azul-bg); color: var(--azul-l); }
+.at-aproveitar { background: var(--verde-bg); color: var(--verde-m); }
+.at-habilis { background: #F3E5F5; color: #7B1FA2; }
+.resta-chip {
+  display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 999px; font-size: 10px; font-weight: 700;
+}
+.rc-nao { background: var(--verde-bg); color: var(--verde-m); }
+.rc-talvez { background: var(--amber-bg); color: var(--amber); }
+.rc-sim { background: var(--vermelho-bg); color: var(--vermelho-l); }
+
+/* ── CRONOGRAMA ── */
+.cronograma-container {
+  background: var(--branco); border: 1px solid var(--borda);
+  border-radius: 16px; overflow: hidden;
+}
+.crono-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--borda);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.crono-header h2 { font-size: 13px; font-weight: 600; }
+.crono-legend { display: flex; gap: 12px; }
+.cl-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--cinza-5); }
+.cl-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.crono-table { width: 100%; border-collapse: collapse; }
+.crono-table th {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--cinza-5); padding: 10px 16px;
+  border-bottom: 1px solid var(--borda); background: var(--cinza-0);
+  text-align: left;
+}
+.crono-table th.mes { text-align: center; width: 64px; }
+.crono-table td {
+  padding: 0 16px; border-bottom: 1px solid var(--cinza-1);
+  vertical-align: middle;
+}
+.crono-table tr:last-child td { border-bottom: none; }
+.crono-table tr:hover td { background: var(--cinza-0); }
+
+.crono-row { display: flex; }
+.crono-prio {
+  width: 3px; height: 40px; border-radius: 2px; flex-shrink: 0;
+  margin: 8px 0;
+}
+.crono-info { padding: 8px 12px; flex: 1; }
+.crono-acao { font-size: 12px; font-weight: 500; color: var(--cinza-9); line-height: 1.3; }
+.crono-resp { font-size: 10px; color: var(--cinza-5); margin-top: 2px; }
+.crono-dep { font-size: 10px; color: var(--amber); }
+
+.mes-cell { text-align: center; padding: 8px 4px; }
+.mes-bloco {
+  height: 28px; border-radius: 6px; margin: 0 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 600;
+  transition: transform .1s;
+}
+.mes-bloco:hover { transform: scaleY(1.05); }
+.mb-empty { background: transparent; }
+.mb-acao { background: var(--vermelho-bg); border: 1px solid #FFCDD2; color: var(--vermelho-l); }
+.mb-exec { background: var(--amber-bg); border: 1px solid var(--amber-mid); color: var(--amber); }
+.mb-entrega { background: var(--verde-bg); border: 1px solid var(--verde-mid); color: var(--verde-m); }
+.mb-hoje {
+  background: var(--verde); color: #fff;
+  box-shadow: 0 0 0 2px var(--verde-m);
+}
+.mb-prazo {
+  background: var(--azul-bg); border: 1px solid #BBDEFB; color: var(--azul-l);
+}
+
+.prioridade-badge {
+  display: inline-flex; align-items: center;
+  font-size: 9.5px; font-weight: 700; padding: 2px 8px;
+  border-radius: 4px; text-transform: uppercase; letter-spacing: .04em;
+}
+.pb-1 { background: var(--vermelho-bg); color: var(--vermelho-l); }
+.pb-2 { background: var(--amber-bg); color: var(--amber); }
+.pb-3 { background: var(--verde-bg); color: var(--verde-m); }
+
+.status-check {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 500; padding: 2px 8px;
+  border-radius: 10px;
+}
+.sc-pendente { background: var(--cinza-1); color: var(--cinza-5); }
+.sc-urgente { background: var(--vermelho-bg); color: var(--vermelho-l); }
+.sc-andamento { background: var(--amber-bg); color: var(--amber); }
+.sc-ok { background: var(--verde-bg); color: var(--verde-m); }
+
+/* separador de meses header */
+.mes-header-row th { font-size: 11px !important; text-align: center; padding: 8px 4px !important; }
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section.active > * {
+  animation: fadeUp .3s ease both;
+}
+.section.active > *:nth-child(2) { animation-delay: .05s; }
+.section.active > *:nth-child(3) { animation-delay: .10s; }
+.section.active > *:nth-child(4) { animation-delay: .15s; }
+
+/* ── RESPONSIVO ── */
+@media (max-width: 900px) {
+  .metricas { grid-template-columns: repeat(3, 1fr); }
+  .dois-tracks, .matrix-wrap { grid-template-columns: 1fr; }
+  .matrix-kpis { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="topo-inner">
+    <div class="topo-logo">Hábilis</div>
+    <div class="topo-sep"></div>
+    <div class="topo-title">Auto Posto América — LAO 033/2020</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showSection('overview')">Visão Geral</button>
+      <button class="nav-tab" onclick="showSection('timeline')">Linha do Tempo</button>
+      <button class="nav-tab" onclick="showSection('requerimentos')">Requerimentos</button>
+      <button class="nav-tab" onclick="showSection('matriz')">Matriz de Documentos</button>
+      <button class="nav-tab" onclick="showSection('cronograma')">Cronograma</button>
+    </div>
+    <div class="topo-sub">Guapó – GO · 30/03/2026</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ════ VISÃO GERAL ════ -->
+<div class="section active" id="sec-overview">
+
+  <div class="metricas">
+    <div class="metrica">
+      <div class="m-label">Processo</div>
+      <div class="m-val" style="font-size:18px;padding-top:4px">22760/2020</div>
+      <div class="m-sub">LAO 033/2020 · SEMMA Guapó</div>
+    </div>
+    <div class="metrica">
+      <div class="m-label">LAO vence em</div>
+      <div class="m-val ok">269d</div>
+      <div class="m-sub">23/12/2026 · vigente</div>
+    </div>
+    <div class="metrica">
+      <div class="m-label">Docs inventariados</div>
+      <div class="m-val">101</div>
+      <div class="m-sub">12 arquivos físicos</div>
+    </div>
+    <div class="metrica">
+      <div class="m-label">Docs vencidos</div>
+      <div class="m-val danger">12</div>
+      <div class="m-sub">laudos, certidões, notif.</div>
+    </div>
+    <div class="metrica">
+      <div class="m-label">Itens SEMMA pendentes</div>
+      <div class="m-val warn">8 / 26</div>
+      <div class="m-sub">57,7% conformidade</div>
+    </div>
+  </div>
+
+  <!-- barra de conformidade -->
+  <div style="background:var(--branco);border:1px solid var(--borda);border-radius:16px;padding:18px 20px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <span style="font-size:12px;font-weight:600;color:var(--cinza-9)">Conformidade — Checklist SEMMA (26 itens)</span>
+      <div style="display:flex;gap:12px;font-size:11px;color:var(--cinza-5)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:var(--verde-l);display:inline-block"></span>Atendido 15</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:var(--amber-l);display:inline-block"></span>Parcial 3</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:var(--vermelho-l);display:inline-block"></span>Pendente 8</span>
+      </div>
+    </div>
+    <div style="height:10px;background:var(--cinza-1);border-radius:5px;overflow:hidden;display:flex">
+      <div style="width:57.7%;background:var(--verde-l);height:100%"></div>
+      <div style="width:11.5%;background:var(--amber-l);height:100%"></div>
+      <div style="width:30.8%;background:var(--vermelho-l);height:100%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--cinza-3)">
+      <span>57,7% atendido</span><span>11,5% parcial</span><span>30,8% pendente</span>
+    </div>
+  </div>
+
+  <!-- alertas críticos -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+    <div style="border-left:3px solid var(--vermelho-l);background:var(--vermelho-bg);border-radius:0 10px 10px 0;padding:12px 14px;">
+      <div style="font-size:11px;font-weight:700;color:var(--vermelho-l);margin-bottom:4px">🔴 Laudo de estanqueidade vencido</div>
+      <div style="font-size:11px;color:var(--cinza-7);line-height:1.5">Laudo 093-2023 venceu em 27/04/2025. Nenhum laudo vigente em processo. NBR 16795/2019 exige renovação bienal com ART. <strong>Item mais crítico da renovação.</strong></div>
+    </div>
+    <div style="border-left:3px solid var(--vermelho-l);background:var(--vermelho-bg);border-radius:0 10px 10px 0;padding:12px 14px;">
+      <div style="font-size:11px;font-weight:700;color:var(--vermelho-l);margin-bottom:4px">🔴 Certificado Bombeiros vencido</div>
+      <div style="font-size:11px;color:var(--cinza-7);line-height:1.5">Certificado de conformidade CBM-GO venceu em 17/05/2024. Nova vistoria obrigatória antes do protocolo da renovação.</div>
+    </div>
+    <div style="border-left:3px solid var(--vermelho-l);background:var(--vermelho-bg);border-radius:0 10px 10px 0;padding:12px 14px;">
+      <div style="font-size:11px;font-weight:700;color:var(--vermelho-l);margin-bottom:4px">🔴 Certidão de Outorga vencida (SEMAD)</div>
+      <div style="font-size:11px;color:var(--cinza-7);line-height:1.5">DURH002737 venceu em 09/12/2023. Protocolar pedido de nova dispensa/outorga junto à SEMAD-GO imediatamente.</div>
+    </div>
+    <div style="border-left:3px solid var(--amber);background:var(--amber-bg);border-radius:0 10px 10px 0;padding:12px 14px;">
+      <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:4px">⚠ LAI 008/2020 vence hoje (31/03/2026)</div>
+      <div style="font-size:11px;color:var(--cinza-7);line-height:1.5">Licença de instalação expira hoje. Verificar com a SEMMA se impacta tramitação da LAO e se há necessidade de providências emergenciais.</div>
+    </div>
+    <div style="border-left:3px solid var(--amber);background:var(--amber-bg);border-radius:0 10px 10px 0;padding:12px 14px;">
+      <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:4px">⚠ Passivo ambiental sem investigação confirmatória</div>
+      <div style="font-size:11px;color:var(--cinza-7);line-height:1.5">Item 22 do TR: Relatório de Investigação Confirmatória (BTEX, PAH, min. 3 furos, com ART) ausente. Obrigatório para unidade existente — Res. CEMAM 029/2018.</div>
+    </div>
+    <div style="border-left:3px solid var(--amber);background:var(--amber-bg);border-radius:0 10px 10px 0;padding:12px 14px;">
+      <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:4px">⚠ Relatórios semestrais sem ART e sem DUAM/Publicação</div>
+      <div style="font-size:11px;color:var(--cinza-7);line-height:1.5">Itens 5, 6 e 24 do TR: DUAM, publicação CONAMA 006/1986 e RCA semestral com ART não localizados no inventário.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ LINHA DO TEMPO ════ -->
+<div class="section" id="sec-timeline">
+
+  <div class="timeline-container">
+    <div class="timeline-header">
+      <div>
+        <h2>Linha do tempo processual — 101 documentos (2019–2026)</h2>
+        <div style="font-size:11px;color:var(--cinza-5);margin-top:3px">Passe o mouse sobre cada evento para detalhes</div>
+      </div>
+      <div class="filter-btns">
+        <button class="fbtn on" onclick="filtrarTL(this,'todos')">Todos</button>
+        <button class="fbtn" onclick="filtrarTL(this,'vigente')">Vigentes</button>
+        <button class="fbtn" onclick="filtrarTL(this,'vencido')">Vencidos</button>
+        <button class="fbtn" onclick="filtrarTL(this,'semma')">SEMMA</button>
+        <button class="fbtn" onclick="filtrarTL(this,'tecnico')">Técnicos</button>
+      </div>
+    </div>
+    <div class="timeline-scroll" id="tl-scroll">
+      <!-- gerado por JS -->
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ REQUERIMENTOS ════ -->
+<div class="section" id="sec-requerimentos">
+
+  <div style="background:var(--cinza-1);border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;gap:16px;align-items:flex-start">
+    <div style="font-size:11px;color:var(--cinza-7);line-height:1.6;flex:1">
+      <strong style="color:var(--cinza-9)">Dois requerimentos distintos</strong> devem ser compostos e protocolados na SEMMA Guapó. São processos independentes com documentações próprias, mas que compartilham alguns documentos de base (contrato social, CNPJ, ART). O <strong>Requerimento de Uso do Solo</strong> é pré-requisito para a instrução do processo de <strong>Renovação da LAO</strong>.
+    </div>
+    <div style="background:var(--amber-bg);border:1px solid var(--amber-mid);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--amber);font-weight:500;white-space:nowrap">
+      ⚠ Uso do Solo é pré-requisito da Renovação
+    </div>
+  </div>
+
+  <div class="dois-tracks">
+
+    <!-- TRACK 1: RENOVAÇÃO LAO -->
+    <div class="track-card">
+      <div class="track-header">
+        <div class="track-icon icon-renov">🌿</div>
+        <div>
+          <div class="track-title">Renovação da LAO</div>
+          <div class="track-sub">26 itens · SEMMA Guapó · Proc. 22760/2020</div>
+        </div>
+      </div>
+      <div class="progresso-bar" style="margin-bottom:0">
+        <div class="pb-fill" style="width:57.7%;background:var(--verde-l)"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:4px 18px 0;font-size:10px;color:var(--cinza-3)">
+        <span>✓ 15 atendidos</span><span>~ 3 parciais</span><span>✕ 8 pendentes</span>
+      </div>
+      <div class="track-body" style="margin-top:10px" id="lista-renovacao">
+        <!-- JS preenche -->
+      </div>
+    </div>
+
+    <!-- TRACK 2: CERTIDÃO DE USO DO SOLO -->
+    <div class="track-card">
+      <div class="track-header">
+        <div class="track-icon icon-solo">📋</div>
+        <div>
+          <div class="track-title">Certidão de Uso do Solo</div>
+          <div class="track-sub">11 subitens (a–k) · Prefeitura / SEMMA Guapó</div>
+        </div>
+      </div>
+      <div class="progresso-bar" style="margin-bottom:0">
+        <div class="pb-fill" style="width:40%;background:var(--azul-l)"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:4px 18px 0;font-size:10px;color:var(--cinza-3)">
+        <span>✓ ~4 localizados</span><span>✕ ~7 a providenciar</span>
+      </div>
+      <div class="track-body" style="margin-top:10px" id="lista-solo">
+        <!-- JS preenche -->
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ════ MATRIZ DOCUMENTAL ════ -->
+<div class="section" id="sec-matriz"> 
+
+  <div class="matrix-wrap"> 
+    <div class="matrix-panel"> 
+      <div class="matrix-title">Quadro visual de cruzamento documental</div>
+      <div class="matrix-sub">Visual para enxergar, no mesmo lugar, o que pertence ao <strong>Uso do Solo</strong>, o que entra na <strong>Renovação da LAO</strong>, o que deve ser <strong>solicitado agora ao empreendimento</strong> e o que <strong>ainda pode ficar restando</strong> mesmo após o envio.</div>
+      <div class="matrix-kpis" id="matrix-kpis"></div>
+      <div class="matrix-legend">
+        <span class="matrix-pill pill-solo"><span class="dot" style="background:var(--azul-l)"></span>Uso do Solo</span>
+        <span class="matrix-pill pill-renov"><span class="dot" style="background:var(--verde-m)"></span>Renovação LAO</span>
+        <span class="matrix-pill pill-cliente"><span class="dot" style="background:var(--amber)"></span>Solicitar ao Cliente</span>
+        <span class="matrix-pill pill-resta"><span class="dot" style="background:var(--vermelho-l)"></span>Pode ficar Restando</span>
+      </div>
+    </div>
+
+    <div class="matrix-summary">
+      <h3>Leitura executiva</h3>
+      <div class="summary-col" id="matrix-summary"></div>
+    </div>
+  </div>
+
+  <div class="matrix-table-card"> 
+    <div class="matrix-header"> 
+      <div>
+        <h2>Matriz de documentos — visão de decisão</h2>
+        <div class="matrix-note">Prioriza o que precisa ser pedido ao posto e evidencia o que depende de nova emissão, checagem técnica ou providência da Hábilis.</div>
+      </div>
+      <div class="matrix-note">Base: histórico SEMMA + checklist de uso do solo + renovação</div>
+    </div>
+    <div class="matrix-scroll"> 
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th style="width:280px">Documento ou grupo documental</th>
+            <th style="width:120px">Integra o processo de Certidão de Uso do Solo?</th>
+            <th style="width:130px">Integra o processo de Renovação da Licença Ambiental de Operação (LAO)?</th>
+            <th style="width:220px">Qual é a ação recomendada neste momento?</th>
+            <th style="width:150px">Mesmo após o envio, ainda pode permanecer pendente?</th>
+            <th style="min-width:560px">Leitura prática completa — o que é, por que precisa e qual a implicação se faltar</th>
+          </tr>
+        </thead>
+        <tbody id="matrix-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ CRONOGRAMA ════ -->
+<div class="section" id="sec-cronograma">
+
+  <div class="cronograma-container">
+    <div class="crono-header">
+      <h2>Plano de ação — próximos 6 meses</h2>
+      <div class="crono-legend">
+        <div class="cl-item"><div class="cl-dot" style="background:var(--vermelho-l)"></div>Urgente</div>
+        <div class="cl-item"><div class="cl-dot" style="background:var(--amber-l)"></div>Execução</div>
+        <div class="cl-item"><div class="cl-dot" style="background:var(--verde-l)"></div>Entrega / protocolo</div>
+        <div class="cl-item"><div class="cl-dot" style="background:var(--azul-l)"></div>Prazo / vencimento</div>
+      </div>
+    </div>
+    <table class="crono-table">
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th style="width:280px">Ação</th>
+          <th style="width:90px">Responsável</th>
+          <th style="width:80px">Status</th>
+          <th class="mes" style="background:#FFF3E0;color:var(--amber)">ABR</th>
+          <th class="mes">MAI</th>
+          <th class="mes">JUN</th>
+          <th class="mes">JUL</th>
+          <th class="mes">AGO</th>
+          <th class="mes">SET</th>
+        </tr>
+      </thead>
+      <tbody id="crono-tbody">
+        <!-- JS preenche -->
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</div><!-- /main -->
+
+<div class="tl-tooltip" id="tooltip"></div>
+
+<script>
+/* ══════════════════════════════
+   DADOS
+══════════════════════════════ */
+const eventos = [
+  // id, nome, data, tipo, status, orgao, resumo, arquivo
+  {id:5, nome:'Escritura Pública', data:'2019-06', tipo:'juridico', status:'ok', orgao:'Cartório Guapó', resumo:'Compra e venda do imóvel. Comprovação de titularidade.', arq:'SCAN0035'},
+  {id:6, nome:'Protocolo DURH', data:'2019-11', tipo:'hidrico', status:'vencido', orgao:'SEMAD-GO', resumo:'DURH002737 — Uso dispensado de captação subterrânea (poço tubular). VENCIDO 09/12/2023.', arq:'SCAN0035'},
+  {id:7, nome:'Croqui Localização', data:'2019-08', tipo:'tecnico', status:'ok', orgao:'EM Assessoria', resumo:'Mapa de situação e acesso — Rod. BR-060.', arq:'SCAN0035'},
+  {id:4, nome:'LAI 008/2020', data:'2020-03', tipo:'licenca', status:'vigente', orgao:'SEMMA Guapó', resumo:'Licença de Instalação. VENCE 31/03/2026 — expira hoje!', arq:'SCAN0035'},
+  {id:9, nome:'NF Bombas', data:'2020-10', tipo:'tecnico', status:'ok', orgao:'Gilbarco', resumo:'DANFE — compra de bombas (séries 31831020).', arq:'SCAN0035'},
+  {id:10, nome:'NF Filtro', data:'2020-10', tipo:'tecnico', status:'ok', orgao:'Sulpaper', resumo:'DANFE — filtro prensa duplo SF 11000 L/H.', arq:'SCAN0035'},
+  {id:11, nome:'Laudo Estanq. 2020', data:'2020-12', tipo:'laudo', status:'vencido', orgao:'Empresa', resumo:'Laudo estanqueidade 08/2020. VENCIDO. NBR 16795/2019.', arq:'SCAN0035'},
+  {id:12, nome:'CRT 01', data:'2020-12', tipo:'art', status:'ok', orgao:'Responsável', resumo:'Termo de responsabilidade técnica.', arq:'SCAN0035'},
+  {id:13, nome:'Memorial SASC', data:'2020-12', tipo:'tecnico', status:'ok', orgao:'EM Assessoria', resumo:'Memorial descritivo instalações mecânicas SASC.', arq:'SCAN0036'},
+  {id:15, nome:'Mem. CONAMA 273', data:'2020-12', tipo:'tecnico', status:'ok', orgao:'Responsável', resumo:'Anexos I e II — Resolução CONAMA 273/2000.', arq:'SCAN0036'},
+  {id:16, nome:'PGR 2020', data:'2020-12', tipo:'tecnico', status:'ok', orgao:'Responsável', resumo:'Plano de Gerenciamento de Riscos.', arq:'SCAN0036'},
+  {id:17, nome:'PAE', data:'2020-12', tipo:'tecnico', status:'ok', orgao:'Responsável', resumo:'Plano de Atendimento à Emergência.', arq:'SCAN0036'},
+  {id:18, nome:'ART 2020', data:'2020-12', tipo:'art', status:'ok', orgao:'CREA', resumo:'ART nº 1020200256357.', arq:'SCAN0036'},
+  {id:19, nome:'Proj. Arquitetônico', data:'2020-09', tipo:'tecnico', status:'ok', orgao:'EM Assessoria', resumo:'Projeto arquitetônico Prancha 1/2.', arq:'SCAN0037'},
+  {id:8, nome:'MCE', data:'2020-12', tipo:'tecnico', status:'ok', orgao:'Osmar R. Souza Filho', resumo:'Memorial de Caracterização do Empreendimento. 17 páginas.', arq:'SCAN0035'},
+  {id:20, nome:'Parecer 22760', data:'2020-12', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Parecer técnico de análise do processo 22760/2020.', arq:'SCAN0037'},
+  {id:21, nome:'LAO 033/2020', data:'2020-12', tipo:'licenca', status:'vigente', orgao:'SEMMA Guapó', resumo:'Licença Ambiental de Operação. VIGENTE até 23/12/2026.', arq:'SCAN0037'},
+  {id:24, nome:'2ª Alt. Contratual', data:'2021-05', tipo:'juridico', status:'ok', orgao:'Cartório', resumo:'2ª Alteração contratual — transformação para LTDA.', arq:'SCAN0038'},
+  {id:26, nome:'Proc. 66314/2022', data:'2022-02', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Abertura do processo de fiscalização.', arq:'SCAN0038'},
+  {id:27, nome:'Parecer Cond.', data:'2022-02', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Parecer técnico atendimento condicionantes.', arq:'SCAN0038'},
+  {id:29, nome:'Notificação 000568', data:'2022-02', tipo:'notificacao', status:'vencido', orgao:'SEMMA Guapó', resumo:'Notificação Série B — penalidade.', arq:'SCAN0038'},
+  {id:31, nome:'Rel. Ambiental', data:'2022-03', tipo:'tecnico', status:'ok', orgao:'Posto/Hábilis', resumo:'Relatório ambiental de cumprimento de condicionantes.', arq:'SCAN0038'},
+  {id:32, nome:'Cert. Destinação 170', data:'2022-03', tipo:'tecnico', status:'ok', orgao:'Empresa', resumo:'Termo de responsabilidade e certificação nº 170/2022.', arq:'SCAN0038'},
+  {id:34, nome:'Ensaio 0042/2022', data:'2022-03', tipo:'laudo', status:'ok', orgao:'Lab.', resumo:'Relatório de ensaio laboratorial.', arq:'SCAN0038'},
+  {id:37, nome:'Laudo Estanq. 021', data:'2021-04', tipo:'laudo', status:'vencido', orgao:'Promatec', resumo:'Laudo estanqueidade 020/2021. VENCIDO 08/04/2023.', arq:'SCAN0039'},
+  {id:39, nome:'Parecer Cond. Abr', data:'2022-04', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Parecer técnico de atendimento às condicionantes.', arq:'SCAN0039'},
+  {id:40, nome:'Fiscaliz. DOC10', data:'2022-04', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Solicitação de fiscalização DOC 10/2022.', arq:'SCAN0039'},
+  {id:44, nome:'Cert. Destinação 235', data:'2022-05', tipo:'tecnico', status:'ok', orgao:'Empresa', resumo:'Certificação nº 235/2022.', arq:'SCAN0039'},
+  {id:47, nome:'Parecer Cond. Mai', data:'2022-05', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Parecer técnico maio/2022.', arq:'SCAN0039'},
+  {id:52, nome:'Ensaio 31949', data:'2022-12', tipo:'laudo', status:'ok', orgao:'Lab.', resumo:'Relatório de ensaio 31949/2022.', arq:'SCAN0039'},
+  {id:53, nome:'Ensaio 31767', data:'2022-12', tipo:'laudo', status:'ok', orgao:'Lab.', resumo:'Relatório de ensaio 31767/2022.', arq:'SCAN0039'},
+  {id:50, nome:'Parecer Cond. Fev', data:'2023-02', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Parecer técnico fevereiro/2023.', arq:'SCAN0039'},
+  {id:56, nome:'Notificação 000716', data:'2023-04', tipo:'notificacao', status:'vencido', orgao:'SEMMA Guapó', resumo:'Notificação Série B nº 000716 — penalidade.', arq:'SCAN0040'},
+  {id:57, nome:'Req. Prorrogação', data:'2023-04', tipo:'juridico', status:'vencido', orgao:'Posto', resumo:'Requerimento de prorrogação de prazo. Vencido.', arq:'SCAN0040'},
+  {id:60, nome:'Troca Resp. Técnico', data:'2023-04', tipo:'art', status:'ok', orgao:'CREA', resumo:'Comunicado de troca de responsável técnico.', arq:'SCAN0040'},
+  {id:64, nome:'Laudo Estanq. 093', data:'2023-04', tipo:'laudo', status:'vencido', orgao:'Promatec', resumo:'Laudo estanqueidade 093-2023. VENCIDO 27/04/2025.', arq:'SCAN0040'},
+  {id:66, nome:'ART 2023', data:'2023-05', tipo:'art', status:'ok', orgao:'CREA', resumo:'ART nº 1020230107192.', arq:'SCAN0040'},
+  {id:62, nome:'Ensaio 83061', data:'2023-05', tipo:'laudo', status:'ok', orgao:'Lab.', resumo:'Relatório de ensaio 83061/2023.', arq:'SCAN0040'},
+  {id:67, nome:'Cert. Destinação', data:'2022-12', tipo:'tecnico', status:'ok', orgao:'Empresa', resumo:'Certificado de destinação de resíduos.', arq:'SCAN0040'},
+  {id:69, nome:'Parecer Jun/2023', data:'2023-06', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Parecer técnico de atendimento às condicionantes.', arq:'SCAN0040'},
+  {id:70, nome:'Comuni. Resp. Tec.', data:'2023-09', tipo:'art', status:'ok', orgao:'CREA', resumo:'Comunicado de responsabilidade técnica.', arq:'SCAN0040'},
+  {id:72, nome:'Notificação 000137', data:'2024-02', tipo:'notificacao', status:'vencido', orgao:'SEMMA Guapó', resumo:'Notificação Série B nº 000137 — penalidade.', arq:'SCAN0040'},
+  {id:84, nome:'Cert. Bombeiros', data:'2023-08', tipo:'licenca', status:'vencido', orgao:'CBM-GO', resumo:'Certificado de conformidade CBM-GO. VENCIDO 17/05/2024.', arq:'SCAN0043'},
+  {id:74, nome:'Ofício Niveo Arq.', data:'2024-03', tipo:'juridico', status:'ok', orgao:'Posto', resumo:'Pedido de prazo para regularização.', arq:'SCAN0040'},
+  {id:76, nome:'RCA 2024', data:'2024-02', tipo:'laudo', status:'warn', orgao:'Responsável', resumo:'Relatório de controle ambiental. Pendente de atualização.', arq:'SCAN0041-42'},
+  {id:77, nome:'Ensaio Água Viva', data:'2024-03', tipo:'laudo', status:'ok', orgao:'Lab.', resumo:'Relatório de ensaio analítico MLA.', arq:'SCAN0042'},
+  {id:78, nome:'Cert. Resíduos', data:'2024-02', tipo:'tecnico', status:'ok', orgao:'Empresa', resumo:'Certificado de gestão e tratamento de resíduos.', arq:'SCAN0042'},
+  {id:80, nome:'PGR 2024', data:'2024-11', tipo:'tecnico', status:'vigente', orgao:'Responsável', resumo:'Programa de Gerenciamento de Riscos. VIGENTE novembro/2026.', arq:'SCAN0042-43'},
+  {id:86, nome:'ART 2024', data:'2024-04', tipo:'art', status:'vigente', orgao:'CREA', resumo:'ART nº 1020240096233. Vigente.', arq:'SCAN0043'},
+  {id:85, nome:'Rel. Fotográfico', data:'2024-02', tipo:'tecnico', status:'ok', orgao:'Responsável', resumo:'Relatório fotográfico de adequação.', arq:'SCAN0043'},
+  {id:87, nome:'Ofício 129/2024', data:'2024-10', tipo:'juridico', status:'ok', orgao:'Posto', resumo:'Ofício de atendimento a condicionante.', arq:'SCAN0044'},
+  {id:89, nome:'Ensaio MLA_2024', data:'2024-08', tipo:'laudo', status:'ok', orgao:'Lab.', resumo:'Relatório de ensaio MLA_14167.2024.', arq:'SCAN0044'},
+  {id:90, nome:'Análise Crítica', data:'2024-09', tipo:'tecnico', status:'ok', orgao:'Hábilis', resumo:'Análise crítica de laudos laboratoriais.', arq:'SCAN0044'},
+  {id:91, nome:'Req. Alteração LAO', data:'2025-05', tipo:'juridico', status:'ok', orgao:'Posto', resumo:'Solicitação de alteração de dados LAO.', arq:'SCAN0044'},
+  {id:94, nome:'Parecer 22760/2025', data:'2025-09', tipo:'semma', status:'ok', orgao:'SEMMA Guapó', resumo:'Parecer técnico de análise atualização.', arq:'SCAN0044'},
+  {id:95, nome:'LAO atualizada LTDA', data:'2025-09', tipo:'licenca', status:'vigente', orgao:'SEMMA Guapó', resumo:'LAO 033/2020 via atualizada para LTDA. VIGENTE 23/12/2026.', arq:'SCAN0044'},
+  {id:97, nome:'Req. Cópia Proc.', data:'2026-03', tipo:'juridico', status:'ok', orgao:'Hábilis', resumo:'Requerimento de cópia do processo — 30/03/2026.', arq:'SCAN0044'},
+];
+
+/* ── TIMELINE ── */
+function getStatusClass(s) {
+  if(s==='vigente') return 'vigente';
+  if(s==='vencido') return 'vencido';
+  if(s==='warn'||s==='pendente de atualização') return 'warn';
+  return 'ok';
+}
+function getDotClass(s, tipo) {
+  if(tipo==='semma') return 'dot-semma';
+  if(s==='vigente') return 'dot-vigente';
+  if(s==='vencido') return 'dot-vencido';
+  if(s==='warn') return 'dot-warn';
+  return 'dot-ok';
+}
+function getTipoLabel(tipo) {
+  const m = {licenca:'Licença',laudo:'Laudo',art:'ART/CRT',tecnico:'Técnico',semma:'SEMMA',juridico:'Jurídico',hidrico:'Hídrico',notificacao:'Notificação'};
+  return m[tipo]||tipo;
+}
+
+let filtroAtual = 'todos';
+function filtrarTL(btn, filtro) {
+  filtroAtual = filtro;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderTimeline();
+}
+
+function renderTimeline() {
+  const container = document.getElementById('tl-scroll');
+  let evs = [...eventos].sort((a,b)=>a.data.localeCompare(b.data));
+  if(filtroAtual==='vigente') evs = evs.filter(e=>e.status==='vigente');
+  if(filtroAtual==='vencido') evs = evs.filter(e=>e.status==='vencido');
+  if(filtroAtual==='semma') evs = evs.filter(e=>e.tipo==='semma'||e.tipo==='licenca'||e.tipo==='notificacao');
+  if(filtroAtual==='tecnico') evs = evs.filter(e=>e.tipo==='tecnico'||e.tipo==='laudo'||e.tipo==='art');
+
+  // agrupar por ano-mês
+  const porData = {};
+  evs.forEach(e=>{
+    const key = e.data.substring(0,4);
+    if(!porData[key]) porData[key]=[];
+    porData[key].push(e);
+  });
+
+  // largura por evento
+  const EW = 56;
+  let totalW = 0;
+  Object.values(porData).forEach(arr => totalW += arr.length * EW + 24);
+
+  let html = `<div style="position:relative;min-width:${totalW}px;padding:0 8px">`;
+  // eixo
+  html += `<div style="position:absolute;left:0;right:0;top:118px;height:2px;background:var(--borda)"></div>`;
+
+  // labels de ano
+  html += `<div style="display:flex;margin-bottom:0">`;
+  Object.entries(porData).forEach(([ano, arr])=>{
+    const w = arr.length * EW + 24;
+    html += `<div style="min-width:${w}px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--verde-m);padding-bottom:6px;border-right:1px dashed var(--borda)">${ano}</div>`;
+  });
+  html += `</div>`;
+
+  // eventos
+  html += `<div style="display:flex;align-items:flex-start">`;
+  Object.entries(porData).forEach(([ano, arr])=>{
+    html += `<div style="display:flex;padding-right:24px;border-right:1px dashed var(--borda)">`;
+    arr.forEach((e, idx)=>{
+      const sc = getStatusClass(e.status);
+      const dc = getDotClass(e.status, e.tipo);
+      const isUp = idx % 2 === 0;
+      const cardClass = sc==='vigente'?'card-vigente':sc==='vencido'?'card-vencido':e.tipo==='semma'?'card-semma':sc==='warn'?'card-warn':'';
+      const mes = e.data.substring(5,7);
+      const mesNome = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][parseInt(mes)];
+
+      html += `<div class="tl-event" data-id="${e.id}" onmouseenter="showTooltip(event,${e.id})" onmouseleave="hideTooltip()">`;
+      if(isUp) {
+        html += `<div class="tl-card up ${cardClass}">`;
+        html += `<div class="card-tipo">${getTipoLabel(e.tipo)}</div>`;
+        html += `<div class="card-nome">${e.nome}</div>`;
+        html += `<div style="font-size:7px;color:var(--cinza-3);margin-top:2px">${mesNome}/${ano.substring(2)}</div>`;
+        html += `</div>`;
+        html += `<div class="tl-stem down" style="height:36px"></div>`;
+        html += `<div class="tl-dot ${dc}" style="margin-top:0"></div>`;
+        html += `<div style="height:36px"></div>`;
+      } else {
+        html += `<div style="height:${36 + 44}px"></div>`;
+        html += `<div class="tl-dot ${dc}"></div>`;
+        html += `<div class="tl-stem down" style="height:36px"></div>`;
+        html += `<div class="tl-card down ${cardClass}">`;
+        html += `<div class="card-tipo">${getTipoLabel(e.tipo)}</div>`;
+        html += `<div class="card-nome">${e.nome}</div>`;
+        html += `<div style="font-size:7px;color:var(--cinza-3);margin-top:2px">${mesNome}/${ano.substring(2)}</div>`;
+        html += `</div>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+  html += `</div>`;
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+const tooltipData = {};
+eventos.forEach(e=>tooltipData[e.id]=e);
+
+function showTooltip(evt, id) {
+  const e = tooltipData[id];
+  if(!e) return;
+  const sc = getStatusClass(e.status);
+  const colors = {vigente:'#4CAF50',vencido:'#E53935',warn:'#FFA000',ok:'#8BC34A'};
+  const labels = {vigente:'Vigente',vencido:'Vencido',warn:'Atenção',ok:'Regular'};
+  const tt = document.getElementById('tooltip');
+  tt.innerHTML = `<div class="tt-title">Doc. ${e.id} — ${e.nome}</div>
+    <div class="tt-meta">${getTipoLabel(e.tipo)} · ${e.orgao} · ${e.arq}</div>
+    <div style="margin-top:6px;font-size:10.5px;color:rgba(255,255,255,.85)">${e.resumo}</div>
+    <div class="tt-status" style="background:${colors[sc]}20;color:${colors[sc]}">${labels[sc]}</div>`;
+  tt.style.left = (evt.clientX + 12)+'px';
+  tt.style.top = (evt.clientY - 20)+'px';
+  tt.classList.add('show');
+}
+function hideTooltip() {
+  document.getElementById('tooltip').classList.remove('show');
+}
+
+/* ── REQUERIMENTOS ── */
+const matrizDocs = [
+  {
+    doc:'Requerimento específico de cada processo, assinado pelo responsável legal',
+    solo:true, renov:true, acao:'habilis', resta:'talvez',
+    leitura:'É a peça formal que abre cada trilho administrativo perante a Prefeitura/SEMMA. Precisa porque sem requerimento corretamente preenchido e assinado não existe instrução válida do processo. Se faltar, o protocolo pode nem ser recebido ou pode cair em exigência formal logo na entrada.'
+  },
+  {
+    doc:'Documento de identificação do representante legal que assinará o processo',
+    solo:true, renov:true, acao:'solicitar', resta:'nao',
+    leitura:'É o RG/CNH e CPF do sócio ou representante que responde pelo empreendimento. Precisa para comprovar legitimidade da assinatura e vincular a documentação ao responsável correto. Se faltar, a SEMMA ou a Prefeitura pode questionar a representação e travar o andamento.'
+  },
+  {
+    doc:'Procuração atualizada, com poderes adequados e formalidade compatível com a exigência local',
+    solo:true, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'É o instrumento que autoriza terceiro a representar a empresa no processo. Precisa quando o assinante ou protocolante não é o representante legal direto. Se faltar, estiver vencida ou sem firma/poderes compatíveis, a atuação do procurador pode ser recusada e o processo ficar irregular formalmente.'
+  },
+  {
+    doc:'Contrato social consolidado ou última alteração societária válida',
+    solo:true, renov:true, acao:'solicitar', resta:'nao',
+    leitura:'É a base jurídica que identifica razão social, quadro societário, administração e poderes de representação. Precisa para alinhar a documentação atual da empresa com o histórico do licenciamento. Se faltar ou estiver desatualizado, gera inconsistência cadastral e risco de exigência por divergência societária.'
+  },
+  {
+    doc:'Comprovante de inscrição e situação cadastral do CNPJ atualizado',
+    solo:true, renov:true, acao:'solicitar', resta:'nao',
+    leitura:'É o espelho cadastral federal da empresa. Precisa para confirmar a existência ativa do empreendimento, razão social e endereço cadastral básico. Se faltar, a instrução perde respaldo cadastral e dificulta o cruzamento entre processo ambiental, documentos societários e licenças existentes.'
+  },
+  {
+    doc:'Inscrição Estadual atualizada do estabelecimento',
+    solo:false, renov:true, acao:'solicitar', resta:'nao',
+    leitura:'É o registro fiscal estadual da atividade econômica do posto. Na renovação ajuda a demonstrar regularidade operacional e coerência da atividade licenciada. Se faltar, o dossiê fica mais fraco do ponto de vista cadastral e pode haver pedido complementar de regularidade do estabelecimento.'
+  },
+  {
+    doc:'Comprovante de endereço recente do empreendimento ou do representante, conforme exigência municipal',
+    solo:true, renov:false, acao:'solicitar', resta:'nao',
+    leitura:'É a prova material de endereço atual, normalmente exigida no uso do solo. Precisa para validar o vínculo territorial e a atualização cadastral do requerente. Se faltar, o processo de uso do solo costuma cair em exigência documental simples, mas bloqueante.'
+  },
+  {
+    doc:'Certidão Negativa de Débitos Municipais (CND) atualizada',
+    solo:true, renov:false, acao:'solicitar', resta:'talvez',
+    leitura:'É a comprovação de regularidade fiscal perante o Município. Precisa porque muitas Prefeituras condicionam a tramitação urbanística ou emissão de certidões à ausência de débitos. Se faltar ou vier positiva, a emissão da certidão de uso do solo pode ficar travada até saneamento fiscal.'
+  },
+  {
+    doc:'DUAM ou taxa municipal/ambiental correspondente ao processo',
+    solo:true, renov:true, acao:'habilis', resta:'sim',
+    leitura:'É a guia de arrecadação que viabiliza o protocolo e a análise administrativa. Precisa porque o processo só anda regularmente com a taxa emitida e paga. Mesmo com todos os documentos em mãos, ainda pode restar essa pendência porque depende de emissão, pagamento e juntada do comprovante.'
+  },
+  {
+    doc:'Matrícula ou certidão atualizada do imóvel onde o posto está implantado',
+    solo:true, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'É o documento registral que identifica oficialmente o imóvel e sua situação dominial. Precisa para comprovar a base imobiliária atual do empreendimento tanto no uso do solo quanto na renovação. Se faltar ou estiver fora do prazo de atualização aceito pelo órgão, permanece pendência documental relevante.'
+  },
+  {
+    doc:'Escritura, contrato de posse ou outro título dominial complementar já existente no acervo',
+    solo:false, renov:true, acao:'verificar', resta:'talvez',
+    leitura:'É o documento histórico que reforça a cadeia possessória ou dominial do imóvel. Precisa apenas se a matrícula/certidão atual não bastar ou se houver exigência específica de complementação. Se o histórico já for suficiente, reaproveita-se; se houver divergência, será necessário atualizar ou complementar a prova imobiliária.'
+  },
+  {
+    doc:'Croqui de localização e acesso com coordenadas geográficas do empreendimento',
+    solo:true, renov:true, acao:'verificar', resta:'talvez',
+    leitura:'É a peça de localização espacial do posto, demonstrando acesso, inserção viária e coordenadas. Precisa para identificação física do empreendimento e compatibilização do local licenciado com o local efetivamente ocupado. Se faltar ou estiver tecnicamente desatualizado, pode haver exigência de nova peça assinada por responsável técnico.'
+  },
+  {
+    doc:'Planta técnica para Uso do Solo com APP, vias, recursos hídricos, quadro de áreas e coordenadas UTM',
+    solo:true, renov:false, acao:'solicitar', resta:'sim',
+    leitura:'É a peça urbanístico-ambiental mais robusta do processo de uso do solo. Precisa porque demonstra a inserção territorial do posto, áreas, interferências e restrições locacionais exigidas pela Prefeitura/SEMMA. Se faltar, a certidão de uso do solo tende a não ser emitida; mesmo após solicitação ao cliente, ainda pode restar elaboração técnica e ART.'
+  },
+  {
+    doc:'ART, TRT ou documento de responsabilidade técnica vinculado às peças e estudos apresentados',
+    solo:true, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'É o instrumento que vincula formalmente o profissional responsável aos documentos técnicos. Precisa para dar validade técnica a plantas, relatórios, laudos e memoriais. Se faltar ou estiver desvinculada da peça correta, o órgão pode considerar o documento tecnicamente inválido.'
+  },
+  {
+    doc:'Certidão de Uso do Solo emitida pelo Município',
+    solo:false, renov:true, acao:'habilis', resta:'sim',
+    leitura:'É o produto final do processo urbanístico/local que confirma a compatibilidade locacional do posto. Precisa porque aparece como pré-requisito para instrução segura da renovação da LAO. Mesmo após reunir documentos do cliente, ainda pode restar porque depende de análise e emissão formal pela Prefeitura/SEMMA.'
+  },
+  {
+    doc:'Licenças ambientais anteriores e atos já emitidos no histórico (LP, LI, LO/LAO e atualizações)',
+    solo:false, renov:true, acao:'aproveitar', resta:'nao',
+    leitura:'É o conjunto de atos já existentes no processo, incluindo a base histórica do licenciamento. Precisa para demonstrar continuidade regulatória, antecedentes e condicionantes já assumidas. Como já consta no acervo da SEMMA, normalmente não precisa ser reemitido, apenas corretamente referenciado no novo protocolo.'
+  },
+  {
+    doc:'Relatório de cumprimento de condicionantes da licença de operação',
+    solo:false, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'É a consolidação do atendimento das obrigações impostas na licença vigente e em manifestações posteriores da SEMMA. Precisa porque a renovação depende de demonstrar histórico de conformidade do empreendimento. Se faltar ou vier incompleto, o posto transmite imagem de descumprimento e aumenta o risco de exigência, ressalva ou indeferimento.'
+  },
+  {
+    doc:'Memorial de Caracterização / MCE / MCO ou documento técnico equivalente do empreendimento',
+    solo:false, renov:true, acao:'verificar', resta:'talvez',
+    leitura:'É a peça que descreve o empreendimento, seus sistemas, capacidade e condições operacionais. Precisa para o órgão entender a configuração atual do posto e verificar se a licença anterior ainda conversa com a realidade. Se o documento antigo não refletir a situação atual, será necessária atualização técnica.'
+  },
+  {
+    doc:'Outorga, dispensa de outorga ou ato hídrico equivalente vigente',
+    solo:false, renov:true, acao:'solicitar', resta:'sim',
+    leitura:'É o ato administrativo relacionado ao uso de recursos hídricos, como captação subterrânea ou respectiva dispensa. Precisa porque integra a regularidade ambiental do posto perante a SEMAD e a SEMMA. Se faltar ou estiver vencido, a renovação fica sensível e pode depender de novo protocolo e espera por manifestação do órgão hídrico.'
+  },
+  {
+    doc:'Certificado de conformidade ou licença do Corpo de Bombeiros dentro da vigência',
+    solo:false, renov:true, acao:'solicitar', resta:'sim',
+    leitura:'É a prova de regularidade da edificação e da operação frente às exigências de prevenção e combate a incêndio. Precisa porque postos revendedores têm risco inerente e o documento costuma ser tratado como essencial. Se faltar ou estiver vencido, a renovação ambiental perde robustez e pode depender de nova vistoria e emissão pelo CBM-GO.'
+  },
+  {
+    doc:'Laudo de estanqueidade vigente, acompanhado da respectiva ART',
+    solo:false, renov:true, acao:'solicitar', resta:'sim',
+    leitura:'É o laudo que verifica a integridade estanque de tanques, linhas e sistemas associados, normalmente com periodicidade bienal. Precisa porque é um dos principais documentos de controle de risco ambiental em posto de combustíveis. Se faltar ou estiver vencido, o processo fica exposto em um dos pontos mais críticos e pode exigir contratação imediata de ensaio novo.'
+  },
+  {
+    doc:'Comprovação de credenciamento/qualificação da empresa que executará o ensaio de estanqueidade',
+    solo:false, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'É a evidência de que a empresa executora tem habilitação compatível para o ensaio apresentado. Precisa para sustentar a confiabilidade do laudo de estanqueidade perante a SEMMA. Se faltar ou estiver vencida, o laudo pode perder força probatória e ser questionado.'
+  },
+  {
+    doc:'Certificado de calibração válido do equipamento utilizado no ensaio',
+    solo:false, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'É a comprovação metrológica do instrumento utilizado na avaliação técnica. Precisa para validar a rastreabilidade e a confiabilidade dos resultados do ensaio. Se faltar, a prova técnica fica vulnerável e o órgão pode pedir substituição ou complementação documental.'
+  },
+  {
+    doc:'RCA semestral ou relatório ambiental periódico, com ART e escopo exigido pelo órgão',
+    solo:false, renov:true, acao:'solicitar', resta:'sim',
+    leitura:'É o relatório periódico que consolida monitoramento ambiental, efluentes, sistemas de tratamento e controles operacionais. Precisa porque a renovação exige evidência continuada de acompanhamento ambiental. Se faltar série, ART ou atualização, a empresa pode aparentar descontinuidade de controle e ficar sujeita a exigência técnica pesada.'
+  },
+  {
+    doc:'Laudos laboratoriais mais recentes de efluentes, água, monitoramentos e análises correlatas',
+    solo:false, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'São os resultados analíticos que comprovam desempenho ambiental e atendimento a parâmetros. Precisam porque dão base objetiva aos relatórios e ao histórico de conformidade do posto. Se faltarem ou estiverem fora da periodicidade esperada, o monitoramento fica quebrado e a análise do processo perde sustentação técnica.'
+  },
+  {
+    doc:'Notas fiscais e comprovantes de limpeza/manutenção de SAO, STEO, caixas e sistemas correlatos',
+    solo:false, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'São os registros operacionais de manutenção preventiva e corretiva dos sistemas ambientais do posto. Precisam para demonstrar rotina de operação, conservação e cuidado com os dispositivos de controle. Se faltarem ou aparecerem de forma isolada, o histórico fica sem rastreabilidade e pode ser interpretado como manutenção insuficiente.'
+  },
+  {
+    doc:'Comprovantes de coleta, transporte e destinação de resíduos contaminados e OLUC',
+    solo:false, renov:true, acao:'solicitar', resta:'talvez',
+    leitura:'São MTRs, certificados, notas e evidências de destinação ambientalmente adequada de resíduos e óleo lubrificante usado/contaminado. Precisam porque o posto deve comprovar manejo correto dos resíduos perigosos gerados na operação. Se faltarem, surgem fragilidades sérias de conformidade operacional e de responsabilidade ambiental.'
+  },
+  {
+    doc:'Investigação confirmatória de passivo ambiental, com escopo compatível (BTEX, PAH, VOC etc.)',
+    solo:false, renov:true, acao:'verificar', resta:'sim',
+    leitura:'É o estudo de subsuperfície destinado a verificar existência de contaminação e passivo ambiental em unidade de combustíveis. Precisa porque aparece como exigência sensível para unidade existente e não se confunde com simples juntada documental. Se não existir, a pendência deixa de ser administrativa e vira frente técnica de contratação e execução de campo.'
+  },
+  {
+    doc:'Publicações legais exigidas para a instrução do processo ambiental',
+    solo:false, renov:true, acao:'habilis', resta:'sim',
+    leitura:'São as publicações formais exigidas pelo rito aplicável, como aquelas vinculadas à CONAMA 006/1986, quando cabíveis. Precisam para completar a formalidade externa do processo e sua publicidade administrativa. Mesmo com toda a base documental pronta, ainda podem restar porque dependem de providência específica de montagem e comprovação posterior.'
+  }
+];
+
+const renovacaoItems = [
+  {n:1, nome:'Requerimento padrão SEMMA assinado', status:'ok', obs:'Doc. 3 presente'},
+  {n:2, nome:'RG/CPF pessoa física', status:'ok', obs:'Nos documentos societários'},
+  {n:3, nome:'Contrato social + CNPJ + Inscrição Estadual', status:'ok', obs:'Doc. 24 — 2ª Alteração LTDA'},
+  {n:4, nome:'Procuração com firma reconhecida (2 anos)', status:'warn', obs:'Verificar validade e firma'},
+  {n:5, nome:'Comprovante taxa DUAM', status:'pending', obs:'Não localizado'},
+  {n:6, nome:'Publicações CONAMA 006/1986', status:'pending', obs:'Não localizado'},
+  {n:7, nome:'Licenças ambientais anteriores (LP, LI)', status:'ok', obs:'LAI 008/2020 — vence hoje'},
+  {n:8, nome:'Relatório cumprimento condicionantes LO', status:'ok', obs:'Docs. 27,39,47,49,50'},
+  {n:9, nome:'MCO com ART (Res. CEMAM 029/2018)', status:'ok', obs:'Doc. 8 — 17 páginas'},
+  {n:10, nome:'Outorga / dispensa de uso da água (SEMAD)', status:'danger', obs:'VENCIDA 09/12/2023'},
+  {n:11, nome:'Anuência saneamento (efluentes líquidos)', status:'ok', obs:'Não se aplica'},
+  {n:12, nome:'Certidão registro imóvel + CAR', status:'ok', obs:'Doc. 5 — escritura'},
+  {n:13, nome:'Certidão de Uso do Solo', status:'pending', obs:'Pré-requisito — 11 subitens'},
+  {n:14, nome:'Croqui localização + coord. geográficas', status:'ok', obs:'Doc. 7'},
+  {n:15, nome:'Certificado Corpo de Bombeiros', status:'danger', obs:'VENCIDO 17/05/2024'},
+  {n:16, nome:'Cumprimento condicionantes LP e LI', status:'ok', obs:'Documentado'},
+  {n:17, nome:'NF tanques, tubulações, detecção vazamento', status:'ok', obs:'Docs. 9 e 10'},
+  {n:18, nome:'Laudo estanqueidade (bienal, NBR 16795) + ART', status:'danger', obs:'VENCIDO 27/04/2025'},
+  {n:19, nome:'Credenciamento INMETRO empresa laudo', status:'warn', obs:'Doc. 36 — verificar vigência'},
+  {n:20, nome:'Cert. calibração equipamento (ISSO/IEC 17025)', status:'warn', obs:'Verificar cert. independente'},
+  {n:21, nome:'Cert. conformidade produtos/serv. (CONAMA 319)', status:'pending', obs:'Não localizado'},
+  {n:22, nome:'Rel. investigação passivo ambiental (BTEX/PAH)', status:'pending', obs:'Obrigatório — ausente'},
+  {n:23, nome:'Anexos I e II CONAMA 273/2000 com ART', status:'ok', obs:'Doc. 15'},
+  {n:24, nome:'RCA semestral (STEO, efluentes, poços) + ART', status:'pending', obs:'Sem periodicidade e ART'},
+  {n:25, nome:'NFs manutenção caixas separadoras semestral', status:'ok', obs:'Doc. 54 — verificar'},
+  {n:26, nome:'NF óleos lubrificantes semestral (ANP)', status:'pending', obs:'Não localizado'},
+];
+
+const soloItems = [
+  {n:'a', nome:'Doc. identificação oficial + CPF', status:'ok', obs:'Presente no processo'},
+  {n:'b', nome:'Contrato Social / CNPJ + doc. sócios', status:'ok', obs:'Doc. 24 — LTDA'},
+  {n:'c', nome:'Comprovante pagamento DUAM', status:'pending', obs:'Providenciar na Prefeitura'},
+  {n:'d', nome:'Procuração pública c/ firma reconhecida', status:'warn', obs:'Verificar validade'},
+  {n:'e', nome:'Comprovante de endereço (últimos 3 meses)', status:'pending', obs:'Não localizado'},
+  {n:'f', nome:'Certidão Negativa de Débitos (CND)', status:'pending', obs:'Obter no site da Prefeitura'},
+  {n:'g', nome:'Cert. Registro de Imóvel atualizada (90 dias)', status:'pending', obs:'Doc. 5 pode estar defasado'},
+  {n:'h', nome:'Croqui localização + coord. geográficas', status:'ok', obs:'Doc. 7 presente'},
+  {n:'i', nome:'Planta com APP, RL, vias, recursos hídricos, Quad. Áreas + Coord. UTM (SIRGAS 2000)', status:'pending', obs:'Não localizado — exige ART'},
+  {n:'j', nome:'ART das atividades técnicas', status:'ok', obs:'ART 2024 vigente'},
+  {n:'k', nome:'Certidão atualizada do imóvel', status:'pending', obs:'Verificar atualização'},
+];
+
+function badgeSim(tipo){
+  return `<span class="matrix-badge ${tipo==='solo'?'mb-yes-solo':'mb-yes-renov'}">✓</span>`;
+}
+function badgeNao(){ return `<span class="matrix-badge mb-no">—</span>`; }
+function actionLabel(a){
+  const m = {
+    solicitar:['at-solicitar','Solicitar ao cliente'],
+    verificar:['at-verificar','Verificar / confirmar'],
+    aproveitar:['at-aproveitar','Aproveitar histórico'],
+    habilis:['at-habilis','Providência Hábilis']
+  };
+  const [cls, txt] = m[a] || m.verificar;
+  return `<span class="action-tag ${cls}">${txt}</span>`;
+}
+function restaLabel(r){
+  const m = {nao:['rc-nao','Não'], talvez:['rc-talvez','Pode restar'], sim:['rc-sim','Sim']};
+  const [cls, txt] = m[r] || m.talvez;
+  return `<span class="resta-chip ${cls}">${txt}</span>`;
+}
+function renderMatriz(){
+  const tbody = document.getElementById('matrix-tbody');
+  const kpis = document.getElementById('matrix-kpis');
+  const summary = document.getElementById('matrix-summary');
+  const total = matrizDocs.length;
+  const uso = matrizDocs.filter(x=>x.solo).length;
+  const renov = matrizDocs.filter(x=>x.renov).length;
+  const solicitar = matrizDocs.filter(x=>x.acao==='solicitar').length;
+  const resta = matrizDocs.filter(x=>x.resta==='sim').length;
+
+  kpis.innerHTML = `
+    <div class="matrix-kpi"><div class="k-label">Documentos mapeados</div><div class="k-val">${total}</div><div class="k-sub">base cruzada</div></div>
+    <div class="matrix-kpi"><div class="k-label">Uso do Solo</div><div class="k-val" style="color:var(--azul-l)">${uso}</div><div class="k-sub">entradas ligadas ao uso do solo</div></div>
+    <div class="matrix-kpi"><div class="k-label">Renovação LAO</div><div class="k-val" style="color:var(--verde-m)">${renov}</div><div class="k-sub">entradas ligadas à renovação</div></div>
+    <div class="matrix-kpi"><div class="k-label">Pedir ao cliente</div><div class="k-val" style="color:var(--amber)">${solicitar}</div><div class="k-sub">solicitações imediatas</div></div>`;
+
+  summary.innerHTML = `
+    <div class="summary-card"><h4 style="color:var(--amber)">Solicitar imediatamente</h4><ul><li>Base cadastral atual</li><li>Imóvel atualizado</li><li>Bombeiros, outorga e estanqueidade vigentes</li><li>Laudos e comprovantes ambientais recentes</li></ul></div>
+    <div class="summary-card"><h4 style="color:var(--vermelho-l)">Mesmo com envio, ainda pode restar</h4><ul><li>Certidão de Uso do Solo</li><li>Nova emissão de atos vencidos</li><li>Passivo ambiental confirmatório</li><li>Fechamento técnico do RCA e do protocolo</li></ul></div>
+    <div class="summary-card"><h4 style="color:var(--verde-m)">Pode reaproveitar do histórico</h4><ul><li>Licenças anteriores</li><li>Parte do acervo societário e imobiliário</li><li>Croqui e base processual já protocolada</li></ul></div>`;
+
+  tbody.innerHTML = matrizDocs.map(item => `
+    <tr>
+      <td><div class="matrix-doc">${item.doc}</div></td>
+      <td>${item.solo ? badgeSim('solo') : badgeNao()}</td>
+      <td>${item.renov ? badgeSim('renov') : badgeNao()}</td>
+      <td>${actionLabel(item.acao)}</td>
+      <td>${restaLabel(item.resta)}</td>
+      <td style="font-size:11px;color:var(--cinza-7);line-height:1.6">${item.leitura}</td>
+    </tr>`).join('');
+}
+
+function renderReq(items, containerId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(it => {
+    const iconMap = {ok:'✓',warn:'~',danger:'✕',pending:'?'};
+    const classMap = {ok:'ri-ok',warn:'ri-warn',danger:'ri-danger',pending:'ri-pend'};
+    const tagMap = {ok:'tag-ok',warn:'tag-warn',danger:'tag-danger',pending:'tag-pend'};
+    const tagText = {ok:'OK',warn:'Verificar',danger:'Vencido',pending:'Ausente'};
+    return `<div class="req-item">
+      <span class="req-num">${it.n}</span>
+      <span class="req-icon ${classMap[it.status]}">${iconMap[it.status]}</span>
+      <div class="req-text">
+        <div class="req-nome">${it.nome}</div>
+        <div class="req-obs">${it.obs}</div>
+      </div>
+      <span class="req-tag ${tagMap[it.status]}">${tagText[it.status]}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ── CRONOGRAMA ── */
+// [prioridade, acao, responsavel, status, [abr,mai,jun,jul,ago,set]]
+// tipo: 'acao'=vermelho, 'exec'=âmbar, 'entrega'=verde, 'prazo'=azul, ''=vazio
+const acoes = [
+  {prio:1, acao:'Verificar impacto expiração LAI 008/2020 junto à SEMMA', resp:'Hábilis + Cliente', status:'urgente',
+   meses:['acao','','','','',''], dep:''},
+  {prio:1, acao:'Contratar empresa INMETRO p/ novo Laudo de Estanqueidade + ART (NBR 16795/2019)', resp:'Cliente', status:'urgente',
+   meses:['acao','exec','exec','','',''], dep:''},
+  {prio:1, acao:'Requerer vistoria e novo Certificado — Corpo de Bombeiros (CBM-GO)', resp:'Cliente', status:'urgente',
+   meses:['acao','exec','','','',''], dep:''},
+  {prio:1, acao:'Protocolar pedido de nova Certidão de Dispensa/Outorga — SEMAD-GO (DURH)', resp:'Hábilis', status:'urgente',
+   meses:['acao','','','','',''], dep:''},
+  {prio:1, acao:'Requerer Certidão de Uso do Solo — SEMMA/Prefeitura Guapó (11 subitens)', resp:'Hábilis', status:'urgente',
+   meses:['acao','exec','','','',''], dep:'Pré-req. da renovação'},
+  {prio:2, acao:'Obter Comprovante DUAM + CND + Certidão de Imóvel atualizada', resp:'Cliente', status:'andamento',
+   meses:['','acao','','','',''], dep:''},
+  {prio:2, acao:'Providenciar Publicações conforme CONAMA 006/1986', resp:'Hábilis', status:'andamento',
+   meses:['','acao','','','',''], dep:''},
+  {prio:2, acao:'Verificar vigência credenciamento INMETRO (empresa laudo estanqueidade)', resp:'Hábilis', status:'andamento',
+   meses:['acao','','','','',''], dep:''},
+  {prio:2, acao:'Obter Certificados conformidade produtos/serviços (Res. CONAMA 319 + Portarias INMETRO)', resp:'Cliente', status:'andamento',
+   meses:['','exec','exec','','',''], dep:''},
+  {prio:2, acao:'Compilar RCA semestral completo com ART (STEO, efluentes, poços de monitoramento)', resp:'Hábilis', status:'andamento',
+   meses:['','exec','exec','exec','',''], dep:''},
+  {prio:3, acao:'Elaborar Relatório de Investigação Passivo Ambiental (BTEX/PAH/VOC, 3+ furos) + ART', resp:'Hábilis', status:'pendente',
+   meses:['','','exec','exec','exec',''], dep:'Res. CEMAM 029/2018'},
+  {prio:3, acao:'Providenciar NF semestral coleta óleos lubrificantes (empresa ANP / CONAMA 362/2005)', resp:'Cliente', status:'pendente',
+   meses:['','exec','','','',''], dep:''},
+  {prio:3, acao:'Compilar e revisar toda a documentação para composição final do processo', resp:'Hábilis', status:'pendente',
+   meses:['','','','exec','exec',''], dep:''},
+  {prio:3, acao:'PROTOCOLAR Requerimento de Renovação LAO na SEMMA Guapó', resp:'Hábilis', status:'pendente',
+   meses:['','','','','','entrega'], dep:'Após todos os itens acima'},
+];
+
+function renderCrono() {
+  const tbody = document.getElementById('crono-tbody');
+  tbody.innerHTML = acoes.map((a,i)=>{
+    const pbColor = a.prio===1?'var(--vermelho-l)':a.prio===2?'var(--amber-l)':'var(--verde-l)';
+    const pbLabel = a.prio===1?'1ª':a.prio===2?'2ª':'3ª';
+    const scClass = {urgente:'sc-urgente',andamento:'sc-andamento',pendente:'sc-pendente',ok:'sc-ok'}[a.status];
+    const scLabel = {urgente:'Urgente',andamento:'Em andamento',pendente:'Pendente',ok:'Concluído'}[a.status];
+    const mesesHtml = a.meses.map(m=>{
+      if(!m) return `<td class="mes-cell"><div class="mes-bloco mb-empty"></div></td>`;
+      const cls = m==='acao'?'mb-acao':m==='exec'?'mb-exec':m==='entrega'?'mb-entrega':m==='hoje'?'mb-hoje':'mb-prazo';
+      const lbl = m==='acao'?'Ini.':m==='exec'?'Exec':m==='entrega'?'Proto':'';
+      return `<td class="mes-cell"><div class="mes-bloco ${cls}">${lbl}</div></td>`;
+    }).join('');
+
+    return `<tr>
+      <td style="padding:8px 12px">
+        <span class="prioridade-badge ${a.prio===1?'pb-1':a.prio===2?'pb-2':'pb-3'}">${pbLabel}</span>
+      </td>
+      <td>
+        <div class="crono-row">
+          <div class="crono-prio" style="background:${pbColor}"></div>
+          <div class="crono-info">
+            <div class="crono-acao">${a.acao}</div>
+            ${a.dep?`<div class="crono-dep">↳ ${a.dep}</div>`:''}
+          </div>
+        </div>
+      </td>
+      <td style="padding:8px 12px">
+        <div style="font-size:11px;color:var(--cinza-7)">${a.resp}</div>
+      </td>
+      <td style="padding:8px 12px">
+        <span class="status-check ${scClass}">${scLabel}</span>
+      </td>
+      ${mesesHtml}
+    </tr>`;
+  }).join('');
+}
+
+/* ── NAVEGAÇÃO ── */
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  event.target.classList.add('active');
+  if(id==='timeline') renderTimeline();
+  if(id==='requerimentos') { renderReq(renovacaoItems,'lista-renovacao'); renderReq(soloItems,'lista-solo'); }
+  if(id==='matriz') renderMatriz();
+  if(id==='cronograma') renderCrono();
+}
+
+// inicializa overview
+document.addEventListener('DOMContentLoaded', ()=>{ renderMatriz(); });
+</script>
+</body>
+</html>

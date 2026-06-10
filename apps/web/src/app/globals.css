@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Background — mesmo tom do login (#f4f6f9) */
+    --background: 215 28% 97%;
+    --foreground: 220 25% 10%;
+
+    /* Cards — branco puro */
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 10%;
+
+    /* Bordas e inputs — neutro */
+    --border: 220 13% 88%;
+    --input: 220 13% 88%;
+
+    /* Primary — laranja (orange-600 #ea580c), igual ao CTA do login */
+    --primary: 21 90% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary */
+    --secondary: 220 9% 93%;
+    --secondary-foreground: 220 15% 18%;
+
+    /* Muted */
+    --muted: 220 9% 94%;
+    --muted-foreground: 220 8% 48%;
+
+    /* Accent */
+    --accent: 220 9% 91%;
+    --accent-foreground: 220 15% 14%;
+
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Ring — laranja, igual ao focus do login */
+    --ring: 21 90% 48%;
+
+    --radius: 0.625rem;
+
+    /* Sidebar — branco, mesmo padrão do restante do sistema */
+    --sidebar: 0 0% 100%;
+    --sidebar-foreground: 220 25% 10%;
+    --sidebar-border: 220 13% 88%;
+    --sidebar-accent: 220 9% 94%;
+    --sidebar-accent-foreground: 220 25% 10%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  /* Scrollbar fina */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-muted-foreground/30; }
+}
+
+/* Fundo principal — mesmo tom neutro do login com grid de pontos */
+.main-bg {
+  background-color: hsl(215 28% 97%);
+  background-image: radial-gradient(hsl(220 15% 78% / 0.35) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.animate-panel-in {
+  animation: panel-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-rise-in {
+  animation: rise-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-stagger-1 { animation-delay: 60ms; }
+.animate-stagger-2 { animation-delay: 120ms; }
+.animate-stagger-3 { animation-delay: 180ms; }
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

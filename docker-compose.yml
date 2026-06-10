@@ -1,0 +1,84 @@
+services:
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: posto_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: posto
+      POSTGRES_PASSWORD: posto_dev_secret
+      POSTGRES_DB: posto_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U posto -d posto_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis ───────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: posto_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── MinIO (S3 compatível) ───────────────────────────────────────────────────
+  minio:
+    image: minio/minio:latest
+    container_name: posto_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: posto_minio
+      MINIO_ROOT_PASSWORD: posto_minio_secret
+    ports:
+      - "9000:9000"  # API S3
+      - "9001:9001"  # Console web
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── MinIO bucket setup (roda uma vez) ──────────────────────────────────────
+  minio-setup:
+    image: minio/mc:latest
+    container_name: posto_minio_setup
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+        mc alias set local http://minio:9000 posto_minio posto_minio_secret;
+        mc mb --ignore-existing local/posto-documentos;
+        mc anonymous set none local/posto-documentos;
+        echo 'MinIO configurado.';
+      "
+    restart: on-failure
+
+  # ── MailHog (e-mail local para dev) ────────────────────────────────────────
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: posto_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:

@@ -1,0 +1,3406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recicla Goiás — Manual Unificado de Logística Reversa</title>
+<style>
+/* ============================================================
+   RESET & VARIÁVEIS
+============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --forest:   #1b5e20;
+  --green:    #2e7d32;
+  --mid:      #388e3c;
+  --fern:     #4caf50;
+  --sage:     #a5d6a7;
+  --mint:     #e8f5e9;
+  --ink:      #1a1a1a;
+  --text:     #2c3e2d;
+  --muted:    #607d63;
+  --line:     #dde8dd;
+  --bg:       #f7faf7;
+  --white:    #ffffff;
+  --amber:    #e65100;
+  --amber-bg: #fff3e0;
+  --red:      #c62828;
+  --red-bg:   #ffebee;
+  --blue:     #1565c0;
+  --blue-bg:  #e3f2fd;
+  --shadow:   0 2px 12px rgba(27,94,32,.10);
+  --shadow-lg:0 6px 32px rgba(27,94,32,.14);
+  --r:        10px;
+  --sidebar:  260px;
+}
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   PROGRESS BAR
+============================================================ */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--forest), var(--fern));
+  z-index: 1000; transition: width .2s ease;
+}
+
+/* ============================================================
+   SIDEBAR
+============================================================ */
+#sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--sidebar);
+  background: var(--forest);
+  color: rgba(255,255,255,.85);
+  overflow-y: auto; overflow-x: hidden;
+  z-index: 500;
+  display: flex; flex-direction: column;
+  transition: transform .3s ease;
+}
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 99px; }
+
+.sidebar-header {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  flex-shrink: 0;
+}
+.sidebar-logo {
+  font-size: 11px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--sage);
+  margin-bottom: 6px;
+}
+.sidebar-title {
+  font-size: 14px; font-weight: 700; color: #fff;
+  line-height: 1.3;
+}
+
+#mode-toggle {
+  margin: 14px 20px 0;
+  display: flex; border-radius: 8px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.15); flex-shrink: 0;
+}
+.sidebar-search-wrap {
+  margin: 12px 20px 0;
+  flex-shrink: 0;
+}
+.sidebar-search {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+}
+.sidebar-search::placeholder { color: rgba(255,255,255,.45); }
+.sidebar-search:focus {
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.12);
+}
+.mode-btn {
+  flex: 1; padding: 8px 4px; font-size: 11px; font-weight: 700;
+  letter-spacing: .05em; text-align: center; cursor: pointer;
+  background: transparent; color: rgba(255,255,255,.45);
+  border: none; transition: all .2s; font-family: inherit;
+  text-transform: uppercase;
+}
+.mode-btn.active {
+  background: rgba(255,255,255,.15); color: #fff;
+}
+
+.sidebar-nav { padding: 12px 0 24px; flex: 1; }
+.nav-section {
+  padding: 14px 20px 4px;
+  font-size: 9px; font-weight: 800; letter-spacing: .15em;
+  text-transform: uppercase; color: rgba(255,255,255,.35);
+}
+.nav-link {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 7px 20px;
+  font-size: 12.5px; color: rgba(255,255,255,.65);
+  cursor: pointer; transition: all .15s;
+  border-left: 3px solid transparent;
+  line-height: 1.35;
+}
+.nav-link:hover { color: #fff; background: rgba(255,255,255,.06); border-left-color: var(--sage); }
+.nav-link.active { color: #fff; background: rgba(255,255,255,.1); border-left-color: #fff; }
+.nav-num {
+  font-size: 10px; font-weight: 700; color: var(--sage);
+  flex-shrink: 0; margin-top: 1px;
+}
+
+/* ============================================================
+   MAIN CONTENT
+============================================================ */
+#main {
+  margin-left: var(--sidebar);
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* ============================================================
+   COVER
+============================================================ */
+#cover {
+  background: linear-gradient(135deg, var(--forest) 0%, var(--green) 60%, var(--mid) 100%);
+  color: #fff;
+  padding: 80px 64px 72px;
+  position: relative; overflow: hidden;
+}
+#cover::before {
+  content: '';
+  position: absolute; right: -60px; top: -60px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: rgba(255,255,255,.04);
+  pointer-events: none;
+}
+#cover::after {
+  content: '';
+  position: absolute; right: 60px; bottom: -80px;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: rgba(255,255,255,.03);
+  pointer-events: none;
+}
+.cover-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .25em;
+  text-transform: uppercase; color: var(--sage); margin-bottom: 20px;
+}
+.cover-title {
+  font-size: clamp(32px, 5vw, 56px); font-weight: 800;
+  line-height: 1.05; letter-spacing: -.02em;
+  margin-bottom: 8px;
+}
+.cover-subtitle {
+  font-size: clamp(16px, 2vw, 22px); font-weight: 300;
+  color: rgba(255,255,255,.75); margin-bottom: 36px;
+  font-style: italic;
+}
+.cover-pills {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px;
+}
+.cover-pill {
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.85); font-size: 11px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 99px;
+}
+.cover-stats {
+  display: flex; flex-wrap: wrap; gap: 24px;
+}
+.cover-stat-val {
+  font-size: 36px; font-weight: 800; color: #fff; line-height: 1;
+  margin-bottom: 4px;
+}
+.cover-stat-lbl {
+  font-size: 12px; color: rgba(255,255,255,.6); line-height: 1.4;
+}
+
+/* ============================================================
+   CONTENT WRAPPER
+============================================================ */
+.content-area {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+/* ============================================================
+   SECTIONS
+============================================================ */
+.section {
+  padding: 56px 0 0;
+  scroll-margin-top: 24px;
+}
+.section-tag {
+  font-size: 10px; font-weight: 800; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--mid);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 800;
+  color: var(--forest); line-height: 1.15;
+  letter-spacing: -.02em; margin-bottom: 6px;
+}
+.section-lead {
+  font-size: 16px; color: var(--muted); line-height: 1.7;
+  margin-bottom: 28px; max-width: 720px;
+}
+.divider {
+  height: 1px; background: var(--line);
+  margin: 8px 0 32px;
+}
+
+/* ============================================================
+   TRIAGEM ORIENTATIVA
+============================================================ */
+.triage-shell {
+  background: linear-gradient(180deg, #fbfefb 0%, #f1f8f1 100%);
+  border: 1px solid #dbe9db;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 18px;
+}
+.triage-grid {
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  gap: 16px;
+}
+.triage-pane {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+.triage-pane h3 {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--forest);
+  margin-bottom: 12px;
+  letter-spacing: .01em;
+}
+.triage-pane h4 {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--mid);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin: 16px 0 10px;
+}
+.triage-fields {
+  display: grid;
+  gap: 12px;
+}
+.triage-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--forest);
+}
+.triage-input,
+.triage-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.triage-input:focus,
+.triage-field select:focus {
+  border-color: #8fb48f;
+  box-shadow: 0 0 0 3px rgba(76,175,80,.10);
+}
+.triage-help {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+.choice-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.45;
+}
+.choice-item input {
+  margin-top: 2px;
+  accent-color: var(--green);
+}
+.triage-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.triage-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s, background .15s;
+}
+.triage-btn:hover { transform: translateY(-1px); }
+.triage-btn.primary {
+  background: var(--forest);
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+.triage-btn.secondary {
+  background: #fff;
+  color: var(--forest);
+  border: 1px solid var(--line);
+}
+.triage-output {
+  display: none;
+  margin-top: 18px;
+}
+.triage-output.visible { display: block; }
+.triage-result-grid {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 16px;
+}
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.status-chip.s-red {
+  background: var(--red-bg);
+  color: var(--red);
+  border: 1px solid #ef9a9a;
+}
+.status-chip.s-amber {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid #ffcc80;
+}
+.status-chip.s-green {
+  background: var(--mint);
+  color: var(--forest);
+  border: 1px solid #c8e6c9;
+}
+.triage-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.triage-list li {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8fbf8;
+  border: 1px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.triage-list strong { color: var(--forest); }
+.triage-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.triage-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid #c8e6c9;
+  background: var(--mint);
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   CARDS
+============================================================ */
+.card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 24px 28px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 15px; font-weight: 700; color: var(--forest);
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.card-body {
+  font-size: 14.5px; color: var(--text); line-height: 1.75;
+}
+.card-body p { margin-bottom: 10px; }
+.card-body p:last-child { margin-bottom: 0; }
+.card-body ul, .card-body ol {
+  padding-left: 20px; margin-bottom: 10px;
+}
+.card-body li { margin-bottom: 6px; line-height: 1.65; }
+.card-body h4 {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--mid);
+  margin: 18px 0 8px;
+}
+
+.card-green {
+  background: var(--mint);
+  border-color: #c8e6c9;
+}
+.card-amber {
+  background: var(--amber-bg);
+  border-color: #ffcc80;
+  border-left: 4px solid var(--amber);
+}
+.card-red {
+  background: var(--red-bg);
+  border-color: #ef9a9a;
+  border-left: 4px solid var(--red);
+}
+.card-blue {
+  background: var(--blue-bg);
+  border-color: #90caf9;
+  border-left: 4px solid var(--blue);
+}
+
+/* ============================================================
+   GRID LAYOUTS
+============================================================ */
+.grid-2 {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-bottom: 16px;
+}
+.grid-3 {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  margin-bottom: 16px;
+}
+.grid-auto {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px; margin-bottom: 16px;
+}
+
+/* ============================================================
+   STAT BLOCKS
+============================================================ */
+.stat-block {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 22px 20px;
+  text-align: center; box-shadow: var(--shadow);
+}
+.stat-block .stat-val {
+  font-size: 38px; font-weight: 800; color: var(--forest);
+  line-height: 1; margin-bottom: 6px;
+}
+.stat-block .stat-lbl {
+  font-size: 12px; color: var(--muted); line-height: 1.45;
+}
+.stat-block.s-amber .stat-val { color: var(--amber); }
+.stat-block.s-red   .stat-val { color: var(--red);   }
+
+/* ============================================================
+   HIGHLIGHT BOX / QUOTE
+============================================================ */
+.highlight {
+  border-left: 4px solid var(--fern);
+  background: var(--mint);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 18px 20px;
+  margin: 20px 0;
+  font-size: 14.5px; color: var(--text); line-height: 1.7;
+}
+.highlight strong { color: var(--forest); }
+.highlight .law-ref {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--mid); margin-bottom: 6px;
+}
+
+.callout {
+  border-radius: var(--r); padding: 14px 18px;
+  font-size: 14px; line-height: 1.68; margin: 14px 0;
+}
+.callout.tip   { background: var(--mint);     border: 1px solid #c8e6c9; }
+.callout.warn  { background: var(--amber-bg); border: 1px solid #ffcc80; }
+.callout.alert { background: var(--red-bg);   border: 1px solid #ef9a9a; }
+.callout.info  { background: var(--blue-bg);  border: 1px solid #90caf9; }
+.callout-icon  { font-weight: 800; margin-right: 6px; }
+
+/* ============================================================
+   TIMELINE
+============================================================ */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px;
+  width: 2px; background: linear-gradient(to bottom, var(--forest), var(--sage));
+}
+.tl-item {
+  position: relative; padding: 12px 0 20px;
+}
+.tl-item::before {
+  content: ''; position: absolute; left: -26px; top: 16px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--fern); border: 2.5px solid var(--bg);
+  box-shadow: 0 0 0 2px var(--fern);
+}
+.tl-year {
+  font-size: 22px; font-weight: 800; color: var(--forest);
+  line-height: 1; margin-bottom: 2px;
+}
+.tl-law {
+  font-size: 10px; font-weight: 700; color: var(--mid);
+  letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.tl-text {
+  font-size: 14px; color: var(--text); line-height: 1.6;
+}
+
+/* ============================================================
+   STEP LIST / FLOW
+============================================================ */
+.step-list { display: flex; flex-direction: column; gap: 0; }
+.step-item {
+  display: grid; grid-template-columns: 52px 1fr;
+  gap: 16px; align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.step-item:last-child { border-bottom: none; }
+.step-num {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--forest); color: #fff;
+  font-size: 16px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.step-name {
+  font-size: 15px; font-weight: 700; color: var(--forest);
+  margin-bottom: 4px;
+}
+.step-desc {
+  font-size: 14px; color: var(--muted); line-height: 1.6;
+}
+
+/* ============================================================
+   ACTOR GRID
+============================================================ */
+.actor-card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 18px;
+  box-shadow: var(--shadow);
+}
+.actor-icon { font-size: 22px; margin-bottom: 8px; }
+.actor-name {
+  font-size: 13px; font-weight: 700; color: var(--forest);
+  margin-bottom: 6px;
+}
+.actor-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+}
+
+/* ============================================================
+   TABLE
+============================================================ */
+.table-wrap {
+  overflow-x: auto; margin: 16px 0;
+  border-radius: var(--r); border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13.5px;
+}
+thead th {
+  background: var(--forest); color: #fff;
+  padding: 12px 16px; text-align: left;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+tbody tr { border-bottom: 1px solid var(--line); }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:nth-child(even) { background: #f9fbf9; }
+tbody td {
+  padding: 12px 16px; color: var(--text); line-height: 1.55;
+  vertical-align: top;
+}
+.td-badge {
+  display: inline-block; padding: 3px 8px; border-radius: 5px;
+  font-size: 11px; font-weight: 700;
+  background: var(--mint); color: var(--forest);
+  border: 1px solid #c8e6c9;
+}
+
+/* ============================================================
+   TWO-COLUMN COMPARE
+============================================================ */
+.compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  border-radius: var(--r); overflow: hidden;
+  border: 1px solid var(--line); margin: 16px 0;
+  box-shadow: var(--shadow);
+}
+.compare-col { padding: 22px 24px; }
+.compare-col.left { background: #fafbfa; border-right: 1px solid var(--line); }
+.compare-col.right { background: var(--mint); }
+.compare-head {
+  font-size: 11px; font-weight: 800; letter-spacing: .15em;
+  text-transform: uppercase; margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 2px solid;
+}
+.compare-col.left .compare-head { color: var(--muted); border-color: var(--line); }
+.compare-col.right .compare-head { color: var(--forest); border-color: #a5d6a7; }
+.compare-item {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 13.5px; color: var(--text); line-height: 1.55;
+  margin-bottom: 10px;
+}
+.compare-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 7px;
+}
+.compare-col.left .compare-dot  { background: #b0bfb0; }
+.compare-col.right .compare-dot { background: var(--fern); }
+
+/* ============================================================
+   FAQ / ACCORDIONS
+============================================================ */
+.faq-item {
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--white); margin-bottom: 8px;
+  overflow: hidden; box-shadow: var(--shadow);
+}
+.faq-question {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; cursor: pointer;
+  font-size: 14.5px; font-weight: 600; color: var(--text);
+  user-select: none; gap: 12px; transition: background .15s;
+}
+.faq-question:hover { background: var(--mint); }
+.faq-toggle {
+  width: 26px; height: 26px; border-radius: 6px;
+  background: var(--mint); border: 1px solid #c8e6c9;
+  color: var(--forest); font-size: 16px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: transform .2s;
+}
+.faq-item.open .faq-toggle { transform: rotate(45deg); }
+.faq-answer {
+  display: none; padding: 0 20px 18px;
+  font-size: 14px; color: var(--muted); line-height: 1.75;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.faq-item.open .faq-answer { display: block; }
+
+/* ============================================================
+   CHECKLIST
+============================================================ */
+.checklist { list-style: none; padding: 0; }
+.checklist li {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+  font-size: 14.5px; color: var(--text); line-height: 1.6;
+}
+.checklist li:last-child { border-bottom: none; }
+.check-icon {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: var(--mint); border: 1.5px solid var(--fern);
+  color: var(--forest); font-size: 13px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+
+/* ============================================================
+   RISK CARDS
+============================================================ */
+.risk-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px; margin-bottom: 16px;
+}
+.risk-card {
+  border-radius: var(--r); padding: 18px;
+  border: 1px solid;
+}
+.risk-card.high  { background: var(--red-bg);   border-color: #ef9a9a; }
+.risk-card.med   { background: var(--amber-bg); border-color: #ffcc80; }
+.risk-card.info  { background: var(--blue-bg);  border-color: #90caf9; }
+.risk-card-icon  { font-size: 22px; margin-bottom: 8px; }
+.risk-card-title { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+.risk-card.high .risk-card-title  { color: var(--red);   }
+.risk-card.med  .risk-card-title  { color: var(--amber); }
+.risk-card.info .risk-card-title  { color: var(--blue);  }
+.risk-card-desc  { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+/* ============================================================
+   BADGE / TAG
+============================================================ */
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 99px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em;
+}
+.badge-green { background: var(--mint); color: var(--forest); border: 1px solid #c8e6c9; }
+.badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid #ffcc80; }
+.badge-red   { background: var(--red-bg);   color: var(--red);   border: 1px solid #ef9a9a; }
+.badge-blue  { background: var(--blue-bg);  color: var(--blue);  border: 1px solid #90caf9; }
+
+/* ============================================================
+   MODE VISIBILITY
+============================================================ */
+.leigo  { display: block; }
+.tecnico { display: none; }
+body.modo-tecnico .leigo  { display: none; }
+body.modo-tecnico .tecnico { display: block; }
+.always { display: block; }
+
+/* ============================================================
+   BACK TO TOP
+============================================================ */
+#back-top {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--forest); color: #fff;
+  font-size: 18px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: var(--shadow-lg);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .3s, transform .3s;
+  z-index: 400;
+}
+#back-top.visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   CONTEXTO FLUTUANTE
+============================================================ */
+#context-hub {
+  position: fixed;
+  right: 24px;
+  bottom: 86px;
+  z-index: 430;
+}
+#context-launcher {
+  width: 240px;
+  border: 1px solid #c8e6c9;
+  border-radius: 14px;
+  background: rgba(255,255,255,.96);
+  box-shadow: var(--shadow-lg);
+  padding: 12px 14px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+  font-family: inherit;
+}
+.context-launcher-k {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+#context-launcher-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--forest);
+  line-height: 1.35;
+}
+#context-launcher-count {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+#context-panel {
+  display: none;
+  width: 330px;
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+}
+#context-hub.open #context-panel { display: block; }
+.context-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, var(--forest), var(--mid));
+  color: #fff;
+}
+.context-mini {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.68);
+  margin-bottom: 4px;
+}
+#context-panel-title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.context-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+.context-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #f7fbf7;
+  border-bottom: 1px solid var(--line);
+}
+.context-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+}
+.context-chip.active {
+  border-color: #8fb48f;
+  background: var(--mint);
+  color: var(--forest);
+}
+.context-detail {
+  padding: 16px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.context-type {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.tone-green {
+  background: var(--mint);
+  color: var(--forest);
+  border: 1px solid #c8e6c9;
+}
+.tone-amber {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid #ffcc80;
+}
+.tone-blue {
+  background: var(--blue-bg);
+  color: var(--blue);
+  border: 1px solid #90caf9;
+}
+.tone-red {
+  background: var(--red-bg);
+  color: var(--red);
+  border: 1px solid #ef9a9a;
+}
+.context-card-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--forest);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+.context-card-text {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.65;
+}
+.context-card-note {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ============================================================
+   SIDEBAR TOGGLE (mobile)
+============================================================ */
+#sidebar-toggle {
+  display: none; position: fixed; top: 12px; left: 12px;
+  z-index: 600; width: 40px; height: 40px; border-radius: 10px;
+  background: var(--forest); color: #fff; font-size: 18px;
+  border: none; cursor: pointer; align-items: center; justify-content: center;
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 900px) {
+  :root { --sidebar: 240px; }
+  .content-area { padding: 0 24px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .compare { grid-template-columns: 1fr; }
+  .compare-col.left { border-right: none; border-bottom: 1px solid var(--line); }
+  #cover { padding: 48px 28px 48px; }
+  .triage-grid, .triage-result-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0; }
+  #sidebar-toggle { display: flex; }
+  .cover-stats { gap: 16px; }
+  .grid-auto { grid-template-columns: 1fr; }
+  .risk-grid { grid-template-columns: 1fr; }
+  .choice-grid { grid-template-columns: 1fr; }
+  #context-hub { display: none; }
+}
+@media (max-width: 1180px) {
+  #context-hub { display: none; }
+}
+
+/* ============================================================
+   PRINT
+============================================================ */
+@media print {
+  #sidebar, #progress-bar, #back-top, #sidebar-toggle, #context-hub { display: none !important; }
+  #main { margin-left: 0; }
+  .card, .faq-item { box-shadow: none; }
+  .faq-answer { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- SIDEBAR TOGGLE (mobile) -->
+<button id="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Recicla Goiás</div>
+    <div class="sidebar-title">Manual de<br>Logística Reversa</div>
+  </div>
+
+  <div id="mode-toggle">
+    <button class="mode-btn active" id="btn-leigo"   onclick="setMode('leigo')">Leigo</button>
+    <button class="mode-btn"        id="btn-tecnico" onclick="setMode('tecnico')">Técnico</button>
+  </div>
+
+  <div class="sidebar-search-wrap">
+    <input id="nav-filter" class="sidebar-search" type="search" placeholder="Filtrar seções..." oninput="filterNavLinks(this.value)">
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section">Entrada</div>
+    <a class="nav-link" href="#cover"      onclick="navClick(this)"><span class="nav-num">—</span>Início</a>
+    <a class="nav-link" href="#s-triagem"  onclick="navClick(this)"><span class="nav-num">0</span>Pré-diagnóstico</a>
+
+    <div class="nav-section">Fundamentos</div>
+    <a class="nav-link" href="#s-visao"   onclick="navClick(this)"><span class="nav-num">1</span>Recicla Goiás</a>
+    <a class="nav-link" href="#s-oque"    onclick="navClick(this)"><span class="nav-num">2</span>O que é Logística Reversa</a>
+    <a class="nav-link" href="#s-base"    onclick="navClick(this)"><span class="nav-num">3</span>Base Legal</a>
+
+    <div class="nav-section">Obrigações</div>
+    <a class="nav-link" href="#s-obrigados"   onclick="navClick(this)"><span class="nav-num">4</span>Quem está obrigado</a>
+    <a class="nav-link" href="#s-nao"         onclick="navClick(this)"><span class="nav-num">5</span>Quem não está obrigado</a>
+    <a class="nav-link" href="#s-cadeia"      onclick="navClick(this)"><span class="nav-num">6</span>Cadeia obrigada e regulada</a>
+    <a class="nav-link" href="#s-enquadramento" onclick="navClick(this)"><span class="nav-num">7</span>Como funciona o enquadramento</a>
+
+    <div class="nav-section">Operação</div>
+    <a class="nav-link" href="#s-modelos"    onclick="navClick(this)"><span class="nav-num">8</span>Modelos de cumprimento</a>
+    <a class="nav-link" href="#s-creditos"   onclick="navClick(this)"><span class="nav-num">9</span>Créditos de reciclagem</a>
+    <a class="nav-link" href="#s-comprovacao"onclick="navClick(this)"><span class="nav-num">10</span>Comprovação</a>
+    <a class="nav-link" href="#s-massa"      onclick="navClick(this)"><span class="nav-num">11</span>Cálculo de massa e metas</a>
+    <a class="nav-link" href="#s-fluxo"      onclick="navClick(this)"><span class="nav-num">12</span>Fluxo operacional</a>
+
+    <div class="nav-section">Consultoria</div>
+    <a class="nav-link" href="#s-consultoria" onclick="navClick(this)"><span class="nav-num">13</span>Papel da consultoria</a>
+    <a class="nav-link" href="#s-docs"        onclick="navClick(this)"><span class="nav-num">14</span>Documentos por etapa</a>
+    <a class="nav-link" href="#s-riscos"      onclick="navClick(this)"><span class="nav-num">15</span>Riscos e falhas comuns</a>
+
+    <div class="nav-section">Referência</div>
+    <a class="nav-link" href="#s-faq"      onclick="navClick(this)"><span class="nav-num">?</span>Perguntas frequentes</a>
+    <a class="nav-link" href="#s-glossario"onclick="navClick(this)"><span class="nav-num">A–Z</span>Glossário</a>
+    <a class="nav-link" href="#s-sintese"  onclick="navClick(this)"><span class="nav-num">✓</span>Síntese prática</a>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main id="main">
+
+<!-- ========== CAPA ========== -->
+<div id="cover">
+  <div style="max-width:900px;margin:0 auto;padding:0 20px;">
+    <p class="cover-eyebrow">Hábilis Consultoria Ambiental · Goiânia, Goiás</p>
+    <h1 class="cover-title">Recicla Goiás<br>Logística Reversa</h1>
+    <p class="cover-subtitle">Manual unificado — do enquadramento ao certificado</p>
+    <div class="cover-pills">
+      <span class="cover-pill">Lei 12.305/2010 — PNRS</span>
+      <span class="cover-pill">Decreto GO 10.255/2023</span>
+      <span class="cover-pill">Sistema Recicla Goiás</span>
+      <span class="cover-pill">CCR — Créditos de Reciclagem</span>
+    </div>
+    <div class="cover-stats">
+      <div>
+        <div class="cover-stat-val">79 Mi</div>
+        <div class="cover-stat-lbl">toneladas de resíduos<br>gerados no Brasil/ano</div>
+      </div>
+      <div>
+        <div class="cover-stat-val">40%</div>
+        <div class="cover-stat-lbl">descartados de forma<br>inadequada</div>
+      </div>
+      <div>
+        <div class="cover-stat-val">600</div>
+        <div class="cover-stat-lbl">anos para degradação<br>de um pneu no ambiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CONTENT AREA ========== -->
+<div class="content-area">
+
+<!-- ===== ENTRADA OPERACIONAL ===== -->
+<section class="section" id="s-triagem">
+  <p class="section-tag">Entrada Operacional</p>
+  <h2 class="section-title">Triagem Orientativa Inicial — Massa + Enquadramento</h2>
+  <p class="section-lead">Use este pré-diagnóstico para obter uma leitura inicial sobre massa colocada no mercado, indício de enquadramento, modelo mais aderente e próximos passos de validação.</p>
+  <hr class="divider">
+
+  <div class="callout info">
+    <span class="callout-icon">ℹ</span> Esta função é uma <strong>triagem orientativa inicial</strong>. Ela não substitui análise técnica, documental e jurídica definitiva. O objetivo é organizar a conversa certa logo no começo.
+  </div>
+
+  <div class="triage-shell">
+    <div class="triage-grid">
+      <div class="triage-pane">
+        <h3>Perfil da operação e lógica da cadeia</h3>
+        <h4>Tipo de atuação da empresa</h4>
+        <div class="choice-grid">
+          <label class="choice-item"><input type="checkbox" class="triage-role" value="fabrica"> Fabrica produto ou embalagem</label>
+          <label class="choice-item"><input type="checkbox" class="triage-role" value="importa"> Importa produto para comercialização</label>
+          <label class="choice-item"><input type="checkbox" class="triage-role" value="distribui"> Distribui ou vende para outros elos</label>
+          <label class="choice-item"><input type="checkbox" class="triage-role" value="comercializa"> Comercializa ao consumidor final</label>
+          <label class="choice-item"><input type="checkbox" class="triage-role" value="servico"> Apenas presta serviço</label>
+        </div>
+
+        <div class="triage-fields" style="margin-top:14px">
+          <div class="triage-field">
+            <label for="triage-market">A empresa coloca produto ou embalagem no mercado?</label>
+            <select id="triage-market">
+              <option value="nao_sei">Não sei informar</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div class="triage-field">
+            <label for="triage-brand">Existe marca própria ou produto vendido sob a marca da empresa?</label>
+            <select id="triage-brand">
+              <option value="nao_sei">Não sei informar</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div class="triage-field">
+            <label for="triage-resale">Há revenda de produto embalado para terceiros ou consumidor final?</label>
+            <select id="triage-resale">
+              <option value="nao_sei">Não sei informar</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div class="triage-field">
+            <label for="triage-internal">A operação é apenas de uso interno, sem colocação no mercado?</label>
+            <select id="triage-internal">
+              <option value="nao_sei">Não sei informar</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+          <div class="triage-field">
+            <label for="triage-flow">O fluxo principal envolve o quê?</label>
+            <select id="triage-flow">
+              <option value="nao_sei">Não sei informar</option>
+              <option value="pos_consumo">Pós-consumo</option>
+              <option value="pos_venda">Pós-venda</option>
+              <option value="operacional">Apenas resíduo operacional / interno</option>
+              <option value="misto">Misto</option>
+            </select>
+          </div>
+          <div class="triage-field">
+            <label for="triage-chain">Qual cadeia/material parece mais envolvido?</label>
+            <select id="triage-chain">
+              <option value="nao_sei">Não sei informar</option>
+              <option value="embalagens">Embalagens em geral</option>
+              <option value="agroquimicos">Agroquímicos / Campo Limpo</option>
+              <option value="medicamentos">Medicamentos</option>
+              <option value="eletroeletronicos">Eletroeletrônicos</option>
+              <option value="pilhas_baterias">Pilhas e baterias</option>
+              <option value="pneus">Pneus</option>
+              <option value="lampadas">Lâmpadas</option>
+              <option value="oleos">Óleos lubrificantes</option>
+              <option value="outra">Outra cadeia específica</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="triage-pane">
+        <h3>Massa, modelo e evidências disponíveis</h3>
+        <div class="triage-fields">
+          <div class="triage-field">
+            <label for="triage-units">Quantidade anual estimada de unidades vendidas/comercializadas</label>
+            <input id="triage-units" class="triage-input" type="number" min="0" step="1" placeholder="Ex.: 120000">
+          </div>
+          <div class="triage-field">
+            <label for="triage-weight">Peso médio da embalagem por unidade (em gramas)</label>
+            <input id="triage-weight" class="triage-input" type="number" min="0" step="0.01" placeholder="Ex.: 18.5">
+          </div>
+          <div class="triage-field">
+            <label for="triage-direct-mass">Massa anual estimada já consolidada (kg)</label>
+            <input id="triage-direct-mass" class="triage-input" type="number" min="0" step="0.01" placeholder="Se já souber a massa total, preencha aqui">
+            <div class="triage-help">Se este campo for preenchido, ele prevalece sobre o cálculo por unidades x peso médio.</div>
+          </div>
+          <div class="triage-field">
+            <label for="triage-physical">Existe operação física própria ou controlada pela empresa?</label>
+            <select id="triage-physical">
+              <option value="nao_sei">Não sei informar</option>
+              <option value="nenhuma">Não</option>
+              <option value="parcial">Parcial</option>
+              <option value="propria">Sim, relevante</option>
+            </select>
+          </div>
+          <div class="triage-field">
+            <label for="triage-model">Qual modelo parece mais próximo da intenção atual?</label>
+            <select id="triage-model">
+              <option value="nao_sei">Ainda não definido</option>
+              <option value="coletivo">Coletivo</option>
+              <option value="individual">Individual</option>
+              <option value="hibrido">Híbrido</option>
+            </select>
+          </div>
+        </div>
+
+        <h4>Documentos e controles já existentes</h4>
+        <div class="choice-grid">
+          <label class="choice-item"><input type="checkbox" class="triage-doc" value="nf"> NF de saída / venda</label>
+          <label class="choice-item"><input type="checkbox" class="triage-doc" value="ficha"> Ficha técnica / peso unitário</label>
+          <label class="choice-item"><input type="checkbox" class="triage-doc" value="inventario"> Inventário / planilha de massa</label>
+          <label class="choice-item"><input type="checkbox" class="triage-doc" value="contrato"> Contratos / adesão ao sistema</label>
+          <label class="choice-item"><input type="checkbox" class="triage-doc" value="relatorio"> Relatórios / controles internos</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="triage-actions">
+      <button class="triage-btn primary" type="button" onclick="runTriage()">Gerar leitura inicial</button>
+      <button class="triage-btn secondary" type="button" onclick="resetTriage()">Limpar triagem</button>
+    </div>
+
+    <div class="triage-output" id="triage-output">
+      <div class="triage-result-grid">
+        <div class="triage-pane" id="triage-summary"></div>
+        <div class="triage-pane" id="triage-next"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1. VISÃO GERAL RECICLA GOIÁS ===== -->
+<section class="section" id="s-visao">
+  <p class="section-tag">Seção 1</p>
+  <h2 class="section-title">O Sistema Recicla Goiás</h2>
+  <p class="section-lead">Entenda o que é o sistema, de onde veio e o que ele exige das empresas que operam em Goiás.</p>
+  <hr class="divider">
+
+  <div class="card card-green">
+    <div class="card-body">
+      <p>O <strong>Sistema Recicla Goiás</strong> é o sistema estadual de logística reversa de Goiás, instituído pelo <strong>Decreto Estadual nº 10.255/2023</strong>. Ele articula as obrigações federais da Política Nacional de Resíduos Sólidos (PNRS) com exigências específicas do estado, criando um conjunto próprio de cadastros, planos, metas e relatórios que as empresas obrigadas devem cumprir perante a SEMAD-GO.</p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">🏛 Órgão gestor</div>
+      <div class="card-body">SEMAD-GO (Secretaria de Meio Ambiente e Desenvolvimento Sustentável de Goiás), com Comitê Estadual de Planejamento e fiscalização própria.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚙ Plataforma</div>
+      <div class="card-body">Sistema Recicla Goiás — portal da SIC/GO onde as empresas realizam cadastro, enviam planos, declaram metas e reportam resultados.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📅 Vigência</div>
+      <div class="card-body">Em operação desde 2023, com fiscalização ativa e cruzamento automático de dados econômicos (CNAE, faturamento) com o cadastro de obrigados.</div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-icon">👉</span> O Recicla Goiás <strong>não substitui</strong> as obrigações federais — ele as complementa. Uma empresa em Goiás precisa cumprir tanto o SINIR federal quanto o sistema estadual.
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">⚖ Hierarquia normativa aplicável em Goiás</div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Lei 12.305/2010 (PNRS)</strong> — define logística reversa, responsabilidade compartilhada, cadeias obrigatórias (art. 33)</li>
+        <li><strong>Decreto Federal 10.936/2022</strong> — regulamenta a PNRS, define funcionamento dos sistemas, integra ao SINIR</li>
+        <li><strong>Decreto Federal 11.413/2023</strong> — institui os Certificados de Crédito de Reciclagem (CCR) e a rastreabilidade</li>
+        <li><strong>Decreto Estadual GO 10.255/2023</strong> — institui o Comitê de LR de Goiás e o Sistema Recicla Goiás</li>
+        <li><strong>Portarias MMA 2024</strong> — habilitação de entidades gestoras e verificadores; fiscalização em vigor</li>
+        <li>Resoluções CONAMA e acordos setoriais específicos por cadeia de produtos</li>
+      </ul>
+      <div class="callout warn" style="margin-top:12px">
+        <span class="callout-icon">⚠</span> O regime normativo é <strong>em camadas</strong>. A obrigação da empresa pode mudar sem alteração da lei principal — basta uma mudança em decreto setorial ou nos procedimentos do SINIR.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. O QUE É LOGÍSTICA REVERSA ===== -->
+<section class="section" id="s-oque">
+  <p class="section-tag">Seção 2</p>
+  <h2 class="section-title">O que é Logística Reversa</h2>
+  <p class="section-lead">O conceito oficial, o que ele significa na prática e por que é diferente de apenas "descartar corretamente".</p>
+  <hr class="divider">
+
+  <div class="highlight">
+    <div class="law-ref">Definição oficial — Lei 12.305/2010, art. 3º, XII</div>
+    <p><em>"Instrumento de desenvolvimento econômico e social para viabilizar a coleta e a restituição dos resíduos sólidos ao setor empresarial, para reaproveitamento em seu ciclo produtivo ou para destinação final ambientalmente adequada."</em></p>
+  </div>
+
+  <div class="card leigo">
+    <div class="card-title">📦 Em linguagem simples</div>
+    <div class="card-body">
+      <p>Logística reversa é o sistema que faz um produto ou embalagem <strong>voltar</strong> para o fabricante, para um reciclador ou para um destino correto após o consumo. Em vez de ir para o lixo comum, o resíduo percorre um caminho de volta — daí o nome "reversa".</p>
+      <p>Na prática: a empresa que vende um produto com embalagem é co-responsável por garantir que aquela embalagem chegue a um destino adequado depois que o consumidor terminar de usá-la.</p>
+    </div>
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">🔍 Distinções técnicas relevantes</div>
+    <div class="card-body">
+      <h4>Pós-consumo</h4>
+      <p>Produtos e embalagens após uso pelo consumidor final. É o foco principal da LR obrigatória prevista no art. 33 da PNRS.</p>
+      <h4>Pós-venda</h4>
+      <p>Fluxo de devolução antes do consumo efetivo, como avaria, defeito, erro logístico ou recall. Não substitui a LR obrigatória do art. 33; se esse item virar resíduo, passa a exigir destinação e comprovação compatíveis.</p>
+      <h4>Pré-consumo</h4>
+      <p>Perdas, sobras e resíduos gerados dentro do processo produtivo. Em regra, isso é gestão de resíduo interno e PGRS — não comprovação de LR pós-consumo.</p>
+      <h4>Responsabilidade compartilhada</h4>
+      <p>A PNRS distribui a responsabilidade pela LR entre todos os elos da cadeia: fabricante, importador, distribuidor, comerciante e consumidor — cada um com papel distinto e insubstituível.</p>
+      <h4>Economia circular na prática</h4>
+      <p>Para a fiscalização, economia circular não é apenas coletar. É demonstrar retorno ao ciclo produtivo ou compensação válida, com equivalência de massa e trilha documental íntegra.</p>
+      <h4>LR obrigatória × voluntária</h4>
+      <p><strong>Obrigatória:</strong> decorre de lei, decreto ou instrumento setorial vinculante para cadeias específicas (embalagens em geral, eletroeletrônicos, pilhas, pneus, lâmpadas, óleos lubrificantes, medicamentos, agroquímicos).<br>
+      <strong>Voluntária/estratégica:</strong> adotada além do mínimo legal. Ajuda em ESG e reputação, mas não substitui obrigação oficial.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. BASE LEGAL ===== -->
+<section class="section" id="s-base">
+  <p class="section-tag">Seção 3</p>
+  <h2 class="section-title">Base Legal — Linha do Tempo</h2>
+  <p class="section-lead">Do texto da lei ao sistema operacional estadual: como a obrigação foi construída ao longo do tempo.</p>
+  <hr class="divider">
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">2010</div>
+      <div class="tl-law">Lei nº 12.305 — PNRS</div>
+      <div class="tl-text">Política Nacional de Resíduos Sólidos — institui a logística reversa como obrigação legal. Define responsabilidade compartilhada e lista as cadeias obrigadas (art. 33).</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2022</div>
+      <div class="tl-law">Decreto Federal nº 10.936</div>
+      <div class="tl-text">Regulamenta a PNRS. Detalha como os sistemas de LR devem funcionar, define responsabilidades, metas e integra os sistemas ao SINIR com obrigação de reporte anual.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2023</div>
+      <div class="tl-law">Decreto Federal nº 11.413</div>
+      <div class="tl-text">Institui os Certificados de Crédito de Reciclagem (CCR) como instrumento de comprovação do cumprimento da LR. Cria rastreabilidade por tonelada reciclada.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2023</div>
+      <div class="tl-law">Decreto Estadual GO nº 10.255</div>
+      <div class="tl-text">Institui o Comitê de Logística Reversa do Estado de Goiás e o Sistema Recicla Goiás. Cria obrigações estaduais específicas de cadastro, plano e relatório.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2024</div>
+      <div class="tl-law">Portarias MMA</div>
+      <div class="tl-text">Habilitação de entidades gestoras e verificadores independentes. Fiscalização em vigor com cruzamento automático de dados econômicos e cadastro de obrigados.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. QUEM ESTÁ OBRIGADO ===== -->
+<section class="section" id="s-obrigados">
+  <p class="section-tag">Seção 4</p>
+  <h2 class="section-title">Quem Está Obrigado</h2>
+  <p class="section-lead">A obrigação recai sobre toda a cadeia produtiva e de distribuição — independentemente do porte da empresa.</p>
+  <hr class="divider">
+
+  <div class="callout warn">
+    <span class="callout-icon">⚠</span> <strong>Porte não isenta.</strong> Micro e pequenas empresas que comercializam produtos com embalagens sujeitas à LR estão incluídas. O critério é a <strong>atividade</strong>, não o faturamento ou número de funcionários.
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🏭 Fabricantes</div>
+      <div class="card-body">Empresas que produzem produtos cujas embalagens são sujeitas à LR. Responsáveis primários pelo financiamento do sistema.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🌐 Importadores</div>
+      <div class="card-body">Quem introduz produto estrangeiro no mercado nacional. Assume as mesmas obrigações do fabricante para os itens importados.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🚚 Distribuidores</div>
+      <div class="card-body">Quem compra e revende para outros elos da cadeia (atacadistas, centros de distribuição). A obrigação se aplica quando emitem NF de venda.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏪 Comerciantes</div>
+      <div class="card-body">Supermercados, farmácias, lojas agropecuárias, revendas, e-commerce — qualquer empresa que vende diretamente ao consumidor final. Inclui cooperativas comerciais.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Exemplos práticos de empresas obrigadas</div>
+    <div class="card-body">
+      <div class="grid-auto" style="gap:8px;margin:0">
+        <span class="badge badge-green">Supermercados</span>
+        <span class="badge badge-green">Farmácias</span>
+        <span class="badge badge-green">Distribuidoras de alimentos</span>
+        <span class="badge badge-green">E-commerce</span>
+        <span class="badge badge-green">Lojas de autopeças</span>
+        <span class="badge badge-green">Revendas de agroquímicos</span>
+        <span class="badge badge-green">Indústrias de embalagens</span>
+        <span class="badge badge-green">Importadores em geral</span>
+        <span class="badge badge-green">Distribuidoras de bebidas</span>
+        <span class="badge badge-green">Redes de eletrônicos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">⚖ Fundamento legal da obrigação</div>
+    <div class="card-body">
+      <p>O art. 33 da Lei 12.305/2010 estabelece que fabricantes, importadores, distribuidores e comerciantes estão sujeitos à LR para os produtos e embalagens listados. O art. 30 define responsabilidade compartilhada pelo ciclo de vida dos produtos.</p>
+      <p>O Decreto 10.936/2022 operacionaliza essa responsabilidade definindo como cada elo deve participar do sistema — seja estruturando operação própria, aderindo a sistema coletivo, ou comprovando volume e destinação por meio de certificados.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. QUEM NÃO ESTÁ OBRIGADO ===== -->
+<section class="section" id="s-nao">
+  <p class="section-tag">Seção 5</p>
+  <h2 class="section-title">Quem Não Está Obrigado — e o que Isso Exige Provar</h2>
+  <p class="section-lead">Não estar obrigado não significa estar livre de documentação. A ausência de obrigação precisa ser comprovável.</p>
+  <hr class="divider">
+
+  <div class="card">
+    <div class="card-title">✅ Quem em geral não está obrigado à LR estrutural</div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Consumidores / agricultores:</strong> têm obrigação de <em>devolver</em> embalagens, mas não de <em>operar</em> o sistema reverso.</li>
+        <li><strong>Prestadores de serviço agrícola</strong> que não compram nem vendem insumos — não introduzem produto no mercado.</li>
+        <li><strong>Transportadores</strong> que apenas movimentam mercadoria sem emitir NF de venda própria.</li>
+        <li><strong>Empresas de serviço puro</strong> (consultoria, TI, saúde) sem comercialização de produto físico com embalagem sujeita à LR.</li>
+        <li><strong>CNPJ em Goiás que opera fisicamente em outro estado</strong> sem colocar produto no mercado goiano — prevalece o local da atividade real.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="callout-icon">⚠</span> <strong>Atenção:</strong> quem não está obrigado à LR <em>estrutural</em> ainda pode ter obrigação de <strong>gestão adequada dos resíduos gerados na operação</strong> (PGRS, PGRSS), conforme o licenciamento ambiental local.
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">📄 Como comprovar o não enquadramento</div>
+    <div class="card-body">
+      <p>A simples afirmação de que "não somos obrigados" não basta perante fiscalização. É necessário construir um <strong>dossiê de não enquadramento</strong> com:</p>
+      <ol>
+        <li>Contrato social e CNAE — mostrando que a atividade é serviço, não comércio de produto</li>
+        <li>Notas fiscais de entrada e saída — demonstrando ausência de NF de venda de produto</li>
+        <li>Declaração fundamentada de não enquadramento, assinada por responsável técnico</li>
+        <li>Contratos com contratantes (se prestador de serviço) comprovando que os insumos são de terceiros</li>
+        <li>Evidências de que não há colocação de embalagem no mercado pela empresa</li>
+      </ol>
+      <div class="callout info" style="margin-top:12px">
+        <span class="callout-icon">ℹ</span> Regra crítica: <strong>quem não coloca produto ou embalagem no mercado → não entra na LR como obrigado principal</strong> (art. 30 e 33 da PNRS). Mas a comprovação deve ser documental e robusta.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. CADEIA OBRIGADA E REGULADA ===== -->
+<section class="section" id="s-cadeia">
+  <p class="section-tag">Seção 6</p>
+  <h2 class="section-title">Cadeia Obrigada e Cadeia Regulada</h2>
+  <p class="section-lead">Há dois tipos de atores no sistema de LR — com obrigações completamente diferentes entre si.</p>
+  <hr class="divider">
+
+  <div class="compare">
+    <div class="compare-col left">
+      <div class="compare-head">Cadeia Obrigada</div>
+      <div class="compare-item"><span class="compare-dot"></span>Fabricantes, importadores, distribuidores e comerciantes</div>
+      <div class="compare-item"><span class="compare-dot"></span>Obrigação de <strong>estruturar e financiar</strong> o sistema reverso</div>
+      <div class="compare-item"><span class="compare-dot"></span>Devem escolher modelo (individual ou coletivo), contratar operadores, gerar documentação</div>
+      <div class="compare-item"><span class="compare-dot"></span>Sujeitos a multas, embargo e bloqueio de licença por descumprimento</div>
+      <div class="compare-item"><span class="compare-dot"></span>Base legal: art. 33, Lei 12.305/2010</div>
+    </div>
+    <div class="compare-col right">
+      <div class="compare-head">Cadeia Regulada</div>
+      <div class="compare-item"><span class="compare-dot"></span>Consumidores finais, agricultores, usuários</div>
+      <div class="compare-item"><span class="compare-dot"></span>Obrigação de <strong>devolver</strong> embalagens aos pontos de coleta — não de operar o sistema</div>
+      <div class="compare-item"><span class="compare-dot"></span>Não precisam estruturar logística nem emitir documentos de destinação</div>
+      <div class="compare-item"><span class="compare-dot"></span>Penalidade por não devolução existe, mas é diferente da cadeia obrigada</div>
+      <div class="compare-item"><span class="compare-dot"></span>São a <em>origem</em> do fluxo reverso, não os <em>responsáveis</em> pelo sistema</div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-icon">👉</span> <strong>Erro frequente:</strong> confundir cadeia obrigada com cadeia regulada. O agricultor que usa agroquímico tem obrigação de <em>devolver</em> a embalagem — mas não tem obrigação de <em>montar</em> o sistema. Já a revenda que vendeu o produto <em>tem</em> essa obrigação.
+  </div>
+</section>
+
+<!-- ===== 7. ENQUADRAMENTO ===== -->
+<section class="section" id="s-enquadramento">
+  <p class="section-tag">Seção 7</p>
+  <h2 class="section-title">Como Funciona o Enquadramento</h2>
+  <p class="section-lead">O enquadramento correto exige análise de seis critérios combinados. Usar apenas o CNAE é insuficiente e pode levar a erros graves.</p>
+  <hr class="divider">
+
+  <div class="callout alert">
+    <span class="callout-icon">🚨</span> <strong>Erro crítico:</strong> Usar apenas o CNAE para definir se a empresa está obrigada. Isso gera enquadramento incorreto, escolha errada de modelo (individual/coletivo/crédito) e risco direto de não conformidade.
+  </div>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-name">Posição na cadeia (atividade real)</div>
+        <div class="step-desc">A empresa é fabricante, importador, distribuidor ou comerciante do produto? Ou é apenas prestadora de serviço? A <em>atividade real</em> prevalece sobre o CNAE registrado.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-name">Tipo de produto/material</div>
+        <div class="step-desc">O produto comercializado se enquadra nas cadeias obrigatórias do art. 33 da PNRS? (embalagens em geral, eletroeletrônicos, pilhas, pneus, lâmpadas, óleos, medicamentos, agroquímicos)</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-name">Volume colocado no mercado</div>
+        <div class="step-desc">Qual a massa de embalagens introduzida no mercado? Este dado define: se há obrigação, qual modelo viabilizar e qual o custo do sistema. Sem inventário quantitativo não há comprovação válida.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-name">Abrangência territorial</div>
+        <div class="step-desc">A obrigação nasce onde o produto é colocado no mercado — não onde está o CNPJ. Empresa com CNPJ em GO operando no MT pode ter obrigações nos dois estados. A comprovação federal é pelo SINIR, mas pode haver exigências estaduais adicionais.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-name">Regulamento e sistema setorial aplicável</div>
+        <div class="step-desc">Cada cadeia tem regras próprias. Embalagens de agroquímicos seguem o sistema Campo Limpo/inpEV. Eletroeletrônicos têm regulamento específico. Medicamentos idem. Verificar qual sistema é aplicável ao produto.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">6</div>
+      <div>
+        <div class="step-name">Tipo de obrigação (direta, acessória ou comprovação)</div>
+        <div class="step-desc">A empresa é obrigada direta (deve estruturar e financiar), tem obrigação acessória (contribui para sistema coletivo) ou apenas comprova via certificado? A resposta muda custo, documentação e risco.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tecnico" style="margin-top:24px">
+    <div class="card-title">🗺 Cenários territoriais típicos</div>
+    <div class="card-body">
+      <h4>Cenário A — Empresa vende em múltiplos estados</h4>
+      <p>Obrigação nacional (SINIR) + desdobramentos estaduais. Pode precisar segregar massa por UF e atender exigências específicas de cada estado.</p>
+      <h4>Cenário B — CNPJ em GO, operação no MT (ou vice-versa)</h4>
+      <p>Prevalece o local da atividade econômica real. Pode exigir licenciamento local, cadastro no sistema estadual do estado de operação e integração com regras locais de resíduos.</p>
+      <h4>Cenário C — Prestação de serviço sem colocação de produto no mercado</h4>
+      <p>Sem obrigação estrutural de LR. A empresa pode ter apenas obrigação de gestão dos resíduos gerados na operação (PGRS), não de logística reversa de produto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8. MODELOS ===== -->
+<section class="section" id="s-modelos">
+  <p class="section-tag">Seção 8</p>
+  <h2 class="section-title">Modelos de Cumprimento — Individual, Coletivo e Híbrido</h2>
+  <p class="section-lead">Após confirmar o enquadramento, a empresa precisa escolher como vai cumprir a obrigação. Três arranjos principais aparecem na prática — cada um com implicações distintas de custo, documentação, governança e rastreabilidade.</p>
+  <hr class="divider">
+
+  <div class="compare">
+    <div class="compare-col left">
+      <div class="compare-head">Modelo Individual</div>
+      <div class="compare-item"><span class="compare-dot"></span>A empresa estrutura e financia seu próprio sistema de coleta e destinação</div>
+      <div class="compare-item"><span class="compare-dot"></span>Controla diretamente toda a cadeia operacional</div>
+      <div class="compare-item"><span class="compare-dot"></span>Arcar com 100% dos custos de infraestrutura logística</div>
+      <div class="compare-item"><span class="compare-dot"></span>Adequado para grandes geradores com volume e estrutura</div>
+      <div class="compare-item"><span class="compare-dot"></span>Exige maior capacidade documental e de gestão interna</div>
+    </div>
+    <div class="compare-col right">
+      <div class="compare-head">Modelo Coletivo</div>
+      <div class="compare-item"><span class="compare-dot"></span>A empresa adere a um sistema compartilhado, contribuindo proporcionalmente ao volume colocado no mercado</div>
+      <div class="compare-item"><span class="compare-dot"></span>Rastreabilidade centralizada pela entidade gestora</div>
+      <div class="compare-item"><span class="compare-dot"></span>Menor custo por empresa (rateio de infraestrutura)</div>
+      <div class="compare-item"><span class="compare-dot"></span>Maior alcance logístico — rede compartilhada de coleta</div>
+      <div class="compare-item"><span class="compare-dot"></span>CCR emitido pela entidade após verificação independente</div>
+    </div>
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">🔀 Quando há modelo híbrido e como evitar erro de governança</div>
+    <div class="card-body">
+      <p><strong>Modelo híbrido</strong> é a combinação de operação física própria/terceirizada com sistema coletivo ou compensação por créditos. Ele é válido, mas exige delimitação clara de qual massa cada arranjo cobre.</p>
+      <ul>
+        <li><strong>Operação física:</strong> retorno material efetivo, com coleta, armazenamento, transporte, destinação e prova de cada etapa</li>
+        <li><strong>Compensação por crédito:</strong> equivalência de massa comprovada documentalmente, com entidade gestora e verificação independente</li>
+        <li><strong>Controle crítico:</strong> a mesma massa não pode aparecer simultaneamente como operação física e como crédito compensado</li>
+      </ul>
+      <div class="callout warn" style="margin-top:12px">
+        <span class="callout-icon">⚠</span> Regra de auditoria: modelo híbrido sem reconciliação por material, período e documento vira risco de dupla contagem e glosa.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏦 Entidades Gestoras Habilitadas</div>
+    <div class="card-body">
+      <p>O modelo coletivo funciona por meio de <strong>entidades gestoras habilitadas pelo MMA</strong>. Elas organizam a compensação de créditos, conectam empresas obrigadas com cooperativas e recicladoras, e emitem os Certificados de Crédito de Reciclagem (CCR).</p>
+      <div class="callout info" style="margin-top:10px">
+        <span class="callout-icon">ℹ</span> A adesão ao sistema coletivo <strong>não substitui</strong> o registro no SINIR. A empresa ainda precisa declarar seus dados anualmente e manter documentação própria.
+      </div>
+    </div>
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">⚖ Critério de escolha do modelo</div>
+    <div class="card-body">
+      <p>A escolha do modelo não é livre — ela deve ser <strong>aderente à operação real, ao volume e ao risco regulatório</strong>. Os fatores a considerar:</p>
+      <ul>
+        <li><strong>Volume de massa colocado no mercado</strong> — volumes pequenos tendem ao coletivo; volumes grandes podem viabilizar o individual</li>
+        <li><strong>Estrutura interna de gestão</strong> — o individual exige mais capacidade documental e operacional</li>
+        <li><strong>Custo total do sistema</strong> — modelagem financeira comparativa entre os dois arranjos</li>
+        <li><strong>Rastreabilidade e lastro probatório</strong> — o coletivo via entidade gestora habilitada tem rastreabilidade certificada; o individual precisa construir essa cadeia própria</li>
+        <li><strong>Aceitação pelo órgão ambiental</strong> — o modelo precisa ser reconhecido como válido perante a SEMAD-GO e o SINIR</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 9. CRÉDITOS ===== -->
+<section class="section" id="s-creditos">
+  <p class="section-tag">Seção 9</p>
+  <h2 class="section-title">Créditos de Reciclagem — CCR</h2>
+  <p class="section-lead">O instrumento central de comprovação do cumprimento da logística reversa no modelo coletivo.</p>
+  <hr class="divider">
+
+  <div class="card card-green">
+    <div class="card-title">🏅 O que é um CCR</div>
+    <div class="card-body" style="font-size:16px">
+      <strong>1 Crédito de Reciclagem (CCR) = 1 kg de material reciclado comprovado documentalmente</strong><br>
+      <span style="font-size:14px;color:var(--muted)">Ativo ambiental rastreável por nota fiscal · Auditado por verificador independente · Instituído pelo Decreto 11.413/2023</span>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">ℹ</span> Nem toda cadeia usa CCR da mesma forma. Para <strong>embalagens em geral</strong>, o crédito é instrumento central de compensação; em cadeias específicas, o sistema físico e as regras setoriais próprias continuam prevalecendo.
+  </div>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-name">Cooperativa coleta e triagem os resíduos</div>
+        <div class="step-desc">Catadores e cooperativas recolhem o material reciclável da cadeia reversa.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-name">Venda do material à recicladora industrial</div>
+        <div class="step-desc">A cooperativa vende o material segregado para a indústria recicladora.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-name">Nota fiscal registra a massa reciclada</div>
+        <div class="step-desc">A NF é o documento-base do crédito — registra peso, material, origem e destinatário.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-name">Entidade gestora gera o crédito</div>
+        <div class="step-desc">Com base na NF verificada, a entidade gestora habilitada emite o CCR correspondente à massa comprovada.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-name">Empresa recebe o certificado de compensação</div>
+        <div class="step-desc">A empresa obrigada recebe os CCRs correspondentes à sua meta de reciclagem — comprovando cumprimento perante o SINIR e a SEMAD.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">🔐 Lastro, unicidade e vedação à dupla contagem</div>
+    <div class="card-body">
+      <p>Crédito válido exige lastro material e documental. Em auditoria, o CCR só se sustenta quando a massa compensada consegue ser reconstruída ponta a ponta.</p>
+      <ul>
+        <li><strong>Origem da massa:</strong> NF e cadeia operacional identificando material, origem, peso e destinatário</li>
+        <li><strong>Reciclagem efetiva:</strong> evidência de que o material entrou em processamento compatível com reciclagem ou destinação admitida</li>
+        <li><strong>Verificação independente:</strong> conferência externa da integridade dos dados e da coerência entre massa, documentos e relatório</li>
+        <li><strong>Unicidade:</strong> a mesma massa não pode gerar dois créditos nem ser usada por duas empresas diferentes</li>
+      </ul>
+      <div class="callout alert" style="margin-top:12px">
+        <span class="callout-icon">🚨</span> Crédito sem lastro ou com duplicidade é passível de glosa e não comprova conformidade.
+      </div>
+    </div>
+  </div>
+
+  <div class="compare">
+    <div class="compare-col left">
+      <div class="compare-head">Quem Financia</div>
+      <div class="compare-item"><span class="compare-dot"></span>Empresas obrigadas da cadeia: fabricantes, importadores, distribuidores e comerciantes</div>
+      <div class="compare-item"><span class="compare-dot"></span>O pagamento nasce da massa colocada no mercado e da meta a cumprir</div>
+      <div class="compare-item"><span class="compare-dot"></span>No modelo coletivo, a empresa paga adesão, cota operacional ou aquisição de créditos ao sistema contratado</div>
+      <div class="compare-item"><span class="compare-dot"></span>No modelo individual, a própria empresa financia coleta, transporte, destinação, controle documental e auditoria necessária</div>
+    </div>
+    <div class="compare-col right">
+      <div class="compare-head">Quem Recebe</div>
+      <div class="compare-item"><span class="compare-dot"></span>Cooperativas e recicladoras, pela geração e processamento da massa reciclável</div>
+      <div class="compare-item"><span class="compare-dot"></span>Operadores logísticos e transportadores, pela execução material da cadeia</div>
+      <div class="compare-item"><span class="compare-dot"></span>Destinadores finais, pela etapa de reciclagem ou destinação admitida</div>
+      <div class="compare-item"><span class="compare-dot"></span>Entidade gestora e verificador, pela organização, consolidação e validação do sistema</div>
+    </div>
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">💸 Fluxo financeiro do sistema — lógica simplificada</div>
+    <div class="card-body">
+      <ol>
+        <li><strong>A empresa obrigada calcula sua massa e sua meta</strong> — é isso que define o tamanho econômico da obrigação.</li>
+        <li><strong>O recurso entra no sistema</strong> — por contratação direta da cadeia física ou por adesão a entidade gestora no modelo coletivo.</li>
+        <li><strong>O dinheiro financia a operação real</strong> — coleta, triagem, transporte, processamento, destinação, consolidação e verificação.</li>
+        <li><strong>O crédito aparece no fim, não no começo</strong> — o CCR é consequência da massa reciclada comprovada, não mero comprovante de pagamento.</li>
+      </ol>
+      <div class="callout info" style="margin-top:12px">
+        <span class="callout-icon">ℹ</span> Em termos práticos: a empresa <strong>financia a obrigação</strong>; a cadeia operacional <strong>recebe pela execução e pela prova</strong>; o CCR é o elo que transforma esse fluxo econômico em <strong>comprovação regulatória</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">💹 Preços médios de mercado (por tonelada)</div>
+    <div class="card-body">
+      <div class="grid-auto" style="gap:8px">
+        <div class="stat-block"><div class="stat-val" style="font-size:24px">R$80–350</div><div class="stat-lbl">Plástico / tonelada</div></div>
+        <div class="stat-block"><div class="stat-val" style="font-size:24px">R$8–100</div><div class="stat-lbl">Papel/Papelão / ton</div></div>
+        <div class="stat-block"><div class="stat-val" style="font-size:24px">R$60–150</div><div class="stat-lbl">Metal / tonelada</div></div>
+        <div class="stat-block"><div class="stat-val" style="font-size:24px">R$50–150</div><div class="stat-lbl">Vidro / tonelada</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10. COMPROVAÇÃO ===== -->
+<section class="section" id="s-comprovacao">
+  <p class="section-tag">Seção 10</p>
+  <h2 class="section-title">Como Funciona a Comprovação</h2>
+  <p class="section-lead">Aqui o foco não é a ordem da operação, mas a lógica de validação do cumprimento: coerência entre massa, documentos, agentes, crédito e reporte anual.</p>
+  <hr class="divider">
+
+  <div class="card leigo">
+    <div class="card-title">📄 O que precisa existir para comprovar</div>
+    <div class="card-body">
+      <p>Para provar que cumpriu a LR, a empresa precisa de documentos que mostrem: quanto colocou no mercado, quanto foi recuperado/reciclado, e quem fez o quê no processo.</p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">🧭 Fluxo Operacional</div>
+      <div class="card-body">Mostra a <strong>sequência das ações</strong>: quem entra no processo, em que momento e como a responsabilidade caminha até o fechamento.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔍 Comprovação</div>
+      <div class="card-body">Mostra a <strong>lógica de validação</strong>: quais evidências precisam fechar entre massa, meta, operação, crédito e reporte.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📂 Documentos por Etapa</div>
+      <div class="card-body">Mostra o <strong>checklist documental mínimo</strong> por fase. É a visão de arquivo e evidência, não a ordem da operação.</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Documento</th>
+          <th>Quem emite</th>
+          <th>Para que serve</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>NF de saída de produto</strong></td>
+          <td>A própria empresa</td>
+          <td>Base de cálculo da massa colocada no mercado</td>
+        </tr>
+        <tr>
+          <td><strong>CCR — Certificado de Crédito de Reciclagem</strong></td>
+          <td>Entidade gestora habilitada</td>
+          <td>Comprova a massa reciclada compensada</td>
+        </tr>
+        <tr>
+          <td><strong>MTR / NF de transporte e destinação</strong></td>
+          <td>Transportador + operador / destinador</td>
+          <td>Conecta origem, destino e massa transportada dentro da cadeia reversa</td>
+        </tr>
+        <tr>
+          <td><strong>CDF / Certificado do destinador final</strong></td>
+          <td>Reciclador ou destinador licenciado</td>
+          <td>Comprova que a massa chegou ao destino ambientalmente adequado</td>
+        </tr>
+        <tr>
+          <td><strong>Relatório de desempenho anual</strong></td>
+          <td>Empresa + entidade gestora</td>
+          <td>Demonstra meta x resultado para o SINIR e SEMAD</td>
+        </tr>
+        <tr>
+          <td><strong>Relatório do verificador independente</strong></td>
+          <td>Verificador habilitado</td>
+          <td>Valida a integridade do crédito, da massa e da trilha documental</td>
+        </tr>
+        <tr>
+          <td><strong>Comprovante de adesão ao sistema coletivo</strong></td>
+          <td>Entidade gestora</td>
+          <td>Prova que a empresa está inscrita no sistema</td>
+        </tr>
+        <tr>
+          <td><strong>Registro no SINIR</strong></td>
+          <td>A própria empresa (via sistema)</td>
+          <td>Declaração anual obrigatória ao sistema nacional</td>
+        </tr>
+        <tr>
+          <td><strong>Plano de LR (PLR)</strong></td>
+          <td>Empresa + consultoria</td>
+          <td>Define metas, modelo e cronograma de cumprimento para o Recicla Goiás</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight">
+    <strong>Ponto de ouro do sistema:</strong><br>
+    Cadastro, plataforma e relatório não criam conformidade sozinhos. O que valida o resultado é a coerência entre massa declarada, operação material, NF/MTR/CDF, CCR e verificação independente.
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">🔍 O que a SEMAD e o SINIR verificam</div>
+    <div class="card-body">
+      <p>A fiscalização analisa a <strong>coerência entre quatro conjuntos de dados</strong>:</p>
+      <ol>
+        <li><strong>Massa colocada no mercado</strong> — extraída das NFs de saída, com metodologia defensável e inventário documentado</li>
+        <li><strong>Meta de reciclagem aplicável</strong> — percentual definido por resolução ou acordo setorial para aquele tipo de embalagem/produto</li>
+        <li><strong>Fluxo físico ou compensação documental válida</strong> — contratos, MTR, CDF, NF, relatórios do sistema e vínculo entre os agentes envolvidos</li>
+        <li><strong>Massa comprovada como recuperada</strong> — CCRs, relatórios e certificados que provam que a meta foi atingida</li>
+      </ol>
+      <div class="callout alert" style="margin-top:12px">
+        <span class="callout-icon">🚨</span> <strong>Regra crítica:</strong> sem inventário quantitativo confiável da massa colocada no mercado e da massa recuperada/comprovada, não existe comprovação válida de logística reversa.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11. MASSA E METAS ===== -->
+<section class="section" id="s-massa">
+  <p class="section-tag">Seção 11</p>
+  <h2 class="section-title">Cálculo de Massa e Metas</h2>
+  <p class="section-lead">A massa é o centro de todo o sistema. Sem ela calculada corretamente, não há meta, não há crédito e não há comprovação.</p>
+  <hr class="divider">
+
+  <div class="card">
+    <div class="card-title">⚖ O que é a "massa colocada no mercado"</div>
+    <div class="card-body">
+      <p>É o peso total (em kg ou toneladas) das embalagens introduzidas no mercado pela empresa em um determinado período — normalmente o ano-calendário (1º de janeiro a 31 de dezembro).</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>Fórmula básica:</strong><br>
+    Taxa de Recuperação (%) = (Massa Recuperada ÷ Massa Colocada no Mercado) × 100
+  </div>
+
+  <div class="card tecnico">
+    <div class="card-title">📐 Metodologia de levantamento da massa</div>
+    <div class="card-body">
+      <h4>Método direto</h4>
+      <p>Por nota fiscal de venda ou saída + ficha técnica do produto para converter unidades em kg/ton. É o método mais robusto e defensável perante fiscalização.</p>
+      <h4>Coeficiente setorial documentado</h4>
+      <p>Quando não há ficha técnica individual, usa-se coeficiente setorial (kg médio por unidade vendida), desde que documentado e coerente com o produto.</p>
+      <h4>ERP/inventário interno</h4>
+      <p>Dados de saída de estoque podem complementar o levantamento, desde que reconciliados com as NFs emitidas.</p>
+      <h4>Segregação por material</h4>
+      <p>Quando exigido pelo sistema setorial, a massa deve ser segregada por tipo de material: plástico, papel/papelão, vidro, metal, multicamadas, etc.</p>
+      <div class="callout warn" style="margin-top:14px">
+        <span class="callout-icon">⚠</span> A massa define: se há obrigação, qual modelo usar, o custo do sistema, o volume de documentação, e o risco regulatório. Erro no cálculo compromete todo o processo.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 Como funcionam as metas</div>
+    <div class="card-body">
+      <p>As metas de reciclagem são percentuais mínimos da massa colocada no mercado que devem ser recuperados. Elas são estabelecidas por resoluções do CONAMA, acordos setoriais e decretos específicos por cadeia.</p>
+      <p>As metas são progressivas — aumentam ao longo dos anos conforme o sistema amadurece. A empresa precisa monitorar se a meta aplicável ao seu produto foi atualizada desde o último ciclo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 12. FLUXO OPERACIONAL ===== -->
+<section class="section" id="s-fluxo">
+  <p class="section-tag">Seção 12</p>
+  <h2 class="section-title">Fluxo Operacional Completo</h2>
+  <p class="section-lead">Aqui o foco é a sequência operacional: quem faz o quê, quando entra no processo e como a responsabilidade avança do enquadramento até a validação final.</p>
+  <hr class="divider">
+
+  <div class="callout info">
+    <span class="callout-icon">ℹ</span> Do ponto de vista operacional, o fluxo não começa no cadastro: começa no <strong>enquadramento real da operação</strong>. O compliance nasce da consistência entre diagnóstico, operação e prova.
+  </div>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-name">Enquadramento da operação</div>
+        <div class="step-desc">Análise dos 6 critérios: posição na cadeia, produto, volume, território, regulamento aplicável e tipo de obrigação. Define se a empresa está obrigada e em que grau.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-name">Inventário de massa</div>
+        <div class="step-desc">Levantamento da massa colocada no mercado com metodologia defensável (NF de saída + ficha técnica). Segregação por material se exigida. Base para todas as etapas seguintes.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-name">Escolha do modelo operacional</div>
+        <div class="step-desc">Individual, coletivo ou híbrido — com base em volume, custo, estrutura interna e rastreabilidade. Seleção da entidade gestora habilitada pelo MMA, se houver arranjo coletivo.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-name">Cadastro no Recicla Goiás</div>
+        <div class="step-desc">Registro da empresa com CNPJ, atividade econômica e dados de comercialização na plataforma estadual da SIC/GO.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-name">Elaboração do Plano de LR (PLR)</div>
+        <div class="step-desc">Plano de Logística Reversa com metas, cronograma, forma de cumprimento, entidade gestora e metodologia de cálculo. Entregue à SEMAD-GO.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">6</div>
+      <div>
+        <div class="step-name">Execução operacional</div>
+        <div class="step-desc">Operação efetiva do sistema: coleta por cooperativas ou operadores regulares, armazenamento temporário com segregação e identificação, triagem, pesagem e destinação adequada (reciclagem ou incineração quando autorizada).</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">7</div>
+      <div>
+        <div class="step-name">Rastreabilidade documental</div>
+        <div class="step-desc">Emissão de documentos em cada etapa: NF de destinação, MTR (Manifesto de Transporte de Resíduos), CDF (Certificado de Destinação Final) e vínculos entre origem, transporte e recebimento. Transporte aqui é fase de prova, não só deslocamento físico.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">8</div>
+      <div>
+        <div class="step-name">Consolidação do relatório e obtenção dos CCRs</div>
+        <div class="step-desc">Com base nos documentos produzidos, a entidade gestora emite os CCRs. A empresa reconcilia massa declarada, meta, operação física e compensação, evitando dupla contagem antes de consolidar o relatório anual.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">9</div>
+      <div>
+        <div class="step-name">Validação e reporte</div>
+        <div class="step-desc">Verificador independente audita os créditos. Dados são lançados no SINIR. Relatório e CCRs são enviados à SEMAD-GO. Conformidade comprovada e registrada.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:20px">
+    <table>
+      <thead>
+        <tr>
+          <th>Agente</th>
+          <th>Faz o Quê</th>
+          <th>Quando Atua</th>
+          <th>Documento-Chave</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Empresa</strong></td>
+          <td>Define enquadramento, calcula massa, escolhe modelo, contrata a cadeia e presta contas ao sistema</td>
+          <td>Desde o diagnóstico inicial até o fechamento anual</td>
+          <td>NF de saída, inventário de massa, PLR, contrato, relatório anual, lançamento no SINIR</td>
+        </tr>
+        <tr>
+          <td><strong>Entidade Gestora</strong></td>
+          <td>Estrutura o sistema coletivo, consolida resultados, organiza a compensação e emite CCR quando o lastro é validado</td>
+          <td>Após adesão da empresa e durante toda a execução/fechamento do ciclo</td>
+          <td>Contrato de adesão, relatório consolidado, CCR, comprovante de vínculo ao sistema</td>
+        </tr>
+        <tr>
+          <td><strong>Operador</strong></td>
+          <td>Coleta, movimenta, armazena temporariamente, consolida e entrega o material ao elo seguinte da cadeia</td>
+          <td>Na execução operacional física</td>
+          <td>MTR, NF de movimentação/destinação, romaneio, comprovante de pesagem, relatório operacional</td>
+        </tr>
+        <tr>
+          <td><strong>Destinador</strong></td>
+          <td>Recebe, processa e recicla ou destina o material em instalação regular</td>
+          <td>Após recebimento do material vindo da coleta/transporte</td>
+          <td>Licença ambiental, NF de recebimento, CDF, certificado de reciclagem/destinação</td>
+        </tr>
+        <tr>
+          <td><strong>Verificador Independente</strong></td>
+          <td>Audita a integridade do resultado declarado e testa coerência entre massa, documento e crédito</td>
+          <td>No fechamento do ciclo, antes da validação final</td>
+          <td>Relatório de verificação, parecer técnico, validação do crédito</td>
+        </tr>
+        <tr>
+          <td><strong>SEMAD</strong></td>
+          <td>Recebe cadastro, PLR e relatórios; fiscaliza, cruza dados e pode exigir correções ou autuar</td>
+          <td>No cadastro, na prestação de contas e sempre que houver fiscalização</td>
+          <td>Protocolo de cadastro, protocolo do PLR, envio de relatório, notificações e respostas</td>
+        </tr>
+        <tr>
+          <td><strong>Consultoria</strong></td>
+          <td>Diagnostica, modela, coordena os agentes, revisa a coerência técnica e organiza o fechamento documental</td>
+          <td>Antes do cadastro e ao longo de todo o ciclo, conforme escopo contratado</td>
+          <td>Relatório de enquadramento, memorial de cálculo, matriz de responsabilidades, checklist documental, revisão final</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 13. PAPEL DA CONSULTORIA ===== -->
+<section class="section" id="s-consultoria">
+  <p class="section-tag">Seção 13</p>
+  <h2 class="section-title">Papel da Consultoria</h2>
+  <p class="section-lead">A consultoria não recicla nem gera créditos. Ela estrutura a conformidade regulatória completa — do enquadramento à gestão anual — para que a empresa opere sem risco.</p>
+  <hr class="divider">
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Módulo</th>
+          <th>Serviço</th>
+          <th>Metodologia</th>
+          <th>Entregável</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>01 — Diagnóstico</strong></td>
+          <td>Diagnóstico Regulatório</td>
+          <td>Análise de CNAE + atividade real + embalagens comercializadas</td>
+          <td><span class="td-badge">Relatório de Enquadramento</span></td>
+        </tr>
+        <tr>
+          <td><strong>02 — Cálculo</strong></td>
+          <td>Inventário de Massa</td>
+          <td>Método direto (NF + ficha técnica) ou coeficiente setorial documentado</td>
+          <td><span class="td-badge">Memorial de Cálculo</span></td>
+        </tr>
+        <tr>
+          <td><strong>03 — Regularização</strong></td>
+          <td>Cadastro + PLR</td>
+          <td>Registro no Recicla Goiás + seleção de entidade gestora + elaboração do PLR</td>
+          <td><span class="td-badge">Empresa regularizada</span></td>
+        </tr>
+        <tr>
+          <td><strong>04 — Gestão Anual</strong></td>
+          <td>Conformidade Contínua</td>
+          <td>Certificados + relatórios + lançamento no SINIR + acompanhamento regulatório</td>
+          <td><span class="td-badge">Conformidade comprovada</span></td>
+        </tr>
+        <tr>
+          <td><strong>05 — Integração</strong></td>
+          <td>LR + PGRS + Licenciamento</td>
+          <td>Gestão ambiental corporativa integrada em um único processo</td>
+          <td><span class="td-badge">Compliance ambiental global</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🎯 Onde a consultoria agrega mais valor</div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Enquadramento correto:</strong> separa atividade formal de operação real, evita que o cliente siga um fluxo inteiro sobre premissa errada</li>
+          <li><strong>Cálculo defensável:</strong> estrutura a massa com metodologia que sustenta fiscalização</li>
+          <li><strong>Coordenação entre agentes:</strong> conecta cliente, entidade gestora, operador e verificador</li>
+          <li><strong>Blindagem documental:</strong> organiza narrativa técnica e prepara o fechamento para leitura da SEMAD</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">⏱ Prazo de regularização</div>
+      <div class="card-body">
+        <p>Com diagnóstico correto, o processo de regularização completa leva <strong>entre 2 e 6 semanas</strong>, dependendo do porte da empresa e da entidade gestora escolhida.</p>
+        <p>A regularização prévia é sempre mais barata do que a autuação e o processo de defesa administrativa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 14. DOCUMENTOS ===== -->
+<section class="section" id="s-docs">
+  <p class="section-tag">Seção 14</p>
+  <h2 class="section-title">Documentos por Etapa</h2>
+  <p class="section-lead">Aqui o foco é o checklist documental mínimo por fase. A lógica da operação está no fluxo; o teste de validade do resultado está na comprovação.</p>
+  <hr class="divider">
+
+  <div class="card">
+    <div class="card-title">📋 Fase 1 — Enquadramento</div>
+    <div class="card-body">
+      <ul>
+        <li>Contrato social atualizado</li>
+        <li>CNAE registrado e CNAE de atividade real (se diferentes)</li>
+        <li>Notas fiscais representativas de entradas e saídas de produto</li>
+        <li>Declaração de não enquadramento (se for o caso), com fundamentação técnica</li>
+        <li>Contratos com contratantes (para prestadores de serviço que buscam comprovar ausência de obrigação)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📐 Fase 2 — Cálculo e Modelagem</div>
+    <div class="card-body">
+      <ul>
+        <li>Memorial de cálculo de massa (metodologia documentada)</li>
+        <li>NFs de saída de produto com segregação por material (quando aplicável)</li>
+        <li>Fichas técnicas das embalagens (peso unitário, material)</li>
+        <li>Comparativo de modelos (individual × coletivo) com justificativa da escolha</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📝 Fase 3 — Regularização e Cadastro</div>
+    <div class="card-body">
+      <ul>
+        <li>Comprovante de cadastro no Sistema Recicla Goiás (SIC/GO)</li>
+        <li>Plano de Logística Reversa (PLR) protocolado na SEMAD-GO</li>
+        <li>Contrato com entidade gestora habilitada pelo MMA (modelo coletivo)</li>
+        <li>Licença ambiental do destinador final (para modelo individual)</li>
+        <li>Contrato com transportador credenciado (modelo individual)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Instrumentos formais indispensáveis</div>
+    <div class="card-body">
+      <ul>
+        <li>Contrato com entidade gestora, definindo cadeia abrangida, responsabilidade, forma de reporte e tratamento de inconsistências</li>
+        <li>Contrato com operador logístico ou transportador, com responsabilidade por coleta, rastreabilidade e documentação da movimentação</li>
+        <li>Vínculo formal com reciclador ou destinador final licenciado, prevendo emissão de certificado e aceite do material</li>
+        <li>Escopo de verificação independente e critérios de validação de massa, quando o modelo exigir auditoria externa</li>
+      </ul>
+      <p>Sem instrumento formal alinhado ao fluxo real, o sistema pode até operar fisicamente, mas fica juridicamente frágil e pouco defensável em auditoria.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙ Fase 4 — Execução Operacional</div>
+    <div class="card-body">
+      <ul>
+        <li><strong>MTR — Manifesto de Transporte de Resíduos</strong> (emitido em cada movimentação)</li>
+        <li>Notas fiscais de destinação para reciclador/incinerador</li>
+        <li><strong>CDF — Certificado de Destinação Final</strong> (emitido pelo destinador)</li>
+        <li>Comprovantes de pesagem e triagem</li>
+        <li>Relatório do operador logístico</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Fase 5 — Prestação de Contas</div>
+    <div class="card-body">
+      <ul>
+        <li><strong>CCRs — Certificados de Crédito de Reciclagem</strong> emitidos pela entidade gestora</li>
+        <li>Relatório anual de desempenho (massa declarada × meta × resultado)</li>
+        <li>Comprovante de lançamento no <strong>SINIR</strong> (prazo: até 31/março do ano seguinte)</li>
+        <li>Relatório de envio à SEMAD-GO com protocolo de recebimento</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="callout-icon">⚠</span> Todos os documentos devem ser arquivados por <strong>mínimo de 5 anos</strong>. Em caso de fiscalização, o ônus da prova é da empresa.
+  </div>
+</section>
+
+<!-- ===== 15. RISCOS ===== -->
+<section class="section" id="s-riscos">
+  <p class="section-tag">Seção 15</p>
+  <h2 class="section-title">Riscos, Falhas Comuns e Pontos de Atenção</h2>
+  <p class="section-lead">Os erros mais frequentes que levam empresas à não conformidade — e como evitá-los.</p>
+  <hr class="divider">
+
+  <div class="risk-grid">
+    <div class="risk-card high">
+      <div class="risk-card-icon">⚠</div>
+      <div class="risk-card-title">Multas Ambientais</div>
+      <div class="risk-card-desc">Sem teto legal definido — calculadas proporcionalmente ao porte e à extensão do descumprimento. Para empresas médias, autuações de 5 a 6 dígitos são frequentes.</div>
+    </div>
+    <div class="risk-card high">
+      <div class="risk-card-icon">🚫</div>
+      <div class="risk-card-title">Bloqueio de Licenciamento</div>
+      <div class="risk-card-desc">Inadimplência na LR pode impedir obtenção ou renovação de licenças ambientais — bloqueando toda a operação da empresa.</div>
+    </div>
+    <div class="risk-card high">
+      <div class="risk-card-icon">⚖</div>
+      <div class="risk-card-title">Responsabilização Administrativa</div>
+      <div class="risk-card-desc">Processo na SEMAD-GO, IBAMA ou MP pode afetar diretores e sócios por omissão pessoal — responsabilidade individual.</div>
+    </div>
+    <div class="risk-card med">
+      <div class="risk-card-icon">🔎</div>
+      <div class="risk-card-title">Fiscalização Crescente</div>
+      <div class="risk-card-desc">Cruzamento automático de dados econômicos (CNAE, faturamento) com o cadastro de obrigados. Empresas em setores obrigados são identificadas automaticamente.</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:17px;color:var(--forest);margin:28px 0 16px;font-weight:700">Falhas Operacionais Mais Comuns</h3>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>❌ Usar apenas CNAE para definir enquadramento</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Risco:</strong> Enquadramento incorreto — empresa pode acreditar que não está obrigada quando está, ou escolher modelo inadequado.<br><br>
+      <strong>Correto:</strong> Analisar os 6 critérios combinados (posição na cadeia, produto, volume, território, regulamento, tipo de obrigação).
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>❌ Guardar apenas NF de compra sem documentar o retorno</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Risco:</strong> Impossibilidade de comprovar o cumprimento. A NF de compra mostra que a empresa vendeu produto — mas não que o resíduo foi destinado corretamente.<br><br>
+      <strong>Correto:</strong> A comprovação exige MTR + CDF + CCR, toda a cadeia reversa documentada.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>❌ Aderir ao sistema coletivo sem registrar no SINIR</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Risco:</strong> A adesão à entidade gestora não substitui o registro anual no SINIR. Empresa fica em não conformidade formal mesmo tendo os créditos.<br><br>
+      <strong>Correto:</strong> Cadastrar e declarar no SINIR anualmente, mesmo com sistema coletivo ativo.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>❌ Não atualizar o PLR após mudança de portfólio</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Risco:</strong> O PLR entregue não reflete a realidade atual da empresa — novo produto, novo material, nova meta. A SEMAD-GO pode considerar o plano inválido.<br><br>
+      <strong>Correto:</strong> Atualizar o PLR sempre que houver mudança relevante nos produtos comercializados.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>❌ Confundir cadeia obrigada com cadeia regulada</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Risco:</strong> A empresa acredita que é apenas "regulada" (deve devolver) quando é "obrigada" (deve estruturar e financiar o sistema). Isso resulta em não conformidade total.<br><br>
+      <strong>Correto:</strong> Identificar claramente a posição na cadeia antes de qualquer outra decisão.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>❌ Não segregar a massa por material quando exigido</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Risco:</strong> O relatório fica incoerente com os CCRs recebidos (que são emitidos por tipo de material). Fiscalização pode questionar ou invalidar o cumprimento.<br><br>
+      <strong>Correto:</strong> Verificar se o sistema setorial exige segregação por material (plástico, papel, vidro, metal, multicamadas) e aplicar desde o inventário.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>❌ Misturar pós-consumo com pré-consumo ou resíduo industrial</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Risco:</strong> A empresa usa sobra de produção, devolução comercial ou resíduo interno como se fosse prova de LR pós-consumo. Isso fragiliza o enquadramento e pode invalidar a comprovação.<br><br>
+      <strong>Correto:</strong> Separar claramente LR pós-consumo, fluxo de pós-venda e gestão interna via PGRS. Cada um tem lógica regulatória e documental própria.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>❌ Comprar CCR sem lastro claro ou aceitar dupla contagem</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Risco:</strong> Crédito glosado por falta de origem verificável, inconsistência entre NF e relatório, ou uso da mesma massa em mais de uma compensação.<br><br>
+      <strong>Correto:</strong> Exigir trilha documental íntegra, verificação independente e reconciliação da massa por material, período e empresa compensada.
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="s-faq">
+  <p class="section-tag">Referência</p>
+  <h2 class="section-title">Perguntas Frequentes</h2>
+  <p class="section-lead">As dúvidas mais comuns — respondidas de forma direta e objetiva.</p>
+  <hr class="divider">
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>Minha empresa é pequena. Ainda tenho obrigação de LR?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Sim. A obrigação não tem limite de porte. O critério é a <strong>atividade</strong> e o tipo de embalagem colocada no mercado — não o faturamento ou número de funcionários. Micro e pequenas empresas do comércio varejista estão incluídas.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>Já tenho licença ambiental. Isso me isenta da LR?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Não. Licença ambiental e conformidade com a Logística Reversa são obrigações <strong>independentes</strong>. A inadimplência na LR pode, inclusive, bloquear a renovação da sua licença ambiental.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>Quanto pode custar uma autuação por não cumprir a LR?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Não existe teto legal. Os valores são calculados proporcionalmente ao porte da empresa e à extensão do descumprimento. Para empresas de médio porte, autuações de cinco a seis dígitos são comuns. <strong>A regularização prévia é sempre mais barata.</strong>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>O que é o inpEV e o sistema Campo Limpo?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      O <strong>inpEV</strong> (Instituto Nacional de Processamento de Embalagens Vazias) é a entidade responsável pelo sistema <strong>Campo Limpo</strong> — o sistema de LR de embalagens de agroquímicos (defensivos agrícolas). Revendas e distribuidoras de agroquímicos em Goiás devem estar integradas a este sistema.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>Posso terceirizar toda a operação de LR?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Pode terceirizar a <em>execução</em>, mas a <strong>responsabilidade legal permanece com a empresa obrigada</strong>. Se o operador terceirizado falhar na destinação ou na documentação, é a empresa que responde perante o órgão ambiental.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>Com que frequência devo reportar ao SINIR?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      <strong>Anualmente</strong>, com dados do ano anterior. O prazo usual é até 31 de março do ano seguinte. Verificar sempre o calendário do SINIR e as orientações do MMA para o ciclo vigente, pois prazos podem ser ajustados por portaria.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>A LR pode ser uma oportunidade ESG para minha empresa?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Sim. Conformidade documentada em logística reversa fortalece critérios ESG, melhora acesso a linhas de crédito verdes, facilita processos de due diligence e amplia a competitividade em cadeias de fornecimento que exigem compliance ambiental.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>O que acontece se a entidade gestora que escolhi perder a habilitação?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Os créditos emitidos antes da perda de habilitação permanecem válidos, mas novos créditos precisam ser obtidos via entidade habilitada vigente. É recomendável monitorar periodicamente a lista oficial de entidades habilitadas publicada pelo MMA.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span>Empresa com CNPJ em Goiás que só opera em outro estado precisa do Recicla Goiás?</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      A obrigação nasce onde o produto é <strong>colocado no mercado</strong>, não onde está o CNPJ. Se a empresa não comercializa produtos em Goiás, pode não precisar do Recicla Goiás — mas isso precisa ser comprovado documentalmente. Verificar também as exigências do estado onde a operação ocorre.
+    </div>
+  </div>
+</section>
+
+<!-- ===== GLOSSÁRIO ===== -->
+<section class="section" id="s-glossario">
+  <p class="section-tag">Referência</p>
+  <h2 class="section-title">Glossário de Termos Críticos</h2>
+  <p class="section-lead">Definições precisas dos termos mais usados no contexto de logística reversa e do Sistema Recicla Goiás.</p>
+  <hr class="divider">
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>CCR</strong> — Certificado de Crédito de Reciclagem</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Instrumento de comprovação criado pelo Decreto 11.413/2023. Cada CCR equivale a 1 kg de material reciclado comprovado documentalmente. É rastreável por nota fiscal e auditado por verificador independente. As empresas obrigadas acumulam CCRs para comprovar o cumprimento das metas de reciclagem.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>PLR</strong> — Plano de Logística Reversa</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Documento elaborado pela empresa obrigada para o Sistema Recicla Goiás. Contém: metas de recuperação, cronograma de cumprimento, modelo operacional escolhido, entidade gestora contratada e metodologia de cálculo da massa. Deve ser protocolado na SEMAD-GO e atualizado quando houver mudanças relevantes.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>PNRS</strong> — Política Nacional de Resíduos Sólidos</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Lei Federal nº 12.305/2010. Define os princípios, objetivos, instrumentos e diretrizes para gestão de resíduos sólidos no Brasil. Institui a logística reversa como obrigação legal no art. 33 e a responsabilidade compartilhada pelo ciclo de vida dos produtos no art. 30.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>SINIR</strong> — Sistema Nacional de Informações sobre Resíduos Sólidos</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Plataforma federal onde as empresas obrigadas declaram anualmente os dados de massa colocada no mercado e massa recuperada/reciclada. O prazo usual de declaração é até 31 de março do ano seguinte ao período de referência. A ausência de declaração configura infração administrativa.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>MTR</strong> — Manifesto de Transporte de Resíduos</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Documento obrigatório emitido a cada movimentação de resíduos. Rastreia o percurso do resíduo do gerador ao destinador final. É peça essencial da cadeia probatória da logística reversa — sem MTR, a destinação não está documentada.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>CDF</strong> — Certificado de Destinação Final</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Emitido pelo destinador final (recicladora ou incinerador licenciado) ao concluir o processo. Comprova que o resíduo teve destinação ambientalmente adequada. Junto com o MTR, forma o núcleo da comprovação da destinação.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>Entidade Gestora</strong></span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Organização habilitada pelo MMA para organizar o sistema de compensação de créditos no modelo coletivo. Conecta empresas obrigadas com cooperativas e recicladoras, verifica a massa reciclada e emite os CCRs. A lista de entidades habilitadas é publicada e atualizada pelo MMA.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>Verificador Independente</strong></span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Agente habilitado para auditar a integridade dos resultados declarados no sistema. Confere coerência entre massa, documentos, crédito emitido e relatório final. Sua validação reduz risco de glosa, mas não transfere a responsabilidade legal da empresa obrigada.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>Lastro</strong></span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Conjunto de evidências materiais e documentais que sustenta um resultado declarado. No contexto do CCR, lastro significa conseguir provar origem da massa, cadeia operacional, reciclagem efetiva, verificação e ausência de duplicidade.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>SEMAD-GO</strong> — Secretaria de Meio Ambiente e Desenvolvimento Sustentável</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Órgão estadual responsável pelo licenciamento ambiental, fiscalização e gestão do Sistema Recicla Goiás. Recebe os cadastros, planos e relatórios das empresas obrigadas em Goiás. Principal interlocutor estatal para conformidade ambiental no estado.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>inpEV / Campo Limpo</strong></span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      O inpEV (Instituto Nacional de Processamento de Embalagens Vazias) é a entidade gestora do sistema Campo Limpo — sistema de LR de embalagens de agroquímicos (defensivos agrícolas). Fabricantes, distribuidores e revendas de agroquímicos que operam em Goiás devem estar integrados ao Campo Limpo, que articula com o Recicla Goiás.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>PGRS</strong> — Plano de Gerenciamento de Resíduos Sólidos</span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Documento obrigatório para determinadas categorias de geradores, definindo como os resíduos sólidos gerados na atividade são classificados, segregados, acondicionados, transportados e destinados. O PGRS é complementar ao sistema de LR, mas não o substitui — são obrigações distintas.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+      <span><strong>Acordo Setorial</strong></span>
+      <span class="faq-toggle">+</span>
+    </div>
+    <div class="faq-answer">
+      Instrumento de natureza contratual firmado entre o poder público e fabricantes, importadores, distribuidores ou comerciantes para implementação da responsabilidade compartilhada pelo ciclo de vida dos produtos. Pode criar regras adicionais além das previstas em lei para determinado setor.
+    </div>
+  </div>
+</section>
+
+<!-- ===== SÍNTESE PRÁTICA ===== -->
+<section class="section" id="s-sintese">
+  <p class="section-tag">Encerramento</p>
+  <h2 class="section-title">Síntese Prática — Checklist de Conformidade</h2>
+  <p class="section-lead">O roteiro definitivo para garantir que sua empresa esteja em dia com o Sistema Recicla Goiás e com a LR federal.</p>
+  <hr class="divider">
+
+  <div class="card card-green">
+    <div class="card-title">✅ Checklist do processo completo</div>
+    <div class="card-body">
+      <ul class="checklist">
+        <li><span class="check-icon">1</span><div><strong>Verificar enquadramento</strong> — CNAE + atividade real + produtos comercializados + território de operação</div></li>
+        <li><span class="check-icon">2</span><div><strong>Calcular a massa colocada no mercado</strong> — NF de saída + ficha técnica, com metodologia documentada e defensável</div></li>
+        <li><span class="check-icon">3</span><div><strong>Definir o modelo operacional</strong> — individual ou coletivo, com modelagem financeira e de risco</div></li>
+        <li><span class="check-icon">4</span><div><strong>Selecionar entidade gestora habilitada</strong> pelo MMA (modelo coletivo) e contratar</div></li>
+        <li><span class="check-icon">5</span><div><strong>Cadastrar no Sistema Recicla Goiás</strong> (SIC/GO) com CNPJ, atividade e dados de comercialização</div></li>
+        <li><span class="check-icon">6</span><div><strong>Elaborar e protocolar o PLR</strong> com metas, cronograma e forma de cumprimento na SEMAD-GO</div></li>
+        <li><span class="check-icon">7</span><div><strong>Estruturar o fluxo documental</strong>: MTR → NF destinação → CDF → CCR</div></li>
+        <li><span class="check-icon">8</span><div><strong>Registrar no SINIR anualmente</strong>, com dados completos do ano anterior (prazo usual: 31 de março)</div></li>
+        <li><span class="check-icon">9</span><div><strong>Manter arquivo físico/digital</strong> de toda a documentação por no mínimo 5 anos</div></li>
+        <li><span class="check-icon">10</span><div><strong>Atualizar o PLR e o inventário</strong> sempre que houver mudança relevante no portfólio de produtos</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top:20px">
+    <div class="card">
+      <div class="card-title">🛡 Conformidade como governança</div>
+      <div class="card-body" style="font-size:13.5px">Empresas que se antecipam à regulação eliminam passivo ambiental e transformam conformidade em diferencial competitivo — não apenas em obrigação.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📈 Valor ESG documentado</div>
+      <div class="card-body" style="font-size:13.5px">Conformidade comprovada em LR fortalece ESG, melhora acesso a crédito verde e facilita due diligence em processos de M&A ou certificação.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚡ Fiscalização é imediata</div>
+      <div class="card-body" style="font-size:13.5px">Cruzamento automático entre dados econômicos e cadastro de obrigados já está ativo. O risco de notificação para empresas com CNAE de setores obrigados é crescente e imediato.</div>
+    </div>
+  </div>
+
+  <div class="card card-blue" style="margin-top:20px">
+    <div class="card-title">🗓 Calendário-chave para gestão anual</div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Janeiro–Março:</strong> Consolidar dados do ano anterior, fechar inventário de massa</li>
+        <li><strong>Até 31 de março:</strong> Declaração no SINIR com dados do ano anterior</li>
+        <li><strong>1º semestre:</strong> Obter CCRs referentes ao ciclo anterior, protocolar relatório na SEMAD-GO</li>
+        <li><strong>O ano todo:</strong> Emitir MTR a cada movimentação, manter fluxo documental ativo</li>
+        <li><strong>Revisão anual:</strong> Verificar atualização de metas, portarias MMA e sistema setorial aplicável</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:48px 0 16px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:40px">
+    Hábilis Consultoria Ambiental · Goiânia, Goiás · 2026<br>
+    <span style="font-size:12px;color:#bbb">Recicla Goiás — Manual Unificado de Logística Reversa</span>
+  </div>
+
+</section>
+</div><!-- /content-area -->
+</main><!-- /main -->
+
+<!-- CONTEXTO FLUTUANTE -->
+<div id="context-hub">
+  <button id="context-launcher" type="button" onclick="toggleContextHub()" aria-label="Abrir apoio contextual" aria-expanded="false" aria-controls="context-panel">
+    <span class="context-launcher-k">Apoio contextual</span>
+    <span id="context-launcher-title">Início do manual</span>
+    <span id="context-launcher-count">0 cards relevantes</span>
+  </button>
+
+  <aside id="context-panel" aria-live="polite" aria-hidden="true">
+    <div class="context-panel-head">
+      <div>
+        <div class="context-mini">Cards do bloco atual</div>
+        <div id="context-panel-title">Início do manual</div>
+      </div>
+      <button class="context-close" type="button" onclick="toggleContextHub()" aria-label="Fechar apoio contextual">✕</button>
+    </div>
+    <div class="context-chip-list" id="context-chip-list"></div>
+    <div class="context-detail" id="context-detail"></div>
+  </aside>
+</div>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
+
+<script>
+/* ============================================================
+   PROGRESS BAR
+============================================================ */
+window.addEventListener('scroll', function() {
+  var scrolled = (document.documentElement.scrollTop + document.body.scrollTop);
+  var total    = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+
+  // Back to top visibility
+  var btn = document.getElementById('back-top');
+  if (scrolled > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+});
+
+/* ============================================================
+   MODE TOGGLE
+============================================================ */
+function setMode(mode) {
+  var body = document.body;
+  var btnL = document.getElementById('btn-leigo');
+  var btnT = document.getElementById('btn-tecnico');
+  if (mode === 'tecnico') {
+    body.classList.add('modo-tecnico');
+    btnT.classList.add('active');
+    btnL.classList.remove('active');
+  } else {
+    body.classList.remove('modo-tecnico');
+    btnL.classList.add('active');
+    btnT.classList.remove('active');
+  }
+}
+
+/* ============================================================
+   FAQ / ACCORDION
+============================================================ */
+function toggleFaq(questionEl) {
+  var item = questionEl.closest('.faq-item');
+  item.classList.toggle('open');
+}
+
+/* ============================================================
+   TRIAGEM ORIENTATIVA
+============================================================ */
+function parseNumericInput(id) {
+  var el = document.getElementById(id);
+  if (!el) return 0;
+  var value = parseFloat(String(el.value || '').replace(',', '.'));
+  return isNaN(value) ? 0 : value;
+}
+
+function getCheckedValues(selector) {
+  return Array.from(document.querySelectorAll(selector + ':checked')).map(function(el) {
+    return el.value;
+  });
+}
+
+function formatMass(kg) {
+  if (!kg || kg <= 0) return 'não estimada';
+  var roundedKg = kg.toLocaleString('pt-BR', { maximumFractionDigits: 2 });
+  if (kg >= 1000) {
+    var tons = (kg / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 2 });
+    return roundedKg + ' kg (' + tons + ' t/ano)';
+  }
+  return roundedKg + ' kg/ano';
+}
+
+function runTriage() {
+  var roles = getCheckedValues('.triage-role');
+  var docs = getCheckedValues('.triage-doc');
+  var market = document.getElementById('triage-market').value;
+  var brand = document.getElementById('triage-brand').value;
+  var resale = document.getElementById('triage-resale').value;
+  var internal = document.getElementById('triage-internal').value;
+  var flow = document.getElementById('triage-flow').value;
+  var chain = document.getElementById('triage-chain').value;
+  var physical = document.getElementById('triage-physical').value;
+  var desiredModel = document.getElementById('triage-model').value;
+
+  var units = parseNumericInput('triage-units');
+  var avgWeight = parseNumericInput('triage-weight');
+  var directMass = parseNumericInput('triage-direct-mass');
+  var formulaMass = (units > 0 && avgWeight > 0) ? (units * avgWeight / 1000) : 0;
+  var massKg = directMass > 0 ? directMass : formulaMass;
+
+  var roleOperatesInChain = roles.some(function(role) {
+    return ['fabrica', 'importa', 'distribui', 'comercializa'].indexOf(role) >= 0;
+  });
+  var serviceOnly = roles.length > 0 && roles.every(function(role) { return role === 'servico'; });
+  var placesMarket = market === 'sim' || brand === 'sim' || resale === 'sim' || roleOperatesInChain;
+
+  var status = '';
+  var tone = '';
+  var statusText = '';
+
+  if (internal === 'sim' && !placesMarket && (flow === 'operacional' || flow === 'nao_sei' || serviceOnly)) {
+    status = 'Pode não estar obrigado';
+    tone = 's-green';
+    statusText = 'O cenário informado sugere ausência de colocação de produto ou embalagem no mercado, com maior aderência à lógica de resíduo operacional/PGRS do que à LR estrutural.';
+  } else if ((placesMarket || brand === 'sim' || resale === 'sim') && roleOperatesInChain) {
+    if (chain === 'nao_sei' || flow === 'nao_sei' || massKg === 0) {
+      status = 'Precisa validar melhor';
+      tone = 's-amber';
+      statusText = 'Há sinais de enquadramento, mas ainda faltam massa, cadeia ou definição do fluxo principal para sustentar uma leitura segura.';
+    } else {
+      status = 'Pode estar obrigado';
+      tone = 's-red';
+      statusText = 'Os dados informados indicam colocação de produto/embalagem no mercado e atuação em elo típico da cadeia obrigada. A tendência é exigir validação técnica e documental para cumprimento formal.';
+    }
+  } else if (serviceOnly && !placesMarket) {
+    status = 'Pode não estar obrigado';
+    tone = 's-green';
+    statusText = 'A leitura inicial aponta mais para prestação de serviço sem obrigação estrutural de LR. Ainda assim, é importante separar essa conclusão da obrigação de gestão adequada dos resíduos gerados na operação.';
+  } else {
+    status = 'Precisa validar melhor';
+    tone = 's-amber';
+    statusText = 'Os elementos informados ainda não permitem concluir se a empresa está ou não dentro da cadeia obrigada. É preciso amarrar atividade real, cadeia, massa e prova documental.';
+  }
+
+  var chainTextMap = {
+    embalagens: 'Há indício de lógica de embalagens em geral, normalmente medida por massa colocada no mercado e prova de recuperação/compensação.',
+    agroquimicos: 'Há indício de cadeia específica de agroquímicos, com sistema setorial próprio e exigência mais rígida de integração operacional.',
+    medicamentos: 'Há indício de cadeia regulada específica de medicamentos, que exige validação do fluxo setorial aplicável.',
+    eletroeletronicos: 'Há indício de cadeia específica de eletroeletrônicos, com regras próprias de estruturação e comprovação.',
+    pilhas_baterias: 'Há indício de cadeia específica de pilhas e baterias, com exigências próprias de recolhimento e destinação.',
+    pneus: 'Há indício de cadeia específica de pneus, com lógica de metas e fluxo material bem definido.',
+    lampadas: 'Há indício de cadeia específica de lâmpadas, com sensibilidade elevada para coleta, transporte e descontaminação.',
+    oleos: 'Há indício de cadeia específica de óleos lubrificantes e embalagens correlatas, com rastreabilidade forte.',
+    outra: 'Pode existir cadeia setorial específica ou exigência complementar. O enquadramento depende de regra própria.',
+    nao_sei: 'Sem definição da cadeia/material, a leitura de enquadramento fica incompleta.'
+  };
+  var chainText = chainTextMap[chain] || chainTextMap.nao_sei;
+
+  var modelText = '';
+  if (status === 'Pode não estar obrigado') {
+    modelText = 'Não há, por ora, indício forte de modelo de LR estrutural. O foco tende a ser prova de não enquadramento e eventual gestão interna/PGRS.';
+  } else if (physical === 'nenhuma' || (desiredModel === 'coletivo' && physical !== 'propria')) {
+    modelText = 'Pela lógica operacional informada, o modelo coletivo parece o ponto de partida mais aderente: menor necessidade de estrutura própria e maior apoio de governança documental.';
+  } else if (physical === 'parcial' || desiredModel === 'hibrido') {
+    modelText = 'Há boa chance de composição híbrida: parte da cadeia pode ser operada diretamente ou por terceiros contratados, com parte da prova sustentada por sistema coletivo/compensação, sem dupla contagem.';
+  } else if (physical === 'propria' && (desiredModel === 'individual' || roles.indexOf('fabrica') >= 0 || roles.indexOf('importa') >= 0)) {
+    modelText = 'Individual ou híbrido parecem mais aderentes à estrutura informada, desde que a empresa consiga executar e provar toda a cadeia com lastro documental robusto.';
+  } else {
+    modelText = 'A definição do modelo ainda depende de validar massa, cadeia aplicável, capacidade operacional e documentação disponível.';
+  }
+
+  var massText = '';
+  if (directMass > 0) {
+    massText = 'Massa anual informada diretamente: ' + formatMass(massKg) + '.';
+  } else if (formulaMass > 0) {
+    massText = 'Massa estimada pela fórmula operacional: ' + units.toLocaleString('pt-BR') + ' unidades × ' + avgWeight.toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' g = ' + formatMass(formulaMass) + '.';
+  } else {
+    massText = 'Sem massa estimada nesta triagem. Isso enfraquece leitura de custo, modelo e prova futura.';
+  }
+
+  var confidence = 'indefinida';
+  if (directMass > 0 && (docs.indexOf('inventario') >= 0 || docs.indexOf('nf') >= 0)) confidence = 'boa';
+  else if (formulaMass > 0 && (docs.indexOf('ficha') >= 0 || docs.indexOf('nf') >= 0)) confidence = 'média';
+  else if (formulaMass > 0 || directMass > 0) confidence = 'baixa';
+
+  var nextSteps = [];
+  if (status === 'Pode estar obrigado') {
+    nextSteps.push('Confirmar atividade real, cadeia aplicável e território de comercialização.');
+    nextSteps.push('Fechar memorial de massa com NF de saída e ficha técnica ou inventário equivalente.');
+    nextSteps.push('Validar se a rota operacional mais aderente é coletivo, individual ou híbrido.');
+    nextSteps.push('Avançar para contratos, PLR, SINIR e checklist documental da cadeia escolhida.');
+  } else if (status === 'Pode não estar obrigado') {
+    nextSteps.push('Formalizar a tese de não enquadramento com base na operação real e na ausência de colocação no mercado.');
+    nextSteps.push('Separar claramente LR estrutural de obrigações de PGRS/resíduo operacional.');
+    nextSteps.push('Guardar documentos de suporte para eventual fiscalização ou questionamento comercial/regulatório.');
+  } else {
+    nextSteps.push('Definir melhor a cadeia/material e o tipo de fluxo predominante.');
+    nextSteps.push('Levantar massa anual com método simples, mesmo que preliminar.');
+    nextSteps.push('Reunir documentos mínimos para sair da fase de hipótese e entrar em validação técnica.');
+    nextSteps.push('Só depois disso decidir modelo, custo e estratégia de regularização.');
+  }
+
+  var missingDocs = [];
+  if (docs.indexOf('nf') < 0) missingDocs.push('NF de saída/venda para provar colocação no mercado');
+  if (docs.indexOf('ficha') < 0) missingDocs.push('ficha técnica ou peso médio da embalagem');
+  if (docs.indexOf('inventario') < 0) missingDocs.push('inventário/planilha de massa ou memória de premissas');
+  if (status === 'Pode estar obrigado' && docs.indexOf('contrato') < 0) missingDocs.push('contrato/adesão com sistema, operador ou entidade gestora');
+  if (docs.indexOf('relatorio') < 0) missingDocs.push('relatório/controle interno para reconciliação anual');
+  if (!missingDocs.length) missingDocs.push('A base informada já sugere documentação inicial razoável; falta validar consistência e completude.');
+
+  var quickLinks = [];
+  if (status === 'Pode estar obrigado') {
+    quickLinks = [
+      { href: '#s-enquadramento', label: 'Ver enquadramento' },
+      { href: '#s-massa', label: 'Ver massa' },
+      { href: '#s-modelos', label: 'Ver modelos' },
+      { href: '#s-docs', label: 'Ver documentos' }
+    ];
+  } else if (status === 'Pode não estar obrigado') {
+    quickLinks = [
+      { href: '#s-nao', label: 'Ver não enquadramento' },
+      { href: '#s-enquadramento', label: 'Ver critérios' },
+      { href: '#s-docs', label: 'Ver prova documental' }
+    ];
+  } else {
+    quickLinks = [
+      { href: '#s-enquadramento', label: 'Ver critérios de análise' },
+      { href: '#s-cadeia', label: 'Ver cadeia' },
+      { href: '#s-massa', label: 'Ver cálculo de massa' },
+      { href: '#s-docs', label: 'Ver documentos mínimos' }
+    ];
+  }
+
+  var summaryHtml = ''
+    + '<div class="status-chip ' + tone + '">' + status + '</div>'
+    + '<p style="font-size:14px;line-height:1.7;color:var(--text);margin-bottom:14px;">' + statusText + '</p>'
+    + '<ul class="triage-list">'
+    + '<li><strong>Massa estimada:</strong> ' + massText + '</li>'
+    + '<li><strong>Grau inicial de confiança da massa:</strong> ' + confidence + ' — a leitura melhora quando há NF, ficha técnica e inventário coerente.</li>'
+    + '<li><strong>Lógica de cadeia provável:</strong> ' + chainText + '</li>'
+    + '<li><strong>Modelo mais aderente nesta triagem:</strong> ' + modelText + '</li>'
+    + '</ul>'
+    + '<div class="triage-links">'
+    + quickLinks.map(function(link) {
+      return '<a class="triage-link" href="' + link.href + '">' + link.label + '</a>';
+    }).join('')
+    + '</div>';
+
+  var nextHtml = ''
+    + '<h3 style="font-size:15px;font-weight:800;color:var(--forest);margin-bottom:12px;">Próximos passos recomendados</h3>'
+    + '<ul class="triage-list">'
+    + nextSteps.map(function(step) { return '<li>' + step + '</li>'; }).join('')
+    + '</ul>'
+    + '<h4 style="font-size:12px;font-weight:800;color:var(--mid);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 10px;">Documentos mínimos para validar a leitura</h4>'
+    + '<ul class="triage-list">'
+    + missingDocs.map(function(doc) { return '<li>' + doc + '</li>'; }).join('')
+    + '</ul>'
+    + '<div class="callout warn" style="margin-top:14px;"><span class="callout-icon">⚠</span> Definição final depende de análise técnica, documental e aderência da operação real ao regime aplicável.</div>';
+
+  document.getElementById('triage-summary').innerHTML = summaryHtml;
+  document.getElementById('triage-next').innerHTML = nextHtml;
+  document.getElementById('triage-output').classList.add('visible');
+  document.getElementById('triage-output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetTriage() {
+  document.querySelectorAll('.triage-role, .triage-doc').forEach(function(el) { el.checked = false; });
+  document.querySelectorAll('#s-triagem input, #s-triagem select').forEach(function(el) {
+    if (el.type === 'checkbox') return;
+    if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else el.value = '';
+  });
+  document.getElementById('triage-output').classList.remove('visible');
+  document.getElementById('triage-summary').innerHTML = '';
+  document.getElementById('triage-next').innerHTML = '';
+}
+
+/* ============================================================
+   CARDS FLUTUANTES CONTEXTUAIS
+============================================================ */
+var CONTEXT_TONES = {
+  'Esclarecimento': 'tone-green',
+  'Atenção': 'tone-amber',
+  'Exemplo prático': 'tone-blue',
+  'Erro comum': 'tone-red',
+  'Critério técnico': 'tone-green',
+  'Documento-chave': 'tone-blue',
+  'Pergunta recorrente': 'tone-amber',
+  'Impacto regulatório': 'tone-red'
+};
+
+var CONTEXT_MAP = {
+  cover: {
+    title: 'Início do manual',
+    cards: [
+      {
+        type: 'Esclarecimento',
+        title: 'Comece pela triagem, não pela conclusão',
+        text: 'A função de pré-diagnóstico foi colocada no início para organizar conversa, massa, cadeia e prova mínima antes de discutir modelo ou custo.'
+      },
+      {
+        type: 'Pergunta recorrente',
+        title: 'Isso substitui parecer técnico?',
+        text: 'Não. A entrada operacional serve para orientar a leitura e separar cenários prováveis. A confirmação final continua dependente de análise da operação real e dos documentos.'
+      }
+    ]
+  },
+  's-triagem': {
+    title: 'Triagem orientativa inicial',
+    cards: [
+      {
+        type: 'Critério técnico',
+        title: 'A massa pode nascer de dois caminhos',
+        text: 'Se a empresa já tiver inventário anual em kg, use-o. Se ainda não tiver, a leitura inicial pode vir de quantidade de unidades x peso médio da embalagem.'
+      },
+      {
+        type: 'Atenção',
+        title: 'Fluxo operacional não é prova final',
+        text: 'A triagem aceita respostas estimadas para orientar caminho. O manual, mais adiante, mostra como transformar estimativa em massa defensável e prova auditável.'
+      },
+      {
+        type: 'Exemplo prático',
+        title: 'Prestador de serviço pode sair de cena cedo',
+        text: 'Se a empresa só presta serviço, não coloca produto no mercado e lida apenas com resíduo interno, a tendência é discutir PGRS e não LR estrutural.'
+      }
+    ]
+  },
+  's-visao': {
+    title: 'O Sistema Recicla Goiás',
+    cards: [
+      {
+        type: 'Esclarecimento',
+        title: 'Recicla Goiás complementa o SINIR',
+        text: 'A empresa que opera em Goiás não escolhe entre um e outro. O sistema estadual adiciona cadastro, plano e reporte próprios sobre a base federal.'
+      },
+      {
+        type: 'Impacto regulatório',
+        title: 'Fiscalização já é orientada por cruzamento de dados',
+        text: 'CNAE, porte econômico e cadastro de obrigados podem ser confrontados. Isso reduz espaço para ignorar o tema e “esperar para ver”.'
+      }
+    ]
+  },
+  's-oque': {
+    title: 'O que é Logística Reversa',
+    cards: [
+      {
+        type: 'Esclarecimento',
+        title: 'Pós-consumo é o centro da obrigação',
+        text: 'A LR obrigatória gira em torno do que retorna depois do uso pelo consumidor. Pós-venda e pré-consumo exigem leitura própria e não substituem esse fluxo.'
+      },
+      {
+        type: 'Erro comum',
+        title: 'Coletar sem prova não fecha economia circular',
+        text: 'Coleta isolada não comprova cumprimento. O que fecha o ciclo é retorno material ou compensação válida, com equivalência de massa e trilha documental.'
+      }
+    ]
+  },
+  's-base': {
+    title: 'Base legal — linha do tempo',
+    cards: [
+      {
+        type: 'Atenção',
+        title: 'A obrigação pode mudar sem mudar a lei principal',
+        text: 'Muitas alterações de dever, modelo e comprovação aparecem em decreto, portaria, habilitação de entidade ou sistema setorial. O acompanhamento precisa ser contínuo.'
+      }
+    ]
+  },
+  's-obrigados': {
+    title: 'Quem está obrigado',
+    cards: [
+      {
+        type: 'Pergunta recorrente',
+        title: 'Porte pequeno isenta?',
+        text: 'Não automaticamente. O eixo principal é atividade + colocação no mercado + cadeia aplicável. Microempresa pode estar obrigada se operar dentro dessa lógica.'
+      },
+      {
+        type: 'Exemplo prático',
+        title: 'Marca própria pesa muito',
+        text: 'Mesmo sem fabricar, quem coloca produto embalado no mercado sob marca própria costuma atrair obrigação ou, no mínimo, validação forte de enquadramento.'
+      }
+    ]
+  },
+  's-nao': {
+    title: 'Quem não está obrigado',
+    cards: [
+      {
+        type: 'Documento-chave',
+        title: 'Não enquadramento também precisa prova',
+        text: 'Contrato social, notas, descrição da atividade real e documentos dos contratantes ajudam a sustentar por que a empresa não é elo da cadeia obrigada.'
+      },
+      {
+        type: 'Atenção',
+        title: 'Não enquadrado em LR não significa sem obrigação ambiental',
+        text: 'É comum sair da LR estrutural e continuar dentro de PGRS, PGRSS, licenciamento ou gestão operacional de resíduos.'
+      }
+    ]
+  },
+  's-cadeia': {
+    title: 'Cadeia obrigada e cadeia regulada',
+    cards: [
+      {
+        type: 'Esclarecimento',
+        title: 'Devolver não é o mesmo que estruturar',
+        text: 'Consumidor, agricultor ou usuário final podem ser regulados para devolver. Quem estrutura, financia e responde pelo sistema é a cadeia obrigada.'
+      },
+      {
+        type: 'Impacto regulatório',
+        title: 'Confundir os dois lados distorce toda a defesa',
+        text: 'Se a empresa se apresenta como “apenas regulada” quando é elo obrigado, o risco é cair em omissão completa de modelo, massa e comprovação.'
+      }
+    ]
+  },
+  's-enquadramento': {
+    title: 'Como funciona o enquadramento',
+    cards: [
+      {
+        type: 'Critério técnico',
+        title: 'Os 6 critérios precisam conversar entre si',
+        text: 'Atividade real, cadeia/material, massa, território, sistema setorial e tipo de obrigação devem fechar em conjunto. Um único critério isolado raramente resolve.'
+      },
+      {
+        type: 'Erro comum',
+        title: 'CNAE isolado é atalho perigoso',
+        text: 'CNAE ajuda a acender alerta, mas não substitui análise material da operação. É muito comum errar o enquadramento quando a leitura para no cadastro fiscal.'
+      },
+      {
+        type: 'Exemplo prático',
+        title: 'Prestação de serviço costuma exigir pergunta extra',
+        text: 'A chave é saber se o serviço também coloca produto ou embalagem no mercado. Se não coloca, a tendência é migrar para gestão operacional e não para LR estrutural.'
+      }
+    ]
+  },
+  's-modelos': {
+    title: 'Modelos de cumprimento',
+    cards: [
+      {
+        type: 'Critério técnico',
+        title: 'Coletivo tende a entrar quando falta estrutura própria',
+        text: 'Quando a empresa não quer ou não consegue operar coleta, destinação, consolidação e verificação por conta própria, o coletivo costuma ser o arranjo mais aderente.'
+      },
+      {
+        type: 'Critério técnico',
+        title: 'Individual exige musculatura operacional e documental',
+        text: 'Não basta querer o modelo próprio. É preciso ter cadeia material, contratos, rastreabilidade e governança para sustentar tudo perante fiscalização.'
+      },
+      {
+        type: 'Atenção',
+        title: 'Híbrido só funciona com reconciliação dura',
+        text: 'Sempre que houver parte física e parte compensada, a empresa precisa provar qual massa foi coberta por cada rota, sem sobreposição.'
+      }
+    ]
+  },
+  's-creditos': {
+    title: 'Créditos de reciclagem — CCR',
+    cards: [
+      {
+        type: 'Esclarecimento',
+        title: 'CCR só entra quando a cadeia admite compensação',
+        text: 'Em embalagens em geral, o crédito é instrumento central. Em cadeias específicas, a aceitação depende do regime setorial aplicável e do desenho material do sistema.'
+      },
+      {
+        type: 'Critério técnico',
+        title: 'Lastro é prova de origem + prova de reciclagem + prova de unicidade',
+        text: 'Sem conseguir reconstruir a massa, o elo operacional, o documento fiscal e a validação externa, o crédito vira ativo frágil.'
+      },
+      {
+        type: 'Erro comum',
+        title: 'Pagar não é o mesmo que cumprir',
+        text: 'O CCR não nasce do boleto pago. Ele nasce da massa reciclada comprovada. Pagamento sem lastro não resolve o problema regulatório.'
+      },
+      {
+        type: 'Impacto regulatório',
+        title: 'Dupla contagem pode gerar glosa imediata',
+        text: 'Se a mesma massa aparece para duas empresas, dois créditos ou duas rotas de prova, o resultado perde confiabilidade e pode ser invalidado.'
+      }
+    ]
+  },
+  's-comprovacao': {
+    title: 'Como funciona a comprovação',
+    cards: [
+      {
+        type: 'Documento-chave',
+        title: 'A prova precisa fechar em cadeia, não em documento solto',
+        text: 'NF de saída, MTR, CDF, relatório, CCR e verificação independente devem conversar entre si. Documento isolado raramente sustenta conformidade.'
+      },
+      {
+        type: 'Pergunta recorrente',
+        title: 'O que o órgão olha primeiro?',
+        text: 'Normalmente: massa colocada no mercado, meta aplicável, coerência do fluxo físico ou compensado e integridade da documentação de sustentação.'
+      },
+      {
+        type: 'Impacto regulatório',
+        title: 'Plataforma não cria conformidade sozinha',
+        text: 'Cadastro, relatório e protocolo formalizam o resultado. O que valida esse resultado é a consistência material e documental da cadeia.'
+      }
+    ]
+  },
+  's-massa': {
+    title: 'Cálculo de massa e metas',
+    cards: [
+      {
+        type: 'Esclarecimento',
+        title: 'Massa colocada no mercado é base, não detalhe',
+        text: 'Sem massa não existe meta, custo, escolha de modelo nem prova quantitativa. Ela é o eixo do sistema inteiro.'
+      },
+      {
+        type: 'Exemplo prático',
+        title: 'Fórmula simples para triagem',
+        text: 'Quantidade anual comercializada × peso médio da embalagem permite uma leitura inicial útil. Depois, o ideal é migrar para memorial com NF e ficha técnica.'
+      },
+      {
+        type: 'Atenção',
+        title: 'Coeficiente sem documentação enfraquece defesa',
+        text: 'Usar média setorial pode ser aceitável em triagem ou em cenários específicos, mas precisa ser justificado, coerente e auditável.'
+      }
+    ]
+  },
+  's-fluxo': {
+    title: 'Fluxo operacional completo',
+    cards: [
+      {
+        type: 'Documento-chave',
+        title: 'Cada etapa precisa de um responsável identificável',
+        text: 'Fluxo forte é aquele em que agente, momento e documento-chave ficam nítidos. Quando um desses três elementos falha, a cadeia começa a romper.'
+      },
+      {
+        type: 'Critério técnico',
+        title: 'Transporte é fase de prova',
+        text: 'Ele não serve só para deslocar material. Serve para ligar origem, massa, destino e responsabilidade entre as pontas do processo.'
+      }
+    ]
+  },
+  's-consultoria': {
+    title: 'Papel da consultoria',
+    cards: [
+      {
+        type: 'Esclarecimento',
+        title: 'Consultoria não substitui nenhum elo operacional',
+        text: 'Ela não recicla, não transporta e não emite crédito. O valor dela está em enquadrar, modelar, coordenar e fechar a coerência regulatória.'
+      },
+      {
+        type: 'Impacto regulatório',
+        title: 'O maior ganho é reduzir erro estrutural',
+        text: 'Quando a consultoria acerta atividade, massa, modelo e documentação desde o início, evita que a empresa caminhe meses sobre premissa errada.'
+      }
+    ]
+  },
+  's-docs': {
+    title: 'Documentos por etapa',
+    cards: [
+      {
+        type: 'Documento-chave',
+        title: 'Sem contrato, a cadeia fica juridicamente frouxa',
+        text: 'Mesmo quando a operação existe, a ausência de instrumento formal com entidade, operador ou destinador fragiliza a prova e a responsabilização por etapa.'
+      },
+      {
+        type: 'Atenção',
+        title: 'Arquivo precisa ser tratado como ativo regulatório',
+        text: 'Documento perdido, sem protocolo ou sem reconciliação entre fases costuma destruir uma boa execução na hora da fiscalização.'
+      }
+    ]
+  },
+  's-riscos': {
+    title: 'Riscos, falhas comuns e pontos de atenção',
+    cards: [
+      {
+        type: 'Erro comum',
+        title: 'Fragilidade documental costuma aparecer antes da autuação',
+        text: 'A empresa começa com massa fraca, contrato incompleto ou relatório incoerente. A autuação muitas vezes é a consequência final de uma trilha de omissões menores.'
+      },
+      {
+        type: 'Impacto regulatório',
+        title: 'Glosa, multa e bloqueio não são o mesmo problema',
+        text: 'Glosa invalida crédito ou resultado; multa pune descumprimento; bloqueio de licença afeta continuidade operacional. Um cenário pode gerar os três.'
+      }
+    ]
+  },
+  's-faq': {
+    title: 'Perguntas frequentes',
+    cards: [
+      {
+        type: 'Pergunta recorrente',
+        title: 'Terceirizar resolve a responsabilidade?',
+        text: 'Não. A execução pode ser terceirizada, mas a responsabilidade legal pelo resultado e pela prova continua na empresa obrigada.'
+      }
+    ]
+  },
+  's-glossario': {
+    title: 'Glossário de termos críticos',
+    cards: [
+      {
+        type: 'Esclarecimento',
+        title: 'Use este bloco como consulta rápida de linguagem',
+        text: 'Quando surgir dúvida sobre lastro, PLR, MTR, verificador ou entidade gestora, o glossário ajuda a alinhar vocabulário sem interromper a leitura principal.'
+      }
+    ]
+  },
+  's-sintese': {
+    title: 'Síntese prática',
+    cards: [
+      {
+        type: 'Impacto regulatório',
+        title: 'A gestão anual é tão importante quanto a regularização inicial',
+        text: 'Muitas empresas entram no sistema e falham no ciclo seguinte por não atualizar massa, portfólio, metas e documentos. O checklist final ajuda a evitar isso.'
+      }
+    ]
+  }
+};
+
+var contextState = {
+  sectionId: 'cover',
+  cardIndex: 0,
+  open: false
+};
+
+function getContextData(sectionId) {
+  return CONTEXT_MAP[sectionId] || CONTEXT_MAP.cover;
+}
+
+function renderContextHub() {
+  var hub = document.getElementById('context-hub');
+  var launcher = document.getElementById('context-launcher');
+  var launcherTitle = document.getElementById('context-launcher-title');
+  var launcherCount = document.getElementById('context-launcher-count');
+  var panel = document.getElementById('context-panel');
+  var panelTitle = document.getElementById('context-panel-title');
+  var chipList = document.getElementById('context-chip-list');
+  var detail = document.getElementById('context-detail');
+
+  if (!hub || !launcher || !launcherTitle || !launcherCount || !panel || !panelTitle || !chipList || !detail) return;
+
+  var data = getContextData(contextState.sectionId);
+  if (!data || !data.cards || !data.cards.length) {
+    hub.style.display = 'none';
+    return;
+  }
+
+  hub.style.display = '';
+  if (contextState.cardIndex >= data.cards.length) contextState.cardIndex = 0;
+
+  launcherTitle.textContent = data.title;
+  launcherCount.textContent = data.cards.length + (data.cards.length === 1 ? ' card relevante' : ' cards relevantes');
+  panelTitle.textContent = data.title;
+
+  chipList.innerHTML = data.cards.map(function(card, index) {
+    var tone = CONTEXT_TONES[card.type] || 'tone-green';
+    var active = index === contextState.cardIndex ? ' active' : '';
+    return '<button type="button" class="context-chip ' + tone + active + '" onclick="selectContextCard(' + index + ')">' + card.type + '</button>';
+  }).join('');
+
+  var activeCard = data.cards[contextState.cardIndex];
+  detail.innerHTML = ''
+    + '<span class="context-type ' + (CONTEXT_TONES[activeCard.type] || 'tone-green') + '">' + activeCard.type + '</span>'
+    + '<div class="context-card-title">' + activeCard.title + '</div>'
+    + '<div class="context-card-text">' + activeCard.text + '</div>'
+    + '<div class="context-card-note">Apoio rápido para leitura do bloco atual. Use quando houver dúvida, decisão sensível ou risco de interpretação.</div>';
+
+  hub.classList.toggle('open', contextState.open);
+  launcher.setAttribute('aria-expanded', String(contextState.open));
+  panel.setAttribute('aria-hidden', String(!contextState.open));
+}
+
+function toggleContextHub() {
+  contextState.open = !contextState.open;
+  renderContextHub();
+}
+
+function selectContextCard(index) {
+  contextState.cardIndex = index;
+  contextState.open = true;
+  renderContextHub();
+}
+
+function updateContextForSection(sectionId) {
+  if (!sectionId) return;
+  var nextData = getContextData(sectionId);
+  if (!nextData) return;
+  if (contextState.sectionId !== sectionId) {
+    contextState.sectionId = sectionId;
+    contextState.cardIndex = 0;
+  }
+  renderContextHub();
+}
+
+/* ============================================================
+   SIDEBAR FILTER
+============================================================ */
+function filterNavLinks(value) {
+  var query = value.trim().toLowerCase();
+  var nav = document.querySelector('.sidebar-nav');
+  if (!nav) return;
+
+  var groups = [];
+  var current = null;
+
+  Array.from(nav.children).forEach(function(el) {
+    if (el.classList.contains('nav-section')) {
+      current = { section: el, links: [] };
+      groups.push(current);
+    } else if (el.classList.contains('nav-link')) {
+      if (!current) {
+        current = { section: null, links: [] };
+        groups.push(current);
+      }
+      current.links.push(el);
+    }
+  });
+
+  groups.forEach(function(group) {
+    var visible = 0;
+    group.links.forEach(function(link) {
+      var match = !query || link.textContent.toLowerCase().includes(query);
+      link.style.display = match ? 'flex' : 'none';
+      if (match) visible += 1;
+    });
+    if (group.section) group.section.style.display = visible ? 'block' : 'none';
+  });
+}
+
+/* ============================================================
+   SIDEBAR NAV — ACTIVE STATE
+============================================================ */
+function navClick(el) {
+  document.querySelectorAll('.nav-link').forEach(function(l) { l.classList.remove('active'); });
+  el.classList.add('active');
+  // Close mobile sidebar after click
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+}
+
+/* ============================================================
+   SIDEBAR TOGGLE (MOBILE)
+============================================================ */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+/* ============================================================
+   INTERSECTION OBSERVER — highlight nav on scroll
+============================================================ */
+(function() {
+  var sections = document.querySelectorAll('section[id], div[id="cover"]');
+  var links = document.querySelectorAll('.nav-link[href]');
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = '#' + entry.target.id;
+        links.forEach(function(link) {
+          if (link.getAttribute('href') === id) link.classList.add('active');
+          else link.classList.remove('active');
+        });
+        updateContextForSection(entry.target.id);
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(function(s) { observer.observe(s); });
+})();
+
+document.addEventListener('click', function(event) {
+  var hub = document.getElementById('context-hub');
+  if (!hub || !contextState.open) return;
+  if (!hub.contains(event.target)) {
+    contextState.open = false;
+    renderContextHub();
+  }
+});
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape' && contextState.open) {
+    contextState.open = false;
+    renderContextHub();
+  }
+});
+
+renderContextHub();
+updateContextForSection('cover');
+</script>
+</body>
+</html>

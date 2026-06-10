@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logística Reversa — Hábilis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --ink: #0b1a12;
+  --forest: #183825;
+  --moss: #2a5c3f;
+  --fern: #3d8a5c;
+  --mint: #5cb87a;
+  --sage: #a8d5b5;
+  --cream: #f4f0e6;
+  --parchment: #ede8dc;
+  --ember: #c8561a;
+  --amber: #e8832a;
+  --gold: #f0b429;
+  --white: #ffffff;
+  --mist: rgba(255,255,255,0.06);
+  --panel: rgba(24,56,37,0.55);
+}
+
+html, body {
+  width:100%; height:100%;
+  overflow:hidden;
+  background:var(--ink);
+  font-family:'Outfit', sans-serif;
+  color:var(--white);
+  cursor:none;
+}
+
+/* ══════════════════════════════════════
+   CURSOR
+══════════════════════════════════════ */
+#cur { position:fixed; width:8px; height:8px; background:var(--mint); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .15s,height .15s,background .15s; }
+#cur.big { width:48px; height:48px; background:transparent; border:1.5px solid rgba(92,184,122,.4); }
+#cur-trail { position:fixed; pointer-events:none; z-index:9998; }
+#cur-trail span { position:fixed; width:4px; height:4px; background:var(--mint); border-radius:50%; transform:translate(-50%,-50%); opacity:0; transition:opacity .4s; }
+
+
+/* ══════════════════════════════════════
+   GRAIN OVERLAY
+══════════════════════════════════════ */
+#grain {
+  position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ══════════════════════════════════════
+   PROGRESS BAR
+══════════════════════════════════════ */
+#progress { position:fixed; top:0; left:0; height:2px; background:linear-gradient(90deg,var(--fern),var(--mint)); z-index:500; transition:width .5s cubic-bezier(.4,0,.2,1); box-shadow:0 0 12px var(--mint); }
+
+/* ══════════════════════════════════════
+   SLIDE COUNTER (top right)
+══════════════════════════════════════ */
+#counter {
+  position:fixed; top:104px; right:32px; z-index:400;
+  font-size:11px; font-weight:600; letter-spacing:.15em;
+  color:rgba(255,255,255,.25); text-transform:uppercase;
+  display:flex; align-items:center; gap:8px;
+}
+#counter .c-num { color:var(--mint); font-size:14px; font-weight:700; }
+
+/* ══════════════════════════════════════
+   LOGO (top left)
+══════════════════════════════════════ */
+#logo {
+  position:fixed; top:12px; right:24px; left:auto; z-index:400;
+  transition:opacity .3s; opacity:.5;
+  line-height:0;
+}
+#logo:hover { opacity:1; }
+#logo-img { height:82px; width:auto; }
+
+/* ══════════════════════════════════════
+   NAV DOTS (right side)
+══════════════════════════════════════ */
+#dots {
+  position:fixed; right:20px; top:50%; transform:translateY(-50%);
+  z-index:400; display:flex; flex-direction:column; gap:10px;
+}
+.dot {
+  width:6px; height:6px; border-radius:50%;
+  background:rgba(255,255,255,.2); cursor:none;
+  transition:all .3s; position:relative;
+}
+.dot.active { background:var(--mint); transform:scale(1.5); box-shadow:0 0 8px var(--mint); }
+.dot:hover { background:rgba(92,184,122,.6); }
+.dot-tip {
+  position:absolute; right:18px; top:50%; transform:translateY(-50%);
+  background:var(--forest); border:1px solid rgba(92,184,122,.2);
+  color:rgba(255,255,255,.8); font-size:10px; font-weight:500;
+  padding:4px 10px; border-radius:4px; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.dot:hover .dot-tip { opacity:1; }
+
+/* ══════════════════════════════════════
+   BOTTOM NAV
+══════════════════════════════════════ */
+#nav {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  z-index:400; display:flex; align-items:center; gap:12px;
+  background:rgba(11,26,18,.8); backdrop-filter:blur(16px);
+  border:1px solid rgba(92,184,122,.15); border-radius:50px;
+  padding:8px 18px;
+}
+.nav-btn {
+  background:none; border:none; color:rgba(255,255,255,.5); cursor:none;
+  font-size:16px; padding:4px 10px; transition:color .2s;
+  font-family:inherit;
+}
+.nav-btn:hover { color:var(--mint); }
+#nav-label { font-size:10px; font-weight:600; letter-spacing:.12em; color:rgba(255,255,255,.25); min-width:120px; text-align:center; text-transform:uppercase; }
+
+/* ══════════════════════════════════════
+   OVERVIEW PANEL (press O)
+══════════════════════════════════════ */
+#overview {
+  position:fixed; inset:0; z-index:800;
+  background:rgba(11,26,18,.97); backdrop-filter:blur(20px);
+  display:none; overflow-y:auto; padding:60px 40px;
+}
+#overview.open { display:block; }
+#overview h3 { font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--mint); margin-bottom:32px; letter-spacing:.05em; }
+#ov-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+.ov-thumb {
+  background:var(--forest); border:1px solid rgba(92,184,122,.15); border-radius:8px;
+  padding:14px; cursor:none; transition:all .2s; aspect-ratio:16/9;
+  display:flex; flex-direction:column; justify-content:space-between;
+  position:relative; overflow:hidden;
+}
+.ov-thumb:hover { border-color:var(--mint); transform:scale(1.03); }
+.ov-thumb.current { border-color:var(--mint); box-shadow:0 0 0 2px var(--mint); }
+.ov-num { font-size:10px; color:var(--mint); font-weight:700; letter-spacing:.1em; }
+.ov-title { font-size:10px; color:rgba(255,255,255,.7); line-height:1.4; font-weight:500; }
+.ov-section { font-size:9px; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:.1em; }
+#ov-close { position:absolute; top:20px; right:28px; background:none; border:none; color:rgba(255,255,255,.4); font-size:24px; cursor:none; transition:color .2s; }
+#ov-close:hover { color:var(--mint); }
+
+/* ══════════════════════════════════════
+   PRESENTER PANEL (press P)
+══════════════════════════════════════ */
+#presenter {
+  position:fixed; bottom:70px; left:28px; z-index:600;
+  background:rgba(11,26,18,.92); backdrop-filter:blur(16px);
+  border:1px solid rgba(92,184,122,.2); border-radius:12px;
+  padding:18px 22px; max-width:320px;
+  display:none;
+}
+#presenter.open { display:block; }
+#pres-label { font-size:9px; font-weight:700; letter-spacing:.2em; color:var(--mint); text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
+#pres-timer { font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--gold); font-weight:600; margin-bottom:10px; }
+#pres-note { font-size:12px; color:rgba(255,255,255,.65); line-height:1.6; }
+#pres-actions { display:flex; gap:8px; margin-top:14px; }
+.pres-btn { background:rgba(92,184,122,.12); border:1px solid rgba(92,184,122,.2); color:var(--mint); font-size:10px; font-weight:600; letter-spacing:.1em; padding:5px 12px; border-radius:4px; cursor:none; transition:all .2s; }
+.pres-btn:hover { background:rgba(92,184,122,.25); }
+.pres-btn.danger { border-color:rgba(200,86,26,.3); color:var(--ember); background:rgba(200,86,26,.1); }
+
+/* ══════════════════════════════════════
+   QUIZ MODAL
+══════════════════════════════════════ */
+#quiz-modal {
+  position:fixed; inset:0; z-index:900;
+  background:rgba(11,26,18,.97); backdrop-filter:blur(20px);
+  display:none; align-items:center; justify-content:center;
+}
+#quiz-modal.open { display:flex; }
+#quiz-box {
+  background:var(--forest); border:1px solid rgba(92,184,122,.25);
+  border-radius:16px; padding:40px; max-width:560px; width:90%;
+  position:relative;
+}
+#quiz-close { position:absolute; top:16px; right:20px; background:none; border:none; color:rgba(255,255,255,.3); font-size:22px; cursor:none; }
+#quiz-title { font-family:'Cormorant Garamond',serif; font-size:26px; color:var(--white); margin-bottom:6px; }
+#quiz-subtitle { font-size:12px; color:var(--sage); margin-bottom:28px; line-height:1.5; }
+#quiz-q { font-size:14px; font-weight:600; color:var(--white); margin-bottom:20px; line-height:1.5; }
+#quiz-opts { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
+.quiz-opt {
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);
+  border-radius:8px; padding:13px 18px; font-size:13px; color:rgba(255,255,255,.8);
+  cursor:none; transition:all .2s; text-align:left;
+}
+.quiz-opt:hover { border-color:var(--mint); background:rgba(92,184,122,.1); color:var(--white); }
+.quiz-opt.correct { border-color:var(--mint); background:rgba(92,184,122,.15); color:var(--mint); }
+.quiz-opt.wrong { border-color:var(--ember); background:rgba(200,86,26,.1); color:var(--ember); }
+#quiz-result { display:none; }
+#quiz-result-icon { font-size:40px; margin-bottom:12px; }
+#quiz-result-title { font-family:'Cormorant Garamond',serif; font-size:22px; margin-bottom:8px; }
+#quiz-result-text { font-size:13px; color:rgba(255,255,255,.7); line-height:1.6; margin-bottom:20px; }
+#quiz-cta { background:var(--fern); color:white; border:none; padding:12px 28px; border-radius:8px; font-size:13px; font-weight:600; cursor:none; transition:background .2s; }
+#quiz-cta:hover { background:var(--mint); }
+#quiz-progress { display:flex; gap:6px; margin-bottom:22px; }
+.qp-dot { flex:1; height:3px; border-radius:2px; background:rgba(255,255,255,.15); transition:background .3s; }
+.qp-dot.done { background:var(--mint); }
+.qp-dot.current { background:var(--gold); }
+
+/* ══════════════════════════════════════
+   CALC MODAL
+══════════════════════════════════════ */
+#calc-modal {
+  position:fixed; inset:0; z-index:900;
+  background:rgba(11,26,18,.97); backdrop-filter:blur(20px);
+  display:none; align-items:center; justify-content:center;
+}
+#calc-modal.open { display:flex; }
+#calc-box {
+  background:var(--forest); border:1px solid rgba(92,184,122,.25);
+  border-radius:16px; padding:40px; max-width:720px; width:95%;
+  position:relative; max-height:92vh; overflow-y:auto;
+}
+#calc-close { position:absolute; top:16px; right:20px; background:none; border:none; color:rgba(255,255,255,.3); font-size:22px; cursor:none; }
+#calc-title { font-family:'Cormorant Garamond',serif; font-size:26px; color:var(--white); margin-bottom:6px; }
+#calc-sub { font-size:12px; color:var(--sage); margin-bottom:20px; }
+
+/* Tabs */
+#calc-tabs { display:flex; gap:0; margin-bottom:28px; border-radius:8px; overflow:hidden; border:1px solid rgba(92,184,122,.2); }
+.calc-tab {
+  flex:1; padding:10px 16px; font-size:12px; font-weight:600; letter-spacing:.08em;
+  text-transform:uppercase; background:rgba(255,255,255,.04); color:rgba(255,255,255,.4);
+  border:none; cursor:none; transition:all .2s; font-family:inherit;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+}
+.calc-tab.active { background:var(--fern); color:white; }
+.calc-tab:hover:not(.active) { background:rgba(92,184,122,.1); color:rgba(255,255,255,.7); }
+.calc-tab-panel { display:none; }
+.calc-tab-panel.active { display:block; }
+
+/* AI field */
+#ai-desc {
+  width:100%; min-height:110px; background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12); border-radius:10px;
+  padding:14px 16px; font-size:14px; color:white; font-family:inherit;
+  line-height:1.6; resize:vertical; outline:none; transition:border .2s;
+}
+#ai-desc:focus { border-color:var(--mint); }
+#ai-desc::placeholder { color:rgba(255,255,255,.25); }
+#ai-run {
+  width:100%; background:linear-gradient(135deg, var(--fern), var(--moss));
+  color:white; border:none; padding:14px; border-radius:9px;
+  font-size:14px; font-weight:700; cursor:none; transition:all .3s;
+  margin-top:10px; display:flex; align-items:center; justify-content:center; gap:10px;
+  font-family:inherit; letter-spacing:.04em;
+}
+#ai-run:hover { background:linear-gradient(135deg, var(--mint), var(--fern)); transform:translateY(-1px); box-shadow:0 6px 20px rgba(92,184,122,.2); }
+#ai-run:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+#ai-result {
+  display:none; margin-top:24px; border-top:1px solid rgba(92,184,122,.15);
+  padding-top:24px;
+}
+#ai-loading {
+  display:none; text-align:center; padding:32px;
+  color:rgba(255,255,255,.5); font-size:13px;
+}
+.ai-spinner {
+  width:28px; height:28px; border:2px solid rgba(92,184,122,.2);
+  border-top-color:var(--mint); border-radius:50%;
+  animation:spin .8s linear infinite; margin:0 auto 14px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* AI Result sections */
+.ai-section { margin-bottom:20px; }
+.ai-section-title {
+  font-size:10px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--mint); margin-bottom:10px; display:flex; align-items:center; gap:8px;
+}
+.ai-section-title::after { content:''; flex:1; height:1px; background:rgba(92,184,122,.15); }
+.ai-block {
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07);
+  border-radius:8px; padding:14px 16px; font-size:13px;
+  color:rgba(255,255,255,.75); line-height:1.7;
+}
+.ai-block.alert { border-color:rgba(200,86,26,.3); background:rgba(200,86,26,.07); color:rgba(232,131,42,.9); }
+.ai-block.success { border-color:rgba(92,184,122,.3); background:rgba(92,184,122,.07); color:rgba(168,213,181,.95); }
+.ai-block.warning { border-color:rgba(240,180,41,.3); background:rgba(240,180,41,.06); color:rgba(240,180,41,.9); }
+.ai-tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+.ai-tag {
+  background:rgba(92,184,122,.12); border:1px solid rgba(92,184,122,.25);
+  color:var(--mint); font-size:11px; font-weight:600; padding:4px 11px;
+  border-radius:100px; letter-spacing:.06em;
+}
+.ai-tag.red { background:rgba(200,86,26,.12); border-color:rgba(200,86,26,.3); color:var(--amber); }
+.ai-nums { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.ai-num-card { background:rgba(92,184,122,.08); border:1px solid rgba(92,184,122,.18); border-radius:8px; padding:14px 12px; text-align:center; }
+.ai-num-val { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--mint); line-height:1; }
+.ai-num-lbl { font-size:10px; color:rgba(255,255,255,.4); margin-top:4px; letter-spacing:.06em; text-transform:uppercase; }
+.ai-steps { display:flex; flex-direction:column; gap:8px; }
+.ai-step {
+  display:flex; gap:13px; align-items:flex-start;
+  font-size:13px; color:rgba(255,255,255,.75); line-height:1.55;
+}
+.ai-step-n {
+  width:22px; height:22px; border-radius:50%; background:var(--fern);
+  color:white; font-size:11px; font-weight:700; display:flex;
+  align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
+}
+.ai-cta {
+  background:var(--fern); color:white; border:none; padding:11px 22px;
+  border-radius:8px; font-size:13px; font-weight:700; cursor:none;
+  transition:background .2s; font-family:inherit; margin-top:12px; display:inline-block;
+}
+.ai-cta:hover { background:var(--mint); }
+.ai-disclaimer {
+  font-size:11px; color:rgba(255,255,255,.25); line-height:1.6;
+  background:rgba(255,255,255,.02); border-radius:6px; padding:10px 13px;
+  margin-top:14px; border:1px solid rgba(255,255,255,.05);
+}
+.calc-group { margin-bottom:20px; }
+.calc-label { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--sage); margin-bottom:8px; display:block; }
+.calc-input {
+  width:100%; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:8px; padding:12px 16px; font-size:14px; color:white; font-family:inherit;
+  transition:border .2s; outline:none;
+}
+.calc-input:focus { border-color:var(--mint); }
+.calc-select {
+  width:100%; background:var(--ink); border:1px solid rgba(255,255,255,.12);
+  border-radius:8px; padding:12px 16px; font-size:14px; color:white; font-family:inherit;
+  transition:border .2s; outline:none; cursor:none;
+}
+.calc-select:focus { border-color:var(--mint); }
+#calc-run { width:100%; background:var(--fern); color:white; border:none; padding:14px; border-radius:8px; font-size:14px; font-weight:700; cursor:none; transition:background .2s; margin-top:8px; }
+#calc-run:hover { background:var(--mint); }
+#calc-result { display:none; margin-top:24px; border-top:1px solid rgba(92,184,122,.2); padding-top:24px; }
+#calc-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+.calc-res-card { background:rgba(92,184,122,.08); border:1px solid rgba(92,184,122,.2); border-radius:8px; padding:16px; }
+.calc-res-label { font-size:10px; font-weight:600; letter-spacing:.12em; color:var(--sage); text-transform:uppercase; margin-bottom:6px; }
+.calc-res-val { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; color:var(--mint); }
+.calc-res-unit { font-size:11px; color:rgba(255,255,255,.4); }
+#calc-note { font-size:12px; color:rgba(255,255,255,.5); line-height:1.65; background:rgba(255,255,255,.04); border-radius:6px; padding:12px 14px; }
+
+/* ══════════════════════════════════════
+   KEYBOARD SHORTCUTS PANEL (press ?)
+══════════════════════════════════════ */
+#shortcuts {
+  position:fixed; inset:0; z-index:900;
+  background:rgba(11,26,18,.97); backdrop-filter:blur(20px);
+  display:none; align-items:center; justify-content:center;
+}
+#shortcuts.open { display:flex; }
+#sc-box { background:var(--forest); border:1px solid rgba(92,184,122,.25); border-radius:16px; padding:40px; max-width:480px; width:90%; }
+#sc-title { font-family:'Cormorant Garamond',serif; font-size:26px; margin-bottom:24px; }
+.sc-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.06); }
+.sc-key { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:5px; padding:3px 10px; font-size:12px; font-weight:700; color:var(--mint); font-family:monospace; }
+.sc-desc { font-size:13px; color:rgba(255,255,255,.65); }
+#sc-close { display:block; margin-top:24px; text-align:center; font-size:12px; color:rgba(255,255,255,.3); }
+
+/* ══════════════════════════════════════
+   HINT
+══════════════════════════════════════ */
+#hint {
+  position:fixed; bottom:72px; right:28px; z-index:300;
+  font-size:10px; color:rgba(255,255,255,.2); letter-spacing:.1em;
+  text-transform:uppercase; transition:opacity 1s;
+  display:flex; flex-direction:column; gap:4px; align-items:flex-end;
+}
+.hint-line { display:flex; align-items:center; gap:6px; }
+.hint-key { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); border-radius:3px; padding:1px 7px; font-size:9px; color:rgba(255,255,255,.3); font-family:monospace; }
+
+/* ══════════════════════════════════════
+   DECK & SLIDES
+══════════════════════════════════════ */
+#deck { position:relative; width:100vw; height:100vh; }
+
+.slide {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  opacity:0; pointer-events:none;
+  transition:opacity .05s;
+}
+.slide.active { opacity:1; pointer-events:all; }
+
+/* Animate-in classes */
+.a { animation-fill-mode:both; animation-play-state:paused; }
+.slide.active .a { animation-play-state:running; }
+@keyframes rise { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fall { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes grow { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
+@keyframes push { from{opacity:0;transform:translateX(-24px)} to{opacity:1;transform:translateX(0)} }
+@keyframes glow { 0%,100%{text-shadow:0 0 0 transparent} 50%{text-shadow:0 0 30px rgba(92,184,122,.3)} }
+
+/* SHARED DARK SLIDE */
+.s-dark {
+  background:var(--ink);
+  background-image:radial-gradient(ellipse 90% 60% at 50% -10%, rgba(26,56,37,.7) 0%, transparent 65%);
+  padding:56px 80px 48px;
+}
+.s-dark-r {
+  background:var(--ink);
+  background-image:radial-gradient(ellipse 70% 70% at 100% 50%, rgba(26,56,37,.5) 0%, transparent 60%);
+  padding:56px 80px 48px;
+}
+/* SHARED LIGHT SLIDE */
+.s-light {
+  background:var(--parchment);
+  padding:56px 80px 48px;
+}
+/* SECTION TAG */
+.stag { font-size:10px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--mint); margin-bottom:10px; }
+.stag-dark { color:var(--moss); }
+/* SLIDE TITLE */
+.stitle { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,3.6vw,46px); font-weight:700; color:var(--white); line-height:1.1; margin-bottom:28px; }
+.stitle-dark { color:var(--ink); }
+/* SLIDE NUMBER */
+.snum { position:absolute; bottom:20px; right:28px; font-size:10px; color:rgba(255,255,255,.12); font-weight:600; letter-spacing:.08em; }
+.snum-dark { color:rgba(0,0,0,.12); }
+
+/* ──────────────────────────────────────
+   SLIDE 1 — CAPA
+────────────────────────────────────── */
+.s1 {
+  background:var(--ink);
+  background-image:
+    radial-gradient(ellipse 80% 70% at 80% 50%, rgba(24,56,37,.65) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 5% 90%, rgba(42,92,63,.3) 0%, transparent 50%);
+  justify-content:center;
+  padding:80px 100px;
+  position:relative; overflow:hidden;
+}
+.s1-circle1 { position:absolute; right:80px; top:50%; transform:translateY(-50%); width:380px; height:380px; border-radius:50%; border:1px solid rgba(92,184,122,.08); pointer-events:none; }
+.s1-circle2 { position:absolute; right:120px; top:50%; transform:translateY(-50%); width:240px; height:240px; border-radius:50%; border:1px solid rgba(92,184,122,.05); }
+.s1-circle3 { position:absolute; right:160px; top:50%; transform:translateY(-50%); width:120px; height:120px; border-radius:50%; background:rgba(92,184,122,.04); }
+.s1-eyebrow { font-size:10px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--mint); margin-bottom:28px; }
+.s1-headline { font-family:'Cormorant Garamond',serif; font-size:clamp(64px,9vw,112px); font-weight:700; color:var(--white); line-height:.9; letter-spacing:-.02em; margin-bottom:8px; }
+.s1-headline em { font-style:italic; color:var(--mint); }
+.s1-sub { font-family:'Cormorant Garamond',serif; font-size:clamp(16px,1.8vw,22px); font-style:italic; color:rgba(255,255,255,.5); margin-bottom:40px; }
+.s1-pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:44px; }
+.s1-pill { background:rgba(92,184,122,.1); border:1px solid rgba(92,184,122,.2); color:rgba(255,255,255,.65); font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; padding:6px 14px; border-radius:100px; }
+.s1-footer { font-size:11px; color:rgba(255,255,255,.2); letter-spacing:.1em; }
+.s1-actions { display:flex; gap:12px; margin-bottom:28px; }
+.s1-btn { padding:10px 22px; border-radius:8px; font-size:12px; font-weight:600; letter-spacing:.08em; cursor:none; transition:all .2s; border:none; text-transform:uppercase; }
+.s1-btn.primary { background:var(--fern); color:white; }
+.s1-btn.primary:hover { background:var(--mint); }
+.s1-btn.secondary { background:rgba(92,184,122,.1); border:1px solid rgba(92,184,122,.25); color:var(--mint); }
+.s1-btn.secondary:hover { background:rgba(92,184,122,.2); }
+
+/* ──────────────────────────────────────
+   SLIDE 2 — CONTEXTO
+────────────────────────────────────── */
+.s2-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px; }
+.stat { border-radius:10px; padding:26px 22px; position:relative; overflow:hidden; }
+.stat-1 { background:var(--forest); }
+.stat-2 { background:var(--ember); }
+.stat-3 { background:var(--moss); }
+.stat-bg { position:absolute; right:-20px; bottom:-20px; font-size:80px; opacity:.07; pointer-events:none; }
+.stat-n { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,5vw,56px); font-weight:700; color:white; line-height:1; margin-bottom:6px; }
+.stat-l { font-size:12px; color:rgba(255,255,255,.7); line-height:1.4; }
+.s2-list { display:flex; flex-direction:column; gap:8px; }
+.s2-li { display:flex; align-items:flex-start; gap:12px; background:rgba(92,184,122,.06); border:1px solid rgba(92,184,122,.12); border-radius:8px; padding:13px 16px; font-size:13.5px; color:rgba(255,255,255,.8); line-height:1.5; }
+.s2-li-dot { width:6px; height:6px; border-radius:50%; background:var(--mint); flex-shrink:0; margin-top:6px; }
+
+/* ──────────────────────────────────────
+   SLIDE 3 — CONCEITO
+────────────────────────────────────── */
+.s3-quote { background:var(--forest); border-radius:10px; padding:22px 24px; border-left:3px solid var(--mint); margin-bottom:22px; }
+.s3-q-law { font-size:10px; font-weight:700; letter-spacing:.2em; color:var(--mint); text-transform:uppercase; margin-bottom:8px; }
+.s3-q-text { font-size:13px; font-style:italic; color:rgba(255,255,255,.8); line-height:1.7; }
+.s3-vs { display:grid; grid-template-columns:1fr 52px 1fr; gap:0; align-items:center; }
+.vs-col { border-radius:10px; padding:20px; }
+.vs-col.left { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); }
+.vs-col.right { background:var(--forest); border:1px solid rgba(92,184,122,.2); }
+.vs-head { font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid; }
+.vs-col.left .vs-head { color:rgba(255,255,255,.3); border-color:rgba(255,255,255,.1); }
+.vs-col.right .vs-head { color:var(--mint); border-color:rgba(92,184,122,.25); }
+.vs-item { font-size:12.5px; padding:6px 0; display:flex; align-items:center; gap:8px; line-height:1.4; }
+.vs-col.left .vs-item { color:rgba(255,255,255,.4); }
+.vs-col.right .vs-item { color:rgba(255,255,255,.85); }
+.vs-d { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.vs-col.left .vs-d { background:rgba(255,255,255,.2); }
+.vs-col.right .vs-d { background:var(--mint); }
+.vs-mid { display:flex; align-items:center; justify-content:center; }
+.vs-badge { width:40px; height:40px; border-radius:50%; background:var(--fern); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+
+/* ──────────────────────────────────────
+   SLIDE 4 — BASE LEGAL (timeline)
+────────────────────────────────────── */
+.tl { position:relative; padding-left:36px; display:flex; flex-direction:column; gap:0; }
+.tl::before { content:''; position:absolute; left:15px; top:10px; bottom:10px; width:1px; background:linear-gradient(to bottom, var(--fern), rgba(61,138,92,.1)); }
+.tl-row { display:grid; grid-template-columns:90px 1fr; gap:22px; padding:13px 0; position:relative; }
+.tl-row::before { content:''; position:absolute; left:-29px; top:50%; transform:translateY(-50%); width:10px; height:10px; border-radius:50%; background:var(--mint); border:2.5px solid var(--ink); box-shadow:0 0 0 2px var(--mint); }
+.tl-year { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:700; color:var(--mint); line-height:1; }
+.tl-law { font-size:10px; color:rgba(255,255,255,.3); margin-top:2px; }
+.tl-text { font-size:13px; color:rgba(255,255,255,.7); line-height:1.55; padding-top:3px; }
+
+/* ──────────────────────────────────────
+   SLIDE 5 — OBRIGADOS
+────────────────────────────────────── */
+.s5-wrap { display:grid; grid-template-columns:1fr 1.3fr; gap:20px; flex:1; }
+.s5-cats { display:flex; flex-direction:column; gap:10px; }
+.s5-cat { background:var(--forest); border-radius:8px; padding:16px 20px; display:flex; align-items:center; gap:12px; }
+.s5-cat-icon { font-size:20px; }
+.s5-cat-name { font-size:14px; font-weight:600; }
+.s5-right { display:flex; flex-direction:column; gap:12px; }
+.s5-examples-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.s5-ex { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:14px 10px; text-align:center; font-size:12px; font-weight:500; color:rgba(255,255,255,.75); display:flex; flex-direction:column; gap:5px; }
+.s5-ex-icon { font-size:20px; }
+.s5-warning { background:rgba(200,86,26,.12); border:1px solid rgba(200,86,26,.3); border-radius:8px; padding:13px 16px; font-size:12.5px; color:rgba(232,131,42,.9); line-height:1.5; }
+
+/* ──────────────────────────────────────
+   SLIDE 6 — SISTEMA
+────────────────────────────────────── */
+.s6-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; flex:1; }
+.s6-step { background:var(--forest); border-radius:10px; padding:24px 20px; position:relative; overflow:hidden; }
+.s6-step-num { font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:700; color:rgba(92,184,122,.12); position:absolute; top:8px; right:14px; line-height:1; }
+.s6-step-text { font-size:13.5px; font-weight:500; color:rgba(255,255,255,.85); line-height:1.5; position:relative; z-index:1; }
+.s6-step-icon { font-size:22px; margin-bottom:10px; }
+
+/* ──────────────────────────────────────
+   SLIDE 7 — CRÉDITOS
+────────────────────────────────────── */
+.s7-hero { background:var(--forest); border-radius:10px; padding:20px 26px; margin-bottom:22px; display:flex; align-items:center; gap:20px; }
+.s7-hero-eq { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; color:white; }
+.s7-hero-eq span { color:var(--mint); }
+.s7-hero-sub { font-size:12px; color:rgba(255,255,255,.5); line-height:1.5; margin-top:4px; }
+.s7-chain { display:grid; grid-template-columns:repeat(5,1fr); border-radius:10px; overflow:hidden; }
+.s7-node { padding:20px 12px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.s7-node:nth-child(odd) { background:rgba(255,255,255,.05); }
+.s7-node:nth-child(even) { background:var(--forest); }
+.s7-ni { font-size:24px; }
+.s7-nt { font-size:11px; color:rgba(255,255,255,.7); line-height:1.4; }
+
+/* ──────────────────────────────────────
+   SLIDE 8 — ATORES
+────────────────────────────────────── */
+.s8-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; flex:1; }
+.s8-actor { border-radius:10px; padding:22px 18px; border:1px solid; }
+.s8-a1 { background:rgba(24,56,37,.8); border-color:rgba(92,184,122,.3); }
+.s8-a2 { background:rgba(24,56,37,.6); border-color:rgba(92,184,122,.2); }
+.s8-a3 { background:rgba(24,56,37,.5); border-color:rgba(92,184,122,.15); }
+.s8-a4 { background:rgba(24,56,37,.4); border-color:rgba(92,184,122,.12); }
+.s8-a5 { background:rgba(24,56,37,.3); border-color:rgba(92,184,122,.1); }
+.s8-a6 { background:rgba(200,86,26,.1); border-color:rgba(200,86,26,.25); }
+.s8-name { font-size:14px; font-weight:700; color:white; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+.s8-desc { font-size:12px; color:rgba(255,255,255,.55); line-height:1.5; }
+
+/* ──────────────────────────────────────
+   SLIDE 9 — ECONOMIA
+────────────────────────────────────── */
+.s9-cols { display:grid; grid-template-columns:1fr 1fr; gap:18px; flex:1; }
+.s9-col-head { font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; padding-bottom:10px; border-bottom:1px solid; margin-bottom:14px; }
+.s9-pays .s9-col-head { color:var(--amber); border-color:rgba(232,131,42,.25); }
+.s9-recv .s9-col-head { color:var(--mint); border-color:rgba(92,184,122,.25); }
+.s9-item { padding:10px 14px; border-radius:7px; font-size:13px; color:rgba(255,255,255,.75); margin-bottom:8px; display:flex; align-items:center; gap:10px; }
+.s9-pays .s9-item { background:rgba(232,131,42,.08); }
+.s9-recv .s9-item { background:rgba(92,184,122,.08); }
+.s9-d { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.s9-pays .s9-d { background:var(--amber); }
+.s9-recv .s9-d { background:var(--mint); }
+.s9-prices { background:rgba(255,255,255,.04); border-radius:7px; padding:11px 14px; font-size:11px; color:rgba(255,255,255,.4); line-height:1.6; grid-column:1/-1; }
+.s9-prices b { color:var(--mint); }
+
+/* ──────────────────────────────────────
+   SLIDE 10 — GOIÁS
+────────────────────────────────────── */
+.s10-badge { display:inline-flex; align-items:center; gap:12px; background:var(--forest); border:1px solid rgba(92,184,122,.2); border-radius:8px; padding:12px 18px; margin-bottom:22px; }
+.s10-badge-t { font-size:12px; color:rgba(255,255,255,.6); line-height:1.4; }
+.s10-badge-t b { color:var(--mint); display:block; font-size:13px; }
+.s10-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; flex:1; }
+.s10-step { background:var(--forest); border-radius:10px; padding:22px 18px; border-top:3px solid var(--fern); }
+.s10-step-n { font-size:15px; font-weight:700; color:white; margin-bottom:10px; }
+.s10-step-d { font-size:12px; color:rgba(255,255,255,.55); line-height:1.55; }
+
+/* ──────────────────────────────────────
+   SLIDE 11 — RISCOS
+────────────────────────────────────── */
+.s11 {
+  background:#110d05;
+  background-image:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(50,20,5,.8) 0%, transparent 60%);
+  padding:56px 80px 48px;
+}
+.s11 .stag { color:var(--ember); }
+.s11 .stitle { color:white; }
+.s11-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; flex:1; margin-bottom:14px; }
+.s11-card { background:rgba(255,255,255,.03); border:1px solid rgba(200,86,26,.2); border-radius:10px; padding:22px 20px; }
+.s11-card-title { font-size:14px; font-weight:700; color:var(--amber); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+.s11-card-icon { font-size:18px; }
+.s11-card-text { font-size:12.5px; color:rgba(255,255,255,.6); line-height:1.55; }
+.s11-alert { background:rgba(200,86,26,.12); border:1px solid rgba(200,86,26,.3); border-radius:7px; padding:12px 16px; font-size:12px; color:rgba(232,131,42,.9); line-height:1.5; }
+
+/* ──────────────────────────────────────
+   SLIDE 12 — 5 PASSOS (light)
+────────────────────────────────────── */
+.s12-list { display:flex; flex-direction:column; gap:10px; flex:1; }
+.s12-step { display:grid; grid-template-columns:56px 170px 1fr; gap:20px; align-items:center; background:white; border-radius:10px; padding:16px 22px; border:1px solid rgba(0,0,0,.06); box-shadow:0 1px 3px rgba(0,0,0,.04); }
+.s12-num { font-family:'Cormorant Garamond',serif; font-size:34px; font-weight:700; color:var(--fern); line-height:1; }
+.s12-name { font-size:14px; font-weight:700; color:var(--ink); }
+.s12-desc { font-size:12.5px; color:#666; line-height:1.55; border-left:2px solid rgba(61,138,92,.2); padding-left:14px; }
+
+/* ──────────────────────────────────────
+   SLIDE 13 — HÁBILIS ATUAÇÃO
+────────────────────────────────────── */
+.s13-note { background:var(--forest); border-left:3px solid var(--mint); border-radius:0 8px 8px 0; padding:16px 22px; margin-bottom:20px; font-size:13px; font-style:italic; color:rgba(255,255,255,.8); line-height:1.65; }
+.s13-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; flex:1; }
+.s13-svc { background:rgba(255,255,255,.04); border:1px solid rgba(92,184,122,.12); border-radius:10px; padding:20px 18px; }
+.s13-svc:nth-child(4) { grid-column:span 2; }
+.s13-svc-n { font-size:13px; font-weight:700; color:var(--mint); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+.s13-svc-d { font-size:12px; color:rgba(255,255,255,.55); line-height:1.5; }
+
+/* ──────────────────────────────────────
+   SLIDE 14 — TABELA MÓDULOS
+────────────────────────────────────── */
+.s14-t { flex:1; display:flex; flex-direction:column; }
+.s14-head { display:grid; grid-template-columns:110px 185px 1fr 1fr; gap:16px; padding:0 18px 10px; border-bottom:1px solid rgba(92,184,122,.15); }
+.s14-hc { font-size:10px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.3); }
+.s14-rows { flex:1; display:flex; flex-direction:column; gap:7px; padding-top:10px; }
+.s14-row { display:grid; grid-template-columns:110px 185px 1fr 1fr; gap:16px; background:var(--forest); border-radius:8px; padding:14px 18px; align-items:center; border:1px solid rgba(92,184,122,.08); }
+.s14-mod { font-size:12px; font-weight:700; color:var(--mint); }
+.s14-cell { font-size:12px; color:rgba(255,255,255,.7); line-height:1.4; }
+.s14-badge { background:rgba(92,184,122,.1); border:1px solid rgba(92,184,122,.2); color:var(--mint); font-size:11px; font-weight:600; padding:3px 10px; border-radius:4px; display:inline-block; }
+.s14-foot { font-size:11px; color:rgba(255,255,255,.25); text-align:center; padding-top:12px; border-top:1px solid rgba(255,255,255,.06); margin-top:8px; }
+
+/* ──────────────────────────────────────
+   SLIDE 15 — FAQ
+────────────────────────────────────── */
+.s15-faq { display:flex; flex-direction:column; gap:0; flex:1; overflow-y:auto; }
+.faq-item { border-bottom:1px solid rgba(255,255,255,.06); }
+.faq-q { display:flex; justify-content:space-between; align-items:center; padding:14px 0; cursor:none; transition:color .2s; }
+.faq-q-text { font-size:14px; font-weight:600; color:rgba(255,255,255,.85); line-height:1.4; padding-right:20px; }
+.faq-q:hover .faq-q-text { color:var(--mint); }
+.faq-toggle { font-size:18px; color:var(--mint); flex-shrink:0; transition:transform .3s; }
+.faq-item.open .faq-toggle { transform:rotate(45deg); }
+.faq-a { font-size:13px; color:rgba(255,255,255,.55); line-height:1.65; padding:0 0 14px; display:none; }
+.faq-item.open .faq-a { display:block; }
+
+/* ──────────────────────────────────────
+   SLIDE 16 — ENCERRAMENTO
+────────────────────────────────────── */
+.s16 {
+  background:var(--forest);
+  background-image:
+    radial-gradient(ellipse 80% 70% at 20% 50%, rgba(42,92,63,.6) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 100% 90%, rgba(11,26,18,.8) 0%, transparent 50%);
+  justify-content:center;
+  padding:80px 100px;
+  position:relative; overflow:hidden;
+}
+.s16-eyebrow { font-size:10px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; color:var(--mint); margin-bottom:22px; }
+.s16-headline { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,4.5vw,56px); font-weight:700; color:white; line-height:1.1; margin-bottom:12px; }
+.s16-sub { font-family:'Cormorant Garamond',serif; font-size:clamp(16px,1.8vw,22px); font-style:italic; color:var(--mint); margin-bottom:40px; }
+.s16-points { display:flex; flex-direction:column; gap:14px; margin-bottom:44px; }
+.s16-pt { display:flex; align-items:flex-start; gap:16px; font-size:14px; color:rgba(255,255,255,.8); line-height:1.55; }
+.s16-icon { width:34px; height:34px; border:1px solid rgba(92,184,122,.3); border-radius:7px; background:rgba(92,184,122,.1); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+.s16-cta { display:flex; gap:12px; margin-bottom:40px; }
+.s16-btn { padding:13px 28px; border-radius:9px; font-size:13px; font-weight:600; cursor:none; border:none; letter-spacing:.05em; transition:all .2s; }
+.s16-btn.p { background:var(--mint); color:var(--ink); }
+.s16-btn.p:hover { background:var(--sage); }
+.s16-btn.s { background:rgba(255,255,255,.08); color:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.15); }
+.s16-btn.s:hover { background:rgba(255,255,255,.14); }
+.s16-footer { font-size:11px; color:rgba(255,255,255,.25); letter-spacing:.08em; border-top:1px solid rgba(255,255,255,.1); padding-top:18px; }
+
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="grain"></div>
+<div id="progress"></div>
+
+<div id="logo"><img id="logo-img" src="data:image/png;base64,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1xv9pmKT0aUKVGJ5ebl76tQpFhYWSJKE4XA4+lvahCdPnuTaa6+lVquRZRl5nhPHMTt37uSBBx4IqW+hwgPvPUopJiYmRptfo9HA2nCc1lqWl5cZDAZkWXa80WgwPz9vTp8+bUoCW2tpNpuXvfzlL0drzd/93d/t+5M/+RPxN3/zN+zatYvS5q1IuEVgjClUuuAprdfrfOITn7jsfe97H3/zN3/zhuc85zkfnp2drWmtybIMa+3IBS+l5EMf+hDXXXcdv/iLv+i994yPj/MDP/ADv/emN72JG2+88QIhBFpr+v0+3W6XZrPJYDBgcnJyZONYa6nX69TrdVZWVjDGFF7XIULA2NjYpRdeeOGPWGPAe26//XY+8pGPsLhw+v5molmaX0R5mGwlnD5+6tihhx/mta99LZdffvlvAPz7f//v/dzc3Oi4jTEjIpbSaffu3Vhru6WdbK3F2hDz++xnP/uuffv28fM///O+fH8prY0xvP3tb2fv3r28+c1v9mXo4nWve52/8847+eM//mMxMzNDkiQsLi6OSF96QrMsG/3eUj2GYP9lWXbMe8/k5OToWKWU1Go1pJS1/fv3s2PHDiA4snbs2MGrXvUq9u3bd83q6uoGe38r40nvHdVajy7K4XCIMYZDhw7d/e53v/vV999//7ve8IY3vLTT6QwOHjzIhz70oV+766673lhenIPBgN/8zd8UJ06c8FdeeSXvec97/NGjRzl48CAf/vCHRafTGe3uEC6s4XDIZz7zmdH3G2Not9ssLi5y2223jV4bRRE7d27fceLYiePGmKVf/MVf/LMdu/f92cH7H+Dhhx/mT9/yx3806HepCahLqMWQKE8PePufvfX///Srrvqpv3j/X/7Srbfd8Uvj4+M88MAD3HPPPSPpq5Si9NyOj49P3nTTTURRNOt9GOyplKLVarGyssKtt976w5/85Cdf/ZznPIddu3btOXXq1JFWq8VgMGAwGPChD31I9Hq97HnPe170jne8w3vv+fSnP81P/dRPCYB+vz8K+5TOqIceemh0LKWKvx7GGAaDwf2f+9znUErper1uSo0kyzIOHz787j/6oz9613/8j/+RQ4cO+fe+973i7rvv5gUveAHXXHPNF+bn50Wn06m8o1vhVkqHJElGamCJWq3Gtm3bWvv27bt03759l5avjeOYVqvFxMQESZIQRRFx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" alt="Hábilis Consultoria Ambiental"></div>
+
+<div id="counter"><span id="c-num" class="c-num">1</span><span>/ 16</span></div>
+
+<div id="dots"></div>
+
+<div id="hint">
+  <div class="hint-line"><span class="hint-key">→</span> avançar</div>
+  <div class="hint-line"><span class="hint-key">O</span> visão geral</div>
+  <div class="hint-line"><span class="hint-key">P</span> apresentador</div>
+  <div class="hint-line"><span class="hint-key">?</span> ajuda</div>
+</div>
+
+<div id="nav">
+  <button class="nav-btn" id="btn-prev">←</button>
+  <span id="nav-label">Capa</span>
+  <button class="nav-btn" id="btn-next">→</button>
+</div>
+
+<!-- ════════════════════ DECK ════════════════════ -->
+<div id="deck">
+
+<!-- S1: CAPA -->
+<div class="slide s1 active" data-i="0">
+  <div class="s1-circle1"></div><div class="s1-circle2"></div><div class="s1-circle3"></div>
+  <p class="s1-eyebrow a" style="animation:rise .5s .2s;margin-top:14px">Hábilis Consultoria Ambiental</p>
+  <h1 class="s1-headline a" style="animation:rise .7s .2s">LOGÍSTICA<br><em>REVERSA</em></h1>
+  <p class="s1-sub a" style="animation:rise .6s .35s">Gestão de Risco Regulatório e Vantagem Competitiva</p>
+  <div class="s1-pills a" style="animation:rise .6s .45s">
+    <span class="s1-pill">Obrigação Legal Imediata</span>
+    <span class="s1-pill">Base Legal Federal e Estadual</span>
+    <span class="s1-pill">Goiás · 2026</span>
+  </div>
+  <div class="s1-actions a" style="animation:rise .5s .55s">
+    <button class="s1-btn primary" onclick="openQuiz()">Verificar Enquadramento</button>
+    <button class="s1-btn secondary" onclick="openCalc()">Calcular Massa</button>
+  </div>
+  <p class="s1-footer a" style="animation:rise .5s .65s">Goiânia · Goiás · Brasil · 2026</p>
+  <span class="snum">1 / 16</span>
+</div>
+
+<!-- S2: CONTEXTO -->
+<div class="slide s-dark" data-i="1">
+  <p class="stag a" style="animation:rise .4s .05s">Contexto</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">O Problema Ambiental — e o Passivo Jurídico</h2>
+  <div class="s2-stats">
+    <div class="stat stat-1 a" style="animation:grow .5s .15s"><span class="stat-bg">📊</span><div class="stat-n">79 Mi</div><div class="stat-l">toneladas de resíduos<br>gerados no Brasil/ano</div></div>
+    <div class="stat stat-2 a" style="animation:grow .5s .25s"><span class="stat-bg">⚠</span><div class="stat-n">40%</div><div class="stat-l">dos resíduos são<br>descartados inadequadamente</div></div>
+    <div class="stat stat-3 a" style="animation:grow .5s .35s"><span class="stat-bg">🌿</span><div class="stat-n">600</div><div class="stat-l">anos para degradação<br>de um pneu no ambiente</div></div>
+  </div>
+  <div class="s2-list">
+    <div class="s2-li a" style="animation:push .5s .45s"><span class="s2-li-dot"></span>Contaminação de solo e recursos hídricos gera passivo ambiental de difícil mensuração</div>
+    <div class="s2-li a" style="animation:push .5s .53s"><span class="s2-li-dot"></span>Sobrecarga de aterros gera pressão regulatória crescente sobre o setor privado</div>
+    <div class="s2-li a" style="animation:push .5s .61s"><span class="s2-li-dot"></span>Impactos à saúde pública intensificam escrutínio de investidores ESG e órgãos reguladores</div>
+  </div>
+  <span class="snum">2 / 16</span>
+</div>
+
+<!-- S3: CONCEITO -->
+<div class="slide s-dark" data-i="2">
+  <p class="stag a" style="animation:rise .4s .05s">Conceito</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">O que é Logística Reversa — e por que é sua responsabilidade</h2>
+  <div class="s3-quote a" style="animation:rise .5s .15s">
+    <p class="s3-q-law">Lei nº 12.305/2010 — PNRS</p>
+    <p class="s3-q-text">"Instrumento de desenvolvimento econômico e social para viabilizar a coleta e a restituição dos resíduos sólidos ao setor empresarial, para reaproveitamento em seu ciclo produtivo ou para destinação final ambientalmente adequada."</p>
+  </div>
+  <div class="s3-vs">
+    <div class="vs-col left a" style="animation:push .5s .3s">
+      <p class="vs-head">Gerenciamento de Resíduos</p>
+      <div class="vs-item"><span class="vs-d"></span>Descarte após o consumo</div>
+      <div class="vs-item"><span class="vs-d"></span>Foco em coleta e destinação</div>
+      <div class="vs-item"><span class="vs-d"></span>Responsabilidade do poder público</div>
+      <div class="vs-item"><span class="vs-d"></span>Final da cadeia produtiva</div>
+    </div>
+    <div class="vs-mid a" style="animation:grow .4s .45s"><div class="vs-badge">VS</div></div>
+    <div class="vs-col right a" style="animation:push .5s .3s">
+      <p class="vs-head">Logística Reversa</p>
+      <div class="vs-item"><span class="vs-d"></span>Retorno ao ciclo produtivo</div>
+      <div class="vs-item"><span class="vs-d"></span>Responsabilidade do setor privado</div>
+      <div class="vs-item"><span class="vs-d"></span>Integra toda a cadeia de valor</div>
+      <div class="vs-item"><span class="vs-d"></span>Base legal — obrigação legal</div>
+    </div>
+  </div>
+  <span class="snum">3 / 16</span>
+</div>
+
+<!-- S4: BASE LEGAL -->
+<div class="slide s-dark-r" data-i="3">
+  <p class="stag a" style="animation:rise .4s .05s">Base Legal</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">Arcabouço Normativo — Obrigação Consolidada</h2>
+  <div class="tl">
+    <div class="tl-row a" style="animation:push .5s .12s"><div><div class="tl-year">2010</div><div class="tl-law">Lei nº 12.305</div></div><div class="tl-text">Política Nacional de Resíduos Sólidos — institui a logística reversa como obrigação legal</div></div>
+    <div class="tl-row a" style="animation:push .5s .22s"><div><div class="tl-year">2022</div><div class="tl-law">Decreto nº 10.936</div></div><div class="tl-text">Regulamenta a PNRS — detalha responsabilidades, metas e mecanismos do sistema</div></div>
+    <div class="tl-row a" style="animation:push .5s .32s"><div><div class="tl-year">2023</div><div class="tl-law">Decreto nº 11.413</div></div><div class="tl-text">Institui os Certificados de Crédito de Reciclagem (CCR) e a rastreabilidade</div></div>
+    <div class="tl-row a" style="animation:push .5s .42s"><div><div class="tl-year">2023</div><div class="tl-law">Decreto GO 10.255</div></div><div class="tl-text">Institui o Comitê de Logística Reversa do Estado de Goiás e o Sistema Recicla Goiás</div></div>
+    <div class="tl-row a" style="animation:push .5s .52s"><div><div class="tl-year">2024</div><div class="tl-law">Portarias MMA</div></div><div class="tl-text">Habilitação de entidades gestoras e verificadores — fiscalização em vigor</div></div>
+  </div>
+  <span class="snum">4 / 16</span>
+</div>
+
+<!-- S5: OBRIGADOS -->
+<div class="slide s-dark" data-i="4">
+  <p class="stag a" style="animation:rise .4s .05s">Obrigações Legais</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">Quem Está Obrigado — Sua Empresa Provavelmente Está</h2>
+  <div class="s5-wrap">
+    <div class="s5-cats">
+      <div class="s5-cat a" style="animation:push .4s .15s"><span class="s5-cat-icon">🏭</span><span class="s5-cat-name">Fabricantes</span></div>
+      <div class="s5-cat a" style="animation:push .4s .22s"><span class="s5-cat-icon">🌐</span><span class="s5-cat-name">Importadores</span></div>
+      <div class="s5-cat a" style="animation:push .4s .29s"><span class="s5-cat-icon">🚚</span><span class="s5-cat-name">Distribuidores</span></div>
+      <div class="s5-cat a" style="animation:push .4s .36s"><span class="s5-cat-icon">🏪</span><span class="s5-cat-name">Comerciantes</span></div>
+    </div>
+    <div class="s5-right">
+      <div class="s5-examples-grid">
+        <div class="s5-ex a" style="animation:grow .4s .2s"><span class="s5-ex-icon">🛒</span>Supermercados</div>
+        <div class="s5-ex a" style="animation:grow .4s .25s"><span class="s5-ex-icon">💊</span>Farmácias</div>
+        <div class="s5-ex a" style="animation:grow .4s .3s"><span class="s5-ex-icon">🏭</span>Indústrias</div>
+        <div class="s5-ex a" style="animation:grow .4s .35s"><span class="s5-ex-icon">📦</span>E-commerce</div>
+        <div class="s5-ex a" style="animation:grow .4s .4s"><span class="s5-ex-icon">🚗</span>Autopeças</div>
+        <div class="s5-ex a" style="animation:grow .4s .45s"><span class="s5-ex-icon">🚛</span>Distribuidoras</div>
+      </div>
+      <div class="s5-warning a" style="animation:rise .5s .5s">⚠ A obrigação alcança toda a cadeia — quem coloca embalagem no mercado é co-responsável, independente do porte.</div>
+    </div>
+  </div>
+  <span class="snum">5 / 16</span>
+</div>
+
+<!-- S6: SISTEMA -->
+<div class="slide s-dark-r" data-i="5">
+  <p class="stag a" style="animation:rise .4s .05s">Sistema</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">Como Funciona — Do Mercado ao Certificado</h2>
+  <div class="s6-grid">
+    <div class="s6-step a" style="animation:grow .5s .12s"><div class="s6-step-icon">📦</div><span class="s6-step-num">1</span><div class="s6-step-text">Empresa coloca embalagens no mercado</div></div>
+    <div class="s6-step a" style="animation:grow .5s .20s"><div class="s6-step-icon">⚖</div><span class="s6-step-num">2</span><div class="s6-step-text">Cálculo da massa de embalagens colocadas</div></div>
+    <div class="s6-step a" style="animation:grow .5s .28s"><div class="s6-step-icon">🎯</div><span class="s6-step-num">3</span><div class="s6-step-text">Definição da meta de reciclagem (ex.: 30%)</div></div>
+    <div class="s6-step a" style="animation:grow .5s .36s"><div class="s6-step-icon">🏦</div><span class="s6-step-num">4</span><div class="s6-step-text">Compra de créditos via entidade gestora habilitada</div></div>
+    <div class="s6-step a" style="animation:grow .5s .44s"><div class="s6-step-icon">🔍</div><span class="s6-step-num">5</span><div class="s6-step-text">Auditoria independente dos créditos adquiridos</div></div>
+    <div class="s6-step a" style="animation:grow .5s .52s"><div class="s6-step-icon">✅</div><span class="s6-step-num">6</span><div class="s6-step-text">Certificado de Crédito de Reciclagem (CCR) emitido</div></div>
+  </div>
+  <span class="snum">6 / 16</span>
+</div>
+
+<!-- S7: CRÉDITOS -->
+<div class="slide s-dark" data-i="6">
+  <p class="stag a" style="animation:rise .4s .05s">Créditos de Reciclagem</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">O Ativo que Comprova sua Conformidade</h2>
+  <div class="s7-hero a" style="animation:rise .5s .15s">
+    <div>
+      <p class="s7-hero-eq">1 CRÉDITO <span>=</span> 1 kg de material reciclado comprovado documentalmente</p>
+      <p class="s7-hero-sub">Ativo ambiental obrigatório · Rastreável por nota fiscal · Auditado por verificador independente</p>
+    </div>
+  </div>
+  <div class="s7-chain">
+    <div class="s7-node a" style="animation:rise .4s .2s"><div class="s7-ni">🤝</div><div class="s7-nt">Cooperativa coleta e tria resíduos</div></div>
+    <div class="s7-node a" style="animation:rise .4s .28s"><div class="s7-ni">🏭</div><div class="s7-nt">Vende material à recicladora industrial</div></div>
+    <div class="s7-node a" style="animation:rise .4s .36s"><div class="s7-ni">📄</div><div class="s7-nt">Nota fiscal registra massa reciclada</div></div>
+    <div class="s7-node a" style="animation:rise .4s .44s"><div class="s7-ni">🏦</div><div class="s7-nt">Entidade gestora gera o crédito</div></div>
+    <div class="s7-node a" style="animation:rise .4s .52s"><div class="s7-ni">🏅</div><div class="s7-nt">Empresa recebe certificado de compensação</div></div>
+  </div>
+  <span class="snum">7 / 16</span>
+</div>
+
+<!-- S8: ATORES -->
+<div class="slide s-dark-r" data-i="7">
+  <p class="stag a" style="animation:rise .4s .05s">Estrutura Institucional</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">Os Seis Atores do Sistema — Quem Faz o Quê</h2>
+  <div class="s8-grid">
+    <div class="s8-actor s8-a1 a" style="animation:grow .5s .12s"><div class="s8-name">🏢 Empresas Obrigadas</div><div class="s8-desc">Financiam o sistema; declaram massa de embalagens colocadas no mercado</div></div>
+    <div class="s8-actor s8-a2 a" style="animation:grow .5s .20s"><div class="s8-name">🏦 Entidades Gestoras</div><div class="s8-desc">Organizam a compensação; emitem Certificados de Crédito de Reciclagem</div></div>
+    <div class="s8-actor s8-a3 a" style="animation:grow .5s .28s"><div class="s8-name">♻ Cooperativas e Recicladoras</div><div class="s8-desc">Geram créditos via notas fiscais de recicláveis vendidos</div></div>
+    <div class="s8-actor s8-a4 a" style="animation:grow .5s .36s"><div class="s8-name">🚛 Operadores Logísticos</div><div class="s8-desc">Transporte, triagem e processamento dos resíduos coletados</div></div>
+    <div class="s8-actor s8-a5 a" style="animation:grow .5s .44s"><div class="s8-name">🔍 Verificadores Independentes</div><div class="s8-desc">Auditam a veracidade da massa reciclada declarada</div></div>
+    <div class="s8-actor s8-a6 a" style="animation:grow .5s .52s"><div class="s8-name">⚖ Órgãos Ambientais</div><div class="s8-desc">Regulam, fiscalizam e recebem relatórios anuais das empresas obrigadas</div></div>
+  </div>
+  <span class="snum">8 / 16</span>
+</div>
+
+<!-- S9: ECONOMIA -->
+<div class="slide s-dark" data-i="8">
+  <p class="stag a" style="animation:rise .4s .05s">Economia do Sistema</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">Quem Financia · Quem Lucra</h2>
+  <div class="s9-cols">
+    <div class="s9-pays a" style="animation:push .5s .15s">
+      <p class="s9-col-head">Quem Paga</p>
+      <div class="s9-item"><span class="s9-d"></span>Fabricantes</div>
+      <div class="s9-item"><span class="s9-d"></span>Importadores</div>
+      <div class="s9-item"><span class="s9-d"></span>Distribuidores</div>
+      <div class="s9-item"><span class="s9-d"></span>Comerciantes (supermercados, farmácias, e-commerce...)</div>
+    </div>
+    <div class="s9-recv a" style="animation:push .5s .25s">
+      <p class="s9-col-head">Quem Recebe</p>
+      <div class="s9-item"><span class="s9-d"></span>Cooperativas de catadores — venda de recicláveis</div>
+      <div class="s9-item"><span class="s9-d"></span>Recicladoras — compra de material reciclável</div>
+      <div class="s9-item"><span class="s9-d"></span>Operadores logísticos — serviço de coleta/triagem</div>
+      <div class="s9-item"><span class="s9-d"></span>Entidades gestoras — margem operacional</div>
+    </div>
+    <div class="s9-prices a" style="animation:rise .5s .4s"><b>Preços médios de mercado (por tonelada):</b> Plástico R$ 80–350 · Papel R$ 8–100 · Metal R$ 60–150 · Vidro R$ 50–150</div>
+  </div>
+  <span class="snum">9 / 16</span>
+</div>
+
+<!-- S10: GOIÁS -->
+<div class="slide s-dark-r" data-i="9">
+  <p class="stag a" style="animation:rise .4s .05s">Sistema Estadual</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">O que Goiás Exige — Quatro Obrigações Específicas</h2>
+  <div class="s10-badge a" style="animation:rise .5s .15s">
+    <div style="font-size:22px">📍</div>
+    <div class="s10-badge-t"><b>Sistema Recicla Goiás</b>Decreto Estadual nº 10.255/2023 · Plataforma da SIC/GO</div>
+  </div>
+  <div class="s10-grid">
+    <div class="s10-step a" style="animation:rise .5s .2s"><div class="s10-step-n">📋 Cadastro</div><div class="s10-step-d">Registro da empresa com CNPJ, atividade econômica e dados de comercialização</div></div>
+    <div class="s10-step a" style="animation:rise .5s .3s"><div class="s10-step-n">📝 Plano de LR</div><div class="s10-step-d">Plano de Logística Reversa com metas, cronograma e forma de cumprimento</div></div>
+    <div class="s10-step a" style="animation:rise .5s .4s"><div class="s10-step-n">🎯 Metas Anuais</div><div class="s10-step-d">Declaração da massa de embalagens e da meta de reciclagem aplicável</div></div>
+    <div class="s10-step a" style="animation:rise .5s .5s"><div class="s10-step-n">📊 Relatórios</div><div class="s10-step-d">Envio dos certificados e relatórios de desempenho ao órgão ambiental</div></div>
+  </div>
+  <span class="snum">10 / 16</span>
+</div>
+
+<!-- S11: RISCOS -->
+<div class="slide s11" data-i="10">
+  <p class="stag a" style="animation:rise .4s .05s">Riscos Regulatórios</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">Não Conformidade — Exposição Real</h2>
+  <div class="s11-grid">
+    <div class="s11-card a" style="animation:grow .5s .15s"><div class="s11-card-title"><span class="s11-card-icon">⚠</span>Multas Ambientais</div><div class="s11-card-text">Autuações com valores proporcionais ao porte e à extensão do descumprimento — sem teto definido em lei</div></div>
+    <div class="s11-card a" style="animation:grow .5s .25s"><div class="s11-card-title"><span class="s11-card-icon">🚫</span>Bloqueio de Licenciamento</div><div class="s11-card-text">Impossibilidade de obter ou renovar licenças ambientais por inadimplência no sistema</div></div>
+    <div class="s11-card a" style="animation:grow .5s .35s"><div class="s11-card-title"><span class="s11-card-icon">⚖</span>Responsabilização Admin.</div><div class="s11-card-text">Processo na SEMAD-GO, IBAMA ou MP — pode afetar diretores e sócios por omissão pessoal</div></div>
+    <div class="s11-card a" style="animation:grow .5s .45s"><div class="s11-card-title"><span class="s11-card-icon">🔎</span>Fiscalização Crescente</div><div class="s11-card-text">Cruzamento automatizado de dados econômicos (CNAE, faturamento) com cadastro de obrigados</div></div>
+  </div>
+  <div class="s11-alert a" style="animation:rise .5s .55s">⚠ Empresas com CNAE de setores obrigados identificadas automaticamente — o risco de notificação é crescente e imediato.</div>
+  <span class="snum">11 / 16</span>
+</div>
+
+<!-- S12: 5 PASSOS -->
+<div class="slide s-light" data-i="11">
+  <p class="stag stag-dark a" style="animation:rise .4s .05s">Regularização</p>
+  <h2 class="stitle stitle-dark a" style="animation:rise .5s .1s">Cinco Passos para a Conformidade — Do Diagnóstico ao Certificado</h2>
+  <div class="s12-list">
+    <div class="s12-step a" style="animation:push .4s .12s"><span class="s12-num">01</span><span class="s12-name">Diagnóstico Regulatório</span><span class="s12-desc">Confirmar enquadramento via CNAE, atividade real e tipo de embalagens — define se há e qual é a obrigação</span></div>
+    <div class="s12-step a" style="animation:push .4s .20s"><span class="s12-num">02</span><span class="s12-name">Cálculo de Massa</span><span class="s12-desc">Estimar a massa de embalagens por método direto ou coeficiente setorial documentado</span></div>
+    <div class="s12-step a" style="animation:push .4s .28s"><span class="s12-num">03</span><span class="s12-name">Adesão ao Sistema</span><span class="s12-desc">Selecionar entidade gestora habilitada pelo MMA e contratar compensação dos créditos</span></div>
+    <div class="s12-step a" style="animation:push .4s .36s"><span class="s12-num">04</span><span class="s12-name">Cadastro Estadual</span><span class="s12-desc">Registrar empresa no Recicla Goiás e elaborar o Plano de Logística Reversa (PLR)</span></div>
+    <div class="s12-step a" style="animation:push .4s .44s"><span class="s12-num">05</span><span class="s12-name">Gestão Anual</span><span class="s12-desc">Atualizar dados, obter certificados anuais e reportar ao órgão — conformidade contínua garantida</span></div>
+  </div>
+  <span class="snum snum-dark">12 / 16</span>
+</div>
+
+<!-- S13: HÁBILIS -->
+<div class="slide s-dark" data-i="12">
+  <p class="stag a" style="animation:rise .4s .05s">Hábilis Consultoria Ambiental</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">Como a Hábilis Atua — Do Diagnóstico à Conformidade Contínua</h2>
+  <div class="s13-note a" style="animation:rise .5s .15s">A Hábilis não recicla nem gera créditos. Estrutura a conformidade regulatória completa — do enquadramento à gestão anual — para que sua empresa opere sem risco.</div>
+  <div class="s13-grid">
+    <div class="s13-svc a" style="animation:grow .5s .2s"><div class="s13-svc-n">🔍 Diagnóstico Regulatório</div><div class="s13-svc-d">Análise de CNAE, atividade e embalagens → Relatório de Enquadramento</div></div>
+    <div class="s13-svc a" style="animation:grow .5s .28s"><div class="s13-svc-n">⚖ Cálculo de Massa</div><div class="s13-svc-d">Metodologia documentada: direto ou coeficiente setorial</div></div>
+    <div class="s13-svc a" style="animation:grow .5s .36s"><div class="s13-svc-n">📋 Regularização</div><div class="s13-svc-d">Cadastro, PLR e seleção de entidade gestora habilitada</div></div>
+    <div class="s13-svc a" style="animation:grow .5s .44s"><div class="s13-svc-n">📅 Gestão Anual de Conformidade</div><div class="s13-svc-d">Certificados, relatórios e acompanhamento regulatório contínuo para toda a cadeia</div></div>
+    <div class="s13-svc a" style="animation:grow .5s .52s"><div class="s13-svc-n">🔗 Integração com Licenciamento</div><div class="s13-svc-d">LR + PGRS + licenças ambientais — um único interlocutor técnico</div></div>
+  </div>
+  <span class="snum">13 / 16</span>
+</div>
+
+<!-- S14: MÓDULOS -->
+<div class="slide s-dark-r" data-i="13">
+  <p class="stag a" style="animation:rise .4s .05s">Estrutura de Serviços</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">Módulos de Atendimento</h2>
+  <div class="s14-t">
+    <div class="s14-head a" style="animation:rise .4s .12s">
+      <span class="s14-hc">Módulo</span><span class="s14-hc">Serviço</span><span class="s14-hc">Metodologia</span><span class="s14-hc">Entregável</span>
+    </div>
+    <div class="s14-rows">
+      <div class="s14-row a" style="animation:push .4s .18s"><span class="s14-mod">01 Diagnóstico</span><span class="s14-cell">Diagnóstico Regulatório</span><span class="s14-cell">Análise CNAE + atividade + embalagens</span><span class="s14-cell"><span class="s14-badge">Relatório de Enquadramento</span></span></div>
+      <div class="s14-row a" style="animation:push .4s .25s"><span class="s14-mod">02 Cálculo</span><span class="s14-cell">Cálculo de Massa</span><span class="s14-cell">Direto ou coeficiente setorial</span><span class="s14-cell"><span class="s14-badge">Memorial de Cálculo</span></span></div>
+      <div class="s14-row a" style="animation:push .4s .32s"><span class="s14-mod">03 Regularização</span><span class="s14-cell">Registro + PLR</span><span class="s14-cell">Cadastro + entidade gestora</span><span class="s14-cell"><span class="s14-badge">Empresa regularizada</span></span></div>
+      <div class="s14-row a" style="animation:push .4s .39s"><span class="s14-mod">04 Gestão Anual</span><span class="s14-cell">Conformidade Contínua</span><span class="s14-cell">Certificados + relatórios ao órgão</span><span class="s14-cell"><span class="s14-badge">Conformidade comprovada</span></span></div>
+      <div class="s14-row a" style="animation:push .4s .46s"><span class="s14-mod">05 Integração</span><span class="s14-cell">LR + Licenciamento + PGRS</span><span class="s14-cell">Gestão ambiental corporativa integrada</span><span class="s14-cell"><span class="s14-badge">Compliance ambiental global</span></span></div>
+    </div>
+    <p class="s14-foot a" style="animation:rise .4s .55s">Serviços escaláveis · Atuação em Goiás e âmbito nacional · Equipe especializada em Direito Ambiental e Gestão de Resíduos · Entregáveis documentados em cada etapa</p>
+  </div>
+  <span class="snum">14 / 16</span>
+</div>
+
+<!-- S15: FAQ -->
+<div class="slide s-dark" data-i="14">
+  <p class="stag a" style="animation:rise .4s .05s">Perguntas Frequentes</p>
+  <h2 class="stitle a" style="animation:rise .5s .1s">As dúvidas mais comuns de CEOs e Diretores</h2>
+  <div class="s15-faq">
+    <div class="faq-item a" style="animation:rise .4s .15s">
+      <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Minha empresa é pequena. Ainda tenho obrigação?</span><span class="faq-toggle">+</span></div>
+      <div class="faq-a">Sim. A obrigação não tem limite de porte. O critério é a atividade e o tipo de embalagem colocada no mercado — não o faturamento ou número de funcionários. Micro e pequenas empresas do comércio varejista estão incluídas.</div>
+    </div>
+    <div class="faq-item a" style="animation:rise .4s .22s">
+      <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Já tenho licença ambiental. Isso me isenta da LR?</span><span class="faq-toggle">+</span></div>
+      <div class="faq-a">Não. Licença ambiental e conformidade com a Logística Reversa são obrigações independentes. A inadimplência na LR pode, inclusive, bloquear a renovação da sua licença ambiental.</div>
+    </div>
+    <div class="faq-item a" style="animation:rise .4s .29s">
+      <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Quanto custa se minha empresa for autuada?</span><span class="faq-toggle">+</span></div>
+      <div class="faq-a">Não existe teto legal. Os valores são calculados proporcionalmente ao porte da empresa e à extensão do descumprimento. Para empresas de médio porte, autuações de cinco a seis dígitos são comuns. A regularização prévia é sempre mais barata.</div>
+    </div>
+    <div class="faq-item a" style="animation:rise .4s .36s">
+      <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Quanto tempo leva para regularizar?</span><span class="faq-toggle">+</span></div>
+      <div class="faq-a">Com o diagnóstico correto, o processo de regularização leva entre 2 e 6 semanas, dependendo do porte e da entidade gestora escolhida. A Hábilis conduz todo o processo de forma integrada e documentada.</div>
+    </div>
+    <div class="faq-item a" style="animation:rise .4s .43s">
+      <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">A LR é uma oportunidade ESG para minha empresa?</span><span class="faq-toggle">+</span></div>
+      <div class="faq-a">Sim. Conformidade documentada em logística reversa fortalece critérios ESG, melhora acesso a linhas de crédito verdes, facilita processos de due diligence e amplia a competitividade em cadeias de fornecimento que exigem compliance ambiental.</div>
+    </div>
+  </div>
+  <span class="snum">15 / 16</span>
+</div>
+
+<!-- S16: ENCERRAMENTO -->
+<div class="slide s16" data-i="15">
+  <p class="s16-eyebrow a" style="animation:rise .5s .2s;margin-top:12px">Hábilis Consultoria Ambiental</p>
+  <h2 class="s16-headline a" style="animation:rise .6s .2s">Logística Reversa não é apenas<br>uma obrigação ambiental.</h2>
+  <p class="s16-sub a" style="animation:rise .5s .35s">É parte da governança corporativa moderna.</p>
+  <div class="s16-points">
+    <div class="s16-pt a" style="animation:push .5s .45s"><div class="s16-icon">🛡</div>Empresas que se antecipam à regulação eliminam passivo e transformam conformidade em diferencial</div>
+    <div class="s16-pt a" style="animation:push .5s .53s"><div class="s16-icon">📈</div>Conformidade ambiental comprovada fortalece ESG, acesso a crédito e reputação corporativa</div>
+    <div class="s16-pt a" style="animation:push .5s .61s"><div class="s16-icon">✅</div>A Hábilis entrega esse processo completo — rápido, documentado e sem exposição para sua empresa</div>
+  </div>
+  <div class="s16-cta a" style="animation:rise .5s .7s">
+    <button class="s16-btn p" onclick="openQuiz()">Verificar meu Enquadramento</button>
+    <button class="s16-btn s" onclick="openCalc()">Calcular minha Massa</button>
+  </div>
+  <div class="s16-footer a" style="animation:rise .4s .8s">Hábilis Consultoria Ambiental · Goiânia, Goiás · habilisconsultoria.com.br · 2026</div>
+  <span class="snum" style="color:rgba(255,255,255,.15)">16 / 16</span>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ════ OVERVIEW ════ -->
+<div id="overview">
+  <button id="ov-close" onclick="closeOverview()">✕</button>
+  <h3>Visão Geral da Apresentação</h3>
+  <div id="ov-grid"></div>
+</div>
+
+<!-- ════ PRESENTER ════ -->
+<div id="presenter">
+  <div id="pres-label">Modo Apresentador <span id="pres-status" style="color:var(--gold)">●</span></div>
+  <div id="pres-timer">00:00</div>
+  <div id="pres-note"></div>
+  <div id="pres-actions">
+    <button class="pres-btn" onclick="toggleTimer()">▶ Iniciar</button>
+    <button class="pres-btn" onclick="resetTimer()">↺ Zerar</button>
+    <button class="pres-btn danger" onclick="closePresenter()">✕ Fechar</button>
+  </div>
+</div>
+
+<!-- ════ QUIZ ════ -->
+<div id="quiz-modal">
+<div id="quiz-box">
+  <button id="quiz-close" onclick="closeQuiz()">✕</button>
+  <h3 id="quiz-title">Verificar Enquadramento</h3>
+  <p id="quiz-subtitle">Responda 4 perguntas rápidas para descobrir se sua empresa está obrigada à Logística Reversa</p>
+  <div id="quiz-progress"></div>
+  <p id="quiz-q"></p>
+  <div id="quiz-opts"></div>
+  <div id="quiz-result">
+    <div id="quiz-result-icon"></div>
+    <h4 id="quiz-result-title"></h4>
+    <p id="quiz-result-text"></p>
+    <button id="quiz-cta" onclick="closeQuiz()">Falar com a Hábilis</button>
+  </div>
+</div>
+</div>
+
+<!-- ════ CALC ════ -->
+<div id="calc-modal">
+<div id="calc-box">
+  <button id="calc-close" onclick="closeCalc()">✕</button>
+  <h3 id="calc-title">Calculadora de Massa de Embalagens</h3>
+  <p id="calc-sub">Estime massa, metas e custos — ou descreva sua operação para um diagnóstico completo com IA</p>
+
+  <div id="calc-tabs">
+    <button class="calc-tab active" onclick="switchCalcTab('manual',this)">⚖ Cálculo Manual</button>
+    <button class="calc-tab" onclick="switchCalcTab('ai',this)">✦ Análise com IA</button>
+  </div>
+
+  <!-- TAB 1: MANUAL -->
+  <div class="calc-tab-panel active" id="tab-manual">
+    <div class="calc-group">
+      <label class="calc-label">Setor / Método de Cálculo</label>
+      <select class="calc-select" id="calc-method">
+        <option value="direct">Método Direto (peso real das embalagens)</option>
+        <option value="coef">Coeficiente Setorial</option>
+      </select>
+    </div>
+    <div class="calc-group" id="calc-g1">
+      <label class="calc-label">Faturamento Bruto Anual (R$)</label>
+      <input class="calc-input" type="number" id="calc-fat" placeholder="ex: 2000000" min="0">
+    </div>
+    <div class="calc-group" id="calc-g2">
+      <label class="calc-label">Setor da Empresa</label>
+      <select class="calc-select" id="calc-setor">
+        <option value="0.0042">Alimentos e Bebidas (coef. 0,0042 t/R$ mil)</option>
+        <option value="0.0031">Farmacêutico e Higiene (coef. 0,0031)</option>
+        <option value="0.0028">Limpeza e Cosméticos (coef. 0,0028)</option>
+        <option value="0.0055">Bebidas (coef. 0,0055)</option>
+        <option value="0.0025">E-commerce e Varejo Geral (coef. 0,0025)</option>
+        <option value="0.0038">Autopeças e Hardware (coef. 0,0038)</option>
+      </select>
+    </div>
+    <div class="calc-group" id="calc-g3" style="display:none">
+      <label class="calc-label">Peso Total de Embalagens por Ano (kg)</label>
+      <input class="calc-input" type="number" id="calc-peso" placeholder="ex: 5000" min="0">
+    </div>
+    <div class="calc-group">
+      <label class="calc-label">Meta de Reciclagem Aplicável (%)</label>
+      <select class="calc-select" id="calc-meta">
+        <option value="22">22% — Embalagens plásticas (2026)</option>
+        <option value="25">25% — Embalagens de papel/papelão</option>
+        <option value="38">38% — Embalagens metálicas</option>
+        <option value="30">30% — Vidro</option>
+        <option value="17">17% — Embalagens em geral (mínimo 2026)</option>
+      </select>
+    </div>
+    <button id="calc-run" onclick="runCalc()">Calcular Agora</button>
+    <div id="calc-result">
+      <div id="calc-result-grid"></div>
+      <div id="calc-note"></div>
+    </div>
+  </div>
+
+  <!-- TAB 2: IA -->
+  <div class="calc-tab-panel" id="tab-ai">
+    <div class="calc-group">
+      <label class="calc-label">Descreva a operação da empresa</label>
+      <textarea id="ai-desc" placeholder="Descreva livremente: o que a empresa faz, quais produtos comercializa, tipos de embalagem utilizados (plástico, papel, vidro, metal...), se é fabricante, importadora ou varejista, faturamento aproximado, estado de operação...
+
+Exemplo: 'Somos um supermercado de médio porte em Goiânia. Comercializamos alimentos, bebidas, produtos de limpeza e higiene pessoal. Temos embalagens plásticas, de papelão e vidro. Faturamento anual em torno de R$ 8 milhões. Nunca fizemos nenhum cadastro de logística reversa.'"></textarea>
+    </div>
+
+    <div class="calc-group">
+      <label class="calc-label" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>Informações complementares (opcional)</span>
+        <span style="color:rgba(255,255,255,.25);font-size:10px;font-weight:400;letter-spacing:.05em;text-transform:none">Ajuda a IA a ser mais precisa</span>
+      </label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <input class="calc-input" id="ai-cnae" placeholder="CNAE principal (ex: 4711-3/02)" style="font-size:13px;">
+        <input class="calc-input" id="ai-fat" placeholder="Faturamento anual (R$)" type="number" style="font-size:13px;">
+        <input class="calc-input" id="ai-uf" placeholder="Estado (ex: Goiás)" style="font-size:13px;">
+        <input class="calc-input" id="ai-porte" placeholder="Porte (micro, pequeno, médio, grande)" style="font-size:13px;">
+      </div>
+    </div>
+
+    <button id="ai-run" onclick="runAI()">
+      <span id="ai-btn-text">✦ Analisar com Inteligência Artificial</span>
+    </button>
+
+    <div id="ai-loading">
+      <div class="ai-spinner"></div>
+      <div id="ai-loading-msg">Analisando a operação da empresa...</div>
+    </div>
+
+    <div id="ai-result"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ════ SHORTCUTS ════ -->
+<div id="shortcuts">
+<div id="sc-box">
+  <h3 id="sc-title">Atalhos de Teclado</h3>
+  <div class="sc-row"><span class="sc-desc">Próximo slide</span><span class="sc-key">→ / Space</span></div>
+  <div class="sc-row"><span class="sc-desc">Slide anterior</span><span class="sc-key">←</span></div>
+  <div class="sc-row"><span class="sc-desc">Primeiro slide</span><span class="sc-key">Home</span></div>
+  <div class="sc-row"><span class="sc-desc">Último slide</span><span class="sc-key">End</span></div>
+  <div class="sc-row"><span class="sc-desc">Visão geral de slides</span><span class="sc-key">O</span></div>
+  <div class="sc-row"><span class="sc-desc">Modo Apresentador</span><span class="sc-key">P</span></div>
+  <div class="sc-row"><span class="sc-desc">Verificar Enquadramento</span><span class="sc-key">Q</span></div>
+  <div class="sc-row"><span class="sc-desc">Calculadora de Massa</span><span class="sc-key">C</span></div>
+  <div class="sc-row"><span class="sc-desc">Esta ajuda</span><span class="sc-key">?</span></div>
+  <div class="sc-row"><span class="sc-desc">Fechar qualquer painel</span><span class="sc-key">Esc</span></div>
+  <span id="sc-close">Pressione <b>Esc</b> ou clique fora para fechar</span>
+</div>
+</div>
+
+<script>
+// ═══════════════════════════════════
+// SLIDE DATA
+// ═══════════════════════════════════
+const slideData = [
+  { title:'Capa', section:'Abertura', note:'Apresente a Hábilis brevemente. Use os botões interativos para engajar o cliente desde o início.' },
+  { title:'O Problema Ambiental', section:'Contexto', note:'Dados de impacto. Conecte ao passivo jurídico do cliente.' },
+  { title:'O que é Logística Reversa', section:'Conceito', note:'Esclareça a diferença com gerenciamento de resíduos. A confusão é comum.' },
+  { title:'Arcabouço Normativo', section:'Base Legal', note:'5 marcos regulatórios de 2010 a 2024. Demonstra maturidade da obrigação.' },
+  { title:'Quem Está Obrigado', section:'Obrigações', note:'Enfatize que a obrigação vai além da indústria. Comerciantes costumam se surpreender.' },
+  { title:'Como Funciona o Sistema', section:'Sistema', note:'6 passos do fluxo operacional. Foque no passo 4 (compra de créditos) — é onde a Hábilis entra.' },
+  { title:'Créditos de Reciclagem', section:'CCR', note:'Explique o CCR como ativo auditável. Analogia útil: é como um comprovante fiscal do cumprimento.' },
+  { title:'Atores do Sistema', section:'Estrutura', note:'Posicione a Hábilis como consultora que orquestra a relação entre todos os atores.' },
+  { title:'Economia do Sistema', section:'Economia', note:'Mostre os preços de mercado. Contexto financeiro ajuda CEOs a entender o custo real.' },
+  { title:'Sistema Estadual (Goiás)', section:'Goiás', note:'4 obrigações específicas do Recicla Goiás. Decreto 10.255/2023 já está em vigor.' },
+  { title:'Riscos da Não Conformidade', section:'Riscos', note:'Slide de maior impacto emocional. Deixe o cliente processar. Não apresse.' },
+  { title:'5 Passos para Conformidade', section:'Regularização', note:'Caminho claro e direto. Posiciona a solução após o problema.' },
+  { title:'Como a Hábilis Atua', section:'Hábilis', note:'Diferencie: não somos recicladora. Somos o elo regulatório entre empresa e sistema.' },
+  { title:'Módulos de Atendimento', section:'Serviços', note:'Tabela de serviços. Útil para tomada de decisão e orçamentação.' },
+  { title:'Perguntas Frequentes', section:'FAQ', note:'Use este slide para sessão de Q&A. Os itens expandíveis mantêm o ritmo.' },
+  { title:'Encerramento', section:'CTA', note:'Feche com os botões de ação. Objetivo: agendar diagnóstico ou coletar dados para proposta.' },
+];
+
+// ═══════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0, animating = false;
+
+function goTo(i) {
+  if (i < 0 || i >= total || animating) return;
+  animating = true;
+  slides[cur].classList.remove('active');
+  slides[i].querySelectorAll('.a').forEach(el => {
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+  });
+  slides[i].classList.add('active');
+  cur = i;
+  updateUI();
+  setTimeout(() => animating = false, 500);
+}
+
+function updateUI() {
+  document.getElementById('c-num').textContent = cur + 1;
+  document.getElementById('nav-label').textContent = slideData[cur].title;
+  document.getElementById('progress').style.width = ((cur+1)/total*100) + '%';
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === cur));
+  if (document.getElementById('presenter').classList.contains('open'))
+    document.getElementById('pres-note').textContent = slideData[cur].note;
+  // Overview active
+  document.querySelectorAll('.ov-thumb').forEach((t,i) => t.classList.toggle('current', i === cur));
+}
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  const tag = document.activeElement.tagName;
+  if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+  if (anyModalOpen() && e.key !== 'Escape') return;
+  const k = e.key;
+  if (k==='ArrowRight'||k==='ArrowDown'||k===' ') { e.preventDefault(); goTo(cur+1); }
+  else if (k==='ArrowLeft'||k==='ArrowUp') { e.preventDefault(); goTo(cur-1); }
+  else if (k==='Home') goTo(0);
+  else if (k==='End') goTo(total-1);
+  else if (k==='o'||k==='O') toggleOverview();
+  else if (k==='p'||k==='P') togglePresenter();
+  else if (k==='q'||k==='Q') openQuiz();
+  else if (k==='c'||k==='C') openCalc();
+  else if (k==='?') toggleShortcuts();
+  else if (k==='Escape') closeAll();
+});
+
+document.getElementById('btn-prev').onclick = () => goTo(cur-1);
+document.getElementById('btn-next').onclick = () => goTo(cur+1);
+document.getElementById('deck').addEventListener('click', e => {
+  if (!e.target.closest('#nav') && !e.target.closest('button') && !e.target.closest('.faq-q') && !anyModalOpen()) goTo(cur+1);
+});
+
+// Touch
+let tx = 0;
+document.addEventListener('touchstart', e => tx = e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50 && !anyModalOpen()) dx < 0 ? goTo(cur+1) : goTo(cur-1);
+});
+
+// ═══════════════════════════════════
+// DOTS
+// ═══════════════════════════════════
+const dotsEl = document.getElementById('dots');
+slideData.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' active':'');
+  d.innerHTML = `<span class="dot-tip">${s.section}</span>`;
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+
+// ═══════════════════════════════════
+// OVERVIEW
+// ═══════════════════════════════════
+const ovGrid = document.getElementById('ov-grid');
+slideData.forEach((s, i) => {
+  const t = document.createElement('div');
+  t.className = 'ov-thumb' + (i===0?' current':'');
+  t.innerHTML = `<div class="ov-num">0${i+1 < 10 ? '' : ''}${i+1}</div><div class="ov-title">${s.title}</div><div class="ov-section">${s.section}</div>`;
+  t.onclick = () => { goTo(i); closeOverview(); };
+  ovGrid.appendChild(t);
+});
+
+function toggleOverview() {
+  const ov = document.getElementById('overview');
+  ov.classList.toggle('open');
+}
+function closeOverview() { document.getElementById('overview').classList.remove('open'); }
+
+// ═══════════════════════════════════
+// PRESENTER MODE
+// ═══════════════════════════════════
+let timerRunning = false, timerSecs = 0, timerInt = null;
+
+function togglePresenter() {
+  const p = document.getElementById('presenter');
+  p.classList.toggle('open');
+  if (p.classList.contains('open'))
+    document.getElementById('pres-note').textContent = slideData[cur].note;
+}
+function closePresenter() { document.getElementById('presenter').classList.remove('open'); }
+
+function toggleTimer() {
+  const btn = document.querySelector('#pres-actions .pres-btn');
+  if (timerRunning) {
+    clearInterval(timerInt); timerRunning = false; btn.textContent = '▶ Retomar';
+  } else {
+    timerInt = setInterval(() => {
+      timerSecs++;
+      const m = String(Math.floor(timerSecs/60)).padStart(2,'0');
+      const s = String(timerSecs%60).padStart(2,'0');
+      document.getElementById('pres-timer').textContent = m+':'+s;
+    }, 1000);
+    timerRunning = true; btn.textContent = '⏸ Pausar';
+  }
+}
+function resetTimer() {
+  clearInterval(timerInt); timerRunning = false; timerSecs = 0;
+  document.getElementById('pres-timer').textContent = '00:00';
+  document.querySelector('#pres-actions .pres-btn').textContent = '▶ Iniciar';
+}
+
+// ═══════════════════════════════════
+// FAQ
+// ═══════════════════════════════════
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  item.classList.toggle('open');
+}
+
+// ═══════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════
+const quizData = [
+  {
+    q: 'Sua empresa coloca produtos com embalagem no mercado (vende diretamente ao consumidor final ou a outros distribuidores)?',
+    opts: ['Sim, vendemos produtos embalados','Sim, mas somos apenas prestadores de serviço','Não comercializamos produtos físicos','Ainda não sei verificar isso'],
+    correct: 0
+  },
+  {
+    q: 'Qual das opções melhor descreve o porte e setor da sua empresa?',
+    opts: ['Varejo / supermercado / farmácia / e-commerce','Indústria fabricante ou importadora','Distribuidor ou atacadista','Prestador de serviços sem comércio de produtos físicos'],
+    correct: 0
+  },
+  {
+    q: 'Sua empresa já possui cadastro no Sistema Recicla Goiás ou em alguma entidade gestora nacional?',
+    opts: ['Não, nunca ouvimos falar','Estamos em processo de regularização','Sim, já somos cadastrados','Não sei informar'],
+    correct: 1
+  },
+  {
+    q: 'Você tem conhecimento se sua empresa realiza declaração anual de embalagens colocadas no mercado?',
+    opts: ['Não realizamos nenhuma declaração','Fazemos internamente, mas sem certificado','Temos certificado anual emitido por entidade gestora','Não sei'],
+    correct: 2
+  },
+];
+
+let qCur = 0, qScore = 0;
+
+function openQuiz() {
+  qCur = 0; qScore = 0;
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-opts').style.display = 'flex';
+  document.getElementById('quiz-q').style.display = 'block';
+  document.getElementById('quiz-progress').style.display = 'flex';
+  renderQuiz();
+  document.getElementById('quiz-modal').classList.add('open');
+}
+function closeQuiz() { document.getElementById('quiz-modal').classList.remove('open'); }
+
+function renderQuiz() {
+  const data = quizData[qCur];
+  document.getElementById('quiz-q').textContent = `${qCur+1}. ${data.q}`;
+  const opts = document.getElementById('quiz-opts');
+  opts.innerHTML = '';
+  data.opts.forEach((o,i) => {
+    const b = document.createElement('button');
+    b.className = 'quiz-opt'; b.textContent = o;
+    b.onclick = () => answerQuiz(i);
+    opts.appendChild(b);
+  });
+  // progress dots
+  const prog = document.getElementById('quiz-progress');
+  prog.innerHTML = '';
+  quizData.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'qp-dot' + (i < qCur ? ' done' : i === qCur ? ' current' : '');
+    prog.appendChild(d);
+  });
+}
+
+function answerQuiz(i) {
+  const data = quizData[qCur];
+  const btns = document.querySelectorAll('.quiz-opt');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  if (i === data.correct) { btns[i].classList.add('correct'); qScore++; }
+  else { btns[i].classList.add('wrong'); btns[data.correct].classList.add('correct'); }
+  setTimeout(() => {
+    qCur++;
+    if (qCur < quizData.length) renderQuiz();
+    else showQuizResult();
+  }, 900);
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-opts').style.display = 'none';
+  document.getElementById('quiz-q').style.display = 'none';
+  document.getElementById('quiz-progress').style.display = 'none';
+  const r = document.getElementById('quiz-result');
+  r.style.display = 'block';
+  let icon, title, text;
+  if (qScore <= 1) {
+    icon = '✅'; title = 'Boa notícia — vamos confirmar!';
+    text = 'Com base nas suas respostas, sua empresa pode não estar enquadrada na obrigação principal. Mas a análise precisa ser confirmada com base no CNAE e na atividade real. A Hábilis realiza esse diagnóstico sem custo inicial.';
+  } else if (qScore <= 3) {
+    icon = '⚠'; title = 'Atenção — risco regulatório identificado';
+    text = 'As respostas indicam que sua empresa provavelmente está obrigada à Logística Reversa e pode estar em situação de não conformidade. Recomendamos iniciar o diagnóstico regulatório com urgência para evitar autuações.';
+  } else {
+    icon = '🔒'; title = 'Empresa em conformidade — parabéns!';
+    text = 'Suas respostas indicam que sua empresa já possui estrutura de conformidade. A Hábilis pode apoiar na gestão anual, integração com licenciamento e otimização dos certificados CCR.';
+  }
+  document.getElementById('quiz-result-icon').textContent = icon;
+  document.getElementById('quiz-result-title').textContent = title;
+  document.getElementById('quiz-result-text').textContent = text;
+}
+
+// ═══════════════════════════════════
+// CALCULATOR
+// ═══════════════════════════════════
+function openCalc() {
+  document.getElementById('calc-result').style.display = 'none';
+  document.getElementById('ai-result').innerHTML = '';
+  document.getElementById('ai-result').style.display = 'none';
+  document.getElementById('ai-loading').style.display = 'none';
+  document.getElementById('calc-modal').classList.add('open');
+  updateCalcMethod();
+}
+function closeCalc() { document.getElementById('calc-modal').classList.remove('open'); }
+
+function switchCalcTab(tab, btn) {
+  document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.calc-tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+document.getElementById('calc-method').addEventListener('change', updateCalcMethod);
+function updateCalcMethod() {
+  const m = document.getElementById('calc-method').value;
+  document.getElementById('calc-g1').style.display = m === 'coef' ? 'block' : 'none';
+  document.getElementById('calc-g2').style.display = m === 'coef' ? 'block' : 'none';
+  document.getElementById('calc-g3').style.display = m === 'direct' ? 'block' : 'none';
+}
+
+function runCalc() {
+  const method = document.getElementById('calc-method').value;
+  const metaPercent = parseFloat(document.getElementById('calc-meta').value);
+  let massaTon = 0;
+
+  if (method === 'coef') {
+    const fat = parseFloat(document.getElementById('calc-fat').value) || 0;
+    const coef = parseFloat(document.getElementById('calc-setor').value);
+    massaTon = (fat / 1000) * coef;
+  } else {
+    const pesoKg = parseFloat(document.getElementById('calc-peso').value) || 0;
+    massaTon = pesoKg / 1000;
+  }
+
+  if (massaTon <= 0) { alert('Por favor, preencha os valores corretamente.'); return; }
+
+  const metaTon = massaTon * (metaPercent / 100);
+  const metaKg = metaTon * 1000;
+  const custoEstimado = metaTon * 180;
+
+  const grid = document.getElementById('calc-result-grid');
+  grid.innerHTML = `
+    <div class="calc-res-card">
+      <div class="calc-res-label">Massa Total Estimada</div>
+      <div class="calc-res-val">${massaTon.toFixed(2)}</div>
+      <div class="calc-res-unit">toneladas/ano</div>
+    </div>
+    <div class="calc-res-card">
+      <div class="calc-res-label">Meta de Reciclagem (${metaPercent}%)</div>
+      <div class="calc-res-val">${metaTon.toFixed(2)}</div>
+      <div class="calc-res-unit">toneladas a compensar</div>
+    </div>
+    <div class="calc-res-card">
+      <div class="calc-res-label">Em Quilogramas</div>
+      <div class="calc-res-val">${Math.round(metaKg).toLocaleString('pt-BR')}</div>
+      <div class="calc-res-unit">kg de créditos CCR</div>
+    </div>
+    <div class="calc-res-card">
+      <div class="calc-res-label">Custo Estimado de Créditos</div>
+      <div class="calc-res-val">R$ ${custoEstimado.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}</div>
+      <div class="calc-res-unit">estimativa de mercado/ano</div>
+    </div>
+  `;
+  document.getElementById('calc-note').innerHTML = `<strong style="color:var(--mint)">⚠ Estimativa indicativa.</strong> O cálculo oficial exige metodologia documentada (Memorial de Cálculo) com base nas notas fiscais reais ou no coeficiente setorial validado pelo MMA. A Hábilis realiza esse cálculo com rigor técnico e documentação adequada para auditorias.`;
+  document.getElementById('calc-result').style.display = 'block';
+}
+
+// ═══════════════════════════════════
+// AI ANALYSIS
+// ═══════════════════════════════════
+const loadingMsgs = [
+  'Interpretando a operação da empresa...',
+  'Identificando materiais e embalagens sujeitos à LR...',
+  'Verificando enquadramento regulatório (PNRS / Decreto 10.936)...',
+  'Estimando massa de embalagens e metas...',
+  'Elaborando orientações de regularização...',
+  'Finalizando diagnóstico completo...',
+];
+
+async function runAI() {
+  const desc = document.getElementById('ai-desc').value.trim();
+  if (desc.length < 30) {
+    alert('Por favor, descreva a operação da empresa com mais detalhes (mínimo 30 caracteres).');
+    return;
+  }
+
+  const cnae = document.getElementById('ai-cnae').value.trim();
+  const fat  = document.getElementById('ai-fat').value.trim();
+  const uf   = document.getElementById('ai-uf').value.trim();
+  const porte = document.getElementById('ai-porte').value.trim();
+
+  const btn = document.getElementById('ai-run');
+  btn.disabled = true;
+  document.getElementById('ai-result').style.display = 'none';
+  document.getElementById('ai-loading').style.display = 'block';
+
+  // Rotate loading messages
+  let msgIdx = 0;
+  const msgEl = document.getElementById('ai-loading-msg');
+  const msgInterval = setInterval(() => {
+    msgIdx = (msgIdx + 1) % loadingMsgs.length;
+    msgEl.textContent = loadingMsgs[msgIdx];
+  }, 1800);
+
+  const extras = [
+    cnae   ? `CNAE principal: ${cnae}` : '',
+    fat    ? `Faturamento anual aproximado: R$ ${Number(fat).toLocaleString('pt-BR')}` : '',
+    uf     ? `Estado de operação: ${uf}` : '',
+    porte  ? `Porte da empresa: ${porte}` : '',
+  ].filter(Boolean).join('\n');
+
+  const prompt = `Você é um especialista sênior em Logística Reversa e conformidade com a Política Nacional de Resíduos Sólidos (Lei 12.305/2010, Decreto 10.936/2022, Decreto 11.413/2023 e, para Goiás, Decreto Estadual 10.255/2023 — Sistema Recicla Goiás).
+
+Um potencial cliente da Hábilis Consultoria Ambiental (Goiânia-GO) descreveu a operação da empresa abaixo. Analise com rigor técnico e produza um diagnóstico completo no formato JSON especificado.
+
+DESCRIÇÃO DA OPERAÇÃO:
+${desc}
+
+DADOS COMPLEMENTARES:
+${extras || 'Não informados.'}
+
+Responda EXCLUSIVAMENTE com um objeto JSON válido, sem texto antes ou depois, sem markdown, sem blocos de código. Use exatamente esta estrutura:
+
+{
+  "enquadramento": {
+    "obrigado": true,
+    "nivel_risco": "alto|medio|baixo|indefinido",
+    "justificativa": "texto explicando o enquadramento com base na lei",
+    "categorias_lr": ["lista de categorias de LR aplicáveis, ex: embalagens em geral, embalagens de agrotóxico..."]
+  },
+  "materiais": [
+    { "tipo": "Plástico", "sujeito_lr": true, "meta_pct": 22, "observacao": "texto" },
+    { "tipo": "Papel/Papelão", "sujeito_lr": true, "meta_pct": 25, "observacao": "texto" }
+  ],
+  "estimativa": {
+    "metodo_recomendado": "direto|coeficiente_setorial|nao_aplicavel",
+    "massa_total_ton_min": 0.5,
+    "massa_total_ton_max": 2.0,
+    "meta_compensacao_ton_min": 0.1,
+    "meta_compensacao_ton_max": 0.4,
+    "custo_creditos_min": 180,
+    "custo_creditos_max": 720,
+    "nota_estimativa": "texto explicando a estimativa e suas incertezas"
+  },
+  "riscos": ["risco 1 específico para esta empresa", "risco 2"],
+  "regularizacao": {
+    "passos": [
+      "Passo 1 específico para a situação desta empresa",
+      "Passo 2",
+      "Passo 3",
+      "Passo 4",
+      "Passo 5"
+    ],
+    "prazo_estimado": "texto com prazo estimado",
+    "urgencia": "imediata|alta|media|baixa",
+    "nota_goias": "orientação específica sobre o Sistema Recicla Goiás se aplicável, ou string vazia"
+  },
+  "resumo_executivo": "2-3 frases diretas para o CEO: o que é, qual o risco real e o que fazer agora"
+}`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    clearInterval(msgInterval);
+    document.getElementById('ai-loading').style.display = 'none';
+
+    if (!resp.ok) throw new Error(`API error ${resp.status}`);
+
+    const data = await resp.json();
+    const raw = data.content.map(b => b.text || '').join('');
+    const cleaned = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(cleaned);
+    renderAIResult(result, desc);
+
+  } catch (err) {
+    clearInterval(msgInterval);
+    document.getElementById('ai-loading').style.display = 'none';
+    document.getElementById('ai-result').style.display = 'block';
+    document.getElementById('ai-result').innerHTML = `
+      <div class="ai-block alert">
+        <strong>Erro na análise.</strong> Verifique sua conexão e tente novamente.<br>
+        <small style="opacity:.6;font-size:11px">${err.message}</small>
+      </div>`;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderAIResult(r, descOriginal) {
+  const riskColor = { alto:'alert', medio:'warning', baixo:'success', indefinido:'' };
+  const urgColor  = { imediata:'alert', alta:'alert', media:'warning', baixa:'success' };
+  const riskLabel = { alto:'🔴 Alto', medio:'🟡 Médio', baixo:'🟢 Baixo', indefinido:'⚪ Indefinido' };
+  const urgLabel  = { imediata:'Imediata', alta:'Alta', media:'Média', baixa:'Baixa' };
+
+  const e = r.enquadramento || {};
+  const est = r.estimativa || {};
+  const reg = r.regularizacao || {};
+  const materiais = r.materiais || [];
+  const riscos = r.riscos || [];
+
+  // Material tags
+  const matTags = materiais.map(m =>
+    `<span class="ai-tag${m.sujeito_lr ? '' : ' red'}">${m.tipo}${m.sujeito_lr ? ` · ${m.meta_pct}%` : ' · isento'}</span>`
+  ).join('');
+
+  // Risk items
+  const riskItems = riscos.map(r =>
+    `<div class="ai-step"><span class="ai-step-n" style="background:var(--ember)">!</span><span>${r}</span></div>`
+  ).join('');
+
+  // Steps
+  const steps = (reg.passos || []).map((p, i) =>
+    `<div class="ai-step"><span class="ai-step-n">${i+1}</span><span>${p}</span></div>`
+  ).join('');
+
+  // Cost range
+  const custoMin = (est.custo_creditos_min || 0).toLocaleString('pt-BR');
+  const custoMax = (est.custo_creditos_max || 0).toLocaleString('pt-BR');
+  const massaMin = (est.massa_total_ton_min || 0).toFixed(1);
+  const massaMax = (est.massa_total_ton_max || 0).toFixed(1);
+  const metaMin  = (est.meta_compensacao_ton_min || 0).toFixed(2);
+  const metaMax  = (est.meta_compensacao_ton_max || 0).toFixed(2);
+
+  const goiasNote = reg.nota_goias
+    ? `<div class="ai-section"><div class="ai-section-title">Sistema Recicla Goiás</div><div class="ai-block success">📍 ${reg.nota_goias}</div></div>`
+    : '';
+
+  document.getElementById('ai-result').innerHTML = `
+    <div class="ai-section">
+      <div class="ai-section-title">Resumo Executivo</div>
+      <div class="ai-block ${riskColor[e.nivel_risco] || ''}" style="font-size:14px;line-height:1.7">
+        ${r.resumo_executivo || ''}
+      </div>
+    </div>
+
+    <div class="ai-section">
+      <div class="ai-section-title">Diagnóstico de Enquadramento</div>
+      <div class="ai-block">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+          <span style="font-size:15px;font-weight:700;color:white">${e.obrigado ? '⚠ Empresa provavelmente OBRIGADA à LR' : '✅ Empresa possivelmente não obrigada'}</span>
+          <span class="ai-tag${e.nivel_risco === 'alto' ? ' red' : ''}">${riskLabel[e.nivel_risco] || e.nivel_risco}</span>
+        </div>
+        <p style="margin-bottom:10px">${e.justificativa || ''}</p>
+        ${e.categorias_lr?.length ? `<div class="ai-tags">${e.categorias_lr.map(c => `<span class="ai-tag">${c}</span>`).join('')}</div>` : ''}
+      </div>
+    </div>
+
+    <div class="ai-section">
+      <div class="ai-section-title">Materiais Identificados e Metas</div>
+      <div class="ai-block">
+        <div class="ai-tags">${matTags || '<span style="opacity:.5">Nenhum material identificado com clareza — detalhe mais a operação.</span>'}</div>
+        ${materiais.filter(m => m.observacao).map(m => `<p style="margin-top:10px;font-size:12px;opacity:.7"><strong>${m.tipo}:</strong> ${m.observacao}</p>`).join('')}
+      </div>
+    </div>
+
+    <div class="ai-section">
+      <div class="ai-section-title">Estimativa de Massa e Custos</div>
+      <div class="ai-nums">
+        <div class="ai-num-card">
+          <div class="ai-num-val">${massaMin}–${massaMax}</div>
+          <div class="ai-num-lbl">Toneladas/ano estimadas</div>
+        </div>
+        <div class="ai-num-card">
+          <div class="ai-num-val">${metaMin}–${metaMax}</div>
+          <div class="ai-num-lbl">Toneladas a compensar</div>
+        </div>
+        <div class="ai-num-card">
+          <div class="ai-num-val" style="font-size:18px">R$ ${custoMin}–${custoMax}</div>
+          <div class="ai-num-lbl">Custo estimado créditos/ano</div>
+        </div>
+      </div>
+      ${est.nota_estimativa ? `<div class="ai-block" style="margin-top:10px;font-size:12px">${est.nota_estimativa}</div>` : ''}
+    </div>
+
+    ${riscos.length ? `
+    <div class="ai-section">
+      <div class="ai-section-title">Riscos Identificados para Esta Empresa</div>
+      <div class="ai-block alert">
+        <div class="ai-steps">${riskItems}</div>
+      </div>
+    </div>` : ''}
+
+    <div class="ai-section">
+      <div class="ai-section-title">Roteiro de Regularização</div>
+      <div class="ai-block">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+          <span style="font-size:12px;color:rgba(255,255,255,.5)">Urgência:</span>
+          <span class="ai-tag${reg.urgencia === 'imediata' || reg.urgencia === 'alta' ? ' red' : ''}">${urgLabel[reg.urgencia] || reg.urgencia}</span>
+          ${reg.prazo_estimado ? `<span style="font-size:12px;color:rgba(255,255,255,.4)">· Prazo estimado: ${reg.prazo_estimado}</span>` : ''}
+        </div>
+        <div class="ai-steps">${steps}</div>
+      </div>
+    </div>
+
+    ${goiasNote}
+
+    <div class="ai-disclaimer">
+      ✦ Esta análise foi gerada por Inteligência Artificial com base na descrição fornecida. Não substitui o Diagnóstico Regulatório formal realizado pela Hábilis, que inclui análise de CNAE, atividade real, notas fiscais e enquadramento legal documentado.
+    </div>
+  `;
+  document.getElementById('ai-result').style.display = 'block';
+  document.getElementById('ai-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ═══════════════════════════════════
+// SHORTCUTS PANEL
+// ═══════════════════════════════════
+function toggleShortcuts() { document.getElementById('shortcuts').classList.toggle('open'); }
+
+// ═══════════════════════════════════
+// MODAL HELPERS
+// ═══════════════════════════════════
+function anyModalOpen() {
+  return document.getElementById('overview').classList.contains('open') ||
+    document.getElementById('quiz-modal').classList.contains('open') ||
+    document.getElementById('calc-modal').classList.contains('open') ||
+    document.getElementById('shortcuts').classList.contains('open');
+}
+function closeAll() {
+  closeOverview(); closeQuiz(); closeCalc();
+  document.getElementById('shortcuts').classList.remove('open');
+}
+
+// Click outside modals to close
+['quiz-modal','calc-modal','shortcuts'].forEach(id => {
+  document.getElementById(id).addEventListener('click', e => {
+    if (e.target.id === id) closeAll();
+  });
+});
+document.getElementById('overview').addEventListener('click', e => {
+  if (e.target.id === 'overview') closeOverview();
+});
+
+// ═══════════════════════════════════
+// CURSOR
+// ═══════════════════════════════════
+const curEl = document.getElementById('cur');
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  curEl.style.left = mx+'px'; curEl.style.top = my+'px';
+});
+document.addEventListener('mousedown', () => curEl.classList.add('big'));
+document.addEventListener('mouseup', () => curEl.classList.remove('big'));
+
+// ═══════════════════════════════════
+// HINT HIDE
+// ═══════════════════════════════════
+setTimeout(() => {
+  const h = document.getElementById('hint');
+  if (h) h.style.opacity = '0';
+}, 5000);
+
+// Init progress bar
+document.getElementById('progress').style.width = (1/total*100)+'%';
+</script>
+</body>
+</html>

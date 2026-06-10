@@ -1,0 +1,2382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto Posto América · Status Executivo · Grupo Z+Z</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1B5E20;
+  --verde-m: #2E7D32;
+  --verde-l: #4CAF50;
+  --verde-bg: #E8F5E9;
+  --verde-mid: #C8E6C9;
+  --amber: #F57F17;
+  --amber-l: #FFA000;
+  --amber-bg: #FFF8E1;
+  --amber-mid: #FFE082;
+  --vermelho: #B71C1C;
+  --vermelho-l: #E53935;
+  --vermelho-bg: #FFEBEE;
+  --azul: #0D47A1;
+  --azul-l: #1976D2;
+  --azul-bg: #E3F2FD;
+  --roxo: #6A1B9A;
+  --roxo-bg: #F3E5F5;
+  --cinza-9: #1C1C1E;
+  --cinza-7: #3A3A3C;
+  --cinza-5: #6C6C70;
+  --cinza-3: #AEAEB2;
+  --cinza-1: #F2F2F7;
+  --cinza-0: #FAFAFA;
+  --branco: #FFFFFF;
+  --borda: #E5E5EA;
+  --sombra: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cinza-0);
+  color: var(--cinza-9);
+  font-size: 11.5px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: 'DM Mono', monospace; }
+
+.page {
+  max-width: 1180px;
+  margin: 0 auto 20px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+  min-height: 1050px;
+}
+
+.header {
+  background: linear-gradient(180deg, #164E1A 0%, var(--verde) 55%, var(--verde-m) 100%);
+  color: #fff;
+  padding: 18px 28px 16px;
+}
+.header-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+}
+.h-tag {
+  display: inline-block;
+  font-size: 9.5px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+  padding: 3px 9px; background: rgba(255,255,255,.16);
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.h-title {
+  font-size: 19px; font-weight: 600; letter-spacing: -.01em; line-height: 1.2;
+  margin-top: 5px;
+}
+.h-sub {
+  font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,.72);
+  letter-spacing: .04em; margin-top: 2px;
+}
+.h-meta {
+  display: flex; flex-direction: column; gap: 2px; align-items: flex-end;
+  font-family: 'DM Mono', monospace; font-size: 9.5px; color: rgba(255,255,255,.78);
+  text-align: right; letter-spacing: .03em;
+}
+.h-meta strong { color: #fff; font-weight: 600; }
+
+.kpis {
+  display: grid;
+  grid-template-columns: auto repeat(4, 1fr);
+  gap: 14px;
+  padding: 12px 28px;
+  background: #fff;
+  border-bottom: 1px solid var(--borda);
+  align-items: center;
+}
+.kpi-status {
+  display: flex; align-items: center; gap: 10px;
+  padding-right: 14px;
+  border-right: 1px solid var(--borda);
+}
+.kpi-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgba(245,127,23,.18);
+}
+.kpi-status-l {
+  font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--cinza-5);
+}
+.kpi-status-v {
+  font-size: 12px; font-weight: 600; color: var(--cinza-9); margin-top: 1px;
+}
+.kpi {
+  display: flex; flex-direction: column; gap: 1px;
+}
+.kpi-l {
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--cinza-5);
+}
+.kpi-v {
+  font-family: 'DM Mono', monospace; font-size: 17px; font-weight: 600; color: var(--cinza-9);
+  line-height: 1.1;
+}
+.kpi-v.urg { color: var(--vermelho); }
+.kpi-s {
+  font-size: 9.5px; color: var(--cinza-5); margin-top: 1px;
+}
+
+main { padding: 18px 28px 24px; }
+
+.sumario {
+  background: linear-gradient(135deg, var(--verde-bg) 0%, #F1F8F2 60%, #fff 100%);
+  border: 1px solid var(--verde-mid);
+  border-left: 4px solid var(--verde);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.sumario strong { color: var(--verde); font-weight: 600; }
+
+.sec-head {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 10px; margin-top: 16px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--verde);
+}
+.sec-head:first-child { margin-top: 0; }
+.sec-num {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
+  padding: 1px 8px 1px 1px;
+  border-radius: 10px;
+  letter-spacing: .04em;
+  color: var(--cinza-9);
+  background: #fff;
+  border: 1px solid var(--borda);
+  line-height: 1.4;
+}
+.sec-num::before {
+  content: '§'; width: 13px; height: 13px;
+  border-radius: 50%; background: var(--verde); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 8.5px; font-weight: 700; line-height: 1;
+  flex-shrink: 0;
+}
+.sec-t {
+  font-size: 15px; font-weight: 600; color: var(--cinza-9); letter-spacing: -.01em;
+}
+.sec-hint {
+  font-size: 10.5px; color: var(--cinza-5); margin-left: auto;
+  font-family: 'DM Mono', monospace;
+}
+
+.critico-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.crit {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--vermelho);
+  border-radius: 7px;
+  padding: 10px 12px;
+  box-shadow: var(--sombra);
+}
+.crit-h {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 5px;
+}
+.crit-id {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
+  padding: 1px 7px; background: var(--vermelho-bg); color: var(--vermelho);
+  border-radius: 4px;
+  letter-spacing: .04em;
+}
+.crit-t {
+  font-size: 12.5px; font-weight: 600; color: var(--cinza-9); flex: 1;
+  line-height: 1.25;
+}
+.crit-d {
+  font-size: 11px; color: var(--cinza-7); line-height: 1.4;
+}
+.crit-d strong { color: var(--cinza-9); font-weight: 600; }
+.crit-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 7px; padding-top: 6px; border-top: 1px dashed var(--borda);
+  font-size: 10px; font-family: 'DM Mono', monospace;
+}
+.crit-acao {
+  color: var(--cinza-5); letter-spacing: .02em;
+}
+.prazo {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: .02em;
+  background: var(--vermelho-bg); color: var(--vermelho);
+}
+.prazo.alta { background: var(--amber-bg); color: #A65E00; }
+.prazo.media { background: var(--verde-bg); color: var(--verde); }
+.prazo.info { background: var(--cinza-1); color: var(--cinza-7); }
+
+.dec-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+.dec-tabela th {
+  background: #FCFCFD;
+  font-size: 9.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--cinza-5);
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--borda);
+}
+.dec-tabela td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--cinza-1);
+  vertical-align: top;
+}
+.dec-tabela tr:last-child td { border-bottom: none; }
+.dec-tabela tr.urg td { background: #FFF5F5; }
+.dec-n {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
+  color: var(--cinza-5); width: 1%;
+  padding-left: 12px !important;
+}
+.dec-t { font-weight: 600; color: var(--cinza-9); font-size: 11.5px; }
+.dec-d { color: var(--cinza-7); font-size: 10.5px; line-height: 1.4; margin-top: 2px; }
+.dec-prazo { width: 1%; white-space: nowrap; }
+.dec-apoio { width: 1%; white-space: nowrap; }
+.cp-flag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; font-weight: 700; letter-spacing: .08em;
+  color: var(--roxo);
+  padding: 1px 5px;
+  background: var(--roxo-bg);
+  border: 1px solid #E1BEE7;
+  border-radius: 3px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+/* ── PAPEL PILLS — vocabulário unificado ── */
+.papel {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 600;
+  padding: 2px 7px 2px 3px;
+  border-radius: 10px;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  line-height: 1.4;
+  border: 1px solid transparent;
+}
+.papel::before {
+  width: 13px; height: 13px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 7.5px; font-weight: 700; color: #fff;
+  flex-shrink: 0; line-height: 1;
+}
+.papel.zz        { background: var(--azul-bg);     color: var(--azul);     border-color: #BBDEFB; }
+.papel.zz::before       { content: 'Z'; background: var(--azul); }
+.papel.habilis   { background: var(--verde-bg);    color: var(--verde);    border-color: var(--verde-mid); }
+.papel.habilis::before  { content: 'H'; background: var(--verde); }
+.papel.apoio     { background: var(--amber-bg);    color: #A65E00;         border-color: var(--amber-mid); }
+.papel.apoio::before    { content: 'T'; background: var(--amber); }
+.papel.emissor   { background: var(--cinza-1);     color: var(--cinza-7);  border-color: var(--borda); }
+.papel.emissor::before  { content: 'O'; background: var(--cinza-5); }
+.papel-none { color: var(--cinza-3); font-family: 'DM Mono', monospace; font-size: 10px; }
+
+/* ── LEGENDA de papéis ── */
+.legenda {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 7px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  box-shadow: var(--sombra);
+  align-items: center;
+}
+.legenda-l {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--cinza-5);
+  padding-right: 10px;
+  border-right: 1px solid var(--borda);
+}
+.legenda-item {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 10.5px; color: var(--cinza-7);
+}
+.legenda-item strong { color: var(--cinza-9); font-weight: 600; }
+
+/* ── STATUS POR FRENTE (cards resumo) ── */
+.frentes {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+}
+.frente-card {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 7px;
+  padding: 12px 14px;
+  box-shadow: var(--sombra);
+  border-left: 3px solid var(--verde);
+}
+.frente-card.us { border-left-color: var(--azul); }
+.frente-card.lao { border-left-color: var(--verde); }
+.frente-card.cond { border-left-color: var(--amber); }
+.frente-card.comp { border-left-color: var(--vermelho); }
+.frente-card-h {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 8px;
+}
+.frente-tag {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 6px;
+  font-family: 'DM Mono', monospace; font-size: 10.5px; font-weight: 700;
+  color: #fff; flex-shrink: 0;
+}
+.frente-tag.us { background: var(--azul); }
+.frente-tag.lao { background: var(--verde); }
+.frente-tag.cond { background: var(--amber); }
+.frente-tag.comp { background: var(--vermelho); }
+.frente-nome { font-size: 12.5px; font-weight: 600; color: var(--cinza-9); line-height: 1.2; }
+.frente-org { font-size: 9.5px; color: var(--cinza-5); margin-top: 1px; font-family: 'DM Mono', monospace; letter-spacing: .03em; }
+.frente-perc {
+  margin-left: auto;
+  font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 600; color: var(--cinza-9);
+  line-height: 1;
+}
+.frente-bar {
+  height: 6px; background: var(--cinza-1); border-radius: 3px; overflow: hidden;
+  margin-bottom: 8px;
+}
+.frente-bar-fill { height: 100%; border-radius: 3px; }
+.frente-card.us .frente-bar-fill { background: var(--azul); }
+.frente-card.lao .frente-bar-fill { background: var(--verde); }
+.frente-card.cond .frente-bar-fill { background: var(--amber); }
+.frente-card.comp .frente-bar-fill { background: var(--vermelho); }
+.frente-meta {
+  display: flex; gap: 14px; font-size: 10px; color: var(--cinza-5);
+  font-family: 'DM Mono', monospace;
+}
+.frente-meta strong { color: var(--cinza-9); font-weight: 600; }
+.frente-d {
+  font-size: 10.5px; color: var(--cinza-7); margin-top: 6px; line-height: 1.4;
+}
+
+/* ── CRONOGRAMA ── */
+.crono {
+  position: relative;
+  padding: 16px 0 10px;
+}
+.crono-line {
+  position: absolute; top: 36px; left: 10px; right: 10px;
+  height: 2px; background: var(--borda);
+}
+.crono-line-fill {
+  position: absolute; top: 36px; left: 10px;
+  height: 2px; background: var(--verde);
+  width: 18%;
+}
+.crono-steps {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;
+  position: relative;
+}
+.crono-step {
+  text-align: center;
+  padding-top: 2px;
+}
+.crono-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--cinza-3);
+  margin: 0 auto 10px;
+  position: relative; z-index: 2;
+}
+.crono-step.done .crono-dot { background: var(--verde); border-color: var(--verde); }
+.crono-step.now .crono-dot { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 0 4px rgba(245,127,23,.18); }
+.crono-step.crit .crono-dot { background: var(--vermelho); border-color: var(--vermelho); }
+.crono-date {
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600;
+  color: var(--cinza-9);
+}
+.crono-date.urg { color: var(--vermelho); }
+.crono-date.now { color: var(--amber); }
+.crono-date.done { color: var(--verde); }
+.crono-label {
+  font-size: 10.5px; color: var(--cinza-7); margin-top: 2px;
+  line-height: 1.3;
+}
+.crono-sub {
+  font-size: 9.5px; color: var(--cinza-5); margin-top: 1px;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── MAPA REGULATÓRIO · frente detalhada ── */
+.frente-det {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 7px;
+  box-shadow: var(--sombra);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.frente-det-h {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: #FCFCFD;
+  border-bottom: 1px solid var(--borda);
+}
+.frente-det-meta {
+  margin-left: auto;
+  display: flex; gap: 6px;
+}
+.meta-stat {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 600;
+  padding: 2px 7px; border-radius: 10px;
+  letter-spacing: .03em;
+}
+.meta-stat.ok { background: var(--verde-bg); color: var(--verde); }
+.meta-stat.parcial { background: var(--amber-bg); color: #A65E00; }
+.meta-stat.pend { background: var(--vermelho-bg); color: var(--vermelho); }
+.frente-det-bar {
+  display: flex; height: 4px; background: var(--cinza-1);
+}
+.frente-det-bar > div { height: 100%; }
+.frente-det-bar .seg-ok { background: var(--verde); }
+.frente-det-bar .seg-parcial { background: var(--amber); }
+.frente-det-bar .seg-pend { background: var(--vermelho); }
+.tab-itens {
+  width: 100%; border-collapse: collapse;
+  font-size: 10.5px;
+}
+.tab-itens th {
+  background: #FCFCFD;
+  font-size: 8.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--cinza-5);
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--borda);
+}
+.tab-itens td {
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--cinza-1);
+  vertical-align: middle;
+}
+.tab-itens tr:last-child td { border-bottom: none; }
+.tab-itens tr.crit td { background: #FFF5F5; }
+.tab-itens .id {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 600;
+  color: var(--cinza-5); width: 1%; white-space: nowrap;
+}
+.tab-itens .desc { color: var(--cinza-9); }
+.tab-itens .status { width: 1%; white-space: nowrap; }
+.tab-itens .resp { width: 1%; white-space: nowrap; }
+.tab-itens .apoio { width: 1%; white-space: nowrap; }
+.tab-itens .check { width: 1%; text-align: center; padding: 5px 12px; border-left: 1px dashed var(--borda); }
+.tab-itens .check-h {
+  text-align: center;
+  border-left: 1px dashed var(--borda);
+  line-height: 1.15;
+  color: var(--azul);
+}
+.tab-itens-check-box {
+  display: inline-block;
+  position: relative;
+  width: 14px; height: 14px;
+  border: 1.5px solid var(--cinza-5);
+  border-radius: 3px;
+  background: #fff;
+  vertical-align: middle;
+}
+.tab-itens tr:has(.papel.zz) .tab-itens-check-box { border-color: var(--azul); }
+/* Pré-marca linhas já OK/conforme/vigente */
+.tab-itens tr:has(.status-pill.ok) .tab-itens-check-box {
+  background: var(--verde);
+  border-color: var(--verde);
+}
+.tab-itens tr:has(.status-pill.ok) .tab-itens-check-box::after {
+  content: '✓';
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+}
+.status-pill {
+  display: inline-block;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 600;
+  padding: 1px 6px; border-radius: 3px;
+  letter-spacing: .03em;
+  text-transform: lowercase;
+}
+.status-pill.ok { background: var(--verde-bg); color: var(--verde); }
+.status-pill.parcial { background: var(--amber-bg); color: #A65E00; }
+.status-pill.pend { background: var(--vermelho-bg); color: var(--vermelho); }
+.status-pill.bloqueio { background: var(--vermelho); color: #fff; }
+
+/* ── ESCOPO · 3 colunas ── */
+.escopo-cols {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+.col-escopo {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 7px;
+  box-shadow: var(--sombra);
+  overflow: hidden;
+}
+.col-escopo-h {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--borda);
+}
+.col-escopo-h.habilis { background: linear-gradient(135deg, var(--verde-bg) 0%, #F1F8F2 100%); }
+.col-escopo-h.zz { background: linear-gradient(135deg, var(--azul-bg) 0%, #F5F9FE 100%); }
+.col-escopo-h.oferta { background: linear-gradient(135deg, var(--amber-bg) 0%, #FFFDF5 100%); }
+.col-escopo-h-ic {
+  width: 26px; height: 26px; border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  color: #fff; flex-shrink: 0;
+}
+.col-escopo-h.habilis .col-escopo-h-ic { background: var(--verde); }
+.col-escopo-h.zz .col-escopo-h-ic { background: var(--azul); }
+.col-escopo-h.oferta .col-escopo-h-ic { background: var(--amber); }
+.col-escopo-h-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--cinza-5);
+}
+.col-escopo-h-t { font-size: 12.5px; font-weight: 600; color: var(--cinza-9); line-height: 1.2; }
+.col-escopo-h-s { font-size: 9.5px; color: var(--cinza-5); margin-top: 1px; font-family: 'DM Mono', monospace; }
+.col-escopo-body { padding: 4px 0; }
+.col-escopo-item {
+  display: flex; gap: 8px; align-items: flex-start;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--cinza-1);
+}
+.col-escopo-item:last-child { border-bottom: none; }
+.col-escopo-num {
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 600;
+  color: var(--cinza-5); flex-shrink: 0;
+  margin-top: 1px;
+  min-width: 14px;
+}
+.col-escopo-item-mid { flex: 1; }
+.col-escopo-item-t { font-size: 11px; font-weight: 600; color: var(--cinza-9); line-height: 1.3; }
+.col-escopo-item-d { font-size: 10px; color: var(--cinza-7); margin-top: 2px; line-height: 1.35; }
+.col-escopo-meta {
+  font-family: 'DM Mono', monospace; font-size: 8.5px; font-weight: 600;
+  padding: 2px 6px; border-radius: 3px;
+  background: var(--cinza-1); color: var(--cinza-7);
+  letter-spacing: .03em;
+  flex-shrink: 0;
+  align-self: center;
+}
+.col-escopo-meta.contin { background: var(--verde-bg); color: var(--verde); }
+.col-escopo-meta.crit { background: var(--vermelho-bg); color: var(--vermelho); }
+.col-escopo-meta.opc { background: var(--amber-bg); color: #A65E00; }
+.col-escopo-meta.cond { background: var(--roxo-bg); color: var(--roxo); }
+
+/* ── RISCOS grid ── */
+.riscos-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.risco {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--amber);
+  border-radius: 7px;
+  padding: 10px 12px;
+  box-shadow: var(--sombra);
+}
+.risco.bx { border-left-color: var(--cinza-3); }
+.risco.cp { border-left-color: var(--roxo); }
+.risco-h {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+.risco-id {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
+  padding: 1px 7px; border-radius: 4px;
+  letter-spacing: .04em;
+  background: var(--amber-bg); color: #A65E00;
+}
+.risco-id.bx { background: var(--cinza-1); color: var(--cinza-7); }
+.risco-t {
+  font-size: 12px; font-weight: 600; color: var(--cinza-9); flex: 1;
+  line-height: 1.25; min-width: 60%;
+}
+.risco-d {
+  font-size: 10.5px; color: var(--cinza-7); line-height: 1.4;
+}
+.risco-d strong { color: var(--cinza-9); font-weight: 600; }
+
+/* ── PRÓXIMA SEMANA ── */
+.proxima {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--amber);
+  border-radius: 7px;
+  padding: 12px 16px;
+  box-shadow: var(--sombra);
+}
+.proxima-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px;
+}
+.proxima-item {
+  display: flex; gap: 10px;
+  font-size: 11px;
+  padding: 4px 0;
+}
+.proxima-bul {
+  width: 16px; height: 16px; border-radius: 4px;
+  background: var(--amber-bg); color: var(--amber);
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.proxima-t { color: var(--cinza-9); font-weight: 500; line-height: 1.4; }
+.proxima-t strong { color: var(--verde); font-weight: 600; }
+
+/* ── TIMELINE Z+Z · pág 1 ── */
+.tl-zz {
+  background: linear-gradient(135deg, #F5F9FE 0%, #fff 100%);
+  border: 1px solid #BBDEFB;
+  border-left: 4px solid var(--azul);
+  border-radius: 8px;
+  padding: 14px 18px 16px;
+  margin-bottom: 18px;
+  box-shadow: var(--sombra);
+}
+.tl-zz-h {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #BBDEFB;
+}
+.tl-zz-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  background: var(--azul); color: #fff;
+  font-family: 'DM Mono', monospace; font-size: 10.5px; font-weight: 700;
+  flex-shrink: 0;
+}
+.tl-zz-t {
+  font-size: 12.5px; font-weight: 600; color: var(--cinza-9);
+}
+.tl-zz-s {
+  font-size: 10px; color: var(--cinza-5); margin-top: 1px;
+  font-family: 'DM Mono', monospace; letter-spacing: .03em;
+}
+.tl-zz-hint {
+  margin-left: auto;
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--azul);
+  letter-spacing: .04em;
+}
+.tl-zz-body {
+  position: relative;
+  padding: 8px 4px 0;
+}
+.tl-zz-line {
+  position: absolute; top: 16px; left: 14px; right: 14px;
+  height: 2px; background: #BBDEFB;
+}
+.tl-zz-steps {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
+  position: relative;
+}
+.tl-zz-step { text-align: center; }
+.tl-zz-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--azul);
+  margin: 0 auto 6px;
+  position: relative; z-index: 2;
+}
+.tl-zz-step.urg .tl-zz-dot {
+  background: var(--vermelho); border-color: var(--vermelho);
+  box-shadow: 0 0 0 3px rgba(183,28,28,.15);
+}
+.tl-zz-step.cp .tl-zz-dot { background: var(--roxo); border-color: var(--roxo); }
+.tl-zz-date {
+  font-family: 'DM Mono', monospace; font-size: 10.5px; font-weight: 600;
+  color: var(--azul);
+}
+.tl-zz-step.urg .tl-zz-date { color: var(--vermelho); }
+.tl-zz-step.cp .tl-zz-date { color: var(--roxo); }
+.tl-zz-label {
+  font-size: 10px; color: var(--cinza-9); margin-top: 2px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+.tl-zz-sub {
+  font-size: 8.5px; color: var(--cinza-5); margin-top: 2px;
+  font-family: 'DM Mono', monospace; letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+/* ── PAINEL DE CARGA · pág 2 ── */
+.carga {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 14px 18px 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--sombra);
+}
+.carga-h {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 12px;
+}
+.carga-h-t {
+  font-size: 13px; font-weight: 600; color: var(--cinza-9);
+}
+.carga-h-s {
+  font-size: 10px; color: var(--cinza-5);
+  margin-left: auto;
+  font-family: 'DM Mono', monospace;
+}
+.carga-total {
+  display: grid; grid-template-columns: 90px 1fr; gap: 14px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--cinza-1);
+}
+.carga-total-side { display: flex; flex-direction: column; gap: 2px; }
+.carga-total-l {
+  font-size: 9px; color: var(--cinza-5); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em;
+}
+.carga-total-v {
+  font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 600;
+  color: var(--cinza-9); line-height: 1;
+}
+.carga-total-s {
+  font-size: 9.5px; color: var(--cinza-5);
+}
+.carga-bar {
+  display: flex; height: 28px;
+  border-radius: 5px; overflow: hidden;
+  background: var(--cinza-1);
+}
+.carga-seg {
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 11.5px; font-weight: 600;
+  color: #fff;
+  gap: 5px;
+}
+.carga-seg.zz { background: var(--azul); }
+.carga-seg.habilis { background: var(--verde); }
+.carga-seg-n { font-size: 13px; font-weight: 700; }
+.carga-linhas {
+  display: flex; flex-direction: column; gap: 6px;
+  margin-bottom: 12px;
+}
+.carga-linha {
+  display: grid; grid-template-columns: 150px 1fr 60px; gap: 10px;
+  align-items: center;
+  font-size: 10.5px;
+}
+.carga-linha-lab {
+  display: flex; align-items: center; gap: 7px;
+}
+.carga-linha-tag {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 5px;
+  font-family: 'DM Mono', monospace; font-size: 9.5px; font-weight: 700;
+  color: #fff; flex-shrink: 0;
+}
+.carga-linha-tag.us { background: var(--azul); }
+.carga-linha-tag.lao { background: var(--verde); }
+.carga-linha-tag.cond { background: var(--amber); }
+.carga-linha-tag.comp { background: var(--vermelho); }
+.carga-linha-nome {
+  font-size: 10.5px; font-weight: 500; color: var(--cinza-9);
+  line-height: 1.2;
+}
+.carga-linha-bar {
+  display: flex; height: 14px; border-radius: 3px; overflow: hidden;
+  background: var(--cinza-1);
+}
+.carga-linha-seg {
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 600;
+  color: #fff;
+}
+.carga-linha-seg.zz { background: var(--azul); }
+.carga-linha-seg.habilis { background: var(--verde); }
+.carga-linha-tot {
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--cinza-5);
+  text-align: right;
+}
+.carga-linha-tot strong { color: var(--cinza-9); font-weight: 600; }
+.carga-foot {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cinza-1);
+}
+.carga-foot-item {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 8px 12px;
+  background: var(--cinza-0);
+  border-radius: 5px;
+  border: 1px solid var(--borda);
+}
+.carga-foot-item.zz { background: #F4F8FC; border-color: #BBDEFB; }
+.carga-foot-item.urg { background: #FFF5F5; border-color: #FFCDD2; }
+.carga-foot-l {
+  font-size: 9px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--cinza-5);
+}
+.carga-foot-v {
+  font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 600;
+  color: var(--cinza-9); line-height: 1.1;
+}
+.carga-foot-item.zz .carga-foot-v { color: var(--azul); }
+.carga-foot-item.urg .carga-foot-v { color: var(--vermelho); }
+.carga-foot-s {
+  font-size: 9.5px; color: var(--cinza-5); line-height: 1.3;
+}
+
+/* ── destaque das linhas Z+Z no mapa regulatório ── */
+.tab-itens tr:has(.papel.zz) td { background: #F4F8FC; }
+.tab-itens tr.crit td { background: #FFF5F5; }
+
+/* ── BLOCOS segregadores · decisões e checklist ── */
+.seg-bloco {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--verde);
+  border-radius: 7px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+.seg-bloco:last-child { margin-bottom: 0; }
+.seg-bloco.cp {
+  border-left-color: var(--roxo);
+  border-color: #E1BEE7;
+  background: #FEFCFF;
+}
+.seg-bloco-h {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  background: #FCFCFD;
+  border-bottom: 1px solid var(--borda);
+}
+.seg-bloco.cp .seg-bloco-h {
+  background: linear-gradient(135deg, #FAF4FC 0%, #FDFBFE 100%);
+  border-bottom-color: #E1BEE7;
+}
+.seg-bloco-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 6px;
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.seg-bloco.lao .seg-bloco-badge { background: var(--verde); }
+.seg-bloco.cp .seg-bloco-badge { background: var(--roxo); }
+.seg-bloco-t {
+  font-size: 12.5px; font-weight: 600; color: var(--cinza-9);
+  letter-spacing: -.005em;
+  line-height: 1.2;
+}
+.seg-bloco.lao .seg-bloco-t { color: var(--verde); }
+.seg-bloco.cp .seg-bloco-t { color: var(--roxo); }
+.seg-bloco-s {
+  font-size: 9.5px; color: var(--cinza-5); margin-top: 1px;
+  font-family: 'DM Mono', monospace; letter-spacing: .03em;
+}
+.seg-bloco-meta {
+  margin-left: auto;
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600;
+  color: var(--cinza-7);
+  padding: 3px 9px;
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.seg-bloco.cp .seg-bloco-meta {
+  background: #fff;
+  border-color: #E1BEE7;
+  color: var(--roxo);
+}
+.seg-bloco-body { padding: 12px 14px; }
+.seg-bloco > .dec-tabela {
+  border: none; border-radius: 0; box-shadow: none;
+}
+
+/* ── CHECKLIST Z+Z ── */
+.cklist {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 14px 18px 16px;
+  box-shadow: var(--sombra);
+}
+.cklist-h {
+  display: grid; grid-template-columns: auto 1fr auto 130px; gap: 10px 14px;
+  align-items: baseline;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px dashed var(--borda);
+}
+.cklist-h-l {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--cinza-5);
+  white-space: nowrap;
+}
+.cklist-h-field {
+  border-bottom: 1px solid var(--cinza-3);
+  min-height: 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--cinza-5);
+  padding: 0 4px 1px;
+  text-align: center;
+  letter-spacing: .04em;
+}
+.cklist-grupo { margin-bottom: 8px; }
+.cklist-grupo:last-child { margin-bottom: 0; }
+.cklist-grupo-h {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 0 7px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--borda);
+  flex-wrap: wrap;
+}
+.cklist-grupo-h.urg { border-bottom-color: #FFCDD2; }
+.cklist-grupo-h.cp { border-bottom-color: #E1BEE7; }
+.cklist-grupo-h.final { border-bottom-color: var(--verde-mid); }
+.cklist-foco {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: var(--cinza-1); color: var(--cinza-7);
+  border: 1px solid var(--borda);
+  flex-shrink: 0;
+}
+.cklist-foco::before {
+  content: '◆'; font-size: 8px; line-height: 1;
+}
+.cklist-foco.desbloq { background: var(--vermelho-bg); color: var(--vermelho); border-color: #FFCDD2; }
+.cklist-foco.adm { background: var(--azul-bg); color: var(--azul); border-color: #BBDEFB; }
+.cklist-foco.contr { background: var(--amber-bg); color: #A65E00; border-color: var(--amber-mid); }
+.cklist-foco.cp { background: var(--roxo-bg); color: var(--roxo); border-color: #E1BEE7; }
+.cklist-foco.final { background: var(--verde-bg); color: var(--verde); border-color: var(--verde-mid); }
+.cklist-grupo-prazo {
+  font-size: 11.5px; font-weight: 600; color: var(--cinza-9);
+  letter-spacing: -.005em;
+}
+.cklist-grupo-h.urg .cklist-grupo-prazo { color: var(--vermelho); }
+.cklist-grupo-h.cp .cklist-grupo-prazo { color: var(--roxo); }
+.cklist-grupo-h.final .cklist-grupo-prazo { color: var(--verde); }
+.cklist-grupo-per {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--cinza-5);
+  letter-spacing: .04em;
+  margin-left: auto;
+}
+.cklist-item {
+  display: grid; grid-template-columns: auto 54px 1fr; gap: 12px;
+  align-items: center;
+  padding: 7px 6px;
+  border-bottom: 1px solid var(--cinza-1);
+}
+.cklist-item:last-child { border-bottom: none; }
+.cklist-item.urg {
+  background: #FFF5F5;
+  border-radius: 4px;
+  padding-left: 10px;
+  border-bottom: none;
+  margin-bottom: 3px;
+}
+.cklist-item.cp {
+  background: #FAF4FC;
+  border-radius: 4px;
+  padding-left: 10px;
+  border-bottom: none;
+  margin-bottom: 3px;
+}
+.cklist-box {
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--cinza-5);
+  border-radius: 3px;
+  background: #fff;
+  flex-shrink: 0;
+}
+.cklist-item.urg .cklist-box { border-color: var(--vermelho); }
+.cklist-item.cp .cklist-box { border-color: var(--roxo); }
+.cklist-item-date {
+  font-family: 'DM Mono', monospace; font-size: 10.5px; font-weight: 600;
+  color: var(--cinza-7);
+  letter-spacing: .03em;
+}
+.cklist-item.urg .cklist-item-date { color: var(--vermelho); }
+.cklist-item.cp .cklist-item-date { color: var(--roxo); }
+.cklist-item-d {
+  font-size: 11px; color: var(--cinza-9); line-height: 1.35;
+}
+.cklist-item-d .ref {
+  display: inline-block;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 600;
+  padding: 1px 5px; border-radius: 3px;
+  background: var(--cinza-1); color: var(--cinza-7);
+  margin-left: 6px;
+  letter-spacing: .04em;
+  vertical-align: middle;
+}
+.cklist-item-d .ref.urg { background: var(--vermelho-bg); color: var(--vermelho); }
+.cklist-nota {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--cinza-0);
+  border-radius: 5px;
+  font-size: 10px; color: var(--cinza-5);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: .02em;
+}
+
+/* ── RODAPÉ ── */
+.foot {
+  border-top: 1px solid var(--borda);
+  padding: 10px 28px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px; color: var(--cinza-5);
+  letter-spacing: .02em;
+}
+.foot strong { color: var(--cinza-9); font-weight: 600; }
+
+/* ── PRINT ── */
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  body { background: #fff; font-size: 10.5px; }
+  .page {
+    margin: 0; box-shadow: none; min-height: 0;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- PÁGINA 1 · VISÃO EXECUTIVA · CRÍTICOS E DECISÕES                    -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <span class="h-tag">Hábilis · Regularização Ambiental</span>
+        <div class="h-title">Auto Posto América · Status executivo</div>
+        <div class="h-sub">Renovação LAO 033/2020 · SEMMA Guapó · proc. 22760/2020</div>
+      </div>
+      <div class="h-meta">
+        <div>Emitido em <strong>16/04/2026</strong></div>
+        <div>Versão <strong>v3.0</strong> · síntese</div>
+        <div>Destinatário · <strong>Grupo Z+Z</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi-status">
+      <span class="kpi-dot"></span>
+      <div>
+        <div class="kpi-status-l">Saúde do projeto</div>
+        <div class="kpi-status-v">Atenção · ação imediata</div>
+      </div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-l">Vencimento LAO</div>
+      <div class="kpi-v">23/12/2026</div>
+      <div class="kpi-s">251 dias corridos</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-l">Protocolo alvo</div>
+      <div class="kpi-v">26/06/2026</div>
+      <div class="kpi-s">+180d margem SEMMA</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-l">Decisões pendentes</div>
+      <div class="kpi-v urg">9 <small style="font-size:11px;color:var(--cinza-5);font-weight:400"> · 1 urgente</small></div>
+      <div class="kpi-s">aguardando Grupo Z+Z</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-l">Itens em gestão</div>
+      <div class="kpi-v">71</div>
+      <div class="kpi-s">4 frentes · 26 LAO + 45 paralelo</div>
+    </div>
+  </div>
+
+  <main>
+
+    <div class="sumario">
+      A renovação integral está mapeada e o cronograma foi <strong>antecipado em 60 dias</strong> em relação ao mínimo legal — meta de protocolar até <strong>26/06/2026</strong>, 180 dias antes do vencimento da LAO (23/12/2026). A janela de execução encurtou para <strong>71 dias úteis</strong>, e a contratação imediata da <strong>Investigação Confirmatória de Passivo (P-01)</strong> é o gate nº 1 do projeto — sem ela, a SEMMA não recebe o dossiê.
+    </div>
+
+    <!-- TIMELINE Z+Z · quando é a vez do grupo -->
+    <div class="tl-zz">
+      <div class="tl-zz-h">
+        <span class="tl-zz-badge">Z</span>
+        <div>
+          <div class="tl-zz-t">Quando é a vez do Grupo Z+Z</div>
+          <div class="tl-zz-s">6 marcos de decisão · abril → junho/2026</div>
+        </div>
+        <span class="tl-zz-hint">linha do tempo de ação</span>
+      </div>
+      <div class="tl-zz-body">
+        <div class="tl-zz-line"></div>
+        <div class="tl-zz-steps">
+          <div class="tl-zz-step urg">
+            <div class="tl-zz-dot"></div>
+            <div class="tl-zz-date">22/04</div>
+            <div class="tl-zz-label">Contratar P-01 + agendar Visita Técnica</div>
+            <div class="tl-zz-sub">1 urgente · 1 alta</div>
+          </div>
+          <div class="tl-zz-step">
+            <div class="tl-zz-dot"></div>
+            <div class="tl-zz-date">28/04</div>
+            <div class="tl-zz-label">Documentação do representante legal</div>
+            <div class="tl-zz-sub">RG · CPF · procuração</div>
+          </div>
+          <div class="tl-zz-step">
+            <div class="tl-zz-dot"></div>
+            <div class="tl-zz-date">30/04</div>
+            <div class="tl-zz-label">Dispensa de Outorga + Certidão Uso do Solo</div>
+            <div class="tl-zz-sub">2 docs p/ auditar</div>
+          </div>
+          <div class="tl-zz-step">
+            <div class="tl-zz-dot"></div>
+            <div class="tl-zz-date">15/05</div>
+            <div class="tl-zz-label">SAO/STEO + RT externo + adendos Hábilis</div>
+            <div class="tl-zz-sub">3 contratações</div>
+          </div>
+          <div class="tl-zz-step cp">
+            <div class="tl-zz-dot"></div>
+            <div class="tl-zz-date">30/05</div>
+            <div class="tl-zz-label">Cadastros federais ANP · IBAMA · SINIR · SIMP</div>
+            <div class="tl-zz-sub">fora do contrato</div>
+          </div>
+          <div class="tl-zz-step cp">
+            <div class="tl-zz-dot"></div>
+            <div class="tl-zz-date">30/06</div>
+            <div class="tl-zz-label">Saúde ocupacional + treinamentos NR</div>
+            <div class="tl-zz-sub">fora do contrato</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 1 · CRÍTICOS -->
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2 class="sec-t">Críticos a resolver em abril</h2>
+      <span class="sec-hint">4 riscos · travam o protocolo de 26/06</span>
+    </div>
+
+    <div class="critico-grid">
+      <div class="crit">
+        <div class="crit-h">
+          <span class="crit-id">R-01</span>
+          <span class="crit-t">P-01 nunca executado · bloqueador técnico</span>
+        </div>
+        <div class="crit-d">
+          Investigação Confirmatória de Passivo exigida pela CEMAM 029/2018 e <strong>nunca feita no posto</strong>. Sem ela a SEMMA indefere ou condiciona a renovação. Escopo BTEX/PAH/VOC, 3+ furos, ART — lead 60 dias após contratação.
+        </div>
+        <div class="crit-foot">
+          <span class="crit-acao">Contratar empresa especializada</span>
+          <span class="prazo">até 22/04/2026</span>
+        </div>
+      </div>
+
+      <div class="crit">
+        <div class="crit-h">
+          <span class="crit-id">R-02</span>
+          <span class="crit-t">LAI 008/2020 expirou em 31/03/2026</span>
+        </div>
+        <div class="crit-d">
+          Lacuna cronológica entre LI e LAO pode levar a SEMMA a questionar continuidade legal. <strong>Posicionamento prévio</strong> com o órgão antes do protocolo, anexando a LAO 033/2020 vigente como base de operação contínua.
+        </div>
+        <div class="crit-foot">
+          <span class="crit-acao">Agendar reunião SEMMA</span>
+          <span class="prazo">até 30/04/2026</span>
+        </div>
+      </div>
+
+      <div class="crit">
+        <div class="crit-h">
+          <span class="crit-id">R-03</span>
+          <span class="crit-t">Dispensa de Outorga R-08 com vigência incerta</span>
+        </div>
+        <div class="crit-d">
+          Auditar imediatamente o documento original junto ao Z+Z. Se vencida, protocolar novo pedido na <strong>SEMAD-GO</strong> antes de 30/04 — caso contrário quebra o pré-requisito hídrico do dossiê LAO e cascateia para junho.
+        </div>
+        <div class="crit-foot">
+          <span class="crit-acao">Auditar documento + protocolar</span>
+          <span class="prazo">até 30/04/2026</span>
+        </div>
+      </div>
+
+      <div class="crit">
+        <div class="crit-h">
+          <span class="crit-id">R-04</span>
+          <span class="crit-t">Planta Uso do Solo sem ART 2024 vigente</span>
+        </div>
+        <div class="crit-d">
+          Auditoria de R-11/R-12 + emissão de nova ART pelo RT Hábilis. <strong>Atraso superior a 5 dias cascateia</strong> para todo o cronograma do protocolo Certidão de Uso do Solo (05/05).
+        </div>
+        <div class="crit-foot">
+          <span class="crit-acao">Emitir nova ART CREA</span>
+          <span class="prazo">até 30/04/2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 2 · DECISÕES Z+Z -->
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2 class="sec-t">Decisões pendentes do Grupo Z+Z</h2>
+      <span class="sec-hint">2 blocos · 7 do contrato + 2 fora do contrato</span>
+    </div>
+
+    <!-- BLOCO A · REGULARIZAÇÃO LAO (contrato Hábilis) -->
+    <div class="seg-bloco lao">
+      <div class="seg-bloco-h">
+        <span class="seg-bloco-badge">A</span>
+        <div>
+          <div class="seg-bloco-t">Regularização LAO · escopo formal</div>
+          <div class="seg-bloco-s">contrato Hábilis · caminho crítico até o protocolo SEMMA</div>
+        </div>
+        <span class="seg-bloco-meta">7 decisões · 1 urgente</span>
+      </div>
+      <table class="dec-tabela">
+        <thead>
+          <tr>
+            <th class="dec-n">#</th>
+            <th>Decisão</th>
+            <th class="dec-apoio">Apoio</th>
+            <th class="dec-prazo">Prazo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="urg">
+            <td class="dec-n">1</td>
+            <td>
+              <div class="dec-t">Aprovar e contratar empresa especializada para o P-01</div>
+              <div class="dec-d">Investigação Confirmatória de Passivo · escopo BTEX/PAH/VOC, 3+ furos, ART. Bloqueador técnico da LAO.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel apoio">Terceiro</span></td>
+            <td class="dec-prazo"><span class="prazo">22/04</span></td>
+          </tr>
+          <tr>
+            <td class="dec-n">2</td>
+            <td>
+              <div class="dec-t">Entregar documentação administrativa do representante legal</div>
+              <div class="dec-d">RG/CPF atualizado, comprovante endereço (≤3m), procuração com firma reconhecida para SEMMA/Prefeitura/SEMAD. Sem isso nada é protocolado.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel-none">—</span></td>
+            <td class="dec-prazo"><span class="prazo alta">28/04</span></td>
+          </tr>
+          <tr>
+            <td class="dec-n">3</td>
+            <td>
+              <div class="dec-t">Confirmar agendamento da Visita Técnica</div>
+              <div class="dec-d">Janela 27/04 → 01/05. Disponibilizar responsável local, acesso a tanques/sala elétrica/poços e documentação operacional.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel-none">—</span></td>
+            <td class="dec-prazo"><span class="prazo">22/04</span></td>
+          </tr>
+          <tr>
+            <td class="dec-n">4</td>
+            <td>
+              <div class="dec-t">Verificar/entregar Certidão de Uso do Solo recente</div>
+              <div class="dec-d">Z+Z indicou possível existência de documento vigente. Se válido para além de dez/2026, dispensa novo protocolo e abrevia o caminho crítico em ~30 dias.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel-none">—</span></td>
+            <td class="dec-prazo"><span class="prazo alta">30/04</span></td>
+          </tr>
+          <tr>
+            <td class="dec-n">5</td>
+            <td>
+              <div class="dec-t">Contratar empresa licenciada para manutenção SAO / STEO</div>
+              <div class="dec-d">Condicionante C-02 da LAO. Documentar NFs e relatórios mensais. Pode ser via adendo Hábilis ou contratação direta Z+Z.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel apoio">Terceiro</span></td>
+            <td class="dec-prazo"><span class="prazo alta">15/05</span></td>
+          </tr>
+          <tr>
+            <td class="dec-n">6</td>
+            <td>
+              <div class="dec-t">Definir adendos do escopo Hábilis (PGR, PGRS, treinamentos, seguro)</div>
+              <div class="dec-d">5 propostas adicionais cobrindo condicionantes e compliance paralelo. Decidir bloco a bloco ou pacote integral.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel habilis">Hábilis</span></td>
+            <td class="dec-prazo"><span class="prazo alta">15/05</span></td>
+          </tr>
+          <tr>
+            <td class="dec-n">7</td>
+            <td>
+              <div class="dec-t">Contratar RT externo para peças de engenharia específicas</div>
+              <div class="dec-d">Eng. eletricista com ART para planta elétrica + áreas Ex + SPDA. Eventualmente eng. mecânico para tanques. Lead 30 dias.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel apoio">Terceiro</span></td>
+            <td class="dec-prazo"><span class="prazo alta">15/05</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BLOCO B · COMPLIANCE PARALELO (fora do contrato) -->
+    <div class="seg-bloco cp">
+      <div class="seg-bloco-h">
+        <span class="seg-bloco-badge">B</span>
+        <div>
+          <div class="seg-bloco-t">Compliance paralelo · fora do contrato</div>
+          <div class="seg-bloco-s">responsabilidade operacional Z+Z · roda em paralelo à renovação LAO</div>
+        </div>
+        <span class="seg-bloco-meta">2 decisões</span>
+      </div>
+      <table class="dec-tabela">
+        <thead>
+          <tr>
+            <th class="dec-n">#</th>
+            <th>Decisão</th>
+            <th class="dec-apoio">Apoio</th>
+            <th class="dec-prazo">Prazo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dec-n">8</td>
+            <td>
+              <div class="dec-t">Cadastros federais paralelos · ANP · IBAMA · SINIR · SIMP</div>
+              <div class="dec-d">Regularizar cadastros federais sob risco de autuação paralela mesmo com LAO renovada. Ação operacional Z+Z — pode entrar em adendo.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel-none">—</span></td>
+            <td class="dec-prazo"><span class="prazo alta">30/05</span></td>
+          </tr>
+          <tr>
+            <td class="dec-n">9</td>
+            <td>
+              <div class="dec-t">Saúde ocupacional + treinamentos NR</div>
+              <div class="dec-d">PCMSO/ASOs (NR-7), CIPA (NR-5), NR-20 frentistas, NR-10 elétrica e brigada. Parcialmente coberto pela decisão #6 se adendo for aprovado.</div>
+            </td>
+            <td class="dec-apoio"><span class="papel apoio">Terceiro</span></td>
+            <td class="dec-prazo"><span class="prazo media">30/06</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <div class="foot">
+    <span>Hábilis Consultoria Ambiental · relatório executivo para o <strong>Grupo Z+Z</strong></span>
+    <span>Página <strong>1 / 4</strong></span>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- PÁGINA 2 · STATUS POR FRENTE · ESCOPO · CRONOGRAMA                  -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <span class="h-tag">Hábilis · Regularização Ambiental</span>
+        <div class="h-title">Status das frentes · escopo · cronograma</div>
+        <div class="h-sub">71 itens em gestão · 4 frentes · protocolo alvo 26/06/2026</div>
+      </div>
+      <div class="h-meta">
+        <div>Ref. <strong>Auto Posto América</strong></div>
+        <div>Documento contínuo</div>
+        <div>Página <strong>2 / 4</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- PAINEL DE CARGA · quanto do trabalho é do Z+Z -->
+    <div class="carga">
+      <div class="carga-h">
+        <h2 class="carga-h-t">Carga de responsabilidade · 71 itens</h2>
+        <span class="carga-h-s">distribuição por responsável · 16/04/2026</span>
+      </div>
+
+      <div class="carga-total">
+        <div class="carga-total-side">
+          <div class="carga-total-l">Total</div>
+          <div class="carga-total-v">71</div>
+          <div class="carga-total-s">itens em gestão</div>
+        </div>
+        <div class="carga-bar">
+          <div class="carga-seg zz" style="flex:39"><span class="carga-seg-n">39</span> Z+Z conduz</div>
+          <div class="carga-seg habilis" style="flex:32"><span class="carga-seg-n">32</span> Hábilis conduz</div>
+        </div>
+      </div>
+
+      <div class="carga-linhas">
+        <div class="carga-linha">
+          <div class="carga-linha-lab">
+            <span class="carga-linha-tag us">F1</span>
+            <span class="carga-linha-nome">Uso do Solo</span>
+          </div>
+          <div class="carga-linha-bar">
+            <div class="carga-linha-seg zz" style="flex:4">4</div>
+            <div class="carga-linha-seg habilis" style="flex:7">7</div>
+          </div>
+          <div class="carga-linha-tot"><strong>11</strong> itens</div>
+        </div>
+        <div class="carga-linha">
+          <div class="carga-linha-lab">
+            <span class="carga-linha-tag lao">F2</span>
+            <span class="carga-linha-nome">Renovação LAO</span>
+          </div>
+          <div class="carga-linha-bar">
+            <div class="carga-linha-seg zz" style="flex:10">10</div>
+            <div class="carga-linha-seg habilis" style="flex:16">16</div>
+          </div>
+          <div class="carga-linha-tot"><strong>26</strong> itens</div>
+        </div>
+        <div class="carga-linha">
+          <div class="carga-linha-lab">
+            <span class="carga-linha-tag cond">F3</span>
+            <span class="carga-linha-nome">Condicionantes</span>
+          </div>
+          <div class="carga-linha-bar">
+            <div class="carga-linha-seg zz" style="flex:8">8</div>
+            <div class="carga-linha-seg habilis" style="flex:6">6</div>
+          </div>
+          <div class="carga-linha-tot"><strong>14</strong> itens</div>
+        </div>
+        <div class="carga-linha">
+          <div class="carga-linha-lab">
+            <span class="carga-linha-tag comp">F4</span>
+            <span class="carga-linha-nome">Compliance paralelo</span>
+          </div>
+          <div class="carga-linha-bar">
+            <div class="carga-linha-seg zz" style="flex:17">17</div>
+            <div class="carga-linha-seg habilis" style="flex:3">3</div>
+          </div>
+          <div class="carga-linha-tot"><strong>20</strong> itens</div>
+        </div>
+      </div>
+
+      <div class="carga-foot">
+        <div class="carga-foot-item zz">
+          <span class="carga-foot-l">Conduzidos por Z+Z</span>
+          <span class="carga-foot-v">39 itens</span>
+          <span class="carga-foot-s">55% do total · maior parte em F4 (compliance)</span>
+        </div>
+        <div class="carga-foot-item">
+          <span class="carga-foot-l">Z+Z com apoio técnico</span>
+          <span class="carga-foot-v">16 itens</span>
+          <span class="carga-foot-s">precisa contratar lab, RT, eletricista, etc.</span>
+        </div>
+        <div class="carga-foot-item urg">
+          <span class="carga-foot-l">Decisões urgentes Z+Z</span>
+          <span class="carga-foot-v">7 até 15/05</span>
+          <span class="carga-foot-s">1 crítico (P-01) · 6 altas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3 · STATUS POR FRENTE -->
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2 class="sec-t">Status por frente de regularização</h2>
+      <span class="sec-hint">progresso consolidado · 16/04/2026</span>
+    </div>
+
+    <div class="frentes">
+      <div class="frente-card us">
+        <div class="frente-card-h">
+          <span class="frente-tag us">F1</span>
+          <div>
+            <div class="frente-nome">Uso do Solo</div>
+            <div class="frente-org">Prefeitura Guapó</div>
+          </div>
+          <span class="frente-perc">32%</span>
+        </div>
+        <div class="frente-bar"><div class="frente-bar-fill" style="width:32%"></div></div>
+        <div class="frente-meta">
+          <span><strong>11</strong> itens · <strong>1</strong> ok · <strong>5</strong> parc · <strong>5</strong> pend</span>
+          <span>Protocolo · <strong>05/05/2026</strong></span>
+        </div>
+        <div class="frente-d">
+          Pré-requisito municipal da LAO. Depende da ART 2024 vigente (R-04) e da Certidão de Uso do Solo já existente (decisão #4).
+        </div>
+      </div>
+
+      <div class="frente-card lao">
+        <div class="frente-card-h">
+          <span class="frente-tag lao">F2</span>
+          <div>
+            <div class="frente-nome">Renovação LAO</div>
+            <div class="frente-org">SEMMA · núcleo do projeto</div>
+          </div>
+          <span class="frente-perc">21%</span>
+        </div>
+        <div class="frente-bar"><div class="frente-bar-fill" style="width:21%"></div></div>
+        <div class="frente-meta">
+          <span><strong>26</strong> itens · <strong>1</strong> ok · <strong>9</strong> parc · <strong>16</strong> pend (inclui 2 críticos)</span>
+          <span>Protocolo · <strong>26/06/2026</strong></span>
+        </div>
+        <div class="frente-d">
+          Caminho crítico do projeto. Bloqueador principal é o P-01 (decisão #1) — sem ele o dossiê não entra. Lacuna LAI 008/2020 exige posicionamento prévio (R-02).
+        </div>
+      </div>
+
+      <div class="frente-card cond">
+        <div class="frente-card-h">
+          <span class="frente-tag cond">F3</span>
+          <div>
+            <div class="frente-nome">Condicionantes</div>
+            <div class="frente-org">obrigações da LAO vigente</div>
+          </div>
+          <span class="frente-perc">18%</span>
+        </div>
+        <div class="frente-bar"><div class="frente-bar-fill" style="width:18%"></div></div>
+        <div class="frente-meta">
+          <span><strong>14</strong> itens</span>
+          <span><strong>0</strong> atendidas · <strong>5</strong> parciais · <strong>9</strong> pendentes</span>
+        </div>
+        <div class="frente-d">
+          Roda em paralelo à renovação. SAO/STEO, RCA semestral, SPDA. Regularizar agora evita autuação mesmo antes do protocolo (decisão #5).
+        </div>
+      </div>
+
+      <div class="frente-card comp">
+        <div class="frente-card-h">
+          <span class="frente-tag comp">F4</span>
+          <div>
+            <div class="frente-nome">Compliance paralelo</div>
+            <div class="frente-org">MTE · ANP · IBAMA · PNRS</div>
+          </div>
+          <span class="frente-perc">28%</span>
+        </div>
+        <div class="frente-bar"><div class="frente-bar-fill" style="width:28%"></div></div>
+        <div class="frente-meta">
+          <span><strong>20</strong> itens · <strong>2</strong> vig · <strong>7</strong> anál · <strong>11</strong> aus</span>
+          <span>Federal · fiscalização independente</span>
+        </div>
+        <div class="frente-d">
+          Cadastros federais, saúde ocupacional e treinamentos NR. Falha aqui gera autuação paralela mesmo com LAO renovada (decisões #8 e #9).
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 4 · ESCOPO -->
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2 class="sec-t">Escopo · atribuições por responsável</h2>
+      <span class="sec-hint">quem conduz o quê · 3 vetores</span>
+    </div>
+
+    <div class="escopo-cols">
+      <!-- HÁBILIS -->
+      <div class="col-escopo">
+        <div class="col-escopo-h habilis">
+          <div class="col-escopo-h-ic">H</div>
+          <div>
+            <div class="col-escopo-h-eyebrow">Responsável</div>
+            <div class="col-escopo-h-t">Hábilis conduz</div>
+            <div class="col-escopo-h-s">Núcleo técnico-administrativo</div>
+          </div>
+        </div>
+        <div class="col-escopo-body">
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">01</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Coordenação executiva da regularização</div>
+              <div class="col-escopo-item-d">39 ações de cronograma · 47 documentos consolidados em 7 áreas</div>
+            </div>
+            <span class="col-escopo-meta contin">contínuo</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">02</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Visita Técnica (26 VCs em 9 setores)</div>
+              <div class="col-escopo-item-d">Coleta in loco com Responsável Técnico próprio</div>
+            </div>
+            <span class="col-escopo-meta">1 dia</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">03</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Plantas e relatórios próprios</div>
+              <div class="col-escopo-item-d">Planta Uso do Solo · MCE/MCO · análise CONAMA 273 · ART de regularização ambiental</div>
+            </div>
+            <span class="col-escopo-meta">4 peças</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">04</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Montagem dos 3 dossiês regulatórios</div>
+              <div class="col-escopo-item-d">Uso do Solo (11) · LAO (26) · Condicionantes (14)</div>
+            </div>
+            <span class="col-escopo-meta">3 dossiês</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">05</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Protocolos administrativos</div>
+              <div class="col-escopo-item-d">Requerimentos, publicações CONAMA 006/86, comunicações SEMMA / Prefeitura</div>
+            </div>
+            <span class="col-escopo-meta">até 26/06</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">06</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Acompanhamento pós-protocolo</div>
+              <div class="col-escopo-item-d">Resposta a exigências SEMMA até emissão da nova LAO</div>
+            </div>
+            <span class="col-escopo-meta">~6 meses</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Z+Z -->
+      <div class="col-escopo">
+        <div class="col-escopo-h zz">
+          <div class="col-escopo-h-ic">Z</div>
+          <div>
+            <div class="col-escopo-h-eyebrow">Responsável</div>
+            <div class="col-escopo-h-t">Z+Z conduz</div>
+            <div class="col-escopo-h-s">Decisão e execução do cliente</div>
+          </div>
+        </div>
+        <div class="col-escopo-body">
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">01</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Investigação Confirmatória de Passivo (P-01)</div>
+              <div class="col-escopo-item-d">Contratar empresa especializada · BTEX/PAH/VOC · 3+ furos · ART · CEMAM 029/2018</div>
+            </div>
+            <span class="col-escopo-meta crit">bloqueador</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">02</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Peças de engenharia com RT específico</div>
+              <div class="col-escopo-item-d">Contratar eng. eletricista (ART · áreas Ex · SPDA), eng. mecânico (tanques)</div>
+            </div>
+            <span class="col-escopo-meta">RT externo</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">03</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Coleta laboratorial RCA semestral</div>
+              <div class="col-escopo-item-d">Contratar lab acreditado para coleta + análises (Hábilis define escopo)</div>
+            </div>
+            <span class="col-escopo-meta">semestral</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">04</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Laudo Estanqueidade Bienal NBR 16795</div>
+              <div class="col-escopo-item-d">Contratar empresa ANP credenciada INMETRO · vencimento atual ~out/2026</div>
+            </div>
+            <span class="col-escopo-meta">set/2026</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">05</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Manutenção SAO / STEO + CBM-GO</div>
+              <div class="col-escopo-item-d">Contratar empresa licenciada · documentar NFs · operacional permanente</div>
+            </div>
+            <span class="col-escopo-meta contin">contínuo</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">06</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Documentação administrativa</div>
+              <div class="col-escopo-item-d">RG/CPF representante, procurações, comprovantes, CNDs</div>
+            </div>
+            <span class="col-escopo-meta crit">até 28/04</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">07</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Cadastros paralelos</div>
+              <div class="col-escopo-item-d">ANP · IBAMA · SINIR · SIMP · manutenção contínua</div>
+            </div>
+            <span class="col-escopo-meta contin">contínuo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADICIONAIS -->
+      <div class="col-escopo">
+        <div class="col-escopo-h oferta">
+          <div class="col-escopo-h-ic">+</div>
+          <div>
+            <div class="col-escopo-h-eyebrow">Opcional</div>
+            <div class="col-escopo-h-t">Escopo adicional proposto</div>
+            <div class="col-escopo-h-s">Ampliação do contrato Hábilis</div>
+          </div>
+        </div>
+        <div class="col-escopo-body">
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">01</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Coordenação técnica do P-01</div>
+              <div class="col-escopo-item-d">Especificação técnica, fiscalização da empresa contratada e validação do relatório</div>
+            </div>
+            <span class="col-escopo-meta opc">opcional</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">02</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Elaboração do PGR (NR-12 / NR-20)</div>
+              <div class="col-escopo-item-d">Engenheiro de segurança próprio · 90 dias · evita autuação MTE</div>
+            </div>
+            <span class="col-escopo-meta">90 dias</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">03</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">PGRS completo (Lei 12.305 / PNRS)</div>
+              <div class="col-escopo-item-d">Inventário, plano e cadastro SINIR · cobre condicionante C-08</div>
+            </div>
+            <span class="col-escopo-meta">60 dias</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">04</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Treinamentos NR-20, NR-10, brigada</div>
+              <div class="col-escopo-item-d">Programa anual com instrutor credenciado · cobre CP-12/13/04</div>
+            </div>
+            <span class="col-escopo-meta">anual</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">05</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Cotação e gestão de Seguro Ambiental</div>
+              <div class="col-escopo-item-d">Seguradora especializada · exigência crescente em contrato bandeira</div>
+            </div>
+            <span class="col-escopo-meta">anual</span>
+          </div>
+          <div class="col-escopo-item">
+            <span class="col-escopo-num">06</span>
+            <div class="col-escopo-item-mid">
+              <div class="col-escopo-item-t">Plano de Recuperação de Áreas (PRA)</div>
+              <div class="col-escopo-item-d">Acionado se P-01 detectar contaminação acima dos valores CETESB / CONAMA</div>
+            </div>
+            <span class="col-escopo-meta cond">condicional</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 5 · CRONOGRAMA -->
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2 class="sec-t">Marcos do protocolo</h2>
+      <span class="sec-hint">abr → dez/2026 · caminho crítico</span>
+    </div>
+
+    <div class="crono">
+      <div class="crono-line"></div>
+      <div class="crono-line-fill"></div>
+      <div class="crono-steps">
+        <div class="crono-step done">
+          <div class="crono-dot"></div>
+          <div class="crono-date done">16/04/26</div>
+          <div class="crono-label">Relatório emitido</div>
+          <div class="crono-sub">mapa 71 itens · 4 frentes</div>
+        </div>
+        <div class="crono-step now">
+          <div class="crono-dot"></div>
+          <div class="crono-date now">22/04/26</div>
+          <div class="crono-label">Contratação P-01</div>
+          <div class="crono-sub">gate nº 1 · urgente</div>
+        </div>
+        <div class="crono-step crit">
+          <div class="crono-dot"></div>
+          <div class="crono-date urg">05/05/26</div>
+          <div class="crono-label">Protocolo Cert. Uso do Solo</div>
+          <div class="crono-sub">Prefeitura Guapó</div>
+        </div>
+        <div class="crono-step">
+          <div class="crono-dot"></div>
+          <div class="crono-date">15/05/26</div>
+          <div class="crono-label">Fechamento adendos</div>
+          <div class="crono-sub">escopo + RT + SAO/STEO</div>
+        </div>
+        <div class="crono-step">
+          <div class="crono-dot"></div>
+          <div class="crono-date">26/06/26</div>
+          <div class="crono-label">Protocolo LAO · SEMMA</div>
+          <div class="crono-sub">+180d sobre vencimento</div>
+        </div>
+        <div class="crono-step">
+          <div class="crono-dot"></div>
+          <div class="crono-date">23/12/26</div>
+          <div class="crono-label">Vencimento LAO 033/2020</div>
+          <div class="crono-sub">limite legal</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="foot">
+    <span>Hábilis Consultoria Ambiental · relatório executivo para o <strong>Grupo Z+Z</strong></span>
+    <span>Página <strong>2 / 4</strong></span>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- PÁGINA 3 · MAPA REGULATÓRIO INTEGRAL · F1 + F2                     -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <span class="h-tag">Hábilis · Regularização Ambiental</span>
+        <div class="h-title">Mapa regulatório integral</div>
+        <div class="h-sub">71 itens · 4 frentes · responsável · apoio técnico · emissor</div>
+      </div>
+      <div class="h-meta">
+        <div>Ref. <strong>Auto Posto América</strong></div>
+        <div>Documento contínuo</div>
+        <div>Página <strong>3 / 4</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2 class="sec-t">Mapa regulatório integral</h2>
+      <span class="sec-hint">71 itens · 4 frentes</span>
+    </div>
+
+    <!-- LEGENDA DE PAPÉIS -->
+    <div class="legenda">
+      <span class="legenda-l">Papéis</span>
+      <span class="legenda-item"><span class="papel zz">Z+Z</span> <span><strong>Responsável</strong> — conduz a entrega</span></span>
+      <span class="legenda-item"><span class="papel habilis">Hábilis</span> <span><strong>Responsável</strong> — conduz a entrega</span></span>
+      <span class="legenda-item"><span class="papel apoio">Terceiro</span> <span><strong>Apoio técnico</strong> contratado (RT, lab, eng., med.)</span></span>
+      <span class="legenda-item"><span class="papel emissor">Órgão</span> <span><strong>Emissor externo</strong> (SEMMA, Prefeitura, INMETRO…)</span></span>
+    </div>
+
+    <!-- FRENTE 1: USO DO SOLO -->
+    <div class="frente-det">
+      <div class="frente-det-h">
+        <span class="frente-tag us">F1</span>
+        <div>
+          <div class="frente-nome">Uso do Solo · Pré-requisito municipal</div>
+          <div class="frente-org">11 itens · Prefeitura Guapó · protocolo 05/05/2026</div>
+        </div>
+        <div class="frente-det-meta">
+          <span class="meta-stat ok">1 ok</span>
+          <span class="meta-stat parcial">5 parc</span>
+          <span class="meta-stat pend">5 pend</span>
+        </div>
+      </div>
+      <div class="frente-det-bar">
+        <div class="seg-ok" style="width:9%"></div>
+        <div class="seg-parcial" style="width:46%"></div>
+        <div class="seg-pend" style="width:45%"></div>
+      </div>
+      <table class="tab-itens">
+        <thead><tr><th>#</th><th>Item</th><th>Status</th><th>Responsável</th><th>Apoio / Emissor</th><th class="check-h">Visto<br>Z+Z</th></tr></thead>
+        <tbody>
+          <tr><td class="id">a</td><td class="desc">Representante legal — RG/CPF atualizado</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">b</td><td class="desc">Espelho CNPJ (Receita Federal)</td><td class="status"><span class="status-pill parcial">andamento</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">Receita</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">c</td><td class="desc">DUAM Uso do Solo (guia municipal)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">Prefeitura</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">d</td><td class="desc">Procuração com poderes SEMMA / Prefeitura</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">Cartório</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">e</td><td class="desc">Comprovante de endereço recente (≤3m)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">f</td><td class="desc">Certidão Negativa Débitos Municipais</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">Prefeitura</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">g</td><td class="desc">Matrícula imóvel (R-01, validade 90d)</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">Cartório</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">h</td><td class="desc">Levantamento imóvel (R-11/R-12 auditadas)</td><td class="status"><span class="status-pill parcial">andamento</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">RT</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">i</td><td class="desc">Planta de Uso do Solo com ART CREA</td><td class="status"><span class="status-pill parcial">andamento</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">RT</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">j</td><td class="desc">CAR (se rural · posto urbano)</td><td class="status"><span class="status-pill ok">N/A</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">k</td><td class="desc">Certidão Registro Imóvel vigente</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">Cartório</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FRENTE 2: RENOVAÇÃO LAO -->
+    <div class="frente-det">
+      <div class="frente-det-h">
+        <span class="frente-tag lao">F2</span>
+        <div>
+          <div class="frente-nome">Renovação LAO · Núcleo SEMMA</div>
+          <div class="frente-org">26 itens · protocolo alvo 26/06/2026</div>
+        </div>
+        <div class="frente-det-meta">
+          <span class="meta-stat ok">1 ok</span>
+          <span class="meta-stat parcial">9 parc</span>
+          <span class="meta-stat pend">16 pend</span>
+        </div>
+      </div>
+      <div class="frente-det-bar">
+        <div class="seg-ok" style="width:4%"></div>
+        <div class="seg-parcial" style="width:35%"></div>
+        <div class="seg-pend" style="width:61%"></div>
+      </div>
+      <table class="tab-itens">
+        <thead><tr><th>#</th><th>Item</th><th>Status</th><th>Responsável</th><th>Apoio / Emissor</th><th class="check-h">Visto<br>Z+Z</th></tr></thead>
+        <tbody>
+          <tr><td class="id">01</td><td class="desc">Requerimento (modelo SEMMA) · novo formulário de renovação 2026 em preparação</td><td class="status"><span class="status-pill parcial">andamento</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">02</td><td class="desc">Identificação do signatário (RG/CPF)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">03</td><td class="desc">CNPJ atualizado + IE</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">04</td><td class="desc">Procuração com poderes SEMMA</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">Cartório</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">05</td><td class="desc">Comprovante endereço titular</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">06</td><td class="desc">Publicação CONAMA 006/1986 (DOU)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr class="crit"><td class="id">07</td><td class="desc">Histórico licenças · <strong>LAI 008/2020 expirou em 31/03/2026</strong></td><td class="status"><span class="status-pill bloqueio">crítico</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">SEMMA</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">08</td><td class="desc">Relatório condicionantes (14 itens)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">09</td><td class="desc">Planta piso + APP/RL amarradas em ART</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">RT</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">10</td><td class="desc">Dispensa Outorga / Licença Hídrica</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">SEMAD</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">11</td><td class="desc">Sistema esgotamento (descrição técnica)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">12</td><td class="desc">Enquadramento imóvel (urbano/rural)</td><td class="status"><span class="status-pill parcial">andamento</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">13</td><td class="desc">Certidão Uso do Solo (pré-requisito)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">Prefeitura</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">14</td><td class="desc">Procuração protocolo SEMMA · modelo Hábilis aguarda assinatura</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">15</td><td class="desc">Certificado CBM-GO · venceu em 17/05/2024</td><td class="status"><span class="status-pill pend">vencido</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">CBM-GO</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">16</td><td class="desc">Planta elétrica classif. áreas + equipamentos</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">RT elet.</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">17</td><td class="desc">PAE atualizado + brigada treinada</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">18</td><td class="desc">Laudo estanqueidade vigente (R-03)</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Lab</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">19</td><td class="desc">Cert. CONAMA 319 equipamentos SASC</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">INMETRO</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">20</td><td class="desc">Calibração ISO/IEC 17025 (ensaios)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Lab</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">21</td><td class="desc">Mapa de Conservação Estrutural (MCE)</td><td class="status"><span class="status-pill ok">conforme</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">RT</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr class="crit"><td class="id">22</td><td class="desc"><strong>Investigação Confirmatória Passivo (P-01) — bloqueador técnico</strong></td><td class="status"><span class="status-pill bloqueio">crítico</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Terceiro</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">23</td><td class="desc">CONAMA 273 anexos I/II atualizados</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">RT</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">24</td><td class="desc">RCA semestral consolidado com ART</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">Lab</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">25</td><td class="desc">Manutenção SAO/STEO (empresa licenciada)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Terceiro</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">26</td><td class="desc">OLUC / Resíduos oleosos (se houver)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Terceiro</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <div class="foot">
+    <span>Continua em página 4 · condicionantes e compliance paralelo</span>
+    <span>Página <strong>3 / 4</strong></span>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- PÁGINA 4 · CONDICIONANTES · COMPLIANCE · RISCOS · PRÓXIMOS         -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <span class="h-tag">Hábilis · Regularização Ambiental</span>
+        <div class="h-title">Condicionantes · Compliance · Riscos</div>
+        <div class="h-sub">Frentes 3 e 4 · 34 itens · riscos estratégicos · próximos passos</div>
+      </div>
+      <div class="h-meta">
+        <div>Ref. <strong>Auto Posto América</strong></div>
+        <div>Documento contínuo</div>
+        <div>Página <strong>4 / 4</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- FRENTE 3: CONDICIONANTES -->
+    <div class="frente-det">
+      <div class="frente-det-h">
+        <span class="frente-tag cond">F3</span>
+        <div>
+          <div class="frente-nome">Condicionantes · Obrigações continuadas</div>
+          <div class="frente-org">14 obrigações decorrentes da LAO 033/2020 · execução contínua</div>
+        </div>
+        <div class="frente-det-meta">
+          <span class="meta-stat ok">0 ok</span>
+          <span class="meta-stat parcial">5 parc</span>
+          <span class="meta-stat pend">9 pend</span>
+        </div>
+      </div>
+      <div class="frente-det-bar">
+        <div class="seg-ok" style="width:0%"></div>
+        <div class="seg-parcial" style="width:36%"></div>
+        <div class="seg-pend" style="width:64%"></div>
+      </div>
+      <table class="tab-itens">
+        <thead><tr><th>#</th><th>Item</th><th>Status</th><th>Responsável</th><th>Apoio / Emissor</th><th class="check-h">Visto<br>Z+Z</th></tr></thead>
+        <tbody>
+          <tr><td class="id">C-01</td><td class="desc">RCA semestral (STEO/SAO + poços) com ART</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">Lab</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-02</td><td class="desc">Manutenção SAO/STEO contratada</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Terceiro</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-03</td><td class="desc">OLUC (troca óleo / lava-jato) se aplicável</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Terceiro</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-04</td><td class="desc">Laudo estanqueidade bienal + INMETRO</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Lab</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-05</td><td class="desc">Vistoria CBM-GO periódica (antes 10/2026)</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">CBM-GO</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-06</td><td class="desc">Dispensa Outorga / Outorga vigente</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">SEMAD</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-07</td><td class="desc">SPDA com laudo anual de aterramento</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Eletricista</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-08</td><td class="desc">Inventário resíduos com PGRS</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-09</td><td class="desc">Equipamentos SASC credenciados INMETRO</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">INMETRO</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-10</td><td class="desc">APP/RL/piso manutenção conforme plantas</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-11</td><td class="desc">CONAMA 273 equipamentos conformes</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">RT</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-12</td><td class="desc">PAE + simulado documentado</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-13</td><td class="desc">Sinalização de áreas classificadas completa</td><td class="status"><span class="status-pill pend">pendente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">C-14</td><td class="desc">Plano de Recuperação de Áreas · condicional ao P-01</td><td class="status"><span class="status-pill parcial">condicional</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">Terceiro</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FRENTE 4: COMPLIANCE PARALELO -->
+    <div class="frente-det">
+      <div class="frente-det-h">
+        <span class="frente-tag comp">F4</span>
+        <div>
+          <div class="frente-nome">Compliance paralelo · MTE · ANP · IBAMA · PNRS</div>
+          <div class="frente-org">20 itens · não bloqueiam a LAO mas geram autuação independente</div>
+        </div>
+        <div class="frente-det-meta">
+          <span class="meta-stat ok">2 vig</span>
+          <span class="meta-stat parcial">7 anál</span>
+          <span class="meta-stat pend">11 aus</span>
+        </div>
+      </div>
+      <div class="frente-det-bar">
+        <div class="seg-ok" style="width:10%"></div>
+        <div class="seg-parcial" style="width:35%"></div>
+        <div class="seg-pend" style="width:55%"></div>
+      </div>
+      <table class="tab-itens">
+        <thead><tr><th>#</th><th>Item</th><th>Status</th><th>Responsável</th><th>Apoio / Emissor</th><th class="check-h">Visto<br>Z+Z</th></tr></thead>
+        <tbody>
+          <tr><td class="id">CP-01</td><td class="desc">ASO / PCMSO (saúde ocupacional)</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Médica</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-02</td><td class="desc">PGR (Programa Gestão Riscos · NR-12/20) · vigente até Nov/2026</td><td class="status"><span class="status-pill ok">vigente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel apoio">Eng. seg.</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-03</td><td class="desc">CIPA / Designado treinado</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-04</td><td class="desc">Brigada de Incêndio + simulado</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-05</td><td class="desc">Certificação ANP (revenda combustíveis)</td><td class="status"><span class="status-pill parcial">análise</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">ANP</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-06</td><td class="desc">Alvará Municipal Guapó vigente</td><td class="status"><span class="status-pill parcial">análise</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">Prefeitura</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-07</td><td class="desc">CTF / RAPP (IBAMA)</td><td class="status"><span class="status-pill parcial">análise</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">IBAMA</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-08</td><td class="desc">PGRS (Gestão Resíduos · Lei 12.305)</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-09</td><td class="desc">FISPQ (Fichas Segurança Produtos)</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Distribuidor</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-10</td><td class="desc">Seguro Ambiental (RC)</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Seguradora</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-11</td><td class="desc">SPDA com ART + laudo anual</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Eletricista</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-12</td><td class="desc">Treinamento NR-20 (frentistas)</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Instrutor</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-13</td><td class="desc">Treinamento NR-10 (eletricidade)</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Instrutor</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-14</td><td class="desc">Cadastro SINIR (gerador resíduos)</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel-none">—</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-15</td><td class="desc">MTR Digital (transportes resíduos)</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel apoio">Transport.</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-16</td><td class="desc">TCFA (IBAMA) — pagamento trimestral</td><td class="status"><span class="status-pill parcial">análise</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">IBAMA</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-17</td><td class="desc">Declaração SIMP (combustíveis) · sem evidência documental · a verificar</td><td class="status"><span class="status-pill parcial">análise</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">ANP</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-18</td><td class="desc">CND Federal + Estadual + Municipal</td><td class="status"><span class="status-pill pend">ausente</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">Órgãos</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-19</td><td class="desc">Transferência LAO (se mudança titular)</td><td class="status"><span class="status-pill ok">N/A</span></td><td class="resp"><span class="papel habilis">Hábilis</span></td><td class="apoio"><span class="papel emissor">SEMMA</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+          <tr><td class="id">CP-20</td><td class="desc">Atualização Cadastros (SEMA / SEMAD)</td><td class="status"><span class="status-pill parcial">parcial</span></td><td class="resp"><span class="papel zz">Z+Z</span></td><td class="apoio"><span class="papel emissor">SEMAD</span></td><td class="check"><span class="tab-itens-check-box"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SEÇÃO 7 · RISCOS ESTRATÉGICOS -->
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <h2 class="sec-t">Riscos estratégicos adicionais</h2>
+      <span class="sec-hint">além dos 4 críticos de abril · médios e de longo prazo</span>
+    </div>
+
+    <div class="riscos-grid">
+      <div class="risco">
+        <div class="risco-h">
+          <span class="risco-id">R-05</span>
+          <span class="risco-t">Matrícula R-01 com validade 90d</span>
+          <span class="prazo alta">12/05/2026</span>
+        </div>
+        <div class="risco-d">
+          Vence em torno de 15/05. Se passar do protocolo Uso do Solo, exige reemissão e <strong>cascata de atraso em F2 e F4</strong>. Monitoramento semanal.
+        </div>
+      </div>
+
+      <div class="risco">
+        <div class="risco-h">
+          <span class="risco-id">R-06</span>
+          <span class="risco-t">CND Municipal não emitida</span>
+          <span class="prazo alta">15/05/2026</span>
+        </div>
+        <div class="risco-d">
+          Emitir na semana do protocolo. Se positiva, exige <strong>saneamento fiscal imediato</strong> pelo cliente — bloqueia Certidão de Uso do Solo até regularização.
+        </div>
+      </div>
+
+      <div class="risco bx">
+        <div class="risco-h">
+          <span class="risco-id bx">R-07</span>
+          <span class="risco-t">Laudo estanqueidade vence em out/2026</span>
+          <span class="prazo info">set/2026</span>
+        </div>
+        <div class="risco-d">
+          Bienal pela NBR 16795/2019. Vence <strong>após</strong> o protocolo (jun/2026), portanto não bloqueia a renovação. Renovação ideal em <strong>set/2026</strong> — folga sobre o vencimento real e cobertura caso a SEMMA emita exigência tardia ou o CBM-GO faça vistoria antes da emissão da nova LAO.
+        </div>
+      </div>
+
+      <div class="risco">
+        <div class="risco-h">
+          <span class="risco-id">R-08</span>
+          <span class="risco-t">PRA condicional ao P-01 positivo</span>
+          <span class="prazo info">condicional</span>
+        </div>
+        <div class="risco-d">
+          Se o P-01 detectar contaminação acima dos valores CETESB, ativa o Plano de Recuperação de Áreas — execução de <strong>6 meses a 2 anos</strong>. Risco baixo de probabilidade, alto impacto de cronograma.
+        </div>
+      </div>
+
+      <div class="risco">
+        <div class="risco-h">
+          <span class="risco-id">R-09</span>
+          <span class="risco-t">Equipamentos SASC sem certificação INMETRO</span>
+          <span class="prazo alta">30/05/2026</span>
+        </div>
+        <div class="risco-d">
+          CONAMA 319/2002 exige certificação dos sistemas antitransbordamento (itens 19 e 20 do dossiê LAO, hoje pendentes). Sem certificação atual, a SEMMA pode emitir <strong>exigência tardia</strong> entre jul–set/2026, bloqueando a emissão da nova LAO. Acionar laboratório credenciado INMETRO até maio.
+        </div>
+      </div>
+
+      <div class="risco cp">
+        <div class="risco-h">
+          <span class="risco-id">R-10</span>
+          <span class="risco-t">Autuação MTE · ausência de PGR / PCMSO / CIPA</span>
+          <span class="cp-flag">FORA DO CONTRATO</span>
+        </div>
+        <div class="risco-d">
+          Fiscalizações da Superintendência Regional do Trabalho (SRT) podem aplicar autuação por descumprimento das NR-7 (PCMSO), NR-5 (CIPA), NR-12 e NR-20 (PGR). Risco <strong>independente da renovação LAO</strong> — corre em paralelo enquanto não houver regularização.
+        </div>
+      </div>
+
+      <div class="risco cp">
+        <div class="risco-h">
+          <span class="risco-id">R-11</span>
+          <span class="risco-t">Suspensão de revenda ANP · cadastro vencido</span>
+          <span class="cp-flag">FORA DO CONTRATO</span>
+        </div>
+        <div class="risco-d">
+          Sem certificação de revenda ANP vigente ou ausência de declaração SIMP semanal, a ANP pode <strong>suspender a comercialização</strong> de combustíveis. Operacionalmente equivale a embargo. Verificar status atual antes de ações de regularização.
+        </div>
+      </div>
+
+      <div class="risco cp">
+        <div class="risco-h">
+          <span class="risco-id bx">R-12</span>
+          <span class="risco-t">TCFA IBAMA em atraso</span>
+          <span class="cp-flag">FORA DO CONTRATO</span>
+        </div>
+        <div class="risco-d">
+          Taxa de Controle e Fiscalização Ambiental tem pagamento <strong>trimestral obrigatório</strong>. Atraso gera multa e juros SELIC. Confirmar regularidade do CTF/RAPP no portal IBAMA.
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 8 · CHECKLIST Z+Z -->
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <h2 class="sec-t">Checklist Z+Z · acompanhamento</h2>
+      <span class="sec-hint">11 ações · 6 focos · abril → junho/2026 · imprimível</span>
+    </div>
+
+    <div class="cklist">
+      <div class="cklist-h">
+        <span class="cklist-h-l">Acompanhado por</span>
+        <div class="cklist-h-field"></div>
+        <span class="cklist-h-l">Revisão</span>
+        <div class="cklist-h-field">__ / __ / ____</div>
+      </div>
+
+      <!-- BLOCO A · REGULARIZAÇÃO LAO (contrato formal Hábilis) -->
+      <div class="seg-bloco lao">
+        <div class="seg-bloco-h">
+          <span class="seg-bloco-badge">A</span>
+          <div>
+            <div class="seg-bloco-t">Regularização LAO · escopo formal</div>
+            <div class="seg-bloco-s">contrato Hábilis · do desbloqueio até o protocolo SEMMA</div>
+          </div>
+          <span class="seg-bloco-meta">9 ações · 4 focos</span>
+        </div>
+        <div class="seg-bloco-body">
+
+      <!-- GRUPO 1 · ESTA SEMANA -->
+      <div class="cklist-grupo">
+        <div class="cklist-grupo-h urg">
+          <span class="cklist-foco desbloq">Foco · Desbloqueio técnico</span>
+          <span class="cklist-grupo-prazo">Esta semana</span>
+          <span class="cklist-grupo-per">16/04 → 23/04 · 4 ações</span>
+        </div>
+        <div class="cklist-item urg">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">22/04</div>
+          <div class="cklist-item-d">Aprovar e contratar empresa especializada para o P-01 (Investigação Confirmatória de Passivo) <span class="ref urg">dec #1</span></div>
+        </div>
+        <div class="cklist-item">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">22/04</div>
+          <div class="cklist-item-d">Confirmar agendamento da Visita Técnica · janela 27/04 → 01/05 <span class="ref">dec #3</span></div>
+        </div>
+        <div class="cklist-item">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">23/04</div>
+          <div class="cklist-item-d">Localizar e enviar documento da Dispensa de Outorga R-08 para auditoria Hábilis <span class="ref">R-03</span></div>
+        </div>
+        <div class="cklist-item">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">23/04</div>
+          <div class="cklist-item-d">Verificar existência de Certidão de Uso do Solo vigente e enviar cópia <span class="ref">dec #4</span></div>
+        </div>
+      </div>
+
+      <!-- GRUPO 2 · ATÉ 30/04 -->
+      <div class="cklist-grupo">
+        <div class="cklist-grupo-h">
+          <span class="cklist-foco adm">Foco · Regularização documental</span>
+          <span class="cklist-grupo-prazo">Próxima semana</span>
+          <span class="cklist-grupo-per">24/04 → 30/04 · 1 ação</span>
+        </div>
+        <div class="cklist-item">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">28/04</div>
+          <div class="cklist-item-d">Entregar documentação do representante legal · RG/CPF · comprovante de endereço · procuração com firma reconhecida <span class="ref">dec #2</span></div>
+        </div>
+      </div>
+
+      <!-- GRUPO 3 · ATÉ 15/05 -->
+      <div class="cklist-grupo">
+        <div class="cklist-grupo-h">
+          <span class="cklist-foco contr">Foco · Contratações técnicas</span>
+          <span class="cklist-grupo-prazo">Primeira quinzena de maio</span>
+          <span class="cklist-grupo-per">01/05 → 15/05 · 3 ações</span>
+        </div>
+        <div class="cklist-item">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">15/05</div>
+          <div class="cklist-item-d">Contratar empresa licenciada para manutenção SAO / STEO · documentar NFs e relatórios mensais <span class="ref">dec #5</span></div>
+        </div>
+        <div class="cklist-item">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">15/05</div>
+          <div class="cklist-item-d">Decidir adendos do escopo Hábilis · PGR · PGRS · treinamentos NR · seguro ambiental <span class="ref">dec #6</span></div>
+        </div>
+        <div class="cklist-item">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">15/05</div>
+          <div class="cklist-item-d">Contratar RT externo · eng. eletricista (áreas Ex + SPDA) · eventualmente eng. mecânico (tanques) <span class="ref">dec #7</span></div>
+        </div>
+      </div>
+
+      <!-- GRUPO 4 · MARCO PROTOCOLO · fecha o Bloco A -->
+      <div class="cklist-grupo">
+        <div class="cklist-grupo-h final">
+          <span class="cklist-foco final">Foco · Protocolo SEMMA</span>
+          <span class="cklist-grupo-prazo">Marco principal · Hábilis executa · Z+Z acompanha</span>
+          <span class="cklist-grupo-per">26/06/2026 · 1 entrega</span>
+        </div>
+        <div class="cklist-item">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">26/06</div>
+          <div class="cklist-item-d">Protocolo da renovação LAO na SEMMA · 180 dias antes do vencimento da LAO 033/2020</div>
+        </div>
+      </div>
+
+        </div>
+      </div>
+      <!-- /BLOCO A -->
+
+      <!-- BLOCO B · COMPLIANCE PARALELO (fora do contrato formal) -->
+      <div class="seg-bloco cp">
+        <div class="seg-bloco-h">
+          <span class="seg-bloco-badge">B</span>
+          <div>
+            <div class="seg-bloco-t">Compliance paralelo · fora do contrato</div>
+            <div class="seg-bloco-s">responsabilidade operacional Z+Z · roda em paralelo à renovação LAO · deadlines próprios</div>
+          </div>
+          <span class="seg-bloco-meta">2 ações · 2 focos</span>
+        </div>
+        <div class="seg-bloco-body">
+
+      <!-- GRUPO 5 · COMPLIANCE FEDERAL · primeiro do Bloco B -->
+      <div class="cklist-grupo">
+        <div class="cklist-grupo-h cp">
+          <span class="cklist-foco cp">Foco · Compliance federal</span>
+          <span class="cklist-grupo-prazo">Segunda quinzena de maio</span>
+          <span class="cklist-grupo-per">16/05 → 30/05 · 1 ação</span>
+        </div>
+        <div class="cklist-item cp">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">30/05</div>
+          <div class="cklist-item-d">Regularizar cadastros federais · ANP · IBAMA · SINIR · SIMP <span class="ref">dec #8</span></div>
+        </div>
+      </div>
+
+      <!-- GRUPO 6 · SAÚDE OCUPACIONAL · segundo do Bloco B -->
+      <div class="cklist-grupo">
+        <div class="cklist-grupo-h cp">
+          <span class="cklist-foco cp">Foco · Saúde ocupacional</span>
+          <span class="cklist-grupo-prazo">Final de junho</span>
+          <span class="cklist-grupo-per">até 30/06 · 1 ação</span>
+        </div>
+        <div class="cklist-item cp">
+          <div class="cklist-box"></div>
+          <div class="cklist-item-date">30/06</div>
+          <div class="cklist-item-d">Implementar saúde ocupacional e treinamentos NR · PCMSO · CIPA · NR-20 · NR-10 · brigada <span class="ref">dec #9</span></div>
+        </div>
+      </div>
+
+        </div>
+      </div>
+      <!-- /BLOCO B -->
+
+      <div class="cklist-nota">
+        <strong style="color:var(--cinza-9)">Bloco A · Regularização LAO</strong> — 9 ações contratadas com Hábilis, caminho crítico até o protocolo SEMMA de 26/06. Em paralelo, Hábilis executa 32 itens técnicos próprios (ver pág 2 · escopo).<br><br>
+        <strong style="color:var(--cinza-9)">Bloco B · Compliance paralelo</strong> — 2 ações de fiscalização federal/trabalhista que não fazem parte do contrato Hábilis formalizado, mas podem gerar autuação independente se ausentes. Correm com deadlines próprios e podem, se o Z+Z optar, entrar como adendos do contrato (decisão #6).
+      </div>
+    </div>
+
+  </main>
+
+  <div class="foot">
+    <span>Hábilis Consultoria Ambiental · relatório executivo para o <strong>Grupo Z+Z</strong></span>
+    <span>Página <strong>4 / 4</strong></span>
+  </div>
+
+</div>
+
+</body>
+</html>

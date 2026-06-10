@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Typecheck + Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: posto
+          POSTGRES_PASSWORD: posto_dev_secret
+          POSTGRES_DB: posto_dev
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U posto"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+
+    env:
+      DATABASE_URL: postgresql://posto:posto_dev_secret@localhost:5432/posto_dev
+      REDIS_URL: redis://localhost:6379
+      JWT_SECRET: ci-jwt-secret-minimo-de-32-caracteres-para-ci-rodar
+      JWT_EXPIRES_IN: 15m
+      REFRESH_TOKEN_EXPIRES_DAYS: 7
+      S3_ENDPOINT: http://localhost:9000
+      S3_REGION: us-east-1
+      S3_BUCKET: posto-documentos
+      S3_ACCESS_KEY_ID: posto_minio
+      S3_SECRET_ACCESS_KEY: posto_minio_secret
+      RESEND_API_KEY: ci-placeholder
+      EMAIL_FROM: ci@posto.local
+      API_PORT: 3001
+      API_URL: http://localhost:3001/api/v1
+      WEB_URL: http://localhost:3000
+      NODE_ENV: test
+      LOG_LEVEL: error
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm --filter @repo/api db:generate
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+        continue-on-error: true   # Lint advisory enquanto consolidamos regras
+
+      - name: Empreendimento ID audit
+        run: pnpm tsx scripts/lint-empreendimento-id.ts
+        continue-on-error: true   # Advisory inicial — falhar duro a partir da Fase 1

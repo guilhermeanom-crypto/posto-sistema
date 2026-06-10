@@ -1,0 +1,2733 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// REGPOSTO — Schema Prisma
+// Geração: prisma generate
+// Migrations: prisma migrate dev
+// ─────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ENUMS — estado garantido pelo banco
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum PerfilUsuario {
+  SUPER_ADMIN
+  ADMIN_TENANT
+  COORDENADOR
+  ANALISTA
+  ANALISTA_CAMPO
+  EXECUTIVO
+  REPRESENTANTE_POSTO
+}
+
+enum EsferaRegulatoria {
+  FEDERAL
+  ESTADUAL
+  MUNICIPAL
+}
+
+enum TipoOrgao {
+  AMBIENTAL
+  SEGURANCA
+  COMERCIAL
+  SANITARIO
+  METROLOGIA
+  TRANSPORTE
+  TRIBUTARIO
+  OUTROS
+}
+
+enum CategoriaProcesso {
+  LICENCA
+  AUTORIZACAO
+  CERTIFICACAO
+  REGISTRO
+  CADASTRO
+  RENOVACAO
+  ADITAMENTO
+  CANCELAMENTO
+}
+
+enum CategoriaDocumento {
+  LICENCA
+  ALVARA
+  CERTIFICADO
+  LAUDO
+  RELATORIO
+  ART_RRT
+  CONTRATO
+  DOCUMENTO_SOCIETARIO
+  COMPROVANTE
+  DECLARACAO
+  OUTROS
+}
+
+enum MomentoDocumento {
+  ANTES_PROCESSO
+  DURANTE_PROCESSO
+  APOS_EMISSAO
+}
+
+enum StatusProcesso {
+  EM_ELABORACAO
+  AGUARDANDO_DOCUMENTOS
+  PRONTO_PROTOCOLO
+  PROTOCOLADO
+  EM_ANALISE
+  EXIGENCIA_DOCUMENTAL
+  EM_VISTORIA
+  DEFERIDO
+  INDEFERIDO
+  EM_RECURSO
+  SUSPENSO
+  CANCELADO
+  VENCIDO
+  EM_RENOVACAO
+  ARQUIVADO
+}
+
+enum StatusDocumento {
+  PENDENTE
+  ENVIADO
+  EM_ANALISE
+  APROVADO
+  REJEITADO
+  VENCIDO
+  A_RENOVAR
+  SUBSTITUIDO
+  DISPENSADO
+}
+
+enum StatusVersaoDocumento {
+  AGUARDANDO_UPLOAD
+  ENVIADA
+  EM_VALIDACAO
+  ATIVA
+  REJEITADA
+  SUBSTITUIDA
+  UPLOAD_FALHOU
+}
+
+enum StatusCondicionante {
+  PENDENTE
+  EM_CUMPRIMENTO
+  AGUARDANDO_EVIDENCIA
+  CUMPRIDA
+  VENCIDA
+  DISPENSADA
+}
+
+enum PeriodicidadeCondicionante {
+  UNICA
+  MENSAL
+  BIMESTRAL
+  TRIMESTRAL
+  SEMESTRAL
+  ANUAL
+  BIENAL
+  PERSONALIZADA
+}
+
+enum TipoCondicionante {
+  DOCUMENTAL
+  EXECUTIVA
+  MONITORAMENTO
+  FINANCEIRA
+  CORRETIVA
+}
+
+enum StatusTarefa {
+  PENDENTE
+  EM_ANDAMENTO
+  AGUARDANDO_APROVACAO
+  APROVADA
+  CONCLUIDA
+  CANCELADA
+  BLOQUEADA
+  ESCALONADA
+}
+
+enum PrioridadeTarefa {
+  CRITICA
+  ALTA
+  MEDIA
+  BAIXA
+}
+
+enum OrigemTarefa {
+  MANUAL
+  REGRA_VENCIMENTO_DOC
+  REGRA_VENCIMENTO_PROC
+  REGRA_CONDICIONANTE
+  REGRA_REQUISITO_PENDENTE
+  REGRA_VENCIMENTO_SST
+  REGRA_VENCIMENTO_ESTANQUEIDADE
+  REGRA_VENCIMENTO_ANP
+  REGRA_VENCIMENTO_OUTORGA
+  REGRA_VENCIMENTO_LICENCA
+  REGRA_VENCIMENTO_PGRS
+  WORKFLOW
+  ESCALAMENTO
+}
+
+enum TipoEvidencia {
+  DOCUMENTO
+  FOTO
+  TEXTO
+  LINK
+}
+
+enum TipoAlerta {
+  VENCIMENTO_DOCUMENTO
+  VENCIMENTO_PROCESSO
+  PRAZO_CONDICIONANTE
+  TAREFA_SEM_INICIO
+  TAREFA_ATRASADA
+  DOCUMENTO_REJEITADO
+  NOVO_REQUISITO
+  TAREFA_ATRIBUIDA
+  COMPLIANCE_CRITICO
+  COMPLIANCE_ATENCAO
+  ESCALONAMENTO_TAREFA
+  ANOMALIA_MONITORAMENTO
+}
+
+enum NivelAlerta {
+  CRITICO
+  ALTO
+  MEDIO
+  INFORMATIVO
+}
+
+enum StatusCompliance {
+  REGULAR
+  ATENCAO
+  CRITICO
+  EMERGENCIA
+}
+
+enum TipoLicencaAmbiental {
+  LI
+  LP
+  LO
+  LAO
+  LAS
+  LAF
+  LAT
+  OUTRAS
+}
+
+enum StatusLicenca {
+  VIGENTE
+  A_RENOVAR
+  VENCIDA
+  SUSPENSA
+  CANCELADA
+  EM_RENOVACAO
+}
+
+enum TipoAlvara {
+  AVCB
+  HABITE_SE
+  ALVARA_FUNCIONAMENTO
+  PPCI
+  LICENCA_SANITARIA
+  ALVARA_OBRAS
+  OUTROS
+}
+
+enum StatusTenant {
+  ATIVO
+  SUSPENSO
+  CANCELADO
+}
+
+enum PlanoTenant {
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+enum StatusPropostaComercial {
+  RASCUNHO
+  PRONTA
+  ENVIADA
+  EM_NEGOCIACAO
+  APROVADA
+  REJEITADA
+  EXPIRADA
+  CANCELADA
+}
+
+enum StatusHandoffComercial {
+  AGUARDANDO_HANDOFF
+  EM_TRIAGEM_OPERACIONAL
+  AGUARDANDO_DOCUMENTOS
+  EM_PLANEJAMENTO
+  EM_EXECUCAO
+  PAUSADO
+  CANCELADO
+  CONCLUIDO
+}
+
+enum StatusContrato {
+  RASCUNHO
+  ATIVO
+  SUSPENSO
+  ENCERRADO
+  CANCELADO
+}
+
+enum StatusOrdemServico {
+  PLANEJADA
+  EM_EXECUCAO
+  AGUARDANDO_REVISAO
+  CONCLUIDA
+  CANCELADA
+}
+
+enum PrioridadeOrdemServico {
+  BAIXA
+  MEDIA
+  ALTA
+  CRITICA
+}
+
+enum TipoOrdemServico {
+  VISTORIA_TECNICA
+  COLETA_AMOSTRA
+  RENOVACAO_LICENCA
+  DILIGENCIA
+  PROTOCOLO
+  RELATORIO
+  OUTRO
+}
+
+enum StatusEntregavel {
+  PENDENTE
+  GERANDO
+  DISPONIVEL
+  ERRO
+  CANCELADO
+}
+
+enum TipoEntregavel {
+  LAUDO
+  RELATORIO
+  PROTOCOLO
+  CERTIFICADO
+  ATA
+  EVIDENCIA
+  OUTRO
+}
+
+enum OrigemPropostaComercial {
+  TRIAGEM_CNAE
+  CRM
+  ONBOARDING
+  MANUAL
+}
+
+enum PorteDiagnosticoComercial {
+  MICRO
+  PEQUENO
+  MEDIO
+  GRANDE
+  MUITO_GRANDE
+}
+
+enum SituacaoDiagnosticoComercial {
+  PLANEJADO
+  IMPLANTACAO
+  OPERACAO
+  IRREGULAR
+  RENOVACAO
+}
+
+enum NivelRiscoComercial {
+  BAIXO
+  MEDIO
+  ALTO
+  CRITICO
+}
+
+enum PotencialPoluidorComercial {
+  BAIXO
+  MEDIO
+  ALTO
+}
+
+enum DecisaoItemProposta {
+  OBRIGATORIO
+  CONDICIONAL
+  OPCIONAL
+  MANUAL
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G1 — FUNDAÇÃO (sem dependências externas)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Tenant {
+  id                    String       @id @default(uuid())
+  nome                  String
+  slug                  String       @unique
+  plano                 PlanoTenant  @default(STARTER)
+  status                StatusTenant @default(ATIVO)
+  limiteEmpreendimentos Int          @default(100) @map("limite_empreendimentos")
+  configuracoes         Json         @default("{}")
+  ativo                 Boolean      @default(true)
+  dataAtivacao          DateTime?    @map("data_ativacao")
+  dataExpiracao         DateTime?    @map("data_expiracao")
+  criadoEm              DateTime     @default(now()) @map("criado_em")
+  atualizadoEm          DateTime     @updatedAt @map("atualizado_em")
+
+  // Relacionamentos
+  usuarios                        Usuario[]
+  empresas                        Empresa[]
+  orgaos                          OrgaoRegulador[]
+  tiposProcesso                   TipoProcesso[]
+  tiposDocumento                  TipoDocumento[]
+  regrasAutomaticas               RegraAutomatica[]
+  alertas                         Alerta[]
+  transportadoras                 Transportadora[]
+  contatosWhatsApp                ContatoWhatsApp[]
+  mensagensWhatsApp               MensagemWhatsApp[]
+  leadsWhatsApp                   LeadWhatsApp[]
+  checklistTemplates              ChecklistTemplate[]
+  checklistExecucoes              ChecklistExecucao[]
+  metasResiduos                   MetaResiduoAnual[]
+  ccrs                            CCR[]
+  limitesParametros               LimiteParametro[]
+  treinamentoTipos                TreinamentoTipo[]
+  politicaPrecificacaoDiagnostico PoliticaPrecificacaoDiagnostico?
+  diagnosticosComerciais          DiagnosticoComercial[]
+  propostasComerciais             PropostaComercial[]
+  handoffsComerciais              HandoffComercial[]
+  itensProposta                   ItemProposta[]
+  contratos                       Contrato[]
+  ordensServico                   OrdemServico[]
+  entregaveis                     Entregavel[]
+
+  @@map("tenants")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G2 — USUÁRIOS E ACESSO
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Usuario {
+  id                    String        @id @default(uuid())
+  tenantId              String        @map("tenant_id")
+  nome                  String
+  email                 String
+  senhaHash             String        @map("senha_hash")
+  perfil                PerfilUsuario
+  telefone              String?
+  ativo                 Boolean       @default(true)
+  emailVerificado       Boolean       @default(false) @map("email_verificado")
+  ultimoAcesso          DateTime?     @map("ultimo_acesso")
+  tentativasLoginFalhas Int           @default(0) @map("tentativas_login_falhas")
+  bloqueadoAte          DateTime?     @map("bloqueado_ate")
+  configuracoes         Json          @default("{}")
+  criadoEm              DateTime      @default(now()) @map("criado_em")
+  atualizadoEm          DateTime      @updatedAt @map("atualizado_em")
+  inativadoEm           DateTime?     @map("inativado_em")
+  inativadoPorId        String?       @map("inativado_por_id")
+
+  // Relacionamentos
+  tenant                         Tenant                  @relation(fields: [tenantId], references: [id])
+  empreendimentosAcesso          EmpreendimentoAcesso[]
+  sessoes                        SessaoRefresh[]
+  tokensPortalGerados            TokenPortal[]           @relation("TokenGeradoPor")
+  tarefasResponsavel             Tarefa[]                @relation("TarefaResponsavel")
+  tarefasCriadas                 Tarefa[]                @relation("TarefaCriador")
+  tarefasEscalonadas             Tarefa[]                @relation("TarefaEscalonada")
+  versoesEnviadas                DocumentoVersao[]       @relation("VersaoEnviador")
+  versoesValidadas               DocumentoVersao[]       @relation("VersaoValidador")
+  processoResponsavel            Processo[]
+  condicionantesResponsavel      Condicionante[]         @relation("CondicionanteResponsavel")
+  condicionantesDispensadas      Condicionante[]         @relation("CondicionanteDispensadaPor")
+  ciclosCumpridos                CicloCondicionante[]
+  requisitosDispensados          RequisitoProcesso[]
+  historicoFases                 HistoricoFaseProcesso[]
+  alertasDestinatario            AlertaDestinatario[]
+  auditLogs                      AuditLog[]
+  checklistExecucoes             ChecklistExecucao[]
+  equipHistCriados               EquipamentoHistorico[]  @relation("EquipHistCriador")
+  diagnosticosComerciais         DiagnosticoComercial[]  @relation("DiagnosticoComercialCriador")
+  propostasComerciaisCriadas     PropostaComercial[]     @relation("PropostaComercialCriador")
+  propostasComerciaisAtualizadas PropostaComercial[]     @relation("PropostaComercialAtualizador")
+  handoffsComerciaisCriados      HandoffComercial[]      @relation("HandoffComercialCriador")
+  handoffsComerciaisComercial    HandoffComercial[]      @relation("HandoffComercialResponsavelComercial")
+  handoffsComerciaisOperacional  HandoffComercial[]      @relation("HandoffComercialResponsavelOperacional")
+  contratosCriados               Contrato[]              @relation("ContratoCriador")
+  contratosAtualizados           Contrato[]              @relation("ContratoAtualizador")
+  osResponsavel                  OrdemServico[]          @relation("OSResponsavel")
+  osCriadas                      OrdemServico[]          @relation("OSCriador")
+  osAtualizadas                  OrdemServico[]          @relation("OSAtualizador")
+  entregaveisCriados             Entregavel[]            @relation("EntregavelCriador")
+  entregaveisAtualizados         Entregavel[]            @relation("EntregavelAtualizador")
+
+  @@unique([tenantId, email])
+  @@index([tenantId, ativo])
+  @@map("usuarios")
+}
+
+model SessaoRefresh {
+  id              String    @id @default(uuid())
+  usuarioId       String    @map("usuario_id")
+  tokenHash       String    @unique @map("token_hash")
+  ip              String
+  userAgent       String    @map("user_agent")
+  expiresAt       DateTime  @map("expires_at")
+  revogadoEm      DateTime? @map("revogado_em")
+  motivoRevogacao String?   @map("motivo_revogacao")
+  criadoEm        DateTime  @default(now()) @map("criado_em")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+
+  @@index([usuarioId])
+  @@map("sessoes_refresh")
+}
+
+model TokenPortal {
+  id                String    @id @default(uuid())
+  tenantId          String    @map("tenant_id")
+  empreendimentoId  String    @map("empreendimento_id")
+  solicitadoPorId   String    @map("solicitado_por_id")
+  emailDestinatario String    @map("email_destinatario")
+  nomeContato       String?   @map("nome_contato")
+  token             String    @unique
+  expiresAt         DateTime  @map("expires_at")
+  usadoEm           DateTime? @map("usado_em")
+  criadoEm          DateTime  @default(now()) @map("criado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+  solicitadoPor  Usuario        @relation("TokenGeradoPor", fields: [solicitadoPorId], references: [id])
+
+  @@index([empreendimentoId])
+  @@map("tokens_portal")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G3 — ESTRUTURA ORGANIZACIONAL
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Empresa {
+  id                 String   @id @default(uuid())
+  tenantId           String   @map("tenant_id")
+  nome               String
+  razaoSocial        String   @map("razao_social")
+  cnpj               String
+  inscricaoEstadual  String?  @map("inscricao_estadual")
+  inscricaoMunicipal String?  @map("inscricao_municipal")
+  ativo              Boolean  @default(true)
+  criadoEm           DateTime @default(now()) @map("criado_em")
+  atualizadoEm       DateTime @updatedAt @map("atualizado_em")
+
+  tenant          Tenant           @relation(fields: [tenantId], references: [id])
+  empreendimentos Empreendimento[]
+
+  @@unique([tenantId, cnpj])
+  @@index([tenantId, ativo])
+  @@map("empresas")
+}
+
+model Empreendimento {
+  id                      String    @id @default(uuid())
+  tenantId                String    @map("tenant_id")
+  empresaId               String    @map("empresa_id")
+  nome                    String
+  nomeFantasia            String?   @map("nome_fantasia")
+  cnpj                    String?
+  codigoInterno           String?   @map("codigo_interno")
+  bandeira                String?
+  tipo                    String?
+  logradouro              String
+  numero                  String
+  complemento             String?
+  bairro                  String
+  cidade                  String
+  estado                  String    @db.Char(2)
+  cep                     String
+  latitude                Decimal?  @db.Decimal(10, 8)
+  longitude               Decimal?  @db.Decimal(11, 8)
+  responsavelTecnicoNome  String?   @map("responsavel_tecnico_nome")
+  responsavelTecnicoCrea  String?   @map("responsavel_tecnico_crea")
+  responsavelTecnicoEmail String?   @map("responsavel_tecnico_email")
+  contatoEmail            String?   @map("contato_email")
+  contatoTelefone         String?   @map("contato_telefone")
+  atividades              String[]
+  dataInicioOperacao      DateTime? @map("data_inicio_operacao") @db.Date
+  ativo                   Boolean   @default(true)
+  criadoEm                DateTime  @default(now()) @map("criado_em")
+  atualizadoEm            DateTime  @updatedAt @map("atualizado_em")
+
+  empresa                Empresa                 @relation(fields: [empresaId], references: [id])
+  acessosUsuario         EmpreendimentoAcesso[]
+  processos              Processo[]
+  documentos             Documento[]
+  condicionantes         Condicionante[]
+  tarefas                Tarefa[]
+  alertas                Alerta[]
+  tokensPortal           TokenPortal[]
+  snapshotsCompliance    ComplianceSnapshot[]
+  licencasAmbientais     LicencaAmbiental[]
+  alvarasUrbanisticos    AlvaraUrbanistico[]
+  funcionarios           Funcionario[]
+  asos                   ASO[]
+  documentosSST          DocumentoSST[]
+  bombas                 BombaAbastecimento[]
+  tanques                Tanque[]
+  mtrs                   MTR[]
+  pocosArtesianos        PocoArtesiano[]
+  campanhasMonitoramento CampanhaMonitoramento[]
+  pocosMonitoramento     PocoMonitoramento[]
+  autosInfracao          AutoInfracao[]
+  scoresRisco            ScoreRisco[]
+  contatosWhatsApp       ContatoWhatsApp[]
+  checklistExecucoes     ChecklistExecucao[]
+  metasResiduos          MetaResiduoAnual[]
+  treinamentoExecucoes   TreinamentoExecucao[]
+  entregasEPI            EntregaEPI[]
+  mensagensPortal        MensagemPortal[]
+  pgrs                   PGRS[]
+  equipamentoHistoricos  EquipamentoHistorico[]
+  diagnosticosComerciais DiagnosticoComercial[]
+  propostasComerciais    PropostaComercial[]
+  handoffsComerciais     HandoffComercial[]
+  contratos              Contrato[]
+  ordensServico          OrdemServico[]
+  entregaveis            Entregavel[]
+
+  @@index([tenantId, ativo])
+  @@index([tenantId, estado, cidade])
+  @@map("empreendimentos")
+}
+
+model EmpreendimentoAcesso {
+  usuarioId        String   @map("usuario_id")
+  empreendimentoId String   @map("empreendimento_id")
+  criadoEm         DateTime @default(now()) @map("criado_em")
+  criadoPorId      String?  @map("criado_por_id")
+
+  usuario        Usuario        @relation(fields: [usuarioId], references: [id])
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+
+  @@id([usuarioId, empreendimentoId])
+  @@index([empreendimentoId])
+  @@map("empreendimento_acessos")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G4 — CATÁLOGOS DE CONFIGURAÇÃO
+// ─────────────────────────────────────────────────────────────────────────────
+
+model OrgaoRegulador {
+  id        String            @id @default(uuid())
+  tenantId  String            @map("tenant_id")
+  nome      String
+  sigla     String
+  esfera    EsferaRegulatoria
+  tipo      TipoOrgao
+  estadoUf  String?           @map("estado_uf") @db.Char(2)
+  municipio String?
+  site      String?
+  ativo     Boolean           @default(true)
+  criadoEm  DateTime          @default(now()) @map("criado_em")
+
+  tenant        Tenant         @relation(fields: [tenantId], references: [id])
+  tiposProcesso TipoProcesso[]
+  processos     Processo[]
+
+  @@unique([tenantId, sigla, estadoUf, municipio])
+  @@index([tenantId, esfera, ativo])
+  @@map("orgaos_reguladores")
+}
+
+model TipoProcesso {
+  id                        String            @id @default(uuid())
+  tenantId                  String            @map("tenant_id")
+  orgaoId                   String            @map("orgao_id")
+  nome                      String
+  descricao                 String?
+  categoria                 CategoriaProcesso
+  requerRenovacao           Boolean           @default(true) @map("requer_renovacao")
+  periodoValidadeAnos       Int?              @map("periodo_validade_anos")
+  diasAntecedenciaRenovacao Int               @default(180) @map("dias_antecedencia_renovacao")
+  diasAlerta                Int[]             @default([90, 60, 30, 15, 7]) @map("dias_alerta")
+  instrucoes                String?
+  ativo                     Boolean           @default(true)
+  versao                    Int               @default(1)
+  criadoEm                  DateTime          @default(now()) @map("criado_em")
+  atualizadoEm              DateTime          @updatedAt @map("atualizado_em")
+
+  tenant     Tenant                  @relation(fields: [tenantId], references: [id])
+  orgao      OrgaoRegulador          @relation(fields: [orgaoId], references: [id])
+  fases      FaseTipoProcesso[]
+  requisitos RequisitoTipoProcesso[]
+  processos  Processo[]
+
+  @@index([tenantId, orgaoId, ativo])
+  @@map("tipos_processo")
+}
+
+model FaseTipoProcesso {
+  id             String  @id @default(uuid())
+  tipoProcessoId String  @map("tipo_processo_id")
+  nome           String
+  descricao      String?
+  ordem          Int
+  obrigatoria    Boolean @default(true)
+  diasEstimados  Int?    @map("dias_estimados")
+  instrucoes     String?
+
+  tipoProcesso       TipoProcesso            @relation(fields: [tipoProcessoId], references: [id])
+  requisitos         RequisitoTipoProcesso[]
+  requisitosProcesso RequisitoProcesso[]
+  historicoFases     HistoricoFaseProcesso[]
+
+  @@unique([tipoProcessoId, ordem])
+  @@map("fases_tipo_processo")
+}
+
+model TipoDocumento {
+  id                 String             @id @default(uuid())
+  tenantId           String             @map("tenant_id")
+  codigo             String? // slug estável para portal (ex: "contrato_social")
+  nome               String
+  descricao          String?
+  descricaoCliente   String?            @map("descricao_cliente") // texto seguro para mostrar ao cliente no portal
+  momento            MomentoDocumento? // categoriza no ciclo de vida do processo (antes/durante/apos)
+  categoria          CategoriaDocumento
+  formatosAceitos    String[]           @default(["pdf"]) @map("formatos_aceitos")
+  tamanhoMaximoMb    Int                @default(20) @map("tamanho_maximo_mb")
+  temValidade        Boolean            @default(true) @map("tem_validade")
+  validadeMediaMeses Int?               @map("validade_media_meses")
+  exigeAssinatura    Boolean            @default(false) @map("exige_assinatura")
+  instrucoesObtencao String?            @map("instrucoes_obtencao")
+  ativo              Boolean            @default(true)
+  criadoEm           DateTime           @default(now()) @map("criado_em")
+  atualizadoEm       DateTime           @updatedAt @map("atualizado_em")
+
+  tenant             Tenant                  @relation(fields: [tenantId], references: [id])
+  requisitos         RequisitoTipoProcesso[]
+  documentos         Documento[]
+  requisitosProcesso RequisitoProcesso[]
+
+  @@unique([tenantId, nome])
+  @@unique([tenantId, codigo])
+  @@index([tenantId, ativo])
+  @@index([tenantId, momento])
+  @@map("tipos_documento")
+}
+
+model RequisitoTipoProcesso {
+  id                  String  @id @default(uuid())
+  tipoProcessoId      String  @map("tipo_processo_id")
+  tipoDocumentoId     String  @map("tipo_documento_id")
+  faseTipoProcessoId  String? @map("fase_tipo_processo_id")
+  obrigatorio         Boolean @default(true)
+  descricaoEspecifica String? @map("descricao_especifica")
+  condicoes           Json? // {"operador": "E", "regras": [...]}
+  ordem               Int     @default(0)
+
+  tipoProcesso     TipoProcesso      @relation(fields: [tipoProcessoId], references: [id])
+  tipoDocumento    TipoDocumento     @relation(fields: [tipoDocumentoId], references: [id])
+  faseTipoProcesso FaseTipoProcesso? @relation(fields: [faseTipoProcessoId], references: [id])
+
+  @@index([tipoProcessoId, faseTipoProcessoId])
+  @@map("requisitos_tipo_processo")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G5 — PROCESSOS REGULATÓRIOS (instâncias)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Processo {
+  id                  String         @id @default(uuid())
+  tenantId            String         @map("tenant_id")
+  empreendimentoId    String         @map("empreendimento_id")
+  tipoProcessoId      String         @map("tipo_processo_id")
+  orgaoId             String         @map("orgao_id")
+  status              StatusProcesso @default(EM_ELABORACAO)
+  faseAtualOrdem      Int            @default(1) @map("fase_atual_ordem")
+  numeroProtocolo     String?        @map("numero_protocolo")
+  numeroLicenca       String?        @map("numero_licenca")
+  dataAbertura        DateTime?      @map("data_abertura") @db.Date
+  dataProtocolo       DateTime?      @map("data_protocolo") @db.Date
+  dataDecisao         DateTime?      @map("data_decisao") @db.Date
+  dataEmissao         DateTime?      @map("data_emissao") @db.Date
+  dataVencimento      DateTime?      @map("data_vencimento") @db.Date
+  dataInicioRenovacao DateTime?      @map("data_inicio_renovacao") @db.Date
+  responsavelId       String?        @map("responsavel_id")
+  observacoes         String?
+  metadados           Json?
+  criadoEm            DateTime       @default(now()) @map("criado_em")
+  atualizadoEm        DateTime       @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento          @relation(fields: [empreendimentoId], references: [id])
+  tipoProcesso   TipoProcesso            @relation(fields: [tipoProcessoId], references: [id])
+  orgao          OrgaoRegulador          @relation(fields: [orgaoId], references: [id])
+  responsavel    Usuario?                @relation(fields: [responsavelId], references: [id])
+  requisitos     RequisitoProcesso[]
+  condicionantes Condicionante[]
+  tarefas        Tarefa[]
+  documentos     Documento[]
+  historicoFases HistoricoFaseProcesso[]
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, dataVencimento, status])
+  @@index([tenantId, responsavelId, status])
+  @@map("processos")
+}
+
+model HistoricoFaseProcesso {
+  id                 String    @id @default(uuid())
+  processoId         String    @map("processo_id")
+  faseTipoProcessoId String    @map("fase_tipo_processo_id")
+  ordemFase          Int       @map("ordem_fase")
+  nomeFase           String    @map("nome_fase") // snapshot imutável
+  iniciouEm          DateTime  @default(now()) @map("iniciou_em")
+  concluiuEm         DateTime? @map("concluiu_em")
+  avancadoPorId      String    @map("avancado_por_id")
+  observacoes        String?
+
+  processo         Processo         @relation(fields: [processoId], references: [id])
+  faseTipoProcesso FaseTipoProcesso @relation(fields: [faseTipoProcessoId], references: [id])
+  avancadoPor      Usuario          @relation(fields: [avancadoPorId], references: [id])
+
+  @@index([processoId, ordemFase])
+  @@map("historico_fases_processo")
+}
+
+model RequisitoProcesso {
+  id                 String          @id @default(uuid())
+  processoId         String          @map("processo_id")
+  tipoDocumentoId    String          @map("tipo_documento_id")
+  requisitoTipoId    String?         @map("requisito_tipo_id")
+  faseTipoProcessoId String?         @map("fase_tipo_processo_id")
+  documentoId        String?         @map("documento_id")
+  descricao          String?
+  obrigatorio        Boolean         @default(true)
+  status             StatusDocumento @default(PENDENTE)
+  dispensadoPorId    String?         @map("dispensado_por_id")
+  motivoDispensa     String?         @map("motivo_dispensa")
+  dispensadoEm       DateTime?       @map("dispensado_em")
+  ordem              Int             @default(0)
+  criadoEm           DateTime        @default(now()) @map("criado_em")
+  atualizadoEm       DateTime        @updatedAt @map("atualizado_em")
+
+  processo         Processo          @relation(fields: [processoId], references: [id])
+  tipoDocumento    TipoDocumento     @relation(fields: [tipoDocumentoId], references: [id])
+  faseTipoProcesso FaseTipoProcesso? @relation(fields: [faseTipoProcessoId], references: [id])
+  documento        Documento?        @relation("RequisitoDocumento", fields: [documentoId], references: [id])
+  dispensadoPor    Usuario?          @relation(fields: [dispensadoPorId], references: [id])
+
+  @@index([processoId, status])
+  @@index([processoId, faseTipoProcessoId])
+  @@map("requisitos_processo")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G6 — DOCUMENTOS (com referência circular gerenciada)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Documento {
+  id               String          @id @default(uuid())
+  tenantId         String          @map("tenant_id")
+  empreendimentoId String          @map("empreendimento_id")
+  processoId       String?         @map("processo_id")
+  condicionanteId  String?         @map("condicionante_id")
+  tipoDocumentoId  String          @map("tipo_documento_id")
+  nome             String
+  descricao        String?
+  status           StatusDocumento @default(PENDENTE)
+  dataEmissao      DateTime?       @map("data_emissao") @db.Date
+  dataValidade     DateTime?       @map("data_validade") @db.Date
+  orgaoEmissor     String?         @map("orgao_emissor")
+  versaoAtualId    String?         @unique @map("versao_atual_id")
+  totalVersoes     Int             @default(0) @map("total_versoes")
+  alertaDiasAntes  Int[]           @map("alerta_dias_antes")
+  criadoEm         DateTime        @default(now()) @map("criado_em")
+  atualizadoEm     DateTime        @updatedAt @map("atualizado_em")
+
+  empreendimento          Empreendimento         @relation(fields: [empreendimentoId], references: [id])
+  processo                Processo?              @relation(fields: [processoId], references: [id])
+  condicionante           Condicionante?         @relation("DocumentoCondicionante", fields: [condicionanteId], references: [id])
+  tipoDocumento           TipoDocumento          @relation(fields: [tipoDocumentoId], references: [id])
+  // Referência circular — FK adicionada após criação da tabela documento_versoes
+  versaoAtual             DocumentoVersao?       @relation("VersaoAtualDoDocumento", fields: [versaoAtualId], references: [id])
+  versoes                 DocumentoVersao[]      @relation("VersoesDoDocumento")
+  requisitos              RequisitoProcesso[]    @relation("RequisitoDocumento")
+  condicionantesEvidencia Condicionante[]        @relation("EvidenciaCondicionante")
+  ciclosEvidencia         CicloCondicionante[]   @relation("EvidenciaCiclo")
+  pgrsDocumento           PGRS[]                 @relation("PGRSDocumento")
+  pgrsEvidencias          PGRSEvidencia[]        @relation("PGRSEvidenciaDocumento")
+  equipHistDocumentos     EquipamentoHistorico[] @relation("EquipHistDocumento")
+
+  @@index([tenantId, empreendimentoId])
+  @@index([tenantId, dataValidade, status])
+  @@index([tenantId, processoId])
+  @@map("documentos")
+}
+
+model DocumentoVersao {
+  id               String                @id @default(uuid())
+  documentoId      String                @map("documento_id")
+  numeroVersao     Int                   @map("numero_versao")
+  arquivoChaveS3   String                @map("arquivo_chave_s3")
+  arquivoNome      String                @map("arquivo_nome")
+  arquivoMime      String                @map("arquivo_mime")
+  arquivoBytes     BigInt                @map("arquivo_bytes")
+  hashSha256       String                @map("hash_sha256")
+  status           StatusVersaoDocumento @default(AGUARDANDO_UPLOAD)
+  observacoesEnvio String?               @map("observacoes_envio")
+  enviadoPorId     String                @map("enviado_por_id")
+  enviadoEm        DateTime              @default(now()) @map("enviado_em")
+  validadoPorId    String?               @map("validado_por_id")
+  validadoEm       DateTime?             @map("validado_em")
+  motivoRejeicao   String?               @map("motivo_rejeicao")
+  criadoEm         DateTime              @default(now()) @map("criado_em")
+
+  documento      Documento         @relation("VersoesDoDocumento", fields: [documentoId], references: [id])
+  enviadoPor     Usuario           @relation("VersaoEnviador", fields: [enviadoPorId], references: [id])
+  validadoPor    Usuario?          @relation("VersaoValidador", fields: [validadoPorId], references: [id])
+  documentoAtual Documento?        @relation("VersaoAtualDoDocumento")
+  evidencias     EvidenciaTarefa[]
+
+  @@unique([documentoId, numeroVersao])
+  @@index([documentoId, status])
+  @@map("documento_versoes")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G7 — CONDICIONANTES
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Condicionante {
+  id                   String                     @id @default(uuid())
+  tenantId             String                     @map("tenant_id")
+  empreendimentoId     String                     @map("empreendimento_id")
+  processoId           String?                    @map("processo_id")
+  descricao            String
+  numeroCondicionante  String?                    @map("numero_condicionante")
+  tipo                 TipoCondicionante
+  status               StatusCondicionante        @default(PENDENTE)
+  periodicidade        PeriodicidadeCondicionante @default(UNICA)
+  intervaloDias        Int?                       @map("intervalo_dias")
+  prazoCumprimento     DateTime?                  @map("prazo_cumprimento") @db.Date
+  proximoVencimento    DateTime?                  @map("proximo_vencimento") @db.Date
+  evidenciaExigida     String?                    @map("evidencia_exigida")
+  documentoEvidenciaId String?                    @map("documento_evidencia_id")
+  responsavelId        String?                    @map("responsavel_id")
+  gerarTarefaAuto      Boolean                    @default(true) @map("gerar_tarefa_auto")
+  diasAlertaAntes      Int[]                      @default([30, 15, 7]) @map("dias_alerta_antes")
+  cumpridaEm           DateTime?                  @map("cumprida_em")
+  dispensadoPorId      String?                    @map("dispensado_por_id")
+  motivoDispensa       String?                    @map("motivo_dispensa")
+  dispensadoEm         DateTime?                  @map("dispensado_em")
+  criadoEm             DateTime                   @default(now()) @map("criado_em")
+  atualizadoEm         DateTime                   @updatedAt @map("atualizado_em")
+
+  empreendimento       Empreendimento       @relation(fields: [empreendimentoId], references: [id])
+  processo             Processo?            @relation(fields: [processoId], references: [id])
+  documentoEvidencia   Documento?           @relation("EvidenciaCondicionante", fields: [documentoEvidenciaId], references: [id])
+  responsavel          Usuario?             @relation("CondicionanteResponsavel", fields: [responsavelId], references: [id])
+  dispensadoPor        Usuario?             @relation("CondicionanteDispensadaPor", fields: [dispensadoPorId], references: [id])
+  tarefas              Tarefa[]
+  ciclos               CicloCondicionante[]
+  documentosVinculados Documento[]          @relation("DocumentoCondicionante")
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, status, proximoVencimento])
+  @@index([processoId, status])
+  @@map("condicionantes")
+}
+
+model CicloCondicionante {
+  id                   String              @id @default(uuid())
+  condicionanteId      String              @map("condicionante_id")
+  numeroCiclo          Int                 @map("numero_ciclo")
+  periodoInicio        DateTime            @map("periodo_inicio") @db.Date
+  periodoFim           DateTime            @map("periodo_fim") @db.Date
+  status               StatusCondicionante @default(PENDENTE)
+  documentoEvidenciaId String?             @map("documento_evidencia_id")
+  observacoes          String?
+  cumpridoEm           DateTime?           @map("cumprido_em")
+  cumpridoPorId        String?             @map("cumprido_por_id")
+  criadoEm             DateTime            @default(now()) @map("criado_em")
+
+  condicionante      Condicionante @relation(fields: [condicionanteId], references: [id])
+  documentoEvidencia Documento?    @relation("EvidenciaCiclo", fields: [documentoEvidenciaId], references: [id])
+  cumpridoPor        Usuario?      @relation(fields: [cumpridoPorId], references: [id])
+  tarefas            Tarefa[]
+
+  @@unique([condicionanteId, numeroCiclo])
+  @@index([condicionanteId, status])
+  @@map("ciclos_condicionante")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G8 — TAREFAS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Tarefa {
+  id                   String           @id @default(uuid())
+  tenantId             String           @map("tenant_id")
+  empreendimentoId     String           @map("empreendimento_id")
+  processoId           String?          @map("processo_id")
+  condicionanteId      String?          @map("condicionante_id")
+  cicloCondicionanteId String?          @map("ciclo_condicionante_id")
+  documentoId          String?          @map("documento_id")
+  titulo               String
+  descricao            String?
+  status               StatusTarefa     @default(PENDENTE)
+  prioridade           PrioridadeTarefa @default(MEDIA)
+  origem               OrigemTarefa     @default(MANUAL)
+  regraOrigemId        String?          @map("regra_origem_id") // sem FK formal
+  responsavelId        String?          @map("responsavel_id")
+  criadorId            String           @map("criador_id")
+  dataVencimento       DateTime?        @map("data_vencimento")
+  dataConclusao        DateTime?        @map("data_conclusao")
+  dataEscalonamento    DateTime?        @map("data_escalonamento")
+  escaladoParaId       String?          @map("escalado_para_id")
+  observacoesConclusao String?          @map("observacoes_conclusao")
+  metadados            Json?
+  scoreCriticidade     Int              @default(0) @map("score_criticidade")
+  criadoEm             DateTime         @default(now()) @map("criado_em")
+  atualizadoEm         DateTime         @updatedAt @map("atualizado_em")
+
+  empreendimento     Empreendimento      @relation(fields: [empreendimentoId], references: [id])
+  processo           Processo?           @relation(fields: [processoId], references: [id])
+  condicionante      Condicionante?      @relation(fields: [condicionanteId], references: [id])
+  cicloCondicionante CicloCondicionante? @relation(fields: [cicloCondicionanteId], references: [id])
+  responsavel        Usuario?            @relation("TarefaResponsavel", fields: [responsavelId], references: [id])
+  criador            Usuario             @relation("TarefaCriador", fields: [criadorId], references: [id])
+  escaladoPara       Usuario?            @relation("TarefaEscalonada", fields: [escaladoParaId], references: [id])
+  evidencias         EvidenciaTarefa[]
+  dependencias       TarefaDependencia[] @relation("TarefaPrincipal")
+  dependeDe          TarefaDependencia[] @relation("TarefaDependente")
+
+  @@index([tenantId, responsavelId, status])
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, dataVencimento, status])
+  @@index([tenantId, prioridade, status])
+  @@index([tenantId, scoreCriticidade(sort: Desc), status])
+  @@map("tarefas")
+}
+
+model TarefaDependencia {
+  tarefaId    String @map("tarefa_id")
+  dependeDeId String @map("depende_de_id")
+
+  tarefa    Tarefa @relation("TarefaPrincipal", fields: [tarefaId], references: [id])
+  dependeDe Tarefa @relation("TarefaDependente", fields: [dependeDeId], references: [id])
+
+  @@id([tarefaId, dependeDeId])
+  @@index([dependeDeId])
+  @@map("tarefas_dependencias")
+}
+
+model EvidenciaTarefa {
+  id                String        @id @default(uuid())
+  tarefaId          String        @map("tarefa_id")
+  tipo              TipoEvidencia
+  descricao         String?
+  documentoVersaoId String?       @map("documento_versao_id")
+  arquivoChaveS3    String?       @map("arquivo_chave_s3")
+  arquivoNome       String?       @map("arquivo_nome")
+  textoLivre        String?       @map("texto_livre")
+  url               String?
+  enviadoPorId      String        @map("enviado_por_id")
+  criadoEm          DateTime      @default(now()) @map("criado_em")
+
+  tarefa          Tarefa           @relation(fields: [tarefaId], references: [id])
+  documentoVersao DocumentoVersao? @relation(fields: [documentoVersaoId], references: [id])
+
+  @@index([tarefaId])
+  @@map("evidencias_tarefas")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G9 — AUTOMAÇÃO
+// ─────────────────────────────────────────────────────────────────────────────
+
+model RegraAutomatica {
+  id                 String   @id @default(uuid())
+  tenantId           String   @map("tenant_id")
+  nome               String
+  descricao          String?
+  tipo               String // vencimento_doc | vencimento_proc | condicionante | requisito | escalamento
+  gatilho            Json // { entidade, campo_data, dias_antes, status_alvo }
+  acao               String // criar_tarefa | enviar_alerta | escalonar
+  parametros         Json // parâmetros da ação
+  ativo              Boolean  @default(true)
+  escopo             String   @default("global")
+  escopoReferenciaId String?  @map("escopo_referencia_id")
+  ordemExecucao      Int      @default(100) @map("ordem_execucao")
+  criadoEm           DateTime @default(now()) @map("criado_em")
+  atualizadoEm       DateTime @updatedAt @map("atualizado_em")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, ativo, tipo])
+  @@index([tenantId, ativo, ordemExecucao])
+  @@map("regras_automaticas")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G10 — ALERTAS E NOTIFICAÇÕES
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Alerta {
+  id               String      @id @default(uuid())
+  tenantId         String      @map("tenant_id")
+  empreendimentoId String?     @map("empreendimento_id")
+  tipo             TipoAlerta
+  nivel            NivelAlerta
+  titulo           String
+  mensagem         String
+  entidadeTipo     String?     @map("entidade_tipo")
+  entidadeId       String?     @map("entidade_id")
+  dados            Json?
+  emailEnviado     Boolean     @default(false) @map("email_enviado")
+  emailEnviadoEm   DateTime?   @map("email_enviado_em")
+  wppEnviado       Boolean     @default(false) @map("wpp_enviado")
+  wppEnviadoEm     DateTime?   @map("wpp_enviado_em")
+  criadoEm         DateTime    @default(now()) @map("criado_em")
+
+  tenant         Tenant               @relation(fields: [tenantId], references: [id])
+  empreendimento Empreendimento?      @relation(fields: [empreendimentoId], references: [id])
+  destinatarios  AlertaDestinatario[]
+
+  @@index([tenantId, nivel, criadoEm])
+  @@index([tenantId, empreendimentoId, criadoEm])
+  @@map("alertas")
+}
+
+model AlertaDestinatario {
+  alertaId  String    @map("alerta_id")
+  usuarioId String    @map("usuario_id")
+  lido      Boolean   @default(false)
+  lidoEm    DateTime? @map("lido_em")
+  canais    String[]
+
+  alerta  Alerta  @relation(fields: [alertaId], references: [id])
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+
+  @@id([alertaId, usuarioId])
+  @@index([usuarioId, lido])
+  @@map("alertas_destinatarios")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G11 — COMPLIANCE
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ComplianceSnapshot {
+  id                      String           @id @default(uuid())
+  tenantId                String           @map("tenant_id")
+  empreendimentoId        String           @map("empreendimento_id")
+  indiceConformidade      Decimal          @map("indice_conformidade") @db.Decimal(5, 2)
+  statusCompliance        StatusCompliance @map("status_compliance")
+  documentosValidos       Int              @map("documentos_validos")
+  documentosTotal         Int              @map("documentos_total")
+  processosRegulares      Int              @map("processos_regulares")
+  processosTotal          Int              @map("processos_total")
+  condicionantesCumpridas Int              @map("condicionantes_cumpridas")
+  condicionantesAtivas    Int              @map("condicionantes_ativas")
+  detalhes                Json?
+  calculadoEm             DateTime         @default(now()) @map("calculado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+
+  @@index([tenantId, empreendimentoId, calculadoEm(sort: Desc)])
+  @@index([tenantId, statusCompliance, calculadoEm(sort: Desc)])
+  @@map("compliance_snapshots")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// G12 — AUDITORIA (IMUTÁVEL — sem FKs para sobreviver à deleção de entidades)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id") // TEXT, não FK
+  usuarioId     String?  @map("usuario_id") // sem FK
+  usuarioNome   String?  @map("usuario_nome")
+  usuarioEmail  String?  @map("usuario_email")
+  usuarioPerfil String?  @map("usuario_perfil")
+  acao          String // ex: "documento.versao.aprovada"
+  entidadeTipo  String   @map("entidade_tipo")
+  entidadeId    String   @map("entidade_id")
+  dadosAntes    Json?    @map("dados_antes")
+  dadosDepois   Json?    @map("dados_depois")
+  ipOrigem      String?  @map("ip_origem")
+  userAgent     String?  @map("user_agent")
+  contexto      Json? // { empreendimentoId, processoId, etc. }
+  criadoEm      DateTime @default(now()) @map("criado_em")
+
+  usuario Usuario? @relation(fields: [usuarioId], references: [id])
+
+  @@index([tenantId, entidadeTipo, entidadeId, criadoEm(sort: Desc)])
+  @@index([tenantId, criadoEm(sort: Desc)])
+  @@index([tenantId, entidadeTipo])
+  @@index([tenantId, usuarioId, criadoEm(sort: Desc)])
+  @@index([criadoEm(sort: Desc)]) // Para limpeza por período
+  @@map("audit_log")
+}
+
+model IntegracaoEvento {
+  id               String    @id @default(uuid())
+  tenantId         String    @map("tenant_id")
+  sourceSystem     String    @map("source_system")
+  eventName        String    @map("event_name")
+  idempotencyKey   String    @map("idempotency_key")
+  payloadJson      Json      @map("payload_json")
+  status           String    @default("received")
+  processedAt      DateTime? @map("processed_at")
+  errorMessage     String?   @map("error_message")
+  empresaId        String?   @map("empresa_id")
+  empreendimentoId String?   @map("empreendimento_id")
+  tarefaId         String?   @map("tarefa_id")
+  criadoEm         DateTime  @default(now()) @map("criado_em")
+  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+
+  @@unique([tenantId, sourceSystem, idempotencyKey])
+  @@index([tenantId, status, criadoEm(sort: Desc)])
+  @@index([sourceSystem, eventName, criadoEm(sort: Desc)])
+  @@map("integracao_eventos")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M1 — GESTÃO AMBIENTAL: LICENÇAS + CONDICIONANTES
+// ─────────────────────────────────────────────────────────────────────────────
+
+model LicencaAmbiental {
+  id                 String               @id @default(uuid())
+  tenantId           String               @map("tenant_id")
+  empreendimentoId   String               @map("empreendimento_id")
+  tipo               TipoLicencaAmbiental
+  numero             String
+  orgaoEmissor       String               @map("orgao_emissor")
+  responsavelTecnico String?              @map("responsavel_tecnico")
+  dataEmissao        DateTime             @map("data_emissao") @db.Date
+  dataVencimento     DateTime             @map("data_vencimento") @db.Date
+  status             StatusLicenca        @default(VIGENTE)
+  chaveS3            String?              @map("chave_s3")
+  nomeArquivo        String?              @map("nome_arquivo")
+  observacoes        String?
+  diasAlerta         Int[]                @default([90, 60, 30, 15, 7]) @map("dias_alerta")
+  analiseIA          Json?                @map("analise_ia")
+  analisadoEm        DateTime?            @map("analisado_em")
+  criadoEm           DateTime             @default(now()) @map("criado_em")
+  atualizadoEm       DateTime             @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento    @relation(fields: [empreendimentoId], references: [id])
+  condicoes      CondicaoLicenca[]
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, dataVencimento, status])
+  @@map("licencas_ambientais")
+}
+
+model CondicaoLicenca {
+  id           String    @id @default(uuid())
+  licencaId    String    @map("licenca_id")
+  numero       String?
+  descricao    String
+  prazo        DateTime? @db.Date
+  status       String    @default("PENDENTE") // PENDENTE | EM_CUMPRIMENTO | CUMPRIDA | VENCIDA
+  comprovante  String? // chave S3
+  observacoes  String?
+  criadoEm     DateTime  @default(now()) @map("criado_em")
+  atualizadoEm DateTime  @updatedAt @map("atualizado_em")
+
+  licenca LicencaAmbiental @relation(fields: [licencaId], references: [id], onDelete: Cascade)
+
+  @@index([licencaId, status])
+  @@map("condicoes_licenca")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M4 — REGULATÓRIO URBANO: AVCB, ALVARÁ, HABITE-SE
+// ─────────────────────────────────────────────────────────────────────────────
+
+model AlvaraUrbanistico {
+  id               String        @id @default(uuid())
+  tenantId         String        @map("tenant_id")
+  empreendimentoId String        @map("empreendimento_id")
+  tipo             TipoAlvara
+  numero           String?
+  orgaoEmissor     String        @map("orgao_emissor")
+  dataEmissao      DateTime?     @map("data_emissao") @db.Date
+  dataVencimento   DateTime?     @map("data_vencimento") @db.Date
+  status           StatusLicenca @default(VIGENTE)
+  chaveS3          String?       @map("chave_s3")
+  nomeArquivo      String?       @map("nome_arquivo")
+  observacoes      String?
+  diasAlerta       Int[]         @default([120, 60, 30]) @map("dias_alerta")
+  criadoEm         DateTime      @default(now()) @map("criado_em")
+  atualizadoEm     DateTime      @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, dataVencimento, status])
+  @@map("alvaras_urbanisticos")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M3 — SST / SEGURANÇA DO TRABALHO
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Funcionario {
+  id               String    @id @default(uuid())
+  tenantId         String    @map("tenant_id")
+  empreendimentoId String    @map("empreendimento_id")
+  nome             String
+  cpf              String?
+  rg               String?
+  dataNascimento   DateTime? @map("data_nascimento") @db.Date
+  cargo            String
+  setor            String? // PISTA | DESCARGA | AREA_TECNICA | CONVENIENCIA | ADMINISTRATIVO
+  vinculo          String    @default("CLT") // CLT | PJ | TERCEIRIZADO | ESTAGIO | TEMPORARIO
+  email            String?
+  telefone         String?
+  dataAdmissao     DateTime  @map("data_admissao") @db.Date
+  dataDemissao     DateTime? @map("data_demissao") @db.Date
+  motivoDemissao   String?   @map("motivo_demissao")
+  ativo            Boolean   @default(true)
+  observacoes      String?
+  criadoEm         DateTime  @default(now()) @map("criado_em")
+  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+
+  empreendimento           Empreendimento            @relation(fields: [empreendimentoId], references: [id])
+  asos                     ASO[]
+  treinamentosParticipados TreinamentoParticipante[]
+  entregasEPI              EntregaEPI[]
+
+  @@index([tenantId, empreendimentoId, ativo])
+  @@index([tenantId, cargo, ativo])
+  @@map("funcionarios")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SST — TREINAMENTOS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model TreinamentoTipo {
+  id                    String   @id @default(uuid())
+  tenantId              String   @map("tenant_id")
+  nome                  String
+  normativa             String // NR-20 | NR-35 | NR-10 | NR-12 | CIPA | BRIGADA | OUTROS
+  cargaHoraria          Int      @map("carga_horaria") // horas
+  periodicidadeMeses    Int      @map("periodicidade_meses") // 0 = único, 12 = anual, 24 = bienal
+  obrigatorioParaCargos String[] @map("obrigatorio_para_cargos")
+  conteudoProgramatico  String[] @map("conteudo_programatico")
+  ativo                 Boolean  @default(true)
+  criadoEm              DateTime @default(now()) @map("criado_em")
+
+  tenant    Tenant                @relation(fields: [tenantId], references: [id])
+  execucoes TreinamentoExecucao[]
+
+  @@unique([tenantId, nome, normativa])
+  @@index([tenantId, ativo])
+  @@map("treinamento_tipos")
+}
+
+model TreinamentoExecucao {
+  id                     String    @id @default(uuid())
+  tenantId               String    @map("tenant_id")
+  empreendimentoId       String    @map("empreendimento_id")
+  tipoId                 String    @map("tipo_id")
+  instrutor              String?
+  cargaHorariaRealizada  Int?      @map("carga_horaria_realizada")
+  dataRealizacao         DateTime  @map("data_realizacao") @db.Date
+  dataVencimento         DateTime? @map("data_vencimento") @db.Date
+  status                 String    @default("REALIZADO") // AGENDADO | REALIZADO | VENCIDO | CANCELADO
+  local                  String?
+  certificadoChaveS3     String?   @map("certificado_chave_s3")
+  certificadoNomeArquivo String?   @map("certificado_nome_arquivo")
+  observacoes            String?
+  criadoEm               DateTime  @default(now()) @map("criado_em")
+  atualizadoEm           DateTime  @updatedAt @map("atualizado_em")
+
+  tipo           TreinamentoTipo           @relation(fields: [tipoId], references: [id])
+  empreendimento Empreendimento            @relation(fields: [empreendimentoId], references: [id])
+  participantes  TreinamentoParticipante[]
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, dataVencimento, status])
+  @@map("treinamento_execucoes")
+}
+
+model TreinamentoParticipante {
+  id             String   @id @default(uuid())
+  execucaoId     String   @map("execucao_id")
+  funcionarioId  String   @map("funcionario_id")
+  presenca       Boolean  @default(true)
+  aprovado       Boolean  @default(true)
+  certificadoUrl String?  @map("certificado_url")
+  criadoEm       DateTime @default(now()) @map("criado_em")
+
+  execucao    TreinamentoExecucao @relation(fields: [execucaoId], references: [id], onDelete: Cascade)
+  funcionario Funcionario         @relation(fields: [funcionarioId], references: [id])
+
+  @@unique([execucaoId, funcionarioId])
+  @@index([funcionarioId])
+  @@map("treinamento_participantes")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SST — EPI (Equipamento de Proteção Individual)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model EntregaEPI {
+  id                String    @id @default(uuid())
+  tenantId          String    @map("tenant_id")
+  empreendimentoId  String    @map("empreendimento_id")
+  funcionarioId     String    @map("funcionario_id")
+  tipoEPI           String    @map("tipo_epi") // Calçado | Luva | Óculos | Capacete | etc.
+  ca                String? // nº Certificado de Aprovação MTE
+  quantidade        Int       @default(1)
+  dataEntrega       DateTime  @map("data_entrega") @db.Date
+  dataVencimento    DateTime? @map("data_vencimento") @db.Date
+  status            String    @default("VIGENTE") // VIGENTE | VENCIDO | DEVOLVIDO
+  assinaturaChaveS3 String?   @map("assinatura_chave_s3")
+  observacoes       String?
+  criadoEm          DateTime  @default(now()) @map("criado_em")
+
+  funcionario    Funcionario    @relation(fields: [funcionarioId], references: [id])
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+
+  @@index([tenantId, empreendimentoId, funcionarioId])
+  @@index([tenantId, dataVencimento, status])
+  @@map("entregas_epi")
+}
+
+model ASO {
+  id                String    @id @default(uuid())
+  tenantId          String    @map("tenant_id")
+  empreendimentoId  String    @map("empreendimento_id")
+  funcionarioId     String?   @map("funcionario_id")
+  funcionarioNome   String    @map("funcionario_nome")
+  funcionarioCPF    String?   @map("funcionario_cpf")
+  cargo             String?
+  tipo              String // ADMISSIONAL | PERIODICO | DEMISSIONAL | RETORNO | MUDANCA_FUNCAO
+  dataExame         DateTime  @map("data_exame") @db.Date
+  dataVencimento    DateTime? @map("data_vencimento") @db.Date
+  aptidao           String // APTO | INAPTO | APTO_RESTRICOES
+  medicoResponsavel String?   @map("medico_responsavel")
+  chaveS3           String?   @map("chave_s3")
+  nomeArquivo       String?   @map("nome_arquivo")
+  observacoes       String?
+  criadoEm          DateTime  @default(now()) @map("criado_em")
+  atualizadoEm      DateTime  @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+  funcionario    Funcionario?   @relation(fields: [funcionarioId], references: [id])
+
+  @@index([tenantId, empreendimentoId])
+  @@index([tenantId, dataVencimento, aptidao])
+  @@map("asos")
+}
+
+model DocumentoSST {
+  id               String    @id @default(uuid())
+  tenantId         String    @map("tenant_id")
+  empreendimentoId String    @map("empreendimento_id")
+  tipo             String // PCMSO | PPRA | PGR | LTCAT | LAUDO_ERGONOMICO | PPCI_SST | OUTROS
+  responsavel      String? // médico / engenheiro responsável
+  dataElaboracao   DateTime? @map("data_elaboracao") @db.Date
+  dataVencimento   DateTime? @map("data_vencimento") @db.Date
+  status           String    @default("VIGENTE") // VIGENTE | A_RENOVAR | VENCIDO
+  chaveS3          String?   @map("chave_s3")
+  nomeArquivo      String?   @map("nome_arquivo")
+  observacoes      String?
+  criadoEm         DateTime  @default(now()) @map("criado_em")
+  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+
+  @@index([tenantId, empreendimentoId, tipo])
+  @@index([tenantId, dataVencimento, status])
+  @@map("documentos_sst")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M6 — ANP / INMETRO: BOMBAS E CALIBRAÇÃO
+// ─────────────────────────────────────────────────────────────────────────────
+
+model BombaAbastecimento {
+  id                String    @id @default(uuid())
+  tenantId          String    @map("tenant_id")
+  empreendimentoId  String    @map("empreendimento_id")
+  numero            Int
+  fabricante        String
+  modelo            String?
+  numeroDeSerie     String?   @map("numero_de_serie")
+  combustiveis      String[]
+  ultimaCalibracao  DateTime? @map("ultima_calibracao") @db.Date
+  proximaCalibracao DateTime? @map("proxima_calibracao") @db.Date
+  stickerInmetro    String?   @map("sticker_inmetro")
+  status            String    @default("ATIVO") // ATIVO | INATIVO | MANUTENCAO
+  observacoes       String?
+  criadoEm          DateTime  @default(now()) @map("criado_em")
+  atualizadoEm      DateTime  @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+
+  @@unique([empreendimentoId, numero])
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, proximaCalibracao])
+  @@map("bombas_abastecimento")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M6-B — HISTÓRICO TÉCNICO DE EQUIPAMENTOS (Tanques + Bombas)
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum TipoEquipamento {
+  TANQUE
+  BOMBA
+  LINHA
+  SENSOR
+  CAIXA_SEPARADORA
+  SRV
+  OUTROS
+}
+
+enum TipoEventoEquipamento {
+  MANUTENCAO_PREVENTIVA
+  MANUTENCAO_CORRETIVA
+  CALIBRACAO
+  SUBSTITUICAO
+  OCORRENCIA
+  DESATIVACAO
+  REATIVACAO
+  INSTALACAO
+  VISTORIA
+}
+
+model EquipamentoHistorico {
+  id               String                @id @default(uuid())
+  tenantId         String                @map("tenant_id")
+  empreendimentoId String                @map("empreendimento_id")
+  equipamentoTipo  TipoEquipamento       @map("equipamento_tipo")
+  equipamentoId    String                @map("equipamento_id") // ID do Tanque ou Bomba
+  tipoEvento       TipoEventoEquipamento @map("tipo_evento")
+  dataEvento       DateTime              @map("data_evento") @db.Date
+  descricao        String
+  responsavel      String?
+  custo            Decimal?              @db.Decimal(12, 2)
+  documentoId      String?               @map("documento_id")
+  observacoes      String?
+  criadoPorId      String                @map("criado_por_id")
+  criadoEm         DateTime              @default(now()) @map("criado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+  criadoPor      Usuario        @relation("EquipHistCriador", fields: [criadoPorId], references: [id])
+  documento      Documento?     @relation("EquipHistDocumento", fields: [documentoId], references: [id])
+
+  @@index([tenantId, equipamentoTipo, equipamentoId])
+  @@index([tenantId, empreendimentoId, dataEvento])
+  @@map("equipamentos_historico")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M9 — ESTANQUEIDADE / SASC / TANQUES
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Tanque {
+  id               String    @id @default(uuid())
+  tenantId         String    @map("tenant_id")
+  empreendimentoId String    @map("empreendimento_id")
+  numero           Int
+  capacidadeLitros Int       @map("capacidade_litros")
+  combustivel      String
+  material         String? // FIBRA | ACO | DUPLA_PAREDE
+  dataInstalacao   DateTime? @map("data_instalacao") @db.Date
+  status           String    @default("ATIVO") // ATIVO | INATIVO | INTERDITADO | REMOVIDO
+  observacoes      String?
+  criadoEm         DateTime  @default(now()) @map("criado_em")
+  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento       @relation(fields: [empreendimentoId], references: [id])
+  testes         TesteEstanqueidade[]
+
+  @@unique([empreendimentoId, numero])
+  @@index([tenantId, empreendimentoId, status])
+  @@map("tanques")
+}
+
+model TesteEstanqueidade {
+  id           String   @id @default(uuid())
+  tanqueId     String   @map("tanque_id")
+  empresa      String
+  responsavel  String?
+  dataExecucao DateTime @map("data_execucao") @db.Date
+  resultado    String // APROVADO | REPROVADO | INCONCLUSIVO
+  metodo       String? // vácuo, pressão, etc.
+  proximoTeste DateTime @map("proximo_teste") @db.Date
+  chaveS3      String?  @map("chave_s3")
+  nomeArquivo  String?  @map("nome_arquivo")
+  observacoes  String?
+  criadoEm     DateTime @default(now()) @map("criado_em")
+
+  tanque Tanque @relation(fields: [tanqueId], references: [id], onDelete: Cascade)
+
+  @@index([tanqueId, dataExecucao])
+  @@map("testes_estanqueidade")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M2 — LOGÍSTICA REVERSA: MTR + TRANSPORTADORAS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Transportadora {
+  id               String    @id @default(uuid())
+  tenantId         String    @map("tenant_id")
+  nome             String
+  cnpj             String
+  licencaAmbiental String?   @map("licenca_ambiental")
+  validadeLicenca  DateTime? @map("validade_licenca") @db.Date
+  telefone         String?
+  email            String?
+  ativo            Boolean   @default(true)
+  criadoEm         DateTime  @default(now()) @map("criado_em")
+  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  mtrs   MTR[]
+
+  @@unique([tenantId, cnpj])
+  @@index([tenantId, ativo])
+  @@map("transportadoras")
+}
+
+model MTR {
+  id               String    @id @default(uuid())
+  tenantId         String    @map("tenant_id")
+  empreendimentoId String    @map("empreendimento_id")
+  transportadoraId String?   @map("transportadora_id")
+  numeroMTR        String?   @map("numero_mtr")
+  dataEmissao      DateTime  @map("data_emissao") @db.Date
+  dataColeta       DateTime? @map("data_coleta") @db.Date
+  residuos         Json // [{ tipo, quantidade, unidade, destinacao }]
+  status           String    @default("ABERTO") // ABERTO | COLETADO | DESTINADO | ENCERRADO
+  certidaoS3       String?   @map("certidao_s3")
+  observacoes      String?
+  criadoEm         DateTime  @default(now()) @map("criado_em")
+  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento  @relation(fields: [empreendimentoId], references: [id])
+  transportadora Transportadora? @relation(fields: [transportadoraId], references: [id])
+  ccrs           CCR[]
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, dataEmissao])
+  @@index([tenantId, status, dataEmissao])
+  @@index([transportadoraId, status])
+  @@map("mtrs")
+}
+
+model MetaResiduoAnual {
+  id               String   @id @default(uuid())
+  tenantId         String   @map("tenant_id")
+  empreendimentoId String   @map("empreendimento_id")
+  ano              Int
+  tipoResiduo      String   @map("tipo_residuo") // ex: OLEO_LUBRIFICANTE | FILTRO_OLEO | PNEU | EMBALAGEM | OUTROS
+  unidade          String // KG | LITRO | UNIDADE | TON
+  metaQuantidade   Decimal  @map("meta_quantidade") @db.Decimal(12, 3)
+  observacoes      String?
+  criadoEm         DateTime @default(now()) @map("criado_em")
+  atualizadoEm     DateTime @updatedAt @map("atualizado_em")
+
+  tenant         Tenant         @relation(fields: [tenantId], references: [id])
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+
+  @@unique([tenantId, empreendimentoId, ano, tipoResiduo])
+  @@index([tenantId, empreendimentoId, ano])
+  @@map("metas_residuos_anuais")
+}
+
+model CCR {
+  id             String   @id @default(uuid())
+  tenantId       String   @map("tenant_id")
+  mtrId          String   @map("mtr_id")
+  numeroCCR      String?  @map("numero_ccr")
+  tipoResiduo    String   @map("tipo_residuo")
+  quantidadeKg   Decimal  @map("quantidade_kg") @db.Decimal(12, 3)
+  destinador     String // razão social do destinador final
+  cnpjDestinador String?  @map("cnpj_destinador")
+  dataDestinacao DateTime @map("data_destinacao") @db.Date
+  tecnologiaUso  String?  @map("tecnologia_uso") // COPROCESSAMENTO | RECICLAGEM | INCINERACAO | ATERRO | OUTROS
+  arquivoS3      String?  @map("arquivo_s3")
+  criadoEm       DateTime @default(now()) @map("criado_em")
+  atualizadoEm   DateTime @updatedAt @map("atualizado_em")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  mtr    MTR    @relation(fields: [mtrId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, mtrId])
+  @@index([tenantId, dataDestinacao])
+  @@map("ccrs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M4-B — PGRS (Plano de Gerenciamento de Resíduos Sólidos)
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum StatusPGRS {
+  EM_ELABORACAO
+  VIGENTE
+  A_RENOVAR
+  VENCIDO
+  CANCELADO
+}
+
+enum StatusPGRSExigencia {
+  PENDENTE
+  EM_CUMPRIMENTO
+  COMPROVADO
+  VENCIDO
+  NAO_APLICAVEL
+}
+
+model PGRS {
+  id                 String     @id @default(uuid())
+  tenantId           String     @map("tenant_id")
+  empreendimentoId   String     @map("empreendimento_id")
+  versao             String // ex: "2024-v1"
+  responsavelTecnico String     @map("responsavel_tecnico")
+  artNumero          String?    @map("art_numero")
+  dataAprovacao      DateTime   @map("data_aprovacao") @db.Date
+  dataVencimento     DateTime   @map("data_vencimento") @db.Date
+  status             StatusPGRS @default(VIGENTE)
+  documentoId        String?    @map("documento_id") // FK para Documento (PDF do plano)
+  observacoes        String?
+  criadoEm           DateTime   @default(now()) @map("criado_em")
+  atualizadoEm       DateTime   @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento  @relation(fields: [empreendimentoId], references: [id])
+  documento      Documento?      @relation("PGRSDocumento", fields: [documentoId], references: [id])
+  exigencias     PGRSExigencia[]
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, dataVencimento])
+  @@map("pgrs")
+}
+
+model PGRSExigencia {
+  id                        String                     @id @default(uuid())
+  pgrsId                    String                     @map("pgrs_id")
+  descricao                 String
+  tipoResiduo               String                     @map("tipo_residuo") // OLEO_LUBRIFICANTE | FILTRO | EMBALAGEM | EFLUENTE | LODO | SOLO | OUTROS
+  periodicidade             PeriodicidadeCondicionante
+  prazoComprovacaoDias      Int                        @map("prazo_comprovacao_dias")
+  status                    StatusPGRSExigencia        @default(PENDENTE)
+  naoAplicavel              Boolean                    @default(false) @map("nao_aplicavel")
+  naoAplicavelJustificativa String?                    @map("nao_aplicavel_justificativa")
+  naoAplicavelPorId         String?                    @map("nao_aplicavel_por_id")
+  criadoEm                  DateTime                   @default(now()) @map("criado_em")
+
+  pgrs       PGRS            @relation(fields: [pgrsId], references: [id], onDelete: Cascade)
+  evidencias PGRSEvidencia[]
+
+  @@index([pgrsId, status])
+  @@map("pgrs_exigencias")
+}
+
+model PGRSEvidencia {
+  id             String   @id @default(uuid())
+  exigenciaId    String   @map("exigencia_id")
+  documentoId    String   @map("documento_id")
+  periodoRef     String   @map("periodo_referencia") // ex: "2024-S1", "2024-T3"
+  vinculadoPorId String   @map("vinculado_por_id")
+  criadoEm       DateTime @default(now()) @map("criado_em")
+
+  exigencia PGRSExigencia @relation(fields: [exigenciaId], references: [id], onDelete: Cascade)
+  documento Documento     @relation("PGRSEvidenciaDocumento", fields: [documentoId], references: [id])
+
+  @@index([exigenciaId])
+  @@map("pgrs_evidencias")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M5 — OUTORGA HÍDRICA: POÇOS ARTESIANOS + LAUDOS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model PocoArtesiano {
+  id               String    @id @default(uuid())
+  tenantId         String    @map("tenant_id")
+  empreendimentoId String    @map("empreendimento_id")
+  codigo           String
+  profundidade     Decimal?  @db.Decimal(8, 2) // metros
+  coordenadas      String? // "lat,lng"
+  outorgaDAEE      String?   @map("outorga_daee")
+  validadeOutorga  DateTime? @map("validade_outorga") @db.Date
+  vazaoAutorizada  Decimal?  @map("vazao_autorizada") @db.Decimal(10, 2) // m³/h
+  dataPerforacao   DateTime? @map("data_perforacao") @db.Date
+  status           String    @default("ATIVO") // ATIVO | INATIVO | INTERDITADO | SELADO
+  observacoes      String?
+  criadoEm         DateTime  @default(now()) @map("criado_em")
+  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+  laudos         LaudoAgua[]
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, validadeOutorga])
+  @@map("pocos_artesianos")
+}
+
+model LaudoAgua {
+  id           String   @id @default(uuid())
+  pocoId       String   @map("poco_id")
+  dataCampanha DateTime @map("data_campanha") @db.Date
+  laboratorio  String
+  resultado    String // CONFORME | NAO_CONFORME | ATENCAO
+  parametros   Json // [{ nome, valorMedido, limite, unidade, conforme }]
+  chaveS3      String?  @map("chave_s3")
+  nomeArquivo  String?  @map("nome_arquivo")
+  observacoes  String?
+  criadoEm     DateTime @default(now()) @map("criado_em")
+
+  poco PocoArtesiano @relation(fields: [pocoId], references: [id], onDelete: Cascade)
+
+  @@index([pocoId, dataCampanha])
+  @@index([resultado, dataCampanha])
+  @@map("laudos_agua")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M8 — MONITORAMENTO SOLO E ÁGUA SUBTERRÂNEA
+// ─────────────────────────────────────────────────────────────────────────────
+
+model PocoMonitoramento {
+  id               String    @id @default(uuid())
+  tenantId         String    @map("tenant_id")
+  empreendimentoId String    @map("empreendimento_id")
+  codigo           String
+  profundidade     Decimal?  @db.Decimal(8, 2)
+  coordenadas      String?
+  dataInstalacao   DateTime? @map("data_instalacao") @db.Date
+  status           String    @default("ATIVO") // ATIVO | INATIVO | DANIFICADO
+  periodicidade    String? // MENSAL | TRIMESTRAL | SEMESTRAL | ANUAL
+  proximaColeta    DateTime? @map("proxima_coleta") @db.Date
+  observacoes      String?
+  criadoEm         DateTime  @default(now()) @map("criado_em")
+  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento          @relation(fields: [empreendimentoId], references: [id])
+  campanhas      CampanhaMonitoramento[]
+
+  @@index([tenantId, empreendimentoId])
+  @@index([tenantId, proximaColeta])
+  @@map("pocos_monitoramento")
+}
+
+model LimiteParametro {
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id")
+  nomeParametro String   @map("nome_parametro")
+  tipoMedio     String   @map("tipo_medio") // SOLO | AGUA_SUBTERRANEA | VAPOR | AR
+  limiteVMP     Decimal  @map("limite_vmp") @db.Decimal(15, 6)
+  unidade       String
+  referencia    String? // ex: CONAMA 420/2009 | CETESB 2016
+  criadoEm      DateTime @default(now()) @map("criado_em")
+  atualizadoEm  DateTime @updatedAt @map("atualizado_em")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, nomeParametro, tipoMedio])
+  @@index([tenantId, tipoMedio])
+  @@map("limites_parametros")
+}
+
+model CampanhaMonitoramento {
+  id                  String   @id @default(uuid())
+  tenantId            String   @map("tenant_id")
+  empreendimentoId    String   @map("empreendimento_id")
+  pocoMonitoramentoId String?  @map("poco_monitoramento_id")
+  tipo                String // SOLO | AGUA_SUBTERRANEA | VAPOR | AR
+  dataColeta          DateTime @map("data_coleta") @db.Date
+  laboratorio         String
+  resultado           String   @default("CONFORME") // CONFORME | ATENCAO | NAO_CONFORME
+  chaveS3             String?  @map("chave_s3")
+  nomeArquivo         String?  @map("nome_arquivo")
+  observacoes         String?
+  criadoEm            DateTime @default(now()) @map("criado_em")
+  atualizadoEm        DateTime @updatedAt @map("atualizado_em")
+
+  empreendimento    Empreendimento          @relation(fields: [empreendimentoId], references: [id])
+  pocoMonitoramento PocoMonitoramento?      @relation(fields: [pocoMonitoramentoId], references: [id])
+  parametros        ParametroContaminante[]
+
+  @@index([tenantId, empreendimentoId, resultado])
+  @@index([tenantId, dataColeta])
+  @@map("campanhas_monitoramento")
+}
+
+model ParametroContaminante {
+  id          String   @id @default(uuid())
+  campanhaId  String   @map("campanha_id")
+  nome        String // BTEX | TPH | HPA | metais, etc.
+  valorMedido Decimal  @map("valor_medido") @db.Decimal(15, 6)
+  limiteVMP   Decimal? @map("limite_vmp") @db.Decimal(15, 6)
+  unidade     String // mg/kg | mg/L | μg/L
+  emAlerta    Boolean  @default(false) @map("em_alerta")
+
+  campanha CampanhaMonitoramento @relation(fields: [campanhaId], references: [id], onDelete: Cascade)
+
+  @@index([campanhaId, emAlerta])
+  @@map("parametros_contaminantes")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M7 — FISCALIZAÇÕES, AUTOS E DEFESA TÉCNICA
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum StatusAutoInfracao {
+  RECEBIDO
+  EM_DEFESA
+  AGUARDANDO_JULGAMENTO
+  JULGADO_FAVORAVEL
+  JULGADO_DESFAVORAVEL
+  EM_RECURSO
+  ENCERRADO
+  PAGO
+}
+
+enum InstanciaRecurso {
+  PRIMEIRA
+  SEGUNDA
+  TERCEIRA
+  JUDICIAL
+}
+
+model AutoInfracao {
+  id               String             @id @default(uuid())
+  tenantId         String             @map("tenant_id")
+  empreendimentoId String             @map("empreendimento_id")
+  orgao            String // CETESB | ANP | INMETRO | BOMBEIROS | PREFEITURA | etc.
+  numeroAuto       String             @map("numero_auto")
+  dataLavratura    DateTime           @map("data_lavratura") @db.Date
+  dataRecebimento  DateTime?          @map("data_recebimento") @db.Date
+  artigo           String?
+  descricao        String             @db.Text
+  valorMulta       Decimal?           @map("valor_multa") @db.Decimal(12, 2)
+  prazoDefesa      DateTime           @map("prazo_defesa") @db.Date
+  status           StatusAutoInfracao @default(RECEBIDO)
+  chaveS3          String?            @map("chave_s3") // PDF do auto original
+  nomeArquivo      String?            @map("nome_arquivo")
+  observacoes      String?
+  analiseIA        Json?              @map("analise_ia")
+  analisadoEm      DateTime?          @map("analisado_em")
+  criadoEm         DateTime           @default(now()) @map("criado_em")
+  atualizadoEm     DateTime           @updatedAt @map("atualizado_em")
+
+  empreendimento Empreendimento          @relation(fields: [empreendimentoId], references: [id])
+  recursos       RecursoAdministrativo[]
+  defesas        DefesaTecnica[]
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, prazoDefesa, status])
+  @@map("autos_infracao")
+}
+
+model RecursoAdministrativo {
+  id              String           @id @default(uuid())
+  autoId          String           @map("auto_id")
+  instancia       InstanciaRecurso
+  dataProtocolo   DateTime         @map("data_protocolo") @db.Date
+  prazoResposta   DateTime?        @map("prazo_resposta") @db.Date
+  numeroProtocolo String?          @map("numero_protocolo")
+  peticaoS3       String?          @map("peticao_s3")
+  resultadoS3     String?          @map("resultado_s3")
+  resultado       String? // FAVORAVEL | DESFAVORAVEL | PARCIALMENTE_FAVORAVEL | PENDENTE
+  dataJulgamento  DateTime?        @map("data_julgamento") @db.Date
+  observacoes     String?
+  criadoEm        DateTime         @default(now()) @map("criado_em")
+  atualizadoEm    DateTime         @updatedAt @map("atualizado_em")
+
+  auto AutoInfracao @relation(fields: [autoId], references: [id], onDelete: Cascade)
+
+  @@index([autoId])
+  @@map("recursos_administrativos")
+}
+
+model DefesaTecnica {
+  id            String   @id @default(uuid())
+  autoId        String   @map("auto_id")
+  rascunhoIA    String   @map("rascunho_ia") @db.Text
+  revisaoHumana String?  @map("revisao_humana") @db.Text
+  chaveS3Final  String?  @map("chave_s3_final")
+  status        String   @default("RASCUNHO") // RASCUNHO | REVISADO | ENVIADO
+  geradoEm      DateTime @default(now()) @map("gerado_em")
+  atualizadoEm  DateTime @updatedAt @map("atualizado_em")
+
+  auto AutoInfracao @relation(fields: [autoId], references: [id], onDelete: Cascade)
+
+  @@index([autoId])
+  @@map("defesas_tecnicas")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCORE DE RISCO DE FISCALIZAÇÃO
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ScoreRisco {
+  id               String   @id @default(uuid())
+  tenantId         String   @map("tenant_id")
+  empreendimentoId String   @map("empreendimento_id")
+  orgao            String // CETESB | ANP | INMETRO | BOMBEIROS
+  score            Int // 0-100 (maior = mais risco)
+  nivel            String // BAIXO | MEDIO | ALTO | CRITICO
+  fatores          Json // breakdown dos pontos adicionados
+  recomendacoes    String[] // ações para reduzir o risco
+  calculadoEm      DateTime @default(now()) @map("calculado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id], onDelete: Cascade)
+
+  @@unique([empreendimentoId, orgao])
+  @@index([tenantId, empreendimentoId])
+  @@index([tenantId, nivel])
+  @@map("scores_risco")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MONITOR DO DIÁRIO OFICIAL — publicações relevantes para postos
+// ─────────────────────────────────────────────────────────────────────────────
+
+model PublicacaoDO {
+  id             String   @id @default(uuid())
+  fonte          String // DOU | DOE_SP | DOE_MG | DOE_RJ
+  dataPublicacao DateTime @map("data_publicacao") @db.Date
+  secao          String? // Seção 1 / 2 / 3 / Extra
+  titulo         String   @db.Text
+  conteudo       String?  @db.Text
+  url            String?
+  keywordsMatch  String[] @map("keywords_match")
+  relevante      Boolean  @default(false)
+  classificacao  String? // LEGISLACAO | PORTARIA | RESOLUCAO | INSTRUCAO_NORMATIVA | DESPACHO | OUTROS
+  impacto        String? // ALTO | MEDIO | BAIXO
+  resumoIA       String?  @map("resumo_ia") @db.Text
+  notificado     Boolean  @default(false)
+  criadoEm       DateTime @default(now()) @map("criado_em")
+
+  @@unique([fonte, dataPublicacao, url])
+  @@index([dataPublicacao, relevante])
+  @@index([relevante, notificado])
+  @@map("publicacoes_do")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AGENTE WHATSAPP
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ContatoWhatsApp {
+  id               String   @id @default(uuid())
+  tenantId         String   @map("tenant_id")
+  empreendimentoId String?  @map("empreendimento_id")
+  usuarioId        String?  @map("usuario_id")
+  numero           String // E.164 sem +: 5511999999999
+  nome             String?
+  ativo            Boolean  @default(true)
+  criadoEm         DateTime @default(now()) @map("criado_em")
+  atualizadoEm     DateTime @updatedAt @map("atualizado_em")
+
+  tenant         Tenant          @relation(fields: [tenantId], references: [id])
+  empreendimento Empreendimento? @relation(fields: [empreendimentoId], references: [id])
+
+  @@unique([tenantId, numero])
+  @@index([tenantId, ativo])
+  @@map("contatos_whatsapp")
+}
+
+model MensagemWhatsApp {
+  id       String   @id @default(uuid())
+  tenantId String   @map("tenant_id")
+  numero   String
+  direcao  String // ENVIADA | RECEBIDA
+  tipo     String   @default("TEXTO") // TEXTO | IMAGEM | DOCUMENTO | AUDIO
+  conteudo String   @db.Text
+  erro     String?  @db.Text
+  criadoEm DateTime @default(now()) @map("criado_em")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, numero, criadoEm])
+  @@index([tenantId, direcao, criadoEm])
+  @@map("mensagens_whatsapp")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LEADS COMERCIAIS (prospects que chegam via WhatsApp sem cadastro)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model LeadWhatsApp {
+  id                 String     @id @default(uuid())
+  tenantId           String     @map("tenant_id")
+  numero             String
+  nome               String?
+  empresa            String?
+  quantidadePostos   Int?       @map("quantidade_postos")
+  desafios           String?    @db.Text
+  status             String     @default("NOVO") // NOVO | EM_CONVERSA | QUALIFICADO | DESCARTADO
+  estagio            EstagioCRM @default(NOVO)
+  responsavelId      String?    @map("responsavel_id")
+  valorEstimado      Decimal?   @map("valor_estimado") @db.Decimal(12, 2)
+  dataProximoContato DateTime?  @map("data_proximo_contato") @db.Date
+  notas              String?    @db.Text
+  criadoEm           DateTime   @default(now()) @map("criado_em")
+  atualizadoEm       DateTime   @updatedAt @map("atualizado_em")
+
+  tenant                 Tenant                 @relation(fields: [tenantId], references: [id])
+  mensagens              MensagemLead[]
+  followUps              FollowUpLead[]
+  diagnosticosComerciais DiagnosticoComercial[]
+  propostasComerciais    PropostaComercial[]
+  handoffsComerciais     HandoffComercial[]
+
+  @@unique([tenantId, numero])
+  @@index([tenantId, estagio, criadoEm])
+  @@index([tenantId, status, criadoEm])
+  @@map("leads_whatsapp")
+}
+
+model FollowUpLead {
+  id          String       @id @default(uuid())
+  leadId      String       @map("lead_id")
+  autorId     String?      @map("autor_id")
+  tipo        TipoFollowUp
+  notas       String?      @db.Text
+  realizadoEm DateTime     @map("realizado_em")
+  criadoEm    DateTime     @default(now()) @map("criado_em")
+
+  lead LeadWhatsApp @relation(fields: [leadId], references: [id])
+
+  @@index([leadId, realizadoEm])
+  @@map("followups_lead")
+}
+
+enum EstagioCRM {
+  NOVO
+  CONTATADO
+  PROPOSTA_ENVIADA
+  NEGOCIACAO
+  GANHO
+  PERDIDO
+}
+
+enum TipoFollowUp {
+  LIGACAO
+  EMAIL
+  WHATSAPP
+  VISITA
+  REUNIAO
+  OUTROS
+}
+
+model MensagemLead {
+  id       String   @id @default(uuid())
+  leadId   String   @map("lead_id")
+  direcao  String // ENVIADA | RECEBIDA
+  conteudo String   @db.Text
+  criadoEm DateTime @default(now()) @map("criado_em")
+
+  lead LeadWhatsApp @relation(fields: [leadId], references: [id])
+
+  @@index([leadId, criadoEm])
+  @@map("mensagens_lead")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// M15 — CHECKLISTS OPERACIONAIS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ChecklistTemplate {
+  id            String   @id @default(uuid())
+  tenantId      String   @map("tenant_id")
+  nome          String
+  descricao     String?
+  modulo        String // AMBIENTAL | SST | OPERACIONAL | ANP | ESTANQUEIDADE | GERAL
+  periodicidade String // DIARIO | SEMANAL | MENSAL | TRIMESTRAL | ANUAL
+  ativo         Boolean  @default(true)
+  criadoEm      DateTime @default(now()) @map("criado_em")
+  atualizadoEm  DateTime @updatedAt @map("atualizado_em")
+
+  tenant    Tenant              @relation(fields: [tenantId], references: [id])
+  itens     ChecklistItem[]
+  execucoes ChecklistExecucao[]
+
+  @@index([tenantId, modulo, ativo])
+  @@map("checklist_templates")
+}
+
+model ChecklistItem {
+  id          String  @id @default(uuid())
+  templateId  String  @map("template_id")
+  ordem       Int
+  descricao   String
+  obrigatorio Boolean @default(true)
+  categoria   String? // agrupamento visual dentro do checklist
+
+  template  ChecklistTemplate   @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  respostas ChecklistResposta[]
+
+  @@index([templateId, ordem])
+  @@map("checklist_itens")
+}
+
+model ChecklistExecucao {
+  id               String    @id @default(uuid())
+  templateId       String    @map("template_id")
+  tenantId         String    @map("tenant_id")
+  empreendimentoId String    @map("empreendimento_id")
+  executadoPorId   String    @map("executado_por_id")
+  status           String    @default("EM_ANDAMENTO") // EM_ANDAMENTO | CONFORME | NAO_CONFORME | PARCIAL
+  iniciadaEm       DateTime  @default(now()) @map("iniciada_em")
+  finalizadaEm     DateTime? @map("finalizada_em")
+  observacoes      String?
+
+  template       ChecklistTemplate   @relation(fields: [templateId], references: [id])
+  tenant         Tenant              @relation(fields: [tenantId], references: [id])
+  empreendimento Empreendimento      @relation(fields: [empreendimentoId], references: [id])
+  executadoPor   Usuario             @relation(fields: [executadoPorId], references: [id])
+  respostas      ChecklistResposta[]
+
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, templateId, iniciadaEm])
+  @@map("checklist_execucoes")
+}
+
+model ChecklistResposta {
+  id         String  @id @default(uuid())
+  execucaoId String  @map("execucao_id")
+  itemId     String  @map("item_id")
+  status     String // OK | ATENCAO | CRITICO | NA
+  observacao String?
+
+  execucao ChecklistExecucao @relation(fields: [execucaoId], references: [id], onDelete: Cascade)
+  item     ChecklistItem     @relation(fields: [itemId], references: [id])
+
+  @@unique([execucaoId, itemId])
+  @@index([execucaoId])
+  @@map("checklist_respostas")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CATÁLOGO DE OBRIGAÇÕES REGULATÓRIAS
+// Tabela de referência global (não multi-tenant) que define quais obrigações
+// se aplicam a cada tipo de empreendimento, por módulo e UF.
+// Usada pelo onboarding inteligente para gap analysis automático.
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ObrigacaoRegulatoriaBase {
+  id                 String            @id @default(uuid())
+  codigo             String            @unique
+  // 'revendedor' | 'distribuidor' | 'transportador' | 'todos'
+  tipoEmpreendimento String            @map("tipo_empreendimento")
+  // null = obrigação federal/nacional; 'SP', 'MG', etc = obrigação estadual
+  uf                 String?
+  // 'AMBIENTAL' | 'SST' | 'ANP' | 'URBANISTICO' | 'MONITORAMENTO' | 'LOGISTICA_REVERSA'
+  modulo             String
+  descricao          String
+  fundamentoLegal    String?           @map("fundamento_legal")
+  // 'UNICA' | 'MENSAL' | 'TRIMESTRAL' | 'SEMESTRAL' | 'ANUAL' | 'BIENAL' | 'QUINQUENAL'
+  periodicidade      String
+  // Referência descritiva ao tipo de documento que comprova o cumprimento
+  tipoDocumentoRef   String?           @map("tipo_documento_ref")
+  // 'CRITICA' | 'ALTA' | 'MEDIA'
+  criticidade        String
+  diasAlertaAntes    Int[]             @default([90, 60, 30]) @map("dias_alerta_antes")
+  observacoes        String?
+  ativo              Boolean           @default(true)
+  criadoEm           DateTime          @default(now()) @map("criado_em")
+  atualizadoEm       DateTime          @updatedAt @map("atualizado_em")
+  servicosCatalogo   ServicoCatalogo[]
+
+  @@index([tipoEmpreendimento, uf, ativo])
+  @@index([modulo, ativo])
+  @@map("obrigacoes_regulatorias_base")
+}
+
+model ServicoCatalogo {
+  id                  String  @id @default(uuid())
+  codigo              String  @unique
+  nome                String
+  descricao           String
+  categoria           String
+  subcategoria        String?
+  horasTecnicasBase   Decimal @default(8) @map("horas_tecnicas_base") @db.Decimal(10, 2)
+  fatorComplexidade   Decimal @default(1) @map("fator_complexidade") @db.Decimal(6, 2)
+  valorReferenciaHora Decimal @default(180) @map("valor_referencia_hora") @db.Decimal(12, 2)
+  obrigacaoBaseId     String? @map("obrigacao_base_id")
+  obrigacaoBaseCodigo String? @map("obrigacao_base_codigo")
+
+  precoBase            Decimal? @map("preco_base") @db.Decimal(12, 2)
+  precoMinimo          Decimal? @map("preco_minimo") @db.Decimal(12, 2)
+  precoMaximo          Decimal? @map("preco_maximo") @db.Decimal(12, 2)
+  custoInternoEstimado Decimal? @map("custo_interno_estimado") @db.Decimal(12, 2)
+  margemLucroAlvo      Decimal? @map("margem_lucro_alvo") @db.Decimal(6, 2)
+  recorrente           Boolean  @default(false)
+  mesesRecorrencia     Int?     @map("meses_recorrencia")
+
+  metadata     Json?
+  ativo        Boolean  @default(true)
+  criadoEm     DateTime @default(now()) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @map("atualizado_em")
+
+  obrigacaoBase ObrigacaoRegulatoriaBase? @relation(fields: [obrigacaoBaseId], references: [id])
+  itensProposta ItemProposta[]
+
+  @@index([categoria, ativo])
+  @@index([obrigacaoBaseId, ativo])
+  @@index([obrigacaoBaseCodigo, ativo])
+  @@map("servicos_consultoria_base")
+}
+
+model PoliticaPrecificacaoDiagnostico {
+  id                            String   @id @default(uuid())
+  tenantId                      String   @unique @map("tenant_id")
+  nome                          String   @default("Padrao")
+  portePequenoMultiplier        Decimal  @default(0.9) @map("porte_pequeno_multiplier") @db.Decimal(6, 2)
+  porteMedioMultiplier          Decimal  @default(1.15) @map("porte_medio_multiplier") @db.Decimal(6, 2)
+  porteGrandeMultiplier         Decimal  @default(1.4) @map("porte_grande_multiplier") @db.Decimal(6, 2)
+  situacaoImplantacaoMultiplier Decimal  @default(1.1) @map("situacao_implantacao_multiplier") @db.Decimal(6, 2)
+  situacaoOperacaoMultiplier    Decimal  @default(1) @map("situacao_operacao_multiplier") @db.Decimal(6, 2)
+  situacaoIrregularMultiplier   Decimal  @default(1.3) @map("situacao_irregular_multiplier") @db.Decimal(6, 2)
+  situacaoAmpliacaoMultiplier   Decimal  @default(1.15) @map("situacao_ampliacao_multiplier") @db.Decimal(6, 2)
+  potencialAltoMultiplier       Decimal  @default(1.1) @map("potencial_alto_multiplier") @db.Decimal(6, 2)
+  potencialMuitoAltoMultiplier  Decimal  @default(1.2) @map("potencial_muito_alto_multiplier") @db.Decimal(6, 2)
+  areaMediaMultiplier           Decimal  @default(1.1) @map("area_media_multiplier") @db.Decimal(6, 2)
+  areaGrandeMultiplier          Decimal  @default(1.2) @map("area_grande_multiplier") @db.Decimal(6, 2)
+  descontoCategoria3Plus        Decimal  @default(0.1) @map("desconto_categoria_3_plus") @db.Decimal(6, 2)
+  descontoVolume5Plus           Decimal  @default(0.05) @map("desconto_volume_5_plus") @db.Decimal(6, 2)
+  descontoMaximo                Decimal  @default(0.15) @map("desconto_maximo") @db.Decimal(6, 2)
+  validadePropostaDias          Int      @default(30) @map("validade_proposta_dias")
+  metadata                      Json?
+  ativo                         Boolean  @default(true)
+  criadoEm                      DateTime @default(now()) @map("criado_em")
+  atualizadoEm                  DateTime @updatedAt @map("atualizado_em")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([ativo])
+  @@map("politicas_precificacao_diagnostico")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COMERCIAL — DIAGNÓSTICO E PROPOSTAS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model DiagnosticoComercial {
+  id                     String                       @id @default(uuid())
+  tenantId               String                       @map("tenant_id")
+  criadoPorId            String                       @map("criado_por_id")
+  leadWhatsAppId         String?                      @map("lead_whatsapp_id")
+  empreendimentoId       String?                      @map("empreendimento_id")
+  origem                 OrigemPropostaComercial      @default(TRIAGEM_CNAE)
+  cnaes                  String[]
+  uf                     String                       @db.Char(2)
+  municipio              String?
+  porte                  PorteDiagnosticoComercial
+  situacao               SituacaoDiagnosticoComercial
+  temLicencaAnterior     Boolean                      @default(false) @map("tem_licenca_anterior")
+  temOutorgaAnterior     Boolean                      @default(false) @map("tem_outorga_anterior")
+  cnaePrincipalCodigo    String                       @map("cnae_principal_codigo")
+  cnaePrincipalDescricao String                       @map("cnae_principal_descricao")
+  riscoScore             Int                          @map("risco_score")
+  riscoNivel             NivelRiscoComercial          @map("risco_nivel")
+  potencialPoluidor      PotencialPoluidorComercial   @map("potencial_poluidor")
+  licenciamentoTipo      String                       @map("licenciamento_tipo")
+  orgaoCompetente        String                       @map("orgao_competente")
+  esfera                 EsferaRegulatoria
+  necessitaEIA           Boolean                      @default(false) @map("necessita_eia")
+  necessitaOutorga       Boolean                      @default(false) @map("necessita_outorga")
+  necessitaMonitoramento Boolean                      @default(false) @map("necessita_monitoramento")
+  principaisImpactos     String[]                     @default([]) @map("principais_impactos")
+  orcamentoMinimo        Decimal                      @map("orcamento_minimo") @db.Decimal(12, 2)
+  orcamentoBase          Decimal                      @map("orcamento_base") @db.Decimal(12, 2)
+  orcamentoMaximo        Decimal                      @map("orcamento_maximo") @db.Decimal(12, 2)
+  alertas                String[]                     @default([])
+  proximosPassos         String[]                     @default([]) @map("proximos_passos")
+  coberturaLimitada      Boolean                      @default(false) @map("cobertura_limitada")
+  inputSnapshot          Json                         @map("input_snapshot")
+  resultadoSnapshot      Json                         @map("resultado_snapshot")
+  criadoEm               DateTime                     @default(now()) @map("criado_em")
+
+  tenant         Tenant              @relation(fields: [tenantId], references: [id])
+  criadoPor      Usuario             @relation("DiagnosticoComercialCriador", fields: [criadoPorId], references: [id])
+  leadWhatsApp   LeadWhatsApp?       @relation(fields: [leadWhatsAppId], references: [id])
+  empreendimento Empreendimento?     @relation(fields: [empreendimentoId], references: [id])
+  propostas      PropostaComercial[]
+
+  @@index([tenantId, criadoEm(sort: Desc)])
+  @@index([tenantId, leadWhatsAppId, criadoEm(sort: Desc)])
+  @@index([tenantId, empreendimentoId, criadoEm(sort: Desc)])
+  @@index([tenantId, riscoNivel, criadoEm(sort: Desc)])
+  @@map("diagnosticos_comerciais")
+}
+
+model PropostaComercial {
+  id                    String                  @id @default(uuid())
+  tenantId              String                  @map("tenant_id")
+  diagnosticoId         String                  @map("diagnostico_id")
+  leadWhatsAppId        String?                 @map("lead_whatsapp_id")
+  empreendimentoId      String?                 @map("empreendimento_id")
+  criadoPorId           String                  @map("criado_por_id")
+  atualizadoPorId       String?                 @map("atualizado_por_id")
+  numero                String
+  origem                OrigemPropostaComercial @default(TRIAGEM_CNAE)
+  status                StatusPropostaComercial @default(RASCUNHO)
+  nomeLead              String?                 @map("nome_lead")
+  empresaLead           String?                 @map("empresa_lead")
+  documentoLead         String?                 @map("documento_lead")
+  emailContato          String?                 @map("email_contato")
+  telefoneContato       String?                 @map("telefone_contato")
+  municipio             String?
+  uf                    String                  @db.Char(2)
+  subtotalMinimo        Decimal                 @map("subtotal_minimo") @db.Decimal(12, 2)
+  subtotalBase          Decimal                 @map("subtotal_base") @db.Decimal(12, 2)
+  subtotalMaximo        Decimal                 @map("subtotal_maximo") @db.Decimal(12, 2)
+  descontoValor         Decimal                 @default(0) @map("desconto_valor") @db.Decimal(12, 2)
+  acrescimoValor        Decimal                 @default(0) @map("acrescimo_valor") @db.Decimal(12, 2)
+  totalMinimo           Decimal                 @map("total_minimo") @db.Decimal(12, 2)
+  totalBase             Decimal                 @map("total_base") @db.Decimal(12, 2)
+  totalMaximo           Decimal                 @map("total_maximo") @db.Decimal(12, 2)
+  moeda                 String                  @default("BRL")
+  dataValidade          DateTime                @map("data_validade") @db.Date
+  observacoesComerciais String?                 @map("observacoes_comerciais") @db.Text
+  observacoesInternas   String?                 @map("observacoes_internas") @db.Text
+  catalogoSnapshotEm    DateTime                @map("catalogo_snapshot_em")
+  enviadaEm             DateTime?               @map("enviada_em")
+  aprovadaEm            DateTime?               @map("aprovada_em")
+  rejeitadaEm           DateTime?               @map("rejeitada_em")
+  expiradaEm            DateTime?               @map("expirada_em")
+  criadoEm              DateTime                @default(now()) @map("criado_em")
+  atualizadoEm          DateTime                @updatedAt @map("atualizado_em")
+
+  tenant         Tenant               @relation(fields: [tenantId], references: [id])
+  diagnostico    DiagnosticoComercial @relation(fields: [diagnosticoId], references: [id])
+  leadWhatsApp   LeadWhatsApp?        @relation(fields: [leadWhatsAppId], references: [id])
+  empreendimento Empreendimento?      @relation(fields: [empreendimentoId], references: [id])
+  criadoPor      Usuario              @relation("PropostaComercialCriador", fields: [criadoPorId], references: [id])
+  atualizadoPor  Usuario?             @relation("PropostaComercialAtualizador", fields: [atualizadoPorId], references: [id])
+  handoffs       HandoffComercial[]
+  itens          ItemProposta[]
+  contratos      Contrato[]
+
+  @@unique([tenantId, numero])
+  @@index([tenantId, status, criadoEm(sort: Desc)])
+  @@index([tenantId, leadWhatsAppId, criadoEm(sort: Desc)])
+  @@index([tenantId, empreendimentoId, criadoEm(sort: Desc)])
+  @@index([tenantId, dataValidade])
+  @@index([tenantId, diagnosticoId])
+  @@map("propostas_comerciais")
+}
+
+model HandoffComercial {
+  id                       String                      @id @default(uuid())
+  tenantId                 String                      @map("tenant_id")
+  propostaComercialId      String                      @map("proposta_comercial_id")
+  leadWhatsAppId           String?                     @map("lead_whatsapp_id")
+  empreendimentoId         String?                     @map("empreendimento_id")
+  criadoPorId              String                      @map("criado_por_id")
+  responsavelComercialId   String                      @map("responsavel_comercial_id")
+  responsavelOperacionalId String?                     @map("responsavel_operacional_id")
+  status                   StatusHandoffComercial      @default(AGUARDANDO_HANDOFF)
+  statusPropostaOrigem     StatusPropostaComercial     @map("status_proposta_origem")
+  origemProposta           OrigemPropostaComercial     @map("origem_proposta")
+  numeroProposta           String                      @map("numero_proposta")
+  dataAprovacaoProposta    DateTime?                   @map("data_aprovacao_proposta")
+  dataValidadeProposta     DateTime?                   @map("data_validade_proposta") @db.Date
+  nomeLead                 String?                     @map("nome_lead")
+  empresaLead              String?                     @map("empresa_lead")
+  documentoLead            String?                     @map("documento_lead")
+  emailContato             String?                     @map("email_contato")
+  telefoneContato          String?                     @map("telefone_contato")
+  municipio                String?
+  uf                       String?                     @db.Char(2)
+  cnaePrincipalCodigo      String?                     @map("cnae_principal_codigo")
+  cnaePrincipalDescricao   String?                     @map("cnae_principal_descricao")
+  riscoNivel               NivelRiscoComercial?        @map("risco_nivel")
+  riscoScore               Int?                        @map("risco_score")
+  potencialPoluidor        PotencialPoluidorComercial? @map("potencial_poluidor")
+  licenciamentoTipo        String?                     @map("licenciamento_tipo")
+  orgaoCompetente          String?                     @map("orgao_competente")
+  esfera                   EsferaRegulatoria?
+  alertasResumo            String[]                    @default([]) @map("alertas_resumo")
+  proximosPassosResumo     String[]                    @default([]) @map("proximos_passos_resumo")
+  observacoesLiberadas     String?                     @map("observacoes_liberadas") @db.Text
+  servicosResumo           Json                        @map("servicos_resumo")
+  origemSnapshotSaneado    Json                        @map("origem_snapshot_saneado")
+  pendenciasOperacionais   String[]                    @default([]) @map("pendencias_operacionais")
+  observacoesOperacionais  String?                     @map("observacoes_operacionais") @db.Text
+  observacoesPlanejamento  String?                     @map("observacoes_planejamento") @db.Text
+  prioridadeOperacional    String?                     @map("prioridade_operacional")
+  necessidadeDocumentos    Boolean?                    @map("necessidade_documentos")
+  necessidadeVisita        Boolean?                    @map("necessidade_visita")
+  necessidadeTerceiro      Boolean?                    @map("necessidade_terceiro")
+  assumidoEm               DateTime?                   @map("assumido_em")
+  concluidoEm              DateTime?                   @map("concluido_em")
+  canceladoEm              DateTime?                   @map("cancelado_em")
+  criadoEm                 DateTime                    @default(now()) @map("criado_em")
+  atualizadoEm             DateTime                    @updatedAt @map("atualizado_em")
+
+  tenant                 Tenant            @relation(fields: [tenantId], references: [id])
+  propostaComercial      PropostaComercial @relation(fields: [propostaComercialId], references: [id])
+  leadWhatsApp           LeadWhatsApp?     @relation(fields: [leadWhatsAppId], references: [id])
+  empreendimento         Empreendimento?   @relation(fields: [empreendimentoId], references: [id])
+  criadoPor              Usuario           @relation("HandoffComercialCriador", fields: [criadoPorId], references: [id])
+  responsavelComercial   Usuario           @relation("HandoffComercialResponsavelComercial", fields: [responsavelComercialId], references: [id])
+  responsavelOperacional Usuario?          @relation("HandoffComercialResponsavelOperacional", fields: [responsavelOperacionalId], references: [id])
+  contratos              Contrato[]
+
+  @@index([tenantId, status, criadoEm(sort: Desc)])
+  @@index([tenantId, propostaComercialId, status])
+  @@index([tenantId, leadWhatsAppId, status])
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, responsavelComercialId, status])
+  @@index([tenantId, responsavelOperacionalId, status])
+  @@map("handoffs_comerciais")
+}
+
+model Contrato {
+  id                     String         @id @default(uuid())
+  tenantId               String         @map("tenant_id")
+  numero                 String
+  status                 StatusContrato @default(RASCUNHO)
+  handoffComercialId     String         @map("handoff_comercial_id")
+  propostaComercialId    String         @map("proposta_comercial_id")
+  empreendimentoId       String?        @map("empreendimento_id")
+  criadoPorId            String         @map("criado_por_id")
+  atualizadoPorId        String?        @map("atualizado_por_id")
+  objeto                 String         @db.Text
+  observacoesContratuais String?        @map("observacoes_contratuais") @db.Text
+  observacoesInternas    String?        @map("observacoes_internas") @db.Text
+  dataInicioVigencia     DateTime       @map("data_inicio_vigencia") @db.Date
+  dataFimVigencia        DateTime?      @map("data_fim_vigencia") @db.Date
+  diaVencimento          Int            @map("dia_vencimento")
+  valorMensal            Decimal        @map("valor_mensal") @db.Decimal(12, 2)
+  valorTotalEstimado     Decimal?       @map("valor_total_estimado") @db.Decimal(14, 2)
+  moeda                  String         @default("BRL")
+  itensSnapshot          Json           @map("itens_snapshot")
+  ativadoEm              DateTime?      @map("ativado_em")
+  suspensoEm             DateTime?      @map("suspenso_em")
+  encerradoEm            DateTime?      @map("encerrado_em")
+  canceladoEm            DateTime?      @map("cancelado_em")
+  motivoEncerramento     String?        @map("motivo_encerramento") @db.Text
+  criadoEm               DateTime       @default(now()) @map("criado_em")
+  atualizadoEm           DateTime       @updatedAt @map("atualizado_em")
+
+  tenant            Tenant            @relation(fields: [tenantId], references: [id])
+  handoffComercial  HandoffComercial  @relation(fields: [handoffComercialId], references: [id])
+  propostaComercial PropostaComercial @relation(fields: [propostaComercialId], references: [id])
+  empreendimento    Empreendimento?   @relation(fields: [empreendimentoId], references: [id])
+  criadoPor         Usuario           @relation("ContratoCriador", fields: [criadoPorId], references: [id])
+  atualizadoPor     Usuario?          @relation("ContratoAtualizador", fields: [atualizadoPorId], references: [id])
+  ordensServico     OrdemServico[]
+  entregaveis       Entregavel[]
+
+  @@unique([tenantId, numero])
+  @@index([tenantId, status, criadoEm(sort: Desc)])
+  @@index([tenantId, handoffComercialId])
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, dataInicioVigencia])
+  @@map("contratos")
+}
+
+model OrdemServico {
+  id                    String                 @id @default(uuid())
+  tenantId              String                 @map("tenant_id")
+  numero                String
+  status                StatusOrdemServico     @default(PLANEJADA)
+  tipo                  TipoOrdemServico
+  prioridade            PrioridadeOrdemServico @default(MEDIA)
+  contratoId            String                 @map("contrato_id")
+  empreendimentoId      String                 @map("empreendimento_id")
+  responsavelId         String?                @map("responsavel_id")
+  criadoPorId           String                 @map("criado_por_id")
+  atualizadoPorId       String?                @map("atualizado_por_id")
+  titulo                String
+  escopo                String                 @db.Text
+  localExecucao         String?                @map("local_execucao")
+  observacoesExecucao   String?                @map("observacoes_execucao") @db.Text
+  observacoesInternas   String?                @map("observacoes_internas") @db.Text
+  motivoCancelamento    String?                @map("motivo_cancelamento") @db.Text
+  dataPlanejada         DateTime               @map("data_planejada")
+  dataPrevistaConclusao DateTime?              @map("data_prevista_conclusao")
+  dataInicioExecucao    DateTime?              @map("data_inicio_execucao")
+  dataConclusao         DateTime?              @map("data_conclusao")
+  dataCancelamento      DateTime?              @map("data_cancelamento")
+  criadoEm              DateTime               @default(now()) @map("criado_em")
+  atualizadoEm          DateTime               @updatedAt @map("atualizado_em")
+
+  tenant         Tenant         @relation(fields: [tenantId], references: [id])
+  contrato       Contrato       @relation(fields: [contratoId], references: [id])
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+  responsavel    Usuario?       @relation("OSResponsavel", fields: [responsavelId], references: [id])
+  criadoPor      Usuario        @relation("OSCriador", fields: [criadoPorId], references: [id])
+  atualizadoPor  Usuario?       @relation("OSAtualizador", fields: [atualizadoPorId], references: [id])
+  entregaveis    Entregavel[]
+
+  @@unique([tenantId, numero])
+  @@index([tenantId, status, dataPlanejada])
+  @@index([tenantId, contratoId, status])
+  @@index([tenantId, responsavelId, status])
+  @@index([tenantId, empreendimentoId, status])
+  @@index([tenantId, prioridade, status])
+  @@map("ordens_servico")
+}
+
+model Entregavel {
+  id               String           @id @default(uuid())
+  tenantId         String           @map("tenant_id")
+  numero           String
+  status           StatusEntregavel @default(PENDENTE)
+  tipo             TipoEntregavel
+  ordemServicoId   String           @map("ordem_servico_id")
+  contratoId       String?          @map("contrato_id")
+  empreendimentoId String           @map("empreendimento_id")
+  criadoPorId      String           @map("criado_por_id")
+  atualizadoPorId  String?          @map("atualizado_por_id")
+  titulo           String
+  descricao        String?          @db.Text
+  s3Key            String?          @map("s3_key")
+  nomeArquivo      String?          @map("nome_arquivo")
+  tamanhoBytes     Int?             @map("tamanho_bytes")
+  erroMsg          String?          @map("erro_msg")
+  geradoEm         DateTime?        @map("gerado_em")
+  canceladoEm      DateTime?        @map("cancelado_em")
+  criadoEm         DateTime         @default(now()) @map("criado_em")
+  atualizadoEm     DateTime         @updatedAt @map("atualizado_em")
+
+  tenant         Tenant         @relation(fields: [tenantId], references: [id])
+  ordemServico   OrdemServico   @relation(fields: [ordemServicoId], references: [id])
+  contrato       Contrato?      @relation(fields: [contratoId], references: [id])
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+  criadoPor      Usuario        @relation("EntregavelCriador", fields: [criadoPorId], references: [id])
+  atualizadoPor  Usuario?       @relation("EntregavelAtualizador", fields: [atualizadoPorId], references: [id])
+
+  @@unique([tenantId, numero])
+  @@index([tenantId, status, criadoEm(sort: Desc)])
+  @@index([tenantId, ordemServicoId, status])
+  @@index([tenantId, contratoId, status])
+  @@index([tenantId, empreendimentoId, status])
+  @@map("entregaveis")
+}
+
+model ItemProposta {
+  id                    String                  @id @default(uuid())
+  tenantId              String                  @map("tenant_id")
+  propostaId            String                  @map("proposta_id")
+  servicoCatalogoId     String?                 @map("servico_catalogo_id")
+  ordem                 Int
+  origem                OrigemPropostaComercial @default(TRIAGEM_CNAE)
+  decisao               DecisaoItemProposta
+  codigoServico         String                  @map("codigo_servico")
+  nomeServico           String                  @map("nome_servico")
+  categoriaServico      String                  @map("categoria_servico")
+  justificativa         String?                 @db.Text
+  quantidade            Int                     @default(1)
+  precoMinimoUnitario   Decimal                 @map("preco_minimo_unitario") @db.Decimal(12, 2)
+  precoBaseUnitario     Decimal                 @map("preco_base_unitario") @db.Decimal(12, 2)
+  precoMaximoUnitario   Decimal                 @map("preco_maximo_unitario") @db.Decimal(12, 2)
+  precoAplicadoUnitario Decimal                 @map("preco_aplicado_unitario") @db.Decimal(12, 2)
+  valorMinimoLinha      Decimal                 @map("valor_minimo_linha") @db.Decimal(12, 2)
+  valorBaseLinha        Decimal                 @map("valor_base_linha") @db.Decimal(12, 2)
+  valorMaximoLinha      Decimal                 @map("valor_maximo_linha") @db.Decimal(12, 2)
+  valorAplicadoLinha    Decimal                 @map("valor_aplicado_linha") @db.Decimal(12, 2)
+  observacaoLinha       String?                 @map("observacao_linha") @db.Text
+  editavel              Boolean                 @default(true)
+  ativo                 Boolean                 @default(true)
+  snapshotCatalogo      Json?                   @map("snapshot_catalogo")
+  criadoEm              DateTime                @default(now()) @map("criado_em")
+  atualizadoEm          DateTime                @updatedAt @map("atualizado_em")
+
+  tenant          Tenant            @relation(fields: [tenantId], references: [id])
+  proposta        PropostaComercial @relation(fields: [propostaId], references: [id], onDelete: Cascade)
+  servicoCatalogo ServicoCatalogo?  @relation(fields: [servicoCatalogoId], references: [id])
+
+  @@unique([propostaId, ordem])
+  @@index([tenantId, propostaId, ordem])
+  @@index([tenantId, servicoCatalogoId])
+  @@index([tenantId, codigoServico])
+  @@map("itens_proposta")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RELATÓRIOS GERADOS
+// ─────────────────────────────────────────────────────────────────────────────
+
+model RelatorioGerado {
+  id            String          @id @default(uuid())
+  tenantId      String          @map("tenant_id")
+  tipo          TipoRelatorio
+  parametros    Json
+  status        StatusRelatorio @default(AGUARDANDO)
+  s3Key         String?         @map("s3_key")
+  erroMsg       String?         @map("erro_msg")
+  solicitadoPor String          @map("solicitado_por")
+  geradoEm      DateTime?       @map("gerado_em")
+  criadoEm      DateTime        @default(now()) @map("criado_em")
+
+  @@index([tenantId, status])
+  @@index([tenantId, criadoEm])
+  @@map("relatorios_gerados")
+}
+
+enum TipoRelatorio {
+  COMPLIANCE_GERAL
+  VENCIMENTOS
+  SST
+  MONITORAMENTO_AMBIENTAL
+  LOGISTICA_REVERSA
+  AUTOS_INFRACAO
+  AUDIT_LOG
+}
+
+enum StatusRelatorio {
+  AGUARDANDO
+  PROCESSANDO
+  CONCLUIDO
+  ERRO
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PORTAL — Mensagens entre representante e consultores
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum TipoAutorMsg {
+  SISTEMA
+  REPRESENTANTE
+  CONSULTOR
+}
+
+model MensagemPortal {
+  id               String       @id @default(uuid())
+  tenantId         String       @map("tenant_id")
+  empreendimentoId String       @map("empreendimento_id")
+  autorId          String?      @map("autor_id")
+  tipoAutor        TipoAutorMsg @map("tipo_autor")
+  texto            String
+  lida             Boolean      @default(false)
+  criadoEm         DateTime     @default(now()) @map("criado_em")
+
+  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
+
+  @@index([tenantId, empreendimentoId, criadoEm])
+  @@map("mensagens_portal")
+}

@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Auto Posto América · Apresentação ao Proprietário · Hábilis</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;width:100%;font-family:'DM Sans',system-ui,sans-serif;color:#1C1C1E;overflow:hidden;background:#FAFAFA}
+.deck{height:100vh;width:100vw;position:relative;overflow:hidden}
+
+/* Barra de progresso no topo */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#1B5E20,#2E7D32);transition:width .4s cubic-bezier(.65,0,.35,1);z-index:200;box-shadow:0 0 12px rgba(46,125,50,.6)}
+
+/* Slide base */
+.slide{position:absolute;inset:0;padding:60px 80px;display:flex;flex-direction:column;opacity:0;transform:translateX(40px);transition:opacity .5s cubic-bezier(.65,0,.35,1),transform .5s cubic-bezier(.65,0,.35,1);pointer-events:none;overflow:hidden}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto}
+.slide.prev{transform:translateX(-40px)}
+
+/* Header compartilhado */
+.slide-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,.08)}
+.slide-chapter{font-family:'DM Mono',monospace;font-size:11px;color:#1B5E20;letter-spacing:.25em;text-transform:uppercase;font-weight:700}
+.slide-counter{font-family:'DM Mono',monospace;font-size:11px;color:rgba(28,28,30,.55);letter-spacing:.15em;font-weight:600}
+.slide-footer{position:absolute;bottom:30px;left:80px;right:80px;display:flex;justify-content:space-between;align-items:center;font-family:'DM Mono',monospace;font-size:10px;color:rgba(28,28,30,.5);letter-spacing:.1em;text-transform:uppercase}
+
+/* Typography */
+h1{font-size:64px;font-weight:800;line-height:1.02;letter-spacing:-.035em;color:#fff}
+h2{font-size:44px;font-weight:800;letter-spacing:-.025em;line-height:1.1;color:#fff}
+h3{font-size:16px;font-weight:500;color:rgba(28,28,30,.72);line-height:1.5;max-width:900px}
+.accent{color:#1B5E20}
+.soft{color:rgba(28,28,30,.68)}
+.mono{font-family:'DM Mono',monospace}
+
+/* ═════ SLIDE 1 · CAPA ═════ */
+.cover{background:linear-gradient(180deg,#E8F5E9 0%,#F1F8F2 45%,#FAFAFA 100%);justify-content:center;align-items:flex-start;padding:0 100px;color:#1C1C1E}
+.cover-logo-row{position:absolute;top:60px;left:80px;display:flex;align-items:center;gap:14px}
+.cover-logo-mark{width:40px;height:40px;background:linear-gradient(135deg,#1B5E20,#2E7D32);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;letter-spacing:-.02em}
+.cover-logo-text{font-weight:700;font-size:16px;letter-spacing:.05em;color:#fff}
+.cover-logo-text small{display:block;font-size:10px;color:rgba(28,28,30,.65);letter-spacing:.15em;margin-top:2px;text-transform:uppercase;font-weight:500}
+.cover-eyebrow{font-family:'DM Mono',monospace;font-size:12px;color:#1B5E20;letter-spacing:.3em;text-transform:uppercase;font-weight:700;margin-bottom:24px}
+.cover-title{font-size:88px;font-weight:800;line-height:.95;letter-spacing:-.04em;color:#fff;max-width:1100px}
+.cover-title .split{display:block;color:rgba(28,28,30,.5)}
+.cover-subtitle{font-size:22px;color:rgba(28,28,30,.68);margin:32px 0 60px;max-width:700px;line-height:1.45;font-weight:400}
+.cover-strip{display:flex;gap:0;border-top:1px solid rgba(0,0,0,.12);padding-top:24px;margin-top:auto;margin-bottom:100px}
+.cover-strip-item{flex:1;padding-right:30px;border-right:1px solid rgba(0,0,0,.10)}
+.cover-strip-item:last-child{border-right:none}
+.cover-strip-lbl{font-size:10px;color:rgba(28,28,30,.6);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.cover-strip-val{font-size:22px;font-weight:700;color:#fff;font-family:'DM Mono',monospace}
+.cover-strip-val.accent{color:#1B5E20}
+
+/* ═════ SLIDE 2 · THE CLOCK ═════ */
+.clock-slide{justify-content:center;background:radial-gradient(ellipse at 50% 50%,#FFEBEE 0%,#FAFAFA 70%);color:#1C1C1E}
+.clock-wrap{display:grid;grid-template-columns:auto 1fr;gap:80px;align-items:center;padding:0 40px}
+.clock-num{font-size:280px;font-weight:900;line-height:.85;color:#B71C1C;font-family:'DM Mono',monospace;letter-spacing:-.08em;text-shadow:0 0 80px rgba(183,28,28,.3)}
+.clock-info .label{font-family:'DM Mono',monospace;font-size:13px;color:#1B5E20;letter-spacing:.25em;text-transform:uppercase;font-weight:700;margin-bottom:16px}
+.clock-info h2{font-size:56px;line-height:1.05;margin-bottom:28px}
+.clock-meta{display:flex;flex-direction:column;gap:12px;margin-top:40px}
+.clock-meta-row{display:flex;align-items:baseline;gap:14px;padding:14px 0;border-top:1px solid rgba(0,0,0,.10)}
+.clock-meta-dot{width:8px;height:8px;border-radius:50%;background:#B71C1C;flex-shrink:0}
+.clock-meta-row.warn .clock-meta-dot{background:#F57F17}
+.clock-meta-date{font-family:'DM Mono',monospace;font-size:14px;color:#fff;font-weight:700;min-width:120px}
+.clock-meta-text{font-size:15px;color:rgba(28,28,30,.78);line-height:1.5}
+.clock-meta-text b{color:#fff}
+
+/* ═════ SLIDE 3 · THE TOOL (dashboard embed) ═════ */
+.tool-slide{padding:60px 60px 40px}
+.tool-hero{display:grid;grid-template-columns:1fr 2fr;gap:44px;flex:1;align-items:center}
+.tool-pitch .eyebrow{font-family:'DM Mono',monospace;font-size:12px;color:#1B5E20;letter-spacing:.25em;text-transform:uppercase;font-weight:700;margin-bottom:20px}
+.tool-pitch h2{margin-bottom:24px;font-size:52px}
+.tool-pitch p{font-size:17px;color:rgba(28,28,30,.78);line-height:1.55;margin-bottom:30px;max-width:500px}
+.tool-features{display:grid;grid-template-columns:1fr;gap:14px;margin-top:30px}
+.tool-feature{display:flex;gap:14px;align-items:flex-start}
+.tool-feature-ic{width:32px;height:32px;border-radius:8px;background:rgba(27,94,32,.1);border:1px solid rgba(27,94,32,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.tool-feature-txt{font-size:14px;color:rgba(28,28,30,.78);line-height:1.5}
+.tool-feature-txt b{color:#fff}
+.tool-browser{background:#fff;border:1px solid rgba(0,0,0,.10);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.06);position:relative;aspect-ratio:16/10;max-height:560px}
+.tool-browser-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#F2F2F7;border-bottom:1px solid rgba(0,0,0,.08)}
+.tool-browser-dot{width:10px;height:10px;border-radius:50%}
+.tool-browser-dot.r{background:#ff5f56}.tool-browser-dot.y{background:#ffbd2e}.tool-browser-dot.g{background:#27c93f}
+.tool-browser-url{flex:1;background:rgba(0,0,0,.07);padding:4px 12px;border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;color:rgba(28,28,30,.65);margin-left:10px}
+.tool-iframe{width:100%;height:calc(100% - 36px);border:none;background:#fff;transform:scale(.5);transform-origin:top left;width:200%;height:calc(200% - 72px)}
+.tool-iframe-hint{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);padding:6px 12px;border-radius:6px;font-size:10px;color:rgba(28,28,30,.78);font-family:'DM Mono',monospace}
+
+/* ═════ SLIDE 4 · DIAGNÓSTICO (4 donuts) ═════ */
+.diag-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;flex:1;align-items:center}
+.diag-card{background:rgba(27,94,32,.04);border:1px solid rgba(0,0,0,.10);border-radius:16px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden;transition:transform .3s}
+.diag-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.diag-card.solo::before{background:linear-gradient(90deg,#42a5f5,#64B5F6)}
+.diag-card.lao::before{background:linear-gradient(90deg,#66bb6a,#9ccc65)}
+.diag-card.cond::before{background:linear-gradient(90deg,#ab47bc,#ce93d8)}
+.diag-card.cp::before{background:linear-gradient(90deg,#1B5E20,#2E7D32)}
+.diag-donut-wrap{position:relative;margin-bottom:20px}
+.diag-donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.diag-score{font-size:42px;font-weight:800;color:#fff;line-height:1;font-family:'DM Mono',monospace}
+.diag-score-sub{font-size:11px;color:rgba(28,28,30,.6);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-top:4px}
+.diag-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;text-align:center}
+.diag-sub{font-size:11px;color:rgba(28,28,30,.62);text-align:center;line-height:1.4;margin-bottom:14px}
+.diag-legend{display:flex;gap:10px;font-size:11px;font-family:'DM Mono',monospace;justify-content:center}
+.diag-legend-item{display:flex;align-items:center;gap:4px;color:rgba(28,28,30,.7)}
+.diag-legend-dot{width:8px;height:8px;border-radius:50%}
+
+/* ═════ SLIDE 5 · GAPS CRÍTICOS (matriz) ═════ */
+.gap-slide .slide-content{flex:1;display:grid;grid-template-columns:1fr;gap:20px;align-content:center}
+.gap-intro{font-size:15px;color:rgba(28,28,30,.7);max-width:900px;margin-bottom:24px}
+.gap-list{display:flex;flex-direction:column;gap:10px}
+.gap-row{display:grid;grid-template-columns:60px 1fr auto auto;gap:24px;align-items:center;padding:18px 24px;background:rgba(27,94,32,.04);border:1px solid rgba(0,0,0,.10);border-left:4px solid #B71C1C;border-radius:12px;transition:transform .2s}
+.gap-row:hover{transform:translateX(6px);background:rgba(0,0,0,.06)}
+.gap-row.prio-alta{border-left-color:#4CAF50}
+.gap-row.prio-media{border-left-color:#F57F17}
+.gap-n{font-family:'DM Mono',monospace;font-size:22px;font-weight:700;color:#1B5E20;letter-spacing:-.02em}
+.gap-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.25}
+.gap-desc{font-size:12px;color:rgba(28,28,30,.65);line-height:1.5}
+.gap-prio{font-size:10px;font-weight:700;padding:5px 12px;border-radius:14px;text-transform:uppercase;letter-spacing:.06em;font-family:'DM Mono',monospace}
+.gap-prio.critica{background:rgba(183,28,28,.15);color:#B71C1C;border:1px solid rgba(183,28,28,.3)}
+.gap-prio.alta{background:rgba(76,175,80,.15);color:#4CAF50;border:1px solid rgba(76,175,80,.3)}
+.gap-prio.media{background:rgba(245,127,23,.15);color:#F57F17;border:1px solid rgba(245,127,23,.3)}
+.gap-lead{font-family:'DM Mono',monospace;font-size:20px;color:#fff;font-weight:700;text-align:right}
+.gap-lead small{display:block;font-size:9px;color:rgba(28,28,30,.6);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+
+/* ═════ SLIDE 6 · LINHA DO TEMPO (Gantt) ═════ */
+.tl-slide{padding:60px 60px}
+.gantt{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;margin:30px 0}
+.gantt-header{display:grid;grid-template-columns:repeat(9,1fr);gap:0;margin-bottom:14px;font-family:'DM Mono',monospace;font-size:10px;color:rgba(28,28,30,.55);letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:0 8px;border-bottom:1px solid rgba(0,0,0,.07);padding-bottom:10px}
+.gantt-header div{text-align:center}
+.gantt-rows{display:flex;flex-direction:column;gap:10px}
+.gantt-row{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center}
+.gantt-row-lbl{font-size:12px;font-weight:600;color:rgba(28,28,30,.85);display:flex;align-items:center;gap:10px}
+.gantt-row-lbl-ico{font-size:18px}
+.gantt-track{position:relative;height:32px;background:rgba(27,94,32,.05);border-radius:6px;overflow:hidden}
+.gantt-bar{position:absolute;top:4px;bottom:4px;border-radius:4px;display:flex;align-items:center;padding:0 10px;font-size:10px;color:#fff;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:.05em;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.gantt-bar.solo{background:linear-gradient(90deg,#1565C0,#1976D2)}
+.gantt-bar.lao{background:linear-gradient(90deg,#2E7D32,#388E3C)}
+.gantt-bar.cond{background:linear-gradient(90deg,#6A1B9A,#7B1FA2)}
+.gantt-bar.cp{background:linear-gradient(90deg,#1B5E20,#2E7D32)}
+.gantt-bar.proto{background:linear-gradient(90deg,#d32f2f,#f44336);box-shadow:0 0 20px rgba(244,67,54,.4)}
+.gantt-zone-risk{position:absolute;top:0;bottom:0;background:rgba(183,28,28,.08);border-left:2px dashed rgba(183,28,28,.3);z-index:0}
+.gantt-zone-label{position:absolute;top:0;font-size:9px;color:rgba(183,28,28,.7);font-weight:700;padding:4px 8px;font-family:'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.gantt-milestone{position:absolute;top:0;bottom:0;width:2px;background:#1B5E20;z-index:2}
+.gantt-milestone::before{content:'';position:absolute;top:-4px;left:-4px;width:10px;height:10px;background:#1B5E20;border-radius:50%;border:2px solid #FAFAFA;box-shadow:0 0 0 1px rgba(27,94,32,.3)}
+.gantt-milestone-lbl{position:absolute;top:-22px;left:-60px;width:120px;text-align:center;font-size:9px;color:#1B5E20;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.gantt-legend{display:flex;gap:24px;margin-top:20px;font-size:11px;color:rgba(28,28,30,.65);font-family:'DM Mono',monospace}
+.gantt-legend-item{display:flex;align-items:center;gap:8px}
+.gantt-legend-sq{width:12px;height:12px;border-radius:3px}
+
+/* ═════ SLIDE 7 · PLANO 4 FASES ═════ */
+.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;flex:1;align-items:stretch;margin-top:20px}
+.plan-fase{background:rgba(27,94,32,.04);border:1px solid rgba(0,0,0,.10);border-top:3px solid #1B5E20;border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.plan-fase::before{content:attr(data-n);position:absolute;top:14px;right:18px;font-size:56px;font-weight:900;color:rgba(27,94,32,.07);line-height:1;font-family:'DM Mono',monospace}
+.plan-fase.f1{border-top-color:#B71C1C}
+.plan-fase.f2{border-top-color:#F57F17}
+.plan-fase.f3{border-top-color:#42a5f5}
+.plan-fase.f4{border-top-color:#66bb6a}
+.plan-fase-num{font-family:'DM Mono',monospace;font-size:11px;color:#1B5E20;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.plan-fase-data{font-family:'DM Mono',monospace;font-size:12px;color:rgba(28,28,30,.65);margin-bottom:14px}
+.plan-fase h4{font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;line-height:1.25}
+.plan-fase-ul{list-style:none;padding:0;margin-top:auto}
+.plan-fase-ul li{padding:8px 0;padding-left:18px;position:relative;font-size:12px;color:rgba(28,28,30,.78);line-height:1.45;border-top:1px solid rgba(0,0,0,.06)}
+.plan-fase-ul li:first-child{border-top:none}
+.plan-fase-ul li::before{content:'▸';position:absolute;left:0;color:#1B5E20;font-weight:700}
+
+/* ═════ SLIDE 8 · INVESTIMENTO ═════ */
+.invest-wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;flex:1;align-items:center}
+.invest-big{text-align:left}
+.invest-big-lbl{font-family:'DM Mono',monospace;font-size:12px;color:#1B5E20;letter-spacing:.25em;text-transform:uppercase;font-weight:700;margin-bottom:24px}
+.invest-big-num{font-size:128px;font-weight:900;line-height:.9;letter-spacing:-.045em;color:#fff;margin-bottom:6px;font-family:'DM Mono',monospace}
+.invest-big-num .accent{color:#1B5E20}
+.invest-big-range{font-family:'DM Mono',monospace;font-size:20px;color:rgba(28,28,30,.65);margin-top:10px}
+.invest-big-desc{font-size:15px;color:rgba(28,28,30,.78);line-height:1.55;margin-top:28px;max-width:500px}
+.invest-context{display:flex;flex-direction:column;gap:14px}
+.invest-ctx-card{background:rgba(27,94,32,.05);border:1px solid rgba(0,0,0,.10);border-left:4px solid #1B5E20;border-radius:10px;padding:18px 22px}
+.invest-ctx-lbl{font-family:'DM Mono',monospace;font-size:10px;color:#1B5E20;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.invest-ctx-val{font-size:22px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:6px}
+.invest-ctx-sub{font-size:12px;color:rgba(28,28,30,.68);line-height:1.4}
+.invest-ctx-sub b{color:#fff}
+
+/* ═════ SLIDE 9 · PARCERIA ═════ */
+.parc-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;flex:1;align-items:stretch}
+.parc-col{background:rgba(27,94,32,.04);border:1px solid rgba(0,0,0,.10);border-radius:16px;padding:36px 32px;position:relative}
+.parc-col.cli{border-top:3px solid #2E7D32}
+.parc-col.hab{border-top:3px solid #66bb6a}
+.parc-col-ico{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px}
+.parc-col.cli .parc-col-ico{background:rgba(46,125,50,.15);border:1px solid rgba(46,125,50,.3)}
+.parc-col.hab .parc-col-ico{background:rgba(102,187,106,.15);border:1px solid rgba(102,187,106,.3)}
+.parc-col h4{font-size:24px;font-weight:700;color:#fff;margin-bottom:6px}
+.parc-col-sub{font-size:13px;color:rgba(28,28,30,.65);margin-bottom:22px}
+.parc-list{list-style:none;padding:0}
+.parc-list li{padding:12px 0;padding-left:28px;position:relative;font-size:13px;color:rgba(28,28,30,.8);line-height:1.5;border-bottom:1px solid rgba(0,0,0,.07)}
+.parc-list li:last-child{border-bottom:none}
+.parc-col.cli .parc-list li::before{content:'⬡';position:absolute;left:4px;color:#2E7D32;top:12px;font-size:14px}
+.parc-col.hab .parc-list li::before{content:'✓';position:absolute;left:4px;color:#66bb6a;top:12px;font-weight:700}
+
+/* ═════ SLIDE 10 · POR QUE HÁBILIS ═════ */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;flex:1;align-items:stretch;margin-top:20px}
+.why-card{background:rgba(27,94,32,.04);border:1px solid rgba(0,0,0,.10);border-radius:14px;padding:32px 28px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.why-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1B5E20,#2E7D32)}
+.why-ic{font-size:38px;margin-bottom:20px}
+.why-card h4{font-size:20px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.25}
+.why-card p{font-size:13px;color:rgba(28,28,30,.72);line-height:1.55;margin-bottom:18px;flex:1}
+.why-stat{font-family:'DM Mono',monospace;font-size:34px;font-weight:800;color:#1B5E20;line-height:1;margin-bottom:4px}
+.why-stat-lbl{font-size:10px;color:rgba(28,28,30,.65);letter-spacing:.15em;text-transform:uppercase;font-weight:700}
+
+/* ═════ SLIDE 11 · PRÓXIMOS PASSOS ═════ */
+.steps-wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
+.steps-line{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;margin:30px 0}
+.steps-line::before{content:'';position:absolute;top:44px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,rgba(27,94,32,.1),#1B5E20,rgba(27,94,32,.1));z-index:0}
+.step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center}
+.step-dot{width:88px;height:88px;border-radius:50%;background:#fff;border:3px solid #1B5E20;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:900;color:#1B5E20;font-family:'DM Mono',monospace;margin-bottom:20px;box-shadow:0 0 0 6px rgba(27,94,32,.08),0 2px 6px rgba(0,0,0,.08)}
+.step-prazo{font-family:'DM Mono',monospace;font-size:11px;color:#1B5E20;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.step-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.3}
+.step-desc{font-size:13px;color:rgba(28,28,30,.7);line-height:1.5;max-width:260px}
+.steps-cta{margin-top:50px;padding:28px 40px;background:linear-gradient(135deg,rgba(27,94,32,.08),rgba(46,125,50,.04));border:1px solid rgba(27,94,32,.3);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.steps-cta-txt{font-size:16px;color:rgba(28,28,30,.85);line-height:1.5;max-width:600px}
+.steps-cta-txt b{color:#fff;font-weight:700}
+.steps-cta-btn{padding:16px 32px;background:linear-gradient(135deg,#1B5E20,#2E7D32);color:#fff;font-size:15px;font-weight:700;border-radius:10px;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 10px 30px rgba(27,94,32,.3);letter-spacing:.02em}
+
+/* ═════ SLIDE 12 · OBRIGADO ═════ */
+.thanks{background:linear-gradient(180deg,#C8E6C9 0%,#E8F5E9 50%,#FAFAFA 100%);justify-content:center;align-items:flex-start;padding:0 100px;color:#1C1C1E}
+.thanks-eyebrow{font-family:'DM Mono',monospace;font-size:12px;color:#1B5E20;letter-spacing:.3em;text-transform:uppercase;font-weight:700;margin-bottom:24px}
+.thanks-title{font-size:104px;font-weight:800;line-height:.95;letter-spacing:-.04em;color:#fff;margin-bottom:30px}
+.thanks-title .dim{color:rgba(28,28,30,.5)}
+.thanks-sub{font-size:22px;color:rgba(28,28,30,.72);max-width:700px;line-height:1.45;margin-bottom:60px}
+.thanks-contact{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;padding:30px 40px;background:rgba(27,94,32,.05);border:1px solid rgba(0,0,0,.10);border-radius:14px;max-width:700px}
+.thanks-contact-ico{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,#1B5E20,#2E7D32);display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;font-weight:900}
+.thanks-contact-info .name{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
+.thanks-contact-info .role{font-size:13px;color:rgba(28,28,30,.65);margin-bottom:10px}
+.thanks-contact-info .lines{display:flex;gap:24px;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:13px;color:rgba(28,28,30,.85)}
+.thanks-contact-info .lines span{display:flex;align-items:center;gap:6px}
+
+/* ═════ SLIDE 13 · APÊNDICE ═════ */
+.appendix-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;flex:1;align-items:stretch;margin-top:20px}
+.appendix-card{background:rgba(27,94,32,.04);border:1px solid rgba(0,0,0,.10);border-radius:14px;padding:28px 26px;display:flex;flex-direction:column;transition:all .2s;cursor:pointer;text-decoration:none;color:inherit}
+.appendix-card:hover{background:rgba(27,94,32,.04);border-color:rgba(27,94,32,.3);transform:translateY(-4px)}
+.appendix-ic{font-size:32px;margin-bottom:16px}
+.appendix-card h4{font-size:17px;font-weight:700;color:#fff;margin-bottom:8px}
+.appendix-card p{font-size:12px;color:rgba(28,28,30,.7);line-height:1.5;flex:1;margin-bottom:16px}
+.appendix-link{font-family:'DM Mono',monospace;font-size:11px;color:#1B5E20;font-weight:700;letter-spacing:.05em}
+
+/* ═════ NAV ═════ */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:100;background:rgba(20,20,28,.85);backdrop-filter:blur(14px);padding:8px 12px;border-radius:40px;border:1px solid rgba(0,0,0,.10)}
+.nav button{background:rgba(0,0,0,.08);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.nav button:hover{background:rgba(27,94,32,.3)}
+.nav-dots{display:flex;gap:3px;align-items:center;padding:0 12px}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.22);cursor:pointer;transition:all .2s}
+.nav-dot.active{background:#1B5E20;width:24px;border-radius:4px}
+.nav-fs{background:rgba(0,0,0,.08)!important}
+.nav-pdf{background:linear-gradient(135deg,#1B5E20,#2E7D32)!important;width:auto!important;padding:0 12px;border-radius:17px!important;font-size:11px!important;font-weight:700;letter-spacing:.05em}
+.hint{position:fixed;top:14px;right:24px;font-family:'DM Mono',monospace;font-size:10px;color:rgba(28,28,30,.6);letter-spacing:.08em;text-transform:uppercase;font-weight:600;z-index:100;display:flex;gap:12px;align-items:center}
+.hint kbd{background:rgba(0,0,0,.10);padding:2px 7px;border-radius:3px;color:#1B5E20;font-family:inherit}
+
+/* ═════ SLIDE 8 · CRONOGRAMA OPERACIONAL ═════ */
+.ops-slide{padding:40px 50px}
+.ops-intro{font-size:14px;color:rgba(28,28,30,.7);max-width:980px;margin:6px 0 16px}
+.ops-legend{display:flex;gap:18px;font-size:11px;color:rgba(28,28,30,.72);font-family:'DM Mono',monospace;margin-bottom:14px;align-items:center}
+.ops-legend-tag{display:flex;align-items:center;gap:8px}
+.ops-legend-ico{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.ops-legend-ico.cli{background:rgba(46,125,50,.15);border:1px solid rgba(46,125,50,.35);color:#2E7D32}
+.ops-legend-ico.hab{background:rgba(102,187,106,.15);border:1px solid rgba(102,187,106,.35);color:#66bb6a}
+.ops-legend-ico.both{background:rgba(66,165,245,.15);border:1px solid rgba(66,165,245,.35);color:#42a5f5}
+.ops-scroll{flex:1;overflow-y:auto;padding-right:8px}
+.ops-scroll::-webkit-scrollbar{width:6px}
+.ops-scroll::-webkit-scrollbar-thumb{background:rgba(27,94,32,.55);border-radius:3px}
+.ops-quinzenas{display:flex;flex-direction:column;gap:8px}
+.ops-q{background:rgba(27,94,32,.04);border:1px solid rgba(0,0,0,.10);border-radius:10px;padding:12px 16px;display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:flex-start;transition:all .2s}
+.ops-q:hover{background:rgba(27,94,32,.07);border-color:rgba(27,94,32,.2)}
+.ops-q.marco{border-left:4px solid #B71C1C;background:rgba(183,28,28,.04)}
+.ops-q-head{display:flex;flex-direction:column;gap:2px;border-right:1px solid rgba(0,0,0,.08);padding-right:14px}
+.ops-q-num{font-family:'DM Mono',monospace;font-size:10px;color:#1B5E20;letter-spacing:.15em;font-weight:700;text-transform:uppercase}
+.ops-q-date{font-family:'DM Mono',monospace;font-size:13px;color:#fff;font-weight:700;margin-top:2px}
+.ops-q-fase{font-size:9px;color:rgba(28,28,30,.62);letter-spacing:.12em;text-transform:uppercase;margin-top:4px;font-weight:700}
+.ops-q.marco .ops-q-fase{color:#B71C1C}
+.ops-q-body{display:flex;flex-direction:column;gap:5px}
+.ops-q-lane{display:flex;gap:10px;align-items:flex-start}
+.ops-q-lane-ico{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;font-weight:800}
+.ops-q-lane.cli .ops-q-lane-ico{background:rgba(46,125,50,.15);border:1px solid rgba(46,125,50,.35);color:#2E7D32}
+.ops-q-lane.hab .ops-q-lane-ico{background:rgba(102,187,106,.15);border:1px solid rgba(102,187,106,.35);color:#66bb6a}
+.ops-q-lane.both .ops-q-lane-ico{background:rgba(66,165,245,.15);border:1px solid rgba(66,165,245,.35);color:#42a5f5}
+.ops-q-lane-txt{font-size:12px;color:rgba(28,28,30,.82);line-height:1.5;padding-top:3px}
+.ops-q-lane-txt b{color:#fff;font-weight:700}
+
+/* ═════ SLIDE 9 · AGENDA DO PROPRIETÁRIO ═════ */
+.agenda-slide{padding:40px 50px}
+.agenda-intro{font-size:14px;color:rgba(28,28,30,.7);max-width:900px;margin:6px 0 18px}
+.agenda-scroll{flex:1;overflow-y:auto;padding-right:8px}
+.agenda-scroll::-webkit-scrollbar{width:6px}
+.agenda-scroll::-webkit-scrollbar-thumb{background:rgba(27,94,32,.55);border-radius:3px}
+.agenda-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start}
+.agenda-card{background:rgba(46,125,50,.04);border:1px solid rgba(46,125,50,.18);border-left:4px solid #2E7D32;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-height:140px}
+.agenda-card:hover{background:rgba(46,125,50,.07)}
+.agenda-card.urgent{border-left-color:#B71C1C;background:rgba(183,28,28,.05)}
+.agenda-card.urgent:hover{background:rgba(183,28,28,.08)}
+.agenda-card.marco{border-left-color:#1B5E20;background:rgba(27,94,32,.07);grid-column:span 3;min-height:auto}
+.agenda-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.agenda-card-date{font-family:'DM Mono',monospace;font-size:11px;color:#2E7D32;letter-spacing:.1em;font-weight:800;text-transform:uppercase}
+.agenda-card.urgent .agenda-card-date{color:#B71C1C}
+.agenda-card.marco .agenda-card-date{color:#1B5E20;font-size:12px}
+.agenda-card-tag{font-family:'DM Mono',monospace;font-size:9px;color:rgba(28,28,30,.58);letter-spacing:.1em;text-transform:uppercase;font-weight:700;background:rgba(0,0,0,.07);padding:3px 7px;border-radius:4px}
+.agenda-card-action{font-size:14px;font-weight:700;color:#fff;line-height:1.3;margin-top:2px}
+.agenda-card.marco .agenda-card-action{font-size:18px}
+.agenda-card-desc{font-size:11px;color:rgba(28,28,30,.7);line-height:1.5;margin-top:auto}
+.agenda-card-desc b{color:#fff}
+
+/* ═════ PRINT ═════ */
+@media print{
+  @page{size:A4 landscape;margin:0}
+  html,body{overflow:visible;height:auto;background:#fff}
+  .deck{height:auto}
+  .slide{position:relative;opacity:1!important;transform:none!important;page-break-after:always;min-height:190mm;height:auto;width:100%;padding:14mm 18mm;overflow:visible!important;display:flex;flex-direction:column}
+  .nav,.hint,.progress-bar{display:none!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .cover,.thanks,.clock-slide{background:linear-gradient(135deg,#E8F5E9,#FAFAFA)!important}
+  html,body{background:#FAFAFA!important}
+  /* Garante grid multi-coluna no print (A4 landscape ~1120px dispara o responsive) */
+  .diag-grid{grid-template-columns:repeat(4,1fr)!important}
+  .dg-momentos{grid-template-columns:repeat(4,1fr)!important}
+  .dg-tl-track{grid-template-columns:repeat(8,1fr)!important}
+  .cron-zz-grid{grid-template-columns:repeat(5,1fr)!important}
+  .cron-gantt-header,.cron-gantt-row{grid-template-columns:170px 1fr!important;gap:16px!important}
+  .fase-grid{grid-template-columns:repeat(4,1fr)!important;grid-template-rows:1fr 1fr!important}
+  .cmp-vs{grid-template-columns:1fr auto 1fr!important}
+  .cmpr-grid{grid-template-columns:repeat(3,1fr)!important}
+  .cmpd-cols{grid-template-columns:1fr 1fr!important}
+  .plan-grid{grid-template-columns:repeat(4,1fr)!important}
+  .why-grid{grid-template-columns:repeat(3,1fr)!important}
+  .parc-grid{grid-template-columns:1fr 1fr!important}
+  .steps-line{grid-template-columns:repeat(3,1fr)!important}
+  .invest-wrap{grid-template-columns:1.2fr 1fr!important}
+  .tool-hero{grid-template-columns:1fr 2fr!important}
+  .ops-scroll,.agenda-scroll{overflow:visible!important;max-height:none!important}
+}
+
+/* ═════ RESPONSIVO (apenas em tela) ═════ */
+@media screen and (max-width:1200px){
+  .slide{padding:40px 50px}
+  .cover-title{font-size:60px}
+  .thanks-title{font-size:70px}
+  .clock-num{font-size:180px}
+  .clock-wrap{grid-template-columns:1fr;gap:30px}
+  h1{font-size:44px}h2{font-size:32px}
+  .diag-grid{grid-template-columns:repeat(2,1fr)}
+  .tool-hero{grid-template-columns:1fr;gap:30px}
+  .invest-wrap{grid-template-columns:1fr}
+  .invest-big-num{font-size:80px}
+  .plan-grid{grid-template-columns:repeat(2,1fr)}
+  .parc-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .steps-line{grid-template-columns:1fr;gap:14px}
+  .steps-line::before{display:none}
+  .appendix-grid{grid-template-columns:1fr}
+}
+
+/* ═════ OVERRIDE TEMA LIGHT HÁBILIS ═════ */
+/* Textos principais que estavam #fff (fundo dark) precisam escurecer */
+h1,h2,h3,h4{color:#1C1C1E}
+.cover-title{color:#1C1C1E}
+.cover-title .split{color:#1B5E20;opacity:.65}
+.cover-subtitle{color:rgba(28,28,30,.7)}
+.cover-logo-text{color:#1C1C1E}
+.cover-logo-text small{color:rgba(28,28,30,.6)}
+/* Slide 5 · Atuação Z+Z por fase (F1-F7) · layout por níveis */
+.fase-slide{padding:26px 40px 22px}
+.fase-header-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px;gap:20px}
+.fase-legenda{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
+.fl-item{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;padding:4px 10px;border-radius:14px;letter-spacing:.03em;border:1px solid}
+.fl-zz{background:rgba(245,127,23,.15);color:#E65100;border-color:rgba(245,127,23,.35)}
+.fl-hab{background:rgba(27,94,32,.08);color:#1B5E20;border-color:rgba(27,94,32,.3)}
+.fl-terc{background:rgba(21,101,192,.08);color:#1565C0;border-color:rgba(21,101,192,.3)}
+.fl-orgao{background:rgba(106,27,154,.08);color:#6A1B9A;border-color:rgba(106,27,154,.3)}
+.fase-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:8px;min-height:0}
+.fase-card{background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,.08);padding:10px 12px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.05);border-top:4px solid var(--fase-cor,#1B5E20)}
+.fase-card.f1{--fase-cor:#E53935}
+.fase-card.f2{--fase-cor:#1976D2}
+.fase-card.f3{--fase-cor:#00838F}
+.fase-card.f4{--fase-cor:#7B1FA2}
+.fase-card.f5{--fase-cor:#F57F17}
+.fase-card.f6{--fase-cor:#2E7D32;box-shadow:0 0 0 2px rgba(46,125,50,.25),0 4px 12px rgba(46,125,50,.15)}
+.fase-card.f7{--fase-cor:#558B2F}
+
+/* Nível 1 · Header */
+.fase-head{display:flex;align-items:center;gap:8px;padding-bottom:4px;border-bottom:1px solid rgba(0,0,0,.05)}
+.fase-n{font-family:'DM Mono',monospace;font-size:26px;font-weight:900;color:var(--fase-cor);line-height:.9;letter-spacing:-.04em;min-width:40px}
+.fase-info{flex:1;min-width:0}
+.fase-nome{font-size:12.5px;font-weight:700;color:#1C1C1E;line-height:1.15}
+.fase-periodo{font-family:'DM Mono',monospace;font-size:10px;color:rgba(28,28,30,.55);margin-top:1px;letter-spacing:.02em}
+
+/* Nível 2 · Objetivo da fase */
+.fase-objetivo{font-size:10px;color:rgba(28,28,30,.75);line-height:1.35;padding:4px 0}
+.fo-lbl{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:800;color:var(--fase-cor);letter-spacing:.15em;margin-right:6px}
+
+/* Nível 3 · Cenário de execução · 4 atores (Z+Z âmbar destacado + Hábilis · Terceiro · Órgão) */
+.fase-exec{flex:1;display:flex;flex-direction:column;min-height:0}
+.fe-head{font-family:'DM Mono',monospace;font-size:9px;font-weight:800;color:rgba(28,28,30,.6);letter-spacing:.1em;text-transform:uppercase;padding:4px 0 5px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed rgba(0,0,0,.08);margin-bottom:4px}
+.fe-count{font-family:'DM Mono',monospace;font-size:8px;color:rgba(28,28,30,.55);text-transform:none;letter-spacing:.02em}
+.fe-count b{color:#1C1C1E}
+.fe-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;flex:1}
+.fe-list li{font-size:9.5px;line-height:1.35;padding:3px 7px 3px 22px;border-radius:4px;position:relative}
+.fe-list li::before{position:absolute;left:5px;top:2.5px;font-size:10px;font-weight:800;line-height:1}
+/* 🏢 Z+Z — âmbar DESTACADO (foco principal) */
+.fe-list li.fe-zz{background:linear-gradient(90deg,rgba(245,127,23,.15),rgba(245,127,23,.05));border-left:3px solid #F57F17;color:#1C1C1E;font-weight:500}
+.fe-list li.fe-zz::before{content:'🏢'}
+.fe-list li.fe-zz b{color:#E65100;font-weight:700}
+/* 🧑‍💼 Hábilis — verde discreto */
+.fe-list li.fe-hab{color:rgba(28,28,30,.7);border-left:2px solid rgba(27,94,32,.4);padding-left:20px}
+.fe-list li.fe-hab::before{content:'🧑‍💼';left:4px}
+.fe-list li.fe-hab b{color:#1B5E20;font-weight:700}
+/* 🔬 Terceiro — azul */
+.fe-list li.fe-terc{color:rgba(28,28,30,.7);border-left:2px solid rgba(21,101,192,.4);padding-left:20px}
+.fe-list li.fe-terc::before{content:'🔬';left:4px}
+.fe-list li.fe-terc b{color:#1565C0;font-weight:700}
+/* 🏛 Órgão — roxo */
+.fe-list li.fe-orgao{color:rgba(28,28,30,.7);border-left:2px solid rgba(106,27,154,.4);padding-left:20px}
+.fe-list li.fe-orgao::before{content:'🏛';left:4px}
+.fe-list li.fe-orgao b{color:#6A1B9A;font-weight:700}
+
+@media screen and (max-width:1200px){
+  .fase-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:auto}
+}
+
+/* Slide 7 · Compliance Paralelo · narrativa Antes/Depois + Riscos + Proposta */
+.comp-slide{padding:26px 40px 22px}
+
+/* ATO 1 · Comparativo HOJE × FORA */
+.cmp-vs{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:14px}
+.cmp-side{padding:14px 22px;display:flex;flex-direction:column;gap:8px}
+.cmp-side.cmp-in{background:linear-gradient(135deg,#E8F5E9 0%,#fff 70%);border-left:5px solid #1B5E20}
+.cmp-side.cmp-out{background:linear-gradient(135deg,#FFF3E0 0%,#fff 70%);border-right:5px solid #F57F17;border-left:1px dashed rgba(245,127,23,.3)}
+.cmps-tag{font-family:'DM Mono',monospace;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.cmp-in .cmps-tag{color:#1B5E20}
+.cmp-out .cmps-tag{color:#E65100}
+.cmps-num{font-family:'DM Mono',monospace;font-size:54px;font-weight:900;line-height:.9;letter-spacing:-.04em;display:flex;align-items:baseline;gap:10px}
+.cmp-in .cmps-num{color:#1B5E20}
+.cmp-out .cmps-num{color:#E65100}
+.cmps-num-of{font-size:13px;font-weight:600;color:rgba(28,28,30,.55);letter-spacing:0;font-family:'DM Sans',sans-serif}
+.cmps-bar{height:8px;background:rgba(0,0,0,.06);border-radius:4px;overflow:hidden}
+.cmps-bar-fill{height:100%;border-radius:4px}
+.cmps-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.cmps-item{font-size:11px;font-weight:700;color:#1B5E20;background:rgba(27,94,32,.1);padding:4px 10px;border-radius:14px;border:1px solid rgba(27,94,32,.2)}
+.cmps-item.out{color:#E65100;background:rgba(245,127,23,.1);border-color:rgba(245,127,23,.3)}
+.cmp-divider{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 4px;background:#fff}
+.cmp-divider-line{width:1px;flex:1;background:rgba(0,0,0,.1)}
+.cmp-divider-icon{font-family:'DM Mono',monospace;font-size:28px;font-weight:900;color:#E65100;background:#fff;padding:8px 4px;line-height:1}
+
+/* ATO 2 · 3 riscos concretos */
+.cmp-risks{background:#fff;border:1px solid rgba(183,28,28,.2);border-radius:12px;padding:12px 16px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.cmpr-head{font-size:13px;font-weight:600;color:rgba(28,28,30,.75);margin-bottom:10px;line-height:1.35}
+.cmpr-head b{color:#B71C1C;font-weight:800}
+.cmpr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cmpr-card{display:flex;gap:10px;align-items:center;padding:10px 12px;background:rgba(183,28,28,.04);border-left:3px solid #B71C1C;border-radius:0 8px 8px 0}
+.cmpr-ic{font-size:24px;line-height:1;flex-shrink:0}
+.cmpr-body{flex:1;min-width:0}
+.cmpr-title{font-size:12px;font-weight:700;color:#1C1C1E;line-height:1.25;margin-bottom:2px}
+.cmpr-source{font-family:'DM Mono',monospace;font-size:9px;color:rgba(28,28,30,.55);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.cmpr-value{font-family:'DM Mono',monospace;font-size:14px;font-weight:800;color:#B71C1C;line-height:1.1}
+.cmpr-unit{font-size:9px;font-weight:600;color:rgba(28,28,30,.6);text-transform:uppercase;letter-spacing:.05em;display:block;margin-top:1px;font-family:'DM Sans',sans-serif}
+
+/* ATO 3 · A proposta */
+.cmp-deal{flex:1;background:#fff;border:1px solid rgba(27,94,32,.2);border-radius:12px;padding:14px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.cmpd-head{display:flex;align-items:center;justify-content:space-between}
+.cmpd-tag{font-family:'DM Mono',monospace;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#1B5E20}
+.cmpd-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1}
+.cmpd-col{padding:10px 14px;border-radius:10px;display:flex;flex-direction:column;gap:6px}
+.cmpd-col.cmpd-hab{background:rgba(27,94,32,.05);border-left:4px solid #1B5E20}
+.cmpd-col.cmpd-zz{background:rgba(245,127,23,.06);border-left:4px solid #F57F17}
+.cmpdc-head{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#1C1C1E}
+.cmpdc-head b{color:inherit}
+.cmpd-hab .cmpdc-head b{color:#1B5E20}
+.cmpd-zz .cmpdc-head b{color:#E65100}
+.cmpdc-ic{font-size:18px;line-height:1}
+.cmpdc-body{font-size:11px;color:rgba(28,28,30,.78);line-height:1.5}
+.cmpdc-list{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-direction:column;gap:5px;flex:1}
+.cmpdc-list li{font-size:11px;color:rgba(28,28,30,.82);line-height:1.4;padding:5px 10px;border-radius:6px;background:rgba(255,255,255,.7)}
+.cmpdc-list li b{color:#1C1C1E;font-weight:700}
+.cmpd-hab .cmpdc-list li{border-left:2px solid rgba(27,94,32,.4)}
+.cmpd-hab .cmpdc-list li b{color:#1B5E20}
+.cmpd-zz .cmpdc-list li{border-left:2px solid rgba(245,127,23,.5)}
+.cmpd-zz .cmpdc-list li b{color:#E65100}
+
+/* Lista das 23 obrigações em chips agrupados por domínio */
+.cmpd-23{flex:1;display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.cmpd-dom{padding:5px 0}
+.cmpdom-lbl{font-family:'DM Mono',monospace;font-size:10.5px;font-weight:700;color:rgba(28,28,30,.7);letter-spacing:.04em;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.cmpdom-lbl span{font-size:14px}
+.cmpdom-lbl b{color:#1B5E20;font-family:'DM Mono',monospace;font-weight:800}
+.cmpdom-chips{display:flex;flex-wrap:wrap;gap:3px}
+.cp-chip{font-size:9.5px;font-weight:600;color:#1C1C1E;background:#fff;border:1px solid rgba(27,94,32,.25);padding:2px 7px;border-radius:10px;line-height:1.4;white-space:nowrap}
+.cmpd-23-foot{font-size:10px;color:rgba(28,28,30,.6);line-height:1.4;font-style:italic;padding-top:6px;border-top:1px dashed rgba(0,0,0,.08);margin-top:4px}
+.cmpd-cta{display:flex;align-items:center;gap:10px;padding:10px 16px;background:linear-gradient(90deg,#1B5E20,#2E7D32);color:#fff;border-radius:10px;font-size:13px;line-height:1.35;box-shadow:0 3px 10px rgba(27,94,32,.25)}
+.cmpdc-cta-ic{font-size:20px;line-height:1;flex-shrink:0}
+.cmpdc-cta-txt{font-weight:500}
+.cmpdc-cta-txt b{font-weight:800;color:#fff}
+
+@media screen and (max-width:1200px){
+  .cmp-vs{grid-template-columns:1fr}
+  .cmp-divider{flex-direction:row;padding:6px 0}
+  .cmp-divider-line{width:auto;height:1px;flex:1}
+  .cmpr-grid,.cmpd-cols{grid-template-columns:1fr}
+}
+
+/* Cronograma iframe (slide 6) · reutiliza .dg-embed-wrap */
+.cronograma-slide{padding:24px 36px}
+.cronograma-slide h2{font-size:28px!important;margin-bottom:3px!important}
+.cronograma-slide h3{font-size:13px!important;margin-bottom:10px!important}
+.cronograma-slide .dg-embed-wrap{min-height:760px;flex:1}
+
+/* Slide 5 (legacy) · Cronograma — Gantt compacto + 5 cartões Z+Z · mantido como CSS residual */
+.cron-slide{padding:40px 48px}
+.cron-gantt{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:14px 20px 12px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.cron-gantt-header{display:grid;grid-template-columns:170px 1fr;gap:16px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(0,0,0,.06)}
+.cron-gantt-months{display:grid;grid-template-columns:repeat(5,1fr);font-family:'DM Mono',monospace;font-size:11px;color:rgba(28,28,30,.55);letter-spacing:.12em;text-transform:uppercase;font-weight:700;text-align:center}
+.cron-gantt-rows{display:flex;flex-direction:column;gap:9px}
+.cron-gantt-row{display:grid;grid-template-columns:170px 1fr;gap:16px;align-items:center}
+.cron-gantt-lane-lbl{font-size:13px;font-weight:700;color:#1C1C1E;display:flex;align-items:center;gap:8px}
+.cron-gantt-lane-lbl .lane-ico{font-size:16px}
+.cron-gantt-track{position:relative;height:32px;background:rgba(0,0,0,.04);border-radius:6px;overflow:visible}
+.cron-bar{position:absolute;top:3px;bottom:3px;border-radius:4px;display:flex;align-items:center;padding:0 10px;font-size:10.5px;color:#fff;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:.02em;box-shadow:0 1px 3px rgba(0,0,0,.15);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cron-bar.solo{background:linear-gradient(90deg,#1565C0,#1976D2)}
+.cron-bar.lao{background:linear-gradient(90deg,#1B5E20,#2E7D32)}
+.cron-bar.cond{background:linear-gradient(90deg,#6A1B9A,#7B1FA2)}
+.cron-bar.comp{background:linear-gradient(90deg,#E65100,#EF6C00)}
+.cron-pin{position:absolute;top:50%;width:24px;height:24px;border-radius:50%;background:#F57F17;color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(245,127,23,.5),0 0 0 2px #fff;z-index:3;transform:translate(-50%,-50%);font-family:'DM Mono',monospace;cursor:help}
+.cron-milestone{position:absolute;top:-6px;font-size:20px;line-height:1;z-index:4;transform:translateX(-50%)}
+.cron-milestone .milestone-lbl{position:absolute;top:28px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:'DM Mono',monospace;font-size:10px;font-weight:800;color:#1B5E20;background:#E8F5E9;padding:3px 10px;border-radius:12px;border:1px solid rgba(27,94,32,.35);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.cron-gantt-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:8px;border-top:1px dashed rgba(0,0,0,.08);font-size:10.5px;color:rgba(28,28,30,.7);font-family:'DM Mono',monospace}
+.cron-gantt-legend > span{display:flex;align-items:center;gap:6px}
+.leg-sq{display:inline-block;width:12px;height:12px;border-radius:3px}
+.leg-sq.solo{background:#1565C0}
+.leg-sq.lao{background:#1B5E20}
+.leg-sq.cond{background:#6A1B9A}
+.leg-sq.comp{background:#E65100}
+.leg-pin{color:#F57F17;font-weight:800;font-size:13px}
+
+/* Bloco 2 · 5 cartões Z+Z */
+.cron-zz-section{flex:1;display:flex;flex-direction:column;min-height:0}
+.cron-zz-title{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.cron-zz-warn{font-size:28px;color:#F57F17;line-height:1;flex-shrink:0}
+.cron-zz-head{font-size:16px;font-weight:700;color:#1C1C1E;line-height:1.2}
+.cron-zz-head b{color:#E65100}
+.cron-zz-sub{font-size:12px;color:rgba(28,28,30,.65);margin-top:3px}
+.cron-zz-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;flex:1}
+.cron-zz-card{background:#fff;border:1px solid rgba(245,127,23,.35);border-left:4px solid #F57F17;border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;position:relative;box-shadow:0 2px 6px rgba(0,0,0,.06);overflow:hidden}
+.cron-zz-n{position:absolute;top:4px;right:10px;font-family:'DM Mono',monospace;font-size:36px;font-weight:800;color:rgba(245,127,23,.14);line-height:1}
+.cron-zz-date{font-family:'DM Mono',monospace;font-size:12px;font-weight:800;color:#E65100;letter-spacing:.02em;z-index:1}
+.cron-zz-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;z-index:1}
+.zz-tag{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:10px;white-space:nowrap}
+.zz-tag.sign{background:rgba(27,94,32,.1);color:#1B5E20}
+.zz-tag.pay{background:rgba(183,28,28,.1);color:#B71C1C}
+.zz-tag.access{background:rgba(21,101,192,.1);color:#1565C0}
+.zz-tag.approve{background:rgba(123,31,162,.1);color:#7B1FA2}
+.cron-zz-action{font-size:13.5px;font-weight:700;color:#1C1C1E;line-height:1.2;margin-top:6px;z-index:1}
+.cron-zz-why{font-size:10.5px;color:rgba(28,28,30,.7);line-height:1.45;margin-top:4px;z-index:1}
+.cron-zz-why b{color:#1C1C1E;font-weight:700}
+
+@media screen and (max-width:1200px){
+  .cron-zz-grid{grid-template-columns:repeat(3,1fr)}
+  .cron-gantt-header,.cron-gantt-row{grid-template-columns:130px 1fr;gap:10px}
+}
+
+/* Slide 4 · Diagnóstico — iframe direto da Visão Geral do Dashboard v5 */
+.dg-embed-wrap{flex:1;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 20px rgba(0,0,0,.08);background:#FAFAFA;position:relative;min-height:720px}
+.dg-embed-frame{width:100%;height:100%;border:none;display:block}
+
+/* Slide 4 (legacy) · Diagnóstico — 2 blocos estáticos · mantido como fallback */
+.dg-timeline{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:18px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.dg-tl-head{display:flex;gap:22px;align-items:center;margin-bottom:14px}
+.dg-tl-kpi{flex:0 0 auto;text-align:center;padding:8px 18px;background:linear-gradient(135deg,#E8F5E9,#F1F8F2);border-radius:12px;border:1px solid rgba(27,94,32,.2)}
+.dg-tl-kpi-val{font-family:'DM Mono',monospace;font-size:38px;font-weight:900;color:#1B5E20;line-height:1}
+.dg-tl-kpi-lbl{font-size:9.5px;font-weight:700;color:rgba(28,28,30,.6);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;line-height:1.3}
+.dg-tl-info{flex:1}
+.dg-tl-title{font-size:16px;font-weight:700;color:#1C1C1E;margin-bottom:4px}
+.dg-tl-sub{font-size:12px;color:rgba(28,28,30,.7);line-height:1.5}
+.dg-tl-sub b{color:#1C1C1E;font-weight:700}
+.dg-tl-track{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;align-items:end;padding-top:8px;border-top:1px dashed rgba(0,0,0,.08);min-height:90px}
+.dg-tl-year{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;position:relative;padding-top:20px}
+.dg-tl-yr{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:rgba(28,28,30,.55);letter-spacing:.05em;margin-bottom:2px}
+.dg-tl-bar{width:34px;background:linear-gradient(180deg,#66BB6A,#2E7D32);border-radius:4px 4px 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:3px;color:#fff;font-size:9.5px;font-weight:800;font-family:'DM Mono',monospace;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.dg-tl-bar.new{background:linear-gradient(180deg,#7B1FA2,#4A148C);box-shadow:0 2px 6px rgba(123,31,162,.3)}
+.dg-tl-mark{font-size:8.5px;color:rgba(28,28,30,.6);font-weight:600;margin-top:3px;text-align:center;line-height:1.2;min-height:20px;max-width:90px}
+.dg-tl-mark.strong{color:#7B1FA2;font-weight:800}
+.dg-tl-year.highlight .dg-tl-yr{color:#7B1FA2;font-weight:800}
+
+.dg-momentos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:1;align-items:stretch}
+.dg-mom{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;flex-direction:column}
+.dg-mom::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.dg-mom.m-solo::before{background:linear-gradient(90deg,#1565C0,#42A5F5)}
+.dg-mom.m-lao::before{background:linear-gradient(90deg,#1B5E20,#4CAF50)}
+.dg-mom.m-cond::before{background:linear-gradient(90deg,#6A1B9A,#BA68C8)}
+.dg-mom.m-cp::before{background:linear-gradient(90deg,#E65100,#FFB74D)}
+.dg-mom-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.dg-mom-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.m-solo .dg-mom-icon{background:#E3F2FD}
+.m-lao .dg-mom-icon{background:#E8F5E9}
+.m-cond .dg-mom-icon{background:#F3E5F5}
+.m-cp .dg-mom-icon{background:#FFF3E0}
+.dg-mom-title{font-size:13px;font-weight:700;color:#1C1C1E;line-height:1.2}
+.dg-mom-sub{font-size:10px;color:rgba(28,28,30,.55);margin-top:2px}
+.dg-mom-kpis{display:flex;gap:6px;margin:10px 0 8px}
+.dg-mk{flex:1;background:#FAFAFA;border-radius:8px;padding:8px 6px;text-align:center}
+.dg-mk-v{font-family:'DM Mono',monospace;font-size:20px;font-weight:800;line-height:1}
+.dg-mk-l{font-size:8.5px;color:rgba(28,28,30,.55);margin-top:4px;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+.dg-mom-bar{height:5px;background:rgba(0,0,0,.06);border-radius:3px;overflow:hidden;margin-top:4px;margin-bottom:10px}
+.dg-mom-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+.dg-mom ul{margin:0;padding-left:14px;display:grid;gap:3px;list-style-type:disc;list-style-position:outside}
+.dg-mom li{font-size:10px;color:rgba(28,28,30,.72);line-height:1.4}
+.dg-mom li b{color:#1C1C1E;font-weight:700}
+
+@media screen and (max-width:1200px){
+  .dg-momentos{grid-template-columns:repeat(2,1fr)}
+  .dg-tl-track{grid-template-columns:repeat(4,1fr)}
+}
+
+/* Cover journey — timeline Hábilis ↔ Z+Z limpa */
+.cover-journey{margin:24px 0 20px;max-width:1320px}
+.cover-journey-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.cj-title{font-family:'DM Mono',monospace;font-size:11px;color:rgba(28,28,30,.55);letter-spacing:.22em;text-transform:uppercase;font-weight:700}
+.cj-legend{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(28,28,30,.6);font-family:'DM Mono',monospace;font-weight:600}
+.cj-leg-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin:0 3px 0 8px}
+.cj-leg-dot.hab{background:#1B5E20}
+.cj-leg-dot.zz{background:#F57F17}
+
+.cover-journey-track{display:flex;align-items:flex-start;gap:0;position:relative;padding:0 6px}
+/* Linha conectora contínua de fundo */
+.cover-journey-track::before{content:'';position:absolute;top:29px;left:80px;right:80px;height:2px;background:linear-gradient(90deg,rgba(27,94,32,.3) 0%,rgba(27,94,32,.3) 34%,#B71C1C 38%,#B71C1C 48%,rgba(27,94,32,.3) 52%,rgba(27,94,32,.3) 68%,rgba(245,127,23,.5) 78%,rgba(245,127,23,.3) 100%);z-index:0;border-radius:2px}
+
+.cj-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;position:relative;z-index:2;padding:0 8px}
+.cj-dot{width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #1B5E20;box-shadow:0 0 0 4px #FAFAFA,0 2px 4px rgba(0,0,0,.06);margin-top:22px;margin-bottom:10px}
+.cj-item.zz .cj-dot{border-color:#F57F17}
+.cj-item.current .cj-dot{width:24px;height:24px;background:#1B5E20;border-color:#1B5E20;box-shadow:0 0 0 5px rgba(27,94,32,.18),0 0 0 9px #FAFAFA,0 4px 10px rgba(27,94,32,.3);margin-top:18px}
+.cj-item.next .cj-dot{background:#fff;border:2.5px dashed #F57F17;box-shadow:0 0 0 4px #FAFAFA}
+.cj-date{font-family:'DM Mono',monospace;font-size:12px;font-weight:800;color:#1B5E20;letter-spacing:.04em}
+.cj-item.zz .cj-date{color:#E65100}
+.cj-item.current .cj-date{font-size:13px;color:#fff;background:#1B5E20;padding:4px 12px;border-radius:20px;font-weight:800;box-shadow:0 2px 8px rgba(27,94,32,.25)}
+.cj-item.next .cj-date{color:rgba(230,81,0,.85);font-style:italic}
+.cj-actor{font-family:'DM Mono',monospace;font-size:9px;font-weight:700;color:rgba(28,28,30,.5);letter-spacing:.15em;text-transform:uppercase;margin-top:4px}
+.cj-desc{font-size:11px;color:rgba(28,28,30,.72);line-height:1.45;max-width:150px;margin:6px auto 0}
+.cj-item.current .cj-desc{color:#1C1C1E;font-weight:600}
+.cj-item.next .cj-desc{color:rgba(28,28,30,.6);font-style:italic}
+.cj-badge{margin-top:8px;font-size:9px;font-family:'DM Mono',monospace;font-weight:700;color:#B71C1C;background:rgba(183,28,28,.1);padding:3px 10px;border-radius:10px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;border:1px solid rgba(183,28,28,.2)}
+
+/* Gap connectors — apenas pílula de duração centrada */
+.cj-gap{flex:0 0 auto;display:flex;align-items:flex-start;justify-content:center;position:relative;z-index:3;padding-top:20px;min-width:60px}
+.cj-gap-dur{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:#1B5E20;background:#E8F5E9;padding:3px 10px;border-radius:20px;white-space:nowrap;border:1px solid rgba(27,94,32,.2);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.cj-gap.slow{min-width:140px}
+.cj-gap.slow .cj-gap-dur{color:#fff;background:#B71C1C;font-size:13px;font-weight:800;padding:5px 16px;border-radius:20px;border:none;box-shadow:0 3px 10px rgba(183,28,28,.35);letter-spacing:.02em}
+.cj-gap.slow .cj-gap-dur::before{content:'⏱ ';font-size:11px}
+.cj-gap.pending{min-width:60px}
+.cj-gap.pending .cj-gap-dur{color:#E65100;background:#FFF3E0;border:1.5px dashed rgba(245,127,23,.5);font-size:14px;font-weight:800;padding:2px 14px}
+
+@media screen and (max-width:1200px){
+  .cover-journey-track{flex-wrap:wrap;gap:16px}
+  .cj-item{flex:0 0 calc(50% - 8px)}
+  .cj-gap{display:none}
+  .cover-journey-track::before{display:none}
+}
+
+/* Cover strip redesenhado — 3 cards de destaque */
+.cover-strip{display:grid;grid-template-columns:1.15fr 1.15fr 1fr;gap:14px;margin-top:auto;margin-bottom:50px;padding-top:0;border-top:none!important}
+.cover-strip-card{display:flex;align-items:flex-start;gap:16px;padding:20px 22px;background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 8px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
+.cover-strip-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.cover-strip-card.main{border-left:5px solid #1B5E20;background:linear-gradient(135deg,#E8F5E9 0%,#fff 60%)}
+.cover-strip-card.warn{border-left:5px solid #B71C1C;background:linear-gradient(135deg,#FFEBEE 0%,#fff 60%)}
+.cover-strip-card.minor{border-left:5px solid rgba(28,28,30,.22)}
+.cover-strip-ic{font-size:26px;line-height:1;margin-top:2px;flex-shrink:0}
+.cover-strip-txt{flex:1;min-width:0}
+.cover-strip .cover-strip-lbl{font-size:10px;color:rgba(28,28,30,.55);letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:6px;font-family:'DM Mono',monospace}
+.cover-strip .cover-strip-val{font-size:26px;font-weight:800;color:#1C1C1E;font-family:'DM Mono',monospace;line-height:1.05;letter-spacing:-.02em;margin-bottom:8px;border-right:none;padding:0}
+.cover-strip .cover-strip-val.accent{color:#1B5E20}
+.cover-strip .cover-strip-val.urgent{color:#B71C1C}
+.cover-strip-sub{font-size:11.5px;color:rgba(28,28,30,.65);line-height:1.45}
+.cover-strip-sub b{color:#1C1C1E;font-weight:700}
+.cover-eyebrow{color:#1B5E20}
+
+/* Clock slide - dois blocos de contagem regressiva */
+.clock-dual{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1320px;margin:0 auto;flex:1;align-content:center}
+.clock-num-block{display:flex;flex-direction:column;align-items:flex-start;padding:38px 42px;border-radius:18px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.06);position:relative;overflow:hidden}
+.clock-num-block.our{border-left:6px solid #F57F17;background:linear-gradient(135deg,#FFF3E0 0%,#fff 60%)}
+.clock-num-block.lao{border-left:6px solid #B71C1C;background:linear-gradient(135deg,#FFEBEE 0%,#fff 60%)}
+.clock-num-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;margin-bottom:18px}
+.clock-num-block.our .clock-num-tag{color:#E65100}
+.clock-num-block.lao .clock-num-tag{color:#B71C1C}
+.clock-num-val{font-family:'DM Mono',monospace;font-size:200px;font-weight:900;line-height:.85;letter-spacing:-.05em;margin-bottom:8px}
+.clock-num-block.our .clock-num-val{color:#F57F17;text-shadow:0 0 60px rgba(245,127,23,.2)}
+.clock-num-block.lao .clock-num-val{color:#B71C1C;text-shadow:0 0 60px rgba(183,28,28,.15)}
+.clock-num-unit{font-size:19px;font-weight:500;color:rgba(28,28,30,.82);line-height:1.3;margin-bottom:18px;margin-top:8px}
+.clock-num-unit b{font-family:'DM Mono',monospace;font-weight:800;color:#1C1C1E;letter-spacing:.02em}
+.clock-num-sub{font-size:13.5px;color:rgba(28,28,30,.7);line-height:1.55;padding-top:16px;border-top:1px solid rgba(0,0,0,.08)}
+@media screen and (max-width:1200px){.clock-dual{grid-template-columns:1fr;gap:16px}.clock-num-val{font-size:130px}}
+
+/* Tool slide - browser mock em light */
+.tool-pitch h2{color:#1C1C1E;font-size:46px;margin-bottom:20px}
+.tool-pitch .eyebrow{color:#1B5E20}
+.tool-lede{font-size:17px;color:#1C1C1E;line-height:1.55;margin-bottom:16px}
+.tool-lede b{color:#1B5E20;font-weight:700}
+.tool-sub{font-size:13px;color:rgba(28,28,30,.65);line-height:1.55;padding-top:14px;border-top:1px solid rgba(0,0,0,.08);max-width:460px}
+.tool-iframe-hint{background:#B71C1C;color:#fff;font-weight:700;font-size:11px;padding:5px 12px;letter-spacing:.08em;text-transform:uppercase}
+.tool-iframe-hint::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;margin-right:6px;vertical-align:middle;animation:pulse-live 1.5s ease-in-out infinite}
+@keyframes pulse-live{0%,100%{opacity:1}50%{opacity:.3}}
+.tool-browser{background:#fff;border-color:rgba(0,0,0,.1);box-shadow:0 20px 60px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.06)}
+.tool-browser-bar{background:#F2F2F7;border-bottom-color:rgba(0,0,0,.08)}
+.tool-browser-url{background:rgba(0,0,0,.05);color:rgba(28,28,30,.6)}
+.tool-iframe-hint{background:rgba(28,28,30,.9);color:#fff}
+
+/* Diagnóstico - donuts em light */
+.diag-card{background:#fff;border-color:rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04)}
+.diag-score{color:#1C1C1E}
+.diag-score small{color:rgba(28,28,30,.5)}
+.diag-score-sub{color:rgba(28,28,30,.55)}
+.diag-title{color:#1C1C1E}
+.diag-sub{color:rgba(28,28,30,.6)}
+.diag-legend-item{color:rgba(28,28,30,.72)}
+
+/* Gap rows */
+.gap-row{background:#fff;border-color:rgba(0,0,0,.08);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.gap-row:hover{background:rgba(27,94,32,.04)}
+.gap-title{color:#1C1C1E}
+.gap-desc{color:rgba(28,28,30,.65)}
+.gap-lead{color:#1C1C1E}
+.gap-lead small{color:rgba(28,28,30,.55)}
+.gap-intro{color:rgba(28,28,30,.7)}
+
+/* Gantt */
+.gantt-header{border-bottom-color:rgba(0,0,0,.08);color:rgba(28,28,30,.5)}
+.gantt-track{background:rgba(0,0,0,.05)}
+.gantt-row-lbl{color:rgba(28,28,30,.85)}
+.gantt-legend{color:rgba(28,28,30,.65)}
+.gantt-bar{color:#fff} /* mantém texto branco nas barras coloridas */
+.gantt-zone-risk{background:rgba(183,28,28,.08);border-left-color:rgba(183,28,28,.35)}
+
+/* Plano 4 fases */
+.plan-fase{background:#fff;border-color:rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.plan-fase::before{color:rgba(27,94,32,.08)}
+.plan-fase h4{color:#1C1C1E}
+.plan-fase-num{color:#1B5E20}
+.plan-fase-data{color:rgba(28,28,30,.6)}
+.plan-fase-ul li{color:rgba(28,28,30,.75);border-top-color:rgba(0,0,0,.05)}
+
+/* Ops slide */
+.ops-intro{color:rgba(28,28,30,.7)}
+.ops-legend{color:rgba(28,28,30,.75)}
+.ops-q{background:#fff;border-color:rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.ops-q:hover{background:#F8FBF8;border-color:rgba(27,94,32,.25)}
+.ops-q.marco{background:rgba(183,28,28,.04);border-left-color:#B71C1C}
+.ops-q-head{border-right-color:rgba(0,0,0,.08)}
+.ops-q-date{color:#1C1C1E}
+.ops-q-fase{color:rgba(28,28,30,.55)}
+.ops-q-lane-txt{color:rgba(28,28,30,.78)}
+.ops-q-lane-txt b{color:#1C1C1E}
+
+/* Agenda slide - cards destacados */
+.agenda-intro{color:rgba(28,28,30,.7)}
+.agenda-card{background:#fff;border-color:rgba(245,127,23,.35);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.agenda-card:hover{background:#FFFBF0;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.agenda-card.urgent{background:#fff;border-color:rgba(183,28,28,.35)}
+.agenda-card.urgent:hover{background:#FFF5F5}
+.agenda-card.marco{background:rgba(27,94,32,.04);border-color:rgba(27,94,32,.35)}
+.agenda-card-action{color:#1C1C1E}
+.agenda-card-desc{color:rgba(28,28,30,.68)}
+.agenda-card-desc b{color:#1C1C1E}
+.agenda-card-tag{background:rgba(0,0,0,.05);color:rgba(28,28,30,.55)}
+
+/* Investimento */
+.invest-big-num{color:#1C1C1E}
+.invest-big-range{color:rgba(28,28,30,.55)}
+.invest-big-desc{color:rgba(28,28,30,.75)}
+.invest-ctx-card{background:#fff;border-color:rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.invest-ctx-val{color:#1C1C1E}
+.invest-ctx-sub{color:rgba(28,28,30,.68)}
+.invest-ctx-sub b{color:#1C1C1E}
+
+/* Parceria */
+.parc-col{background:#fff;border-color:rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.parc-col h4{color:#1C1C1E}
+.parc-col-sub{color:rgba(28,28,30,.6)}
+.parc-list li{color:rgba(28,28,30,.8);border-bottom-color:rgba(0,0,0,.05)}
+
+/* Por que Hábilis */
+.why-card{background:#fff;border-color:rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.why-card h4{color:#1C1C1E}
+.why-card p{color:rgba(28,28,30,.7)}
+.why-stat-lbl{color:rgba(28,28,30,.6)}
+
+/* Steps/Próximos passos */
+.steps-line::before{background:linear-gradient(90deg,rgba(27,94,32,.1),#1B5E20,rgba(27,94,32,.1))}
+.step-dot{background:#fff;box-shadow:0 0 0 6px rgba(27,94,32,.08)}
+.step-title{color:#1C1C1E}
+.step-desc{color:rgba(28,28,30,.7)}
+.step-prazo{color:#1B5E20}
+.steps-cta{background:linear-gradient(135deg,rgba(27,94,32,.05),rgba(46,125,50,.03));border-color:rgba(27,94,32,.3)}
+.steps-cta-txt{color:rgba(28,28,30,.82)}
+.steps-cta-txt b{color:#1C1C1E}
+
+/* Thanks */
+.thanks-title{color:#1C1C1E}
+.thanks-title .dim{color:rgba(28,28,30,.35)}
+.thanks-eyebrow{color:#1B5E20}
+.thanks-sub{color:rgba(28,28,30,.72)}
+.thanks-sub b{color:#1C1C1E}
+.thanks-contact{background:#fff;border-color:rgba(0,0,0,.08);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.thanks-contact-info .name{color:#1C1C1E}
+.thanks-contact-info .role{color:rgba(28,28,30,.6)}
+.thanks-contact-info .lines{color:rgba(28,28,30,.82)}
+
+/* Nav */
+.nav{background:rgba(255,255,255,.95);border-color:rgba(0,0,0,.08);box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.nav button{background:rgba(0,0,0,.06);color:#1C1C1E}
+.nav button:hover{background:rgba(27,94,32,.15)}
+.nav-dot{background:rgba(0,0,0,.15)}
+.nav-dot.active{background:#1B5E20}
+.hint{color:rgba(28,28,30,.5)}
+.hint kbd{background:rgba(0,0,0,.06);color:#1B5E20}
+
+/* Slide header/footer */
+.slide-header{border-bottom-color:rgba(0,0,0,.08)}
+.slide-chapter{color:#1B5E20}
+.slide-counter{color:rgba(28,28,30,.45)}
+.slide-footer{color:rgba(28,28,30,.45)}
+
+/* Bolds inline que vinham com color:#fff (legado dark) */
+b[style*="color:#fff"]{color:#1C1C1E!important}
+b[style*='color:#fff']{color:#1C1C1E!important}
+
+/* Ajuste de print para light theme */
+@media print{
+  .cover{background:linear-gradient(180deg,#E8F5E9,#FAFAFA)!important}
+  .thanks{background:linear-gradient(180deg,#C8E6C9,#FAFAFA)!important}
+  .clock-slide{background:#FAFAFA!important}
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar" style="width:0%"></div>
+<div class="hint">
+  <kbd>←</kbd><kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>P</kbd> imprimir
+</div>
+<div class="deck">
+
+<section class="slide cover active" data-slide="1" data-dark>
+  <div class="cover-logo-row">
+    <div class="cover-logo-mark">H</div>
+    <div class="cover-logo-text">HÁBILIS<small>Regularização Ambiental</small></div>
+  </div>
+  <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding-top:80px">
+    <div class="cover-eyebrow">Sistema Operacional de Regularização Ambiental · Abril 2026</div>
+    <h1 class="cover-title"><span class="split">Auto Posto</span>América</h1>
+    <div class="cover-journey">
+      <div class="cover-journey-head">
+        <span class="cj-title">Nossa jornada até aqui</span>
+        <span class="cj-legend"><span class="cj-leg-dot hab"></span>Hábilis <span class="cj-leg-dot zz"></span>Grupo Z+Z</span>
+      </div>
+      <div class="cover-journey-track">
+        <div class="cj-item hab">
+          <div class="cj-dot"></div>
+          <div class="cj-date">26·03</div>
+          <div class="cj-actor">Hábilis</div>
+          <div class="cj-desc">Primeiro contato · Z+Z repassa a LAO 033/2020</div>
+        </div>
+        <div class="cj-gap fast"><span class="cj-gap-dur">2 dias úteis</span></div>
+        <div class="cj-item hab">
+          <div class="cj-dot"></div>
+          <div class="cj-date">30·03</div>
+          <div class="cj-actor">Hábilis</div>
+          <div class="cj-desc">Coleta do histórico processual na SEMMA Guapó</div>
+        </div>
+        <div class="cj-gap fast"><span class="cj-gap-dur">2 dias úteis</span></div>
+        <div class="cj-item hab">
+          <div class="cj-dot"></div>
+          <div class="cj-date">01·04</div>
+          <div class="cj-actor">Hábilis</div>
+          <div class="cj-desc">Solicitação formal de documentos ao Grupo Z+Z</div>
+        </div>
+        <div class="cj-gap slow"><span class="cj-gap-dur">8 dias úteis de espera</span></div>
+        <div class="cj-item zz">
+          <div class="cj-dot"></div>
+          <div class="cj-date">13·04</div>
+          <div class="cj-actor">Z+Z</div>
+          <div class="cj-desc">Envio da documentação</div>
+          <div class="cj-badge">envio parcial</div>
+        </div>
+        <div class="cj-gap fast"><span class="cj-gap-dur">48h úteis</span></div>
+        <div class="cj-item hab current">
+          <div class="cj-dot"></div>
+          <div class="cj-date">HOJE · 15·04</div>
+          <div class="cj-actor">Hábilis</div>
+          <div class="cj-desc">Organização finalizada · análise precisa entregue</div>
+        </div>
+        <div class="cj-gap pending"><span class="cj-gap-dur">?</span></div>
+        <div class="cj-item zz next">
+          <div class="cj-dot"></div>
+          <div class="cj-date">Próxima</div>
+          <div class="cj-actor">Z+Z</div>
+          <div class="cj-desc">Decisões do proprietário para iniciar a Fase 01</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide clock-slide" data-slide="2">
+  <div class="slide-header">
+    <div class="slide-chapter">01 · Dois prazos</div>
+    <div class="slide-counter">02 / 8</div>
+  </div>
+  <h2 style="text-align:center;margin-bottom:10px">Há <span class="accent">dois</span> prazos. O que importa é o <span style="color:#F57F17">primeiro</span>.</h2>
+  <h3 style="text-align:center;margin:0 auto 36px;max-width:980px">Nosso deadline de trabalho é <b style="color:#1C1C1E">24/08/2026</b> — não 23/12. Chegar em agosto significa protocolar com margem e preservar a vigência da LAO durante a análise da SEMMA.</h3>
+
+  <div class="clock-dual">
+    <div class="clock-num-block our">
+      <div class="clock-num-tag">🎯 Nosso prazo · trabalho</div>
+      <div class="clock-num-val" id="clock-days-ours">131</div>
+      <div class="clock-num-unit">dias até <b>24 · 08 · 2026</b></div>
+      <div class="clock-num-sub">Janela ideal de protocolo. 120 dias antes do vencimento da LAO, preserva vigência automática durante a análise da SEMMA Guapó.</div>
+    </div>
+    <div class="clock-num-block lao">
+      <div class="clock-num-tag">⚠ Vencimento final · limite</div>
+      <div class="clock-num-val" id="clock-days">252</div>
+      <div class="clock-num-unit">dias até <b>23 · 12 · 2026</b></div>
+      <div class="clock-num-sub">LAO 033/2020 expira. Sem protocolo aceito, a operação é irregular — embargo + multa R$ 500 a R$ 10 milhões + responsabilização criminal (Lei 9.605/98).</div>
+    </div>
+  </div>
+
+  <div class="slide-footer"><span class="mono">01 · URGÊNCIA</span><span class="mono">02 / 8</span></div>
+</section>
+
+<section class="slide tool-slide" data-slide="3">
+  <div class="slide-header">
+    <div class="slide-chapter">02 · Dashboard v5</div>
+    <div class="slide-counter">03 / 8</div>
+  </div>
+  <div class="tool-hero">
+    <div class="tool-pitch">
+      <div class="eyebrow">O que estamos gerindo</div>
+      <h2>Uma <span class="accent">ferramenta viva</span>, não só papéis.</h2>
+      <p>A gestão do posto hoje passa por um dashboard que acompanha em tempo real o status de cada obrigação ambiental · operacional · trabalhista.</p>
+    </div>
+    <div class="tool-browser">
+      <div class="tool-browser-bar">
+        <div class="tool-browser-dot r"></div><div class="tool-browser-dot y"></div><div class="tool-browser-dot g"></div>
+        <div class="tool-browser-url">🔒 habilis.app/posto-america/dashboard-v5</div>
+      </div>
+      <iframe class="tool-iframe" src="Dashboard_LAO_Auto_Posto_America_v5.html" title="Dashboard live"></iframe>
+      <div class="tool-iframe-hint">● ao vivo</div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">02 · O PRODUTO</span><span class="mono">03 / 8</span></div>
+</section>
+
+<section class="slide" data-slide="4">
+  <div class="slide-header">
+    <div class="slide-chapter">03 · Diagnóstico</div>
+    <div class="slide-counter">04 / 8</div>
+  </div>
+  <h2 style="margin-bottom:6px">Onde o posto está <span class="accent">hoje</span></h2>
+  <h3 style="margin-bottom:14px">Visão Geral espelhada diretamente do Dashboard v5 · consolidado em 15/04/2026</h3>
+
+  <div class="dg-embed-wrap">
+    <iframe class="dg-embed-frame" src="Dashboard_VisaoGeral_Embed.html" title="Dashboard — Visão Geral (Timeline + 4 Momentos)"></iframe>
+  </div>
+  <div class="slide-footer"><span class="mono">03 · DIAGNÓSTICO</span><span class="mono">04 / 8</span></div>
+</section>
+
+<section class="slide fase-slide" data-slide="5">
+  <div class="slide-header">
+    <div class="slide-chapter">04 · Atuação por fase</div>
+    <div class="slide-counter">05 / 8</div>
+  </div>
+  <div class="fase-header-row">
+    <div>
+      <h2 style="margin-bottom:2px">Atuação <span class="accent">por fase</span> do cronograma</h2>
+      <h3 style="margin:0">Cenário completo de execução em cada fase · sua atuação <b style="color:#E65100">Grupo Z+Z</b> destacada em âmbar.</h3>
+    </div>
+    <div class="fase-legenda">
+      <span class="fl-item fl-zz">🏢 Z+Z</span>
+      <span class="fl-item fl-hab">🧑‍💼 Hábilis</span>
+      <span class="fl-item fl-terc">🔬 Terceiros</span>
+      <span class="fl-item fl-orgao">🏛 Órgãos</span>
+    </div>
+  </div>
+
+  <div class="fase-grid">
+
+    <div class="fase-card f1">
+      <div class="fase-head">
+        <div class="fase-n">F1</div>
+        <div class="fase-info">
+          <div class="fase-nome">Desbloqueio crítico</div>
+          <div class="fase-periodo">14/04 → 30/04 · 17 dias</div>
+        </div>
+      </div>
+      <div class="fase-objetivo"><span class="fo-lbl">OBJETIVO</span>Destravar requisitos básicos e abrir frentes nos órgãos.</div>
+      <div class="fase-exec">
+        <div class="fe-head">Cenário de execução <span class="fe-count">4 atores · <b style="color:#E65100">Z+Z em destaque</b></span></div>
+        <ul class="fe-list">
+          <li class="fe-zz">Assinar procuração + contrato Hábilis</li>
+          <li class="fe-zz">Enviar RG/CPF do representante + comprovante de endereço</li>
+          <li class="fe-zz">Aprovar cotação da empresa de passivo ambiental</li>
+          <li class="fe-hab">Auditar R-08 a R-12 · estruturar Fase 2</li>
+          <li class="fe-terc">Consultoria hídrica revisa Dispensa de Outorga 2023</li>
+          <li class="fe-orgao">SEMMA + SEMAD recebem abertura de processos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fase-card f2">
+      <div class="fase-head">
+        <div class="fase-n">F2</div>
+        <div class="fase-info">
+          <div class="fase-nome">Protocolo Uso do Solo</div>
+          <div class="fase-periodo">20/04 → 15/05 · 🏁 protocolo</div>
+        </div>
+      </div>
+      <div class="fase-objetivo"><span class="fo-lbl">OBJETIVO</span>Emitir Certidão de Uso do Solo — pré-requisito da LAO.</div>
+      <div class="fase-exec">
+        <div class="fe-head">Cenário de execução <span class="fe-count">4 atores · <b style="color:#E65100">Z+Z em destaque</b></span></div>
+        <ul class="fe-list">
+          <li class="fe-zz">Confirmar Inscrição Estadual vigente (SEFAZ-GO)</li>
+          <li class="fe-zz">Monitorar janela 90d da matrícula R-01</li>
+          <li class="fe-zz">Emitir CND Municipal (Prefeitura de Guapó)</li>
+          <li class="fe-hab">Espelho CNPJ + CAR + croquis SIRGAS 2000</li>
+          <li class="fe-terc">Cartório reemite matrícula se expirar</li>
+          <li class="fe-orgao">Prefeitura Guapó emite CND · SEFAZ confirma IE</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fase-card f3">
+      <div class="fase-head">
+        <div class="fase-n">F3</div>
+        <div class="fase-info">
+          <div class="fase-nome">Consolidação técnica</div>
+          <div class="fase-periodo">15/05 → 05/06 · 21 dias</div>
+        </div>
+      </div>
+      <div class="fase-objetivo"><span class="fo-lbl">OBJETIVO</span>Consolidar todos os documentos técnicos no dossiê da LAO.</div>
+      <div class="fase-exec">
+        <div class="fe-head">Cenário de execução <span class="fe-count">4 atores · <b style="color:#E65100">Z+Z em destaque</b></span></div>
+        <ul class="fe-list">
+          <li class="fe-zz">Pagar DUAM · TCFA · aprovar 3 contratações técnicas</li>
+          <li class="fe-zz">Solicitar pacote INMETRO ao executor do R-03</li>
+          <li class="fe-hab">Consolidar MCE · RCA · ART · PGR · PCMSO</li>
+          <li class="fe-terc">Médico trabalho · eng. segurança · eletricista SPDA contratados</li>
+          <li class="fe-terc">Executor R-03 entrega credenciamento + calibração</li>
+          <li class="fe-orgao">SEFAZ-GO (DUAM) · IBAMA (TCFA) · INMETRO (credenciamento)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fase-card f4">
+      <div class="fase-head">
+        <div class="fase-n">F4</div>
+        <div class="fase-info">
+          <div class="fase-nome">Visita técnica</div>
+          <div class="fase-periodo">01/06 → 15/07 · 6 semanas</div>
+        </div>
+      </div>
+      <div class="fase-objetivo"><span class="fo-lbl">OBJETIVO</span>Validar em campo as 34 verificações técnicas (VC-01 a VC-34).</div>
+      <div class="fase-exec">
+        <div class="fe-head">Cenário de execução <span class="fe-count">3 atores · <b style="color:#E65100">Z+Z em destaque</b></span></div>
+        <ul class="fe-list">
+          <li class="fe-zz">Agendar visita conjunta · 14d de antecedência</li>
+          <li class="fe-zz">Liberar acesso total (tanques · bombas · SASC · mecânico)</li>
+          <li class="fe-zz">Presença do responsável do posto no dia</li>
+          <li class="fe-hab">Executa 34 VCs em campo · consolida laudos · fotos</li>
+          <li class="fe-hab">Preenche dossiê técnico pós-visita</li>
+          <li class="fe-terc">RT (responsável técnico) do posto acompanha a vistoria</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fase-card f5">
+      <div class="fase-head">
+        <div class="fase-n">F5</div>
+        <div class="fase-info">
+          <div class="fase-nome">Execuções técnicas</div>
+          <div class="fase-periodo">01/07 → 07/08 · 5 semanas</div>
+        </div>
+      </div>
+      <div class="fase-objetivo"><span class="fo-lbl">OBJETIVO</span>Executar laudos, rotinas e treinamentos obrigatórios.</div>
+      <div class="fase-exec">
+        <div class="fe-head">Cenário de execução <span class="fe-count">4 atores · <b style="color:#E65100">Z+Z em destaque</b></span></div>
+        <ul class="fe-list">
+          <li class="fe-zz">Contratar Laudo Estanqueidade (NBR 16795) + ART</li>
+          <li class="fe-zz">Rotina SAO/STEO · dossiê OLUC · brigada + NR-20</li>
+          <li class="fe-hab">Coordena PAE · PGRS · FISPQ · SPDA · CIPA</li>
+          <li class="fe-terc">Empresa Estanq. · limpeza SAO/STEO · coleta OLUC · brigada</li>
+          <li class="fe-orgao">ANP valida OLUC · INMETRO calibração · CBM treinamento</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fase-card f6">
+      <div class="fase-head">
+        <div class="fase-n">F6</div>
+        <div class="fase-info">
+          <div class="fase-nome">Protocolo LAO 🎯</div>
+          <div class="fase-periodo">10/08 → 24/08 · marco crítico</div>
+        </div>
+      </div>
+      <div class="fase-objetivo"><span class="fo-lbl">OBJETIVO</span>Protocolar formalmente a renovação da LAO 033/2020 na SEMMA.</div>
+      <div class="fase-exec">
+        <div class="fe-head">Cenário de execução <span class="fe-count">3 atores · <b style="color:#E65100">Z+Z em destaque</b></span></div>
+        <ul class="fe-list">
+          <li class="fe-zz">Validar dossiê final (go/no-go conjunto)</li>
+          <li class="fe-zz">Assinar ART de execução + quitar taxas de protocolo</li>
+          <li class="fe-zz">Emitir nova CND Municipal na semana do protocolo</li>
+          <li class="fe-hab">Revisão jurídica final + ensaio (dry-run)</li>
+          <li class="fe-hab">Protocolar formalmente na SEMMA em <b>24/08 🏁</b></li>
+          <li class="fe-orgao">SEMMA recebe dossiê · Prefeitura emite CND</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fase-card f7">
+      <div class="fase-head">
+        <div class="fase-n">F7</div>
+        <div class="fase-info">
+          <div class="fase-nome">Acompanhamento pós-protocolo</div>
+          <div class="fase-periodo">25/08 → 23/12 · 4 meses</div>
+        </div>
+      </div>
+      <div class="fase-objetivo"><span class="fo-lbl">OBJETIVO</span>Responder diligências SEMMA e renovar vistorias até a LAO nova.</div>
+      <div class="fase-exec">
+        <div class="fe-head">Cenário de execução <span class="fe-count">4 atores · <b style="color:#E65100">Z+Z em destaque</b></span></div>
+        <ul class="fe-list">
+          <li class="fe-zz">Nova vistoria CBM (Cercon) até 20/10</li>
+          <li class="fe-zz">Novo ensaio Estanqueidade até 07/10</li>
+          <li class="fe-zz">Responder diligências SEMMA (SLA 30d cada)</li>
+          <li class="fe-hab">Elabora respostas técnicas + renova vínculos documentais</li>
+          <li class="fe-terc">Cercon (CBM) + empresa ensaio Estanqueidade contratadas</li>
+          <li class="fe-orgao">CBM-GO vistoria · SEMMA emite LAO nova ao fim</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="slide-footer"><span class="mono">04 · ATUAÇÃO POR FASE</span><span class="mono">05 / 8</span></div>
+</section>
+
+<section class="slide cronograma-slide" data-slide="6">
+  <div class="slide-header">
+    <div class="slide-chapter">05 · Cronograma</div>
+    <div class="slide-counter">06 / 8</div>
+  </div>
+  <h2 style="margin-bottom:6px">Cronograma mestre · <span class="accent">ao vivo</span></h2>
+  <h3 style="margin-bottom:14px">Espelho direto da aba Cronograma do Dashboard v5 · filtros por fase · 37 ações · 6 marcos</h3>
+
+  <div class="dg-embed-wrap">
+    <iframe class="dg-embed-frame" src="Dashboard_Cronograma_Embed.html" title="Cronograma Mestre ao vivo"></iframe>
+  </div>
+
+  <div class="slide-footer"><span class="mono">05 · CRONOGRAMA</span><span class="mono">06 / 8</span></div>
+</section>
+
+<section class="slide comp-slide" data-slide="7">
+  <div class="slide-header">
+    <div class="slide-chapter">06 · Compliance Paralelo</div>
+    <div class="slide-counter">07 / 8</div>
+  </div>
+
+  <h2 style="margin-bottom:2px">Hoje cuidamos de <span class="accent">parte</span>. Faltam <span style="color:#E65100">23 itens</span> fora do escopo.</h2>
+  <h3 style="margin-bottom:18px">Durante o mapeamento da LAO, identificamos um conjunto de obrigações <b style="color:#1C1C1E">paralelas</b> que não estavam no escopo contratado — mas geram autuação igual.</h3>
+
+  <!-- ATO 1 · COMPARATIVO VISUAL "ANTES vs DEPOIS" -->
+  <div class="cmp-vs">
+    <div class="cmp-side cmp-in">
+      <div class="cmps-tag">SOB GESTÃO HÁBILIS · HOJE</div>
+      <div class="cmps-num">47<span class="cmps-num-of">/ 70 itens</span></div>
+      <div class="cmps-bar"><div class="cmps-bar-fill" style="width:67%;background:linear-gradient(90deg,#1B5E20,#2E7D32)"></div></div>
+      <div class="cmps-list">
+        <span class="cmps-item">📋 Uso do Solo (11)</span>
+        <span class="cmps-item">🌿 Renovação LAO (26)</span>
+        <span class="cmps-item">📌 Condicionantes (10)</span>
+      </div>
+    </div>
+    <div class="cmp-divider">
+      <div class="cmp-divider-line"></div>
+      <div class="cmp-divider-icon">≠</div>
+      <div class="cmp-divider-line"></div>
+    </div>
+    <div class="cmp-side cmp-out">
+      <div class="cmps-tag">FORA DO ESCOPO · DESCOBERTO</div>
+      <div class="cmps-num">23<span class="cmps-num-of">obrigações paralelas</span></div>
+      <div class="cmps-bar"><div class="cmps-bar-fill" style="width:33%;background:repeating-linear-gradient(45deg,#F57F17,#F57F17 6px,#FFB300 6px,#FFB300 12px)"></div></div>
+      <div class="cmps-list">
+        <span class="cmps-item out">👷 Trabalho (8)</span>
+        <span class="cmps-item out">⛽ Operação (9)</span>
+        <span class="cmps-item out">♻ Resíduos (6)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATO 2 · 3 EXEMPLOS DE RISCO CONCRETO -->
+  <div class="cmp-risks">
+    <div class="cmpr-head">⚠ <b>3 riscos reais</b> que esses 23 itens evitam · LAO vigente <b>não cobre</b> nenhum deles</div>
+    <div class="cmpr-grid">
+      <div class="cmpr-card">
+        <div class="cmpr-ic">👷</div>
+        <div class="cmpr-body">
+          <div class="cmpr-title">Multa por empregado sem ASO</div>
+          <div class="cmpr-source">MTE · NR-7 · NR-1</div>
+          <div class="cmpr-value">R$ 2.000 a 6.000<span class="cmpr-unit">/empregado</span></div>
+        </div>
+      </div>
+      <div class="cmpr-card">
+        <div class="cmpr-ic">⛽</div>
+        <div class="cmpr-body">
+          <div class="cmpr-title">Autuação ANP por SIMP/SINIR irregular</div>
+          <div class="cmpr-source">ANP · Lei 9.847/99</div>
+          <div class="cmpr-value">R$ 5k a 5M<span class="cmpr-unit">por evento</span></div>
+        </div>
+      </div>
+      <div class="cmpr-card">
+        <div class="cmpr-ic">🛒</div>
+        <div class="cmpr-body">
+          <div class="cmpr-title">Embargo sanitário se loja sem alvará</div>
+          <div class="cmpr-source">Vigilância Municipal</div>
+          <div class="cmpr-value">Interdição<span class="cmpr-unit">imediata</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATO 3 · A PROPOSTA · 2 colunas + CTA -->
+  <div class="cmp-deal">
+    <div class="cmpd-head">
+      <div class="cmpd-tag">A proposta · se quiserem expandir o escopo</div>
+    </div>
+    <div class="cmpd-cols">
+      <div class="cmpd-col cmpd-hab">
+        <div class="cmpdc-head"><span class="cmpdc-ic">🧑‍💼</span><b>Hábilis assume · as 23 obrigações</b></div>
+        <div class="cmpd-23">
+          <div class="cmpd-dom">
+            <div class="cmpdom-lbl"><span>👷</span> Trabalho · <b>8</b></div>
+            <div class="cmpdom-chips">
+              <span class="cp-chip">🩺 ASO</span>
+              <span class="cp-chip">🏥 PCMSO</span>
+              <span class="cp-chip">⚠ PGR Trab.</span>
+              <span class="cp-chip">🎓 NR-20</span>
+              <span class="cp-chip">👥 CIPA</span>
+              <span class="cp-chip">🚒 Brigada</span>
+              <span class="cp-chip">💻 eSocial SST</span>
+              <span class="cp-chip">📄 LTCAT+PPP</span>
+            </div>
+          </div>
+          <div class="cmpd-dom">
+            <div class="cmpdom-lbl"><span>⛽</span> Operação · <b>9</b></div>
+            <div class="cmpdom-chips">
+              <span class="cp-chip">⛽ Registro ANP</span>
+              <span class="cp-chip">🏛 Alvará Mun.</span>
+              <span class="cp-chip">🛡 Seguro Amb.</span>
+              <span class="cp-chip">🌐 CTF/APP IBAMA</span>
+              <span class="cp-chip">📊 RAPP+TCFA</span>
+              <span class="cp-chip">🏪 Alvará Sanit.</span>
+              <span class="cp-chip">📜 Certidões Neg.</span>
+              <span class="cp-chip">📡 Rotinas ANP</span>
+              <span class="cp-chip">⚖ Atos Societ.</span>
+            </div>
+          </div>
+          <div class="cmpd-dom">
+            <div class="cmpdom-lbl"><span>♻</span> Resíduos · <b>6</b></div>
+            <div class="cmpdom-chips">
+              <span class="cp-chip">♻ PGRS</span>
+              <span class="cp-chip">🧪 FISPQ</span>
+              <span class="cp-chip">📦 MTR/SINIR</span>
+              <span class="cp-chip">📋 Inventário</span>
+              <span class="cp-chip">⚡ SPDA</span>
+              <span class="cp-chip">🔄 PRA (contingente)</span>
+            </div>
+          </div>
+        </div>
+        <div class="cmpd-23-foot">Diagnóstico · elaboração técnica · interface formal · dashboard unificado · monitoramento contínuo até 2030.</div>
+      </div>
+      <div class="cmpd-col cmpd-zz">
+        <div class="cmpdc-head"><span class="cmpdc-ic">🏢</span><b>Vocês · Z+Z fornecem</b></div>
+        <ul class="cmpdc-list">
+          <li>📋 <b>Folha de pagamento</b> dos 12 últimos meses</li>
+          <li>👷 <b>ASOs atuais</b> + certificados de treinamentos NR</li>
+          <li>🔑 <b>Senhas</b> SIMP ANP · SINIR · eSocial</li>
+          <li>📄 <b>Alvará municipal</b> · apólice de seguro · CTF/RAPP IBAMA</li>
+          <li>♻ <b>NFs OLUC</b> (24 meses) + contrato coletora ANP-certificada</li>
+          <li>🖋 <b>Indicação do RT</b> + procuração complementar + aprovação do orçamento</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cmpd-cta">
+      <span class="cmpdc-cta-ic">📨</span>
+      <span class="cmpdc-cta-txt">Disparamos a solicitação formal completa <b>assim que vocês confirmarem</b> a expansão do escopo.</span>
+    </div>
+  </div>
+
+  <div class="slide-footer"><span class="mono">06 · COMPLIANCE (ADICIONAL)</span><span class="mono">07 / 8</span></div>
+</section>
+
+<section class="slide thanks" data-slide="8">
+  <div class="cover-logo-row">
+    <div class="cover-logo-mark">H</div>
+    <div class="cover-logo-text">HÁBILIS<small>Regularização Ambiental</small></div>
+  </div>
+  <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding-top:60px">
+    <div class="thanks-eyebrow">Obrigado · Grupo Z+Z</div>
+    <h1 class="thanks-title">Agora é <span class="accent">executar</span>.<br><span class="dim">A bola está com vocês.</span></h1>
+    <div class="thanks-sub">Próxima janela de decisão do Grupo Z+Z: <b style="color:#1C1C1E">até 30/04/2026</b> · assinar contrato, liberar senhas e enviar documentos societários. A partir daí, a Hábilis dispara as 43 ações previstas até o protocolo em <b style="color:#1C1C1E">24/08/2026</b>.</div>
+    <div class="thanks-contact">
+      <div class="thanks-contact-ico">H</div>
+      <div class="thanks-contact-info">
+        <div class="name">Equipe Hábilis · Coordenação Técnica</div>
+        <div class="role">Regularização Ambiental · Auto Posto América</div>
+        <div class="lines">
+          <span>📧 contato@habilis.com.br</span>
+          <span>📱 (62) 9 0000-0000</span>
+          <span>🌐 habilis.com.br</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">OBRIGADO</span><span class="mono">08 / 8</span></div>
+</section>
+
+</div>
+<nav class="nav">
+  <button id="nav-prev" title="Anterior (←)">‹</button>
+  <div class="nav-dots" id="nav-dots"></div>
+  <button id="nav-next" title="Próximo (→)">›</button>
+  <button class="nav-fs" id="nav-fs" title="Tela cheia (F)">⛶</button>
+  <button class="nav-pdf" id="nav-pdf" title="Exportar PDF">PDF</button>
+</nav>
+<script>
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('progress-bar');
+const dotsEl = document.getElementById('nav-dots');
+let cur = 0;
+function go(i){
+  cur = Math.max(0, Math.min(slides.length-1, i));
+  slides.forEach((s,idx) => {
+    s.classList.remove('active','prev');
+    if(idx === cur) s.classList.add('active');
+    else if(idx < cur) s.classList.add('prev');
+  });
+  dotsEl.querySelectorAll('.nav-dot').forEach((d,idx) => d.classList.toggle('active', idx===cur));
+  progressBar.style.width = (((cur+1)/slides.length)*100)+'%';
+}
+slides.forEach((s,idx) => {
+  const d = document.createElement('div');
+  d.className = 'nav-dot' + (idx===0 ? ' active' : '');
+  d.onclick = () => go(idx);
+  dotsEl.appendChild(d);
+});
+document.getElementById('nav-prev').onclick = () => go(cur-1);
+document.getElementById('nav-next').onclick = () => go(cur+1);
+document.getElementById('nav-fs').onclick = () => {
+  if(document.fullscreenElement) document.exitFullscreen();
+  else document.documentElement.requestFullscreen();
+};
+document.getElementById('nav-pdf').onclick = () => window.print();
+document.addEventListener('keydown', e => {
+  if(e.target.tagName === 'IFRAME') return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); go(cur+1); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+  else if(e.key==='Home'){ e.preventDefault(); go(0); }
+  else if(e.key==='End'){ e.preventDefault(); go(slides.length-1); }
+  else if(e.key==='f'||e.key==='F'){ document.getElementById('nav-fs').click(); }
+  else if(e.key==='p'||e.key==='P'){ if(e.ctrlKey||e.metaKey) return; window.print(); }
+});
+// Contagem regressiva ao vivo no slide 2 (dois alvos)
+function updateClock(){
+  const hoje = new Date();
+  const alvoProtocolo = new Date('2026-08-24T00:00:00');
+  const alvoLao = new Date('2026-12-23T00:00:00');
+  const diasProt = Math.max(0, Math.ceil((alvoProtocolo - hoje) / 86400000));
+  const diasLao = Math.max(0, Math.ceil((alvoLao - hoje) / 86400000));
+  const elOurs = document.getElementById('clock-days-ours');
+  const elLao = document.getElementById('clock-days');
+  if(elOurs) elOurs.textContent = diasProt;
+  if(elLao) elLao.textContent = diasLao;
+}
+updateClock();
+setInterval(updateClock, 60000);
+// Swipe mobile
+let tx=null;
+document.addEventListener('touchstart', e => tx=e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  if(tx===null) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if(Math.abs(dx)>50) go(cur+(dx<0?1:-1));
+  tx=null;
+});
+go(0);
+</script>
+</body>
+</html>

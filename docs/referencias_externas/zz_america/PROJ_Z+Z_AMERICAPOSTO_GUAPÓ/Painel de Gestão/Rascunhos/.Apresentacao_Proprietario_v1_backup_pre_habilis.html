@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Auto Posto América · Apresentação ao Proprietário · Hábilis</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;width:100%;font-family:'Inter',sans-serif;color:#e8e8ec;overflow:hidden;background:#08080c}
+.deck{height:100vh;width:100vw;position:relative;overflow:hidden}
+
+/* Barra de progresso no topo */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#ff6b35,#ffb74d);transition:width .4s cubic-bezier(.65,0,.35,1);z-index:200;box-shadow:0 0 12px rgba(255,183,77,.6)}
+
+/* Slide base */
+.slide{position:absolute;inset:0;padding:60px 80px;display:flex;flex-direction:column;opacity:0;transform:translateX(40px);transition:opacity .5s cubic-bezier(.65,0,.35,1),transform .5s cubic-bezier(.65,0,.35,1);pointer-events:none;overflow:hidden}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:auto}
+.slide.prev{transform:translateX(-40px)}
+
+/* Header compartilhado */
+.slide-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.06)}
+.slide-chapter{font-family:'JetBrains Mono',monospace;font-size:11px;color:#ff6b35;letter-spacing:.25em;text-transform:uppercase;font-weight:700}
+.slide-counter{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.15em;font-weight:600}
+.slide-footer{position:absolute;bottom:30px;left:80px;right:80px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.1em;text-transform:uppercase}
+
+/* Typography */
+h1{font-size:64px;font-weight:800;line-height:1.02;letter-spacing:-.035em;color:#fff}
+h2{font-size:44px;font-weight:800;letter-spacing:-.025em;line-height:1.1;color:#fff}
+h3{font-size:16px;font-weight:500;color:rgba(255,255,255,.65);line-height:1.5;max-width:900px}
+.accent{color:#ff6b35}
+.soft{color:rgba(255,255,255,.55)}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ═════ SLIDE 1 · CAPA ═════ */
+.cover{background:radial-gradient(ellipse at 30% 20%,#1a1f3a 0%,#08080c 60%);justify-content:center;align-items:flex-start;padding:0 100px}
+.cover-logo-row{position:absolute;top:60px;left:80px;display:flex;align-items:center;gap:14px}
+.cover-logo-mark{width:40px;height:40px;background:linear-gradient(135deg,#ff6b35,#ffb74d);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;letter-spacing:-.02em}
+.cover-logo-text{font-weight:700;font-size:16px;letter-spacing:.05em;color:#fff}
+.cover-logo-text small{display:block;font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.15em;margin-top:2px;text-transform:uppercase;font-weight:500}
+.cover-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;color:#ff6b35;letter-spacing:.3em;text-transform:uppercase;font-weight:700;margin-bottom:24px}
+.cover-title{font-size:88px;font-weight:800;line-height:.95;letter-spacing:-.04em;color:#fff;max-width:1100px}
+.cover-title .split{display:block;color:rgba(255,255,255,.25)}
+.cover-subtitle{font-size:22px;color:rgba(255,255,255,.55);margin:32px 0 60px;max-width:700px;line-height:1.45;font-weight:400}
+.cover-strip{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.1);padding-top:24px;margin-top:auto;margin-bottom:100px}
+.cover-strip-item{flex:1;padding-right:30px;border-right:1px solid rgba(255,255,255,.08)}
+.cover-strip-item:last-child{border-right:none}
+.cover-strip-lbl{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.cover-strip-val{font-size:22px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace}
+.cover-strip-val.accent{color:#ff6b35}
+
+/* ═════ SLIDE 2 · THE CLOCK ═════ */
+.clock-slide{justify-content:center;background:radial-gradient(ellipse at 50% 50%,#1a0a0a 0%,#08080c 70%)}
+.clock-wrap{display:grid;grid-template-columns:auto 1fr;gap:80px;align-items:center;padding:0 40px}
+.clock-num{font-size:280px;font-weight:900;line-height:.85;color:#ff3a3a;font-family:'JetBrains Mono',monospace;letter-spacing:-.08em;text-shadow:0 0 80px rgba(255,58,58,.3)}
+.clock-info .label{font-family:'JetBrains Mono',monospace;font-size:13px;color:#ff6b35;letter-spacing:.25em;text-transform:uppercase;font-weight:700;margin-bottom:16px}
+.clock-info h2{font-size:56px;line-height:1.05;margin-bottom:28px}
+.clock-meta{display:flex;flex-direction:column;gap:12px;margin-top:40px}
+.clock-meta-row{display:flex;align-items:baseline;gap:14px;padding:14px 0;border-top:1px solid rgba(255,255,255,.08)}
+.clock-meta-dot{width:8px;height:8px;border-radius:50%;background:#ff3a3a;flex-shrink:0}
+.clock-meta-row.warn .clock-meta-dot{background:#ffa726}
+.clock-meta-date{font-family:'JetBrains Mono',monospace;font-size:14px;color:#fff;font-weight:700;min-width:120px}
+.clock-meta-text{font-size:15px;color:rgba(255,255,255,.7);line-height:1.5}
+.clock-meta-text b{color:#fff}
+
+/* ═════ SLIDE 3 · THE TOOL (dashboard embed) ═════ */
+.tool-slide{padding:60px 60px 40px}
+.tool-hero{display:grid;grid-template-columns:1fr 1.5fr;gap:50px;flex:1;align-items:center}
+.tool-pitch .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;color:#ff6b35;letter-spacing:.25em;text-transform:uppercase;font-weight:700;margin-bottom:20px}
+.tool-pitch h2{margin-bottom:24px;font-size:52px}
+.tool-pitch p{font-size:17px;color:rgba(255,255,255,.7);line-height:1.55;margin-bottom:30px;max-width:500px}
+.tool-features{display:grid;grid-template-columns:1fr;gap:14px;margin-top:30px}
+.tool-feature{display:flex;gap:14px;align-items:flex-start}
+.tool-feature-ic{width:32px;height:32px;border-radius:8px;background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.tool-feature-txt{font-size:14px;color:rgba(255,255,255,.7);line-height:1.5}
+.tool-feature-txt b{color:#fff}
+.tool-browser{background:#0d1117;border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,107,53,.1);position:relative;aspect-ratio:16/10;max-height:560px}
+.tool-browser-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#16181d;border-bottom:1px solid rgba(255,255,255,.08)}
+.tool-browser-dot{width:10px;height:10px;border-radius:50%}
+.tool-browser-dot.r{background:#ff5f56}.tool-browser-dot.y{background:#ffbd2e}.tool-browser-dot.g{background:#27c93f}
+.tool-browser-url{flex:1;background:rgba(255,255,255,.05);padding:4px 12px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.5);margin-left:10px}
+.tool-iframe{width:100%;height:calc(100% - 36px);border:none;background:#fff;transform:scale(.5);transform-origin:top left;width:200%;height:calc(200% - 72px)}
+.tool-iframe-hint{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);padding:6px 12px;border-radius:6px;font-size:10px;color:rgba(255,255,255,.7);font-family:'JetBrains Mono',monospace}
+
+/* ═════ SLIDE 4 · DIAGNÓSTICO (4 donuts) ═════ */
+.diag-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;flex:1;align-items:center}
+.diag-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden;transition:transform .3s}
+.diag-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.diag-card.solo::before{background:linear-gradient(90deg,#42a5f5,#64B5F6)}
+.diag-card.lao::before{background:linear-gradient(90deg,#66bb6a,#9ccc65)}
+.diag-card.cond::before{background:linear-gradient(90deg,#ab47bc,#ce93d8)}
+.diag-card.cp::before{background:linear-gradient(90deg,#ff6b35,#ffb74d)}
+.diag-donut-wrap{position:relative;margin-bottom:20px}
+.diag-donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.diag-score{font-size:42px;font-weight:800;color:#fff;line-height:1;font-family:'JetBrains Mono',monospace}
+.diag-score-sub{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-top:4px}
+.diag-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;text-align:center}
+.diag-sub{font-size:11px;color:rgba(255,255,255,.45);text-align:center;line-height:1.4;margin-bottom:14px}
+.diag-legend{display:flex;gap:10px;font-size:11px;font-family:'JetBrains Mono',monospace;justify-content:center}
+.diag-legend-item{display:flex;align-items:center;gap:4px;color:rgba(255,255,255,.6)}
+.diag-legend-dot{width:8px;height:8px;border-radius:50%}
+
+/* ═════ SLIDE 5 · GAPS CRÍTICOS (matriz) ═════ */
+.gap-slide .slide-content{flex:1;display:grid;grid-template-columns:1fr;gap:20px;align-content:center}
+.gap-intro{font-size:15px;color:rgba(255,255,255,.6);max-width:900px;margin-bottom:24px}
+.gap-list{display:flex;flex-direction:column;gap:10px}
+.gap-row{display:grid;grid-template-columns:60px 1fr auto auto;gap:24px;align-items:center;padding:18px 24px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-left:4px solid #ff3a3a;border-radius:12px;transition:transform .2s}
+.gap-row:hover{transform:translateX(6px);background:rgba(255,255,255,.04)}
+.gap-row.prio-alta{border-left-color:#ff8a65}
+.gap-row.prio-media{border-left-color:#ffa726}
+.gap-n{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#ff6b35;letter-spacing:-.02em}
+.gap-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.25}
+.gap-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5}
+.gap-prio{font-size:10px;font-weight:700;padding:5px 12px;border-radius:14px;text-transform:uppercase;letter-spacing:.06em;font-family:'JetBrains Mono',monospace}
+.gap-prio.critica{background:rgba(255,58,58,.15);color:#ff3a3a;border:1px solid rgba(255,58,58,.3)}
+.gap-prio.alta{background:rgba(255,138,101,.15);color:#ff8a65;border:1px solid rgba(255,138,101,.3)}
+.gap-prio.media{background:rgba(255,167,38,.15);color:#ffa726;border:1px solid rgba(255,167,38,.3)}
+.gap-lead{font-family:'JetBrains Mono',monospace;font-size:20px;color:#fff;font-weight:700;text-align:right}
+.gap-lead small{display:block;font-size:9px;color:rgba(255,255,255,.4);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+
+/* ═════ SLIDE 6 · LINHA DO TEMPO (Gantt) ═════ */
+.tl-slide{padding:60px 60px}
+.gantt{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;margin:30px 0}
+.gantt-header{display:grid;grid-template-columns:repeat(9,1fr);gap:0;margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:10px}
+.gantt-header div{text-align:center}
+.gantt-rows{display:flex;flex-direction:column;gap:10px}
+.gantt-row{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center}
+.gantt-row-lbl{font-size:12px;font-weight:600;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:10px}
+.gantt-row-lbl-ico{font-size:18px}
+.gantt-track{position:relative;height:32px;background:rgba(255,255,255,.03);border-radius:6px;overflow:hidden}
+.gantt-bar{position:absolute;top:4px;bottom:4px;border-radius:4px;display:flex;align-items:center;padding:0 10px;font-size:10px;color:#fff;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:.05em;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.gantt-bar.solo{background:linear-gradient(90deg,#42a5f5,#64B5F6)}
+.gantt-bar.lao{background:linear-gradient(90deg,#66bb6a,#9ccc65)}
+.gantt-bar.cond{background:linear-gradient(90deg,#ab47bc,#ce93d8)}
+.gantt-bar.cp{background:linear-gradient(90deg,#ff6b35,#ffb74d)}
+.gantt-bar.proto{background:linear-gradient(90deg,#d32f2f,#f44336);box-shadow:0 0 20px rgba(244,67,54,.4)}
+.gantt-zone-risk{position:absolute;top:0;bottom:0;background:rgba(255,58,58,.08);border-left:2px dashed rgba(255,58,58,.3);z-index:0}
+.gantt-zone-label{position:absolute;top:0;font-size:9px;color:rgba(255,58,58,.7);font-weight:700;padding:4px 8px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.gantt-milestone{position:absolute;top:0;bottom:0;width:2px;background:#ff6b35;z-index:2}
+.gantt-milestone::before{content:'';position:absolute;top:-4px;left:-4px;width:10px;height:10px;background:#ff6b35;border-radius:50%;border:2px solid #08080c}
+.gantt-milestone-lbl{position:absolute;top:-22px;left:-60px;width:120px;text-align:center;font-size:9px;color:#ff6b35;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.gantt-legend{display:flex;gap:24px;margin-top:20px;font-size:11px;color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace}
+.gantt-legend-item{display:flex;align-items:center;gap:8px}
+.gantt-legend-sq{width:12px;height:12px;border-radius:3px}
+
+/* ═════ SLIDE 7 · PLANO 4 FASES ═════ */
+.plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;flex:1;align-items:stretch;margin-top:20px}
+.plan-fase{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-top:3px solid #ff6b35;border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.plan-fase::before{content:attr(data-n);position:absolute;top:14px;right:18px;font-size:56px;font-weight:900;color:rgba(255,107,53,.07);line-height:1;font-family:'JetBrains Mono',monospace}
+.plan-fase.f1{border-top-color:#ff3a3a}
+.plan-fase.f2{border-top-color:#ffa726}
+.plan-fase.f3{border-top-color:#42a5f5}
+.plan-fase.f4{border-top-color:#66bb6a}
+.plan-fase-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#ff6b35;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.plan-fase-data{font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:14px}
+.plan-fase h4{font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;line-height:1.25}
+.plan-fase-ul{list-style:none;padding:0;margin-top:auto}
+.plan-fase-ul li{padding:8px 0;padding-left:18px;position:relative;font-size:12px;color:rgba(255,255,255,.7);line-height:1.45;border-top:1px solid rgba(255,255,255,.04)}
+.plan-fase-ul li:first-child{border-top:none}
+.plan-fase-ul li::before{content:'▸';position:absolute;left:0;color:#ff6b35;font-weight:700}
+
+/* ═════ SLIDE 8 · INVESTIMENTO ═════ */
+.invest-wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;flex:1;align-items:center}
+.invest-big{text-align:left}
+.invest-big-lbl{font-family:'JetBrains Mono',monospace;font-size:12px;color:#ff6b35;letter-spacing:.25em;text-transform:uppercase;font-weight:700;margin-bottom:24px}
+.invest-big-num{font-size:128px;font-weight:900;line-height:.9;letter-spacing:-.045em;color:#fff;margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+.invest-big-num .accent{color:#ff6b35}
+.invest-big-range{font-family:'JetBrains Mono',monospace;font-size:20px;color:rgba(255,255,255,.5);margin-top:10px}
+.invest-big-desc{font-size:15px;color:rgba(255,255,255,.7);line-height:1.55;margin-top:28px;max-width:500px}
+.invest-context{display:flex;flex-direction:column;gap:14px}
+.invest-ctx-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-left:4px solid #ff6b35;border-radius:10px;padding:18px 22px}
+.invest-ctx-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:#ff6b35;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.invest-ctx-val{font-size:22px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:6px}
+.invest-ctx-sub{font-size:12px;color:rgba(255,255,255,.55);line-height:1.4}
+.invest-ctx-sub b{color:#fff}
+
+/* ═════ SLIDE 9 · PARCERIA ═════ */
+.parc-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;flex:1;align-items:stretch}
+.parc-col{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:36px 32px;position:relative}
+.parc-col.cli{border-top:3px solid #ffb74d}
+.parc-col.hab{border-top:3px solid #66bb6a}
+.parc-col-ico{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px}
+.parc-col.cli .parc-col-ico{background:rgba(255,183,77,.15);border:1px solid rgba(255,183,77,.3)}
+.parc-col.hab .parc-col-ico{background:rgba(102,187,106,.15);border:1px solid rgba(102,187,106,.3)}
+.parc-col h4{font-size:24px;font-weight:700;color:#fff;margin-bottom:6px}
+.parc-col-sub{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:22px}
+.parc-list{list-style:none;padding:0}
+.parc-list li{padding:12px 0;padding-left:28px;position:relative;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;border-bottom:1px solid rgba(255,255,255,.05)}
+.parc-list li:last-child{border-bottom:none}
+.parc-col.cli .parc-list li::before{content:'⬡';position:absolute;left:4px;color:#ffb74d;top:12px;font-size:14px}
+.parc-col.hab .parc-list li::before{content:'✓';position:absolute;left:4px;color:#66bb6a;top:12px;font-weight:700}
+
+/* ═════ SLIDE 10 · POR QUE HÁBILIS ═════ */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;flex:1;align-items:stretch;margin-top:20px}
+.why-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:32px 28px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.why-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ff6b35,#ffb74d)}
+.why-ic{font-size:38px;margin-bottom:20px}
+.why-card h4{font-size:20px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.25}
+.why-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.55;margin-bottom:18px;flex:1}
+.why-stat{font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:800;color:#ff6b35;line-height:1;margin-bottom:4px}
+.why-stat-lbl{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.15em;text-transform:uppercase;font-weight:700}
+
+/* ═════ SLIDE 11 · PRÓXIMOS PASSOS ═════ */
+.steps-wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
+.steps-line{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;margin:30px 0}
+.steps-line::before{content:'';position:absolute;top:44px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,rgba(255,107,53,.1),#ff6b35,rgba(255,107,53,.1));z-index:0}
+.step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center}
+.step-dot{width:88px;height:88px;border-radius:50%;background:#08080c;border:3px solid #ff6b35;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:900;color:#ff6b35;font-family:'JetBrains Mono',monospace;margin-bottom:20px;box-shadow:0 0 0 6px rgba(255,107,53,.08)}
+.step-prazo{font-family:'JetBrains Mono',monospace;font-size:11px;color:#ff6b35;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.step-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.3}
+.step-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.5;max-width:260px}
+.steps-cta{margin-top:50px;padding:28px 40px;background:linear-gradient(135deg,rgba(255,107,53,.08),rgba(255,183,77,.04));border:1px solid rgba(255,107,53,.3);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.steps-cta-txt{font-size:16px;color:rgba(255,255,255,.8);line-height:1.5;max-width:600px}
+.steps-cta-txt b{color:#fff;font-weight:700}
+.steps-cta-btn{padding:16px 32px;background:linear-gradient(135deg,#ff6b35,#ffb74d);color:#fff;font-size:15px;font-weight:700;border-radius:10px;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 10px 30px rgba(255,107,53,.3);letter-spacing:.02em}
+
+/* ═════ SLIDE 12 · OBRIGADO ═════ */
+.thanks{background:radial-gradient(ellipse at 30% 20%,#1a1f3a 0%,#08080c 60%);justify-content:center;align-items:flex-start;padding:0 100px}
+.thanks-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;color:#ff6b35;letter-spacing:.3em;text-transform:uppercase;font-weight:700;margin-bottom:24px}
+.thanks-title{font-size:104px;font-weight:800;line-height:.95;letter-spacing:-.04em;color:#fff;margin-bottom:30px}
+.thanks-title .dim{color:rgba(255,255,255,.25)}
+.thanks-sub{font-size:22px;color:rgba(255,255,255,.65);max-width:700px;line-height:1.45;margin-bottom:60px}
+.thanks-contact{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;padding:30px 40px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;max-width:700px}
+.thanks-contact-ico{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,#ff6b35,#ffb74d);display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;font-weight:900}
+.thanks-contact-info .name{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
+.thanks-contact-info .role{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:10px}
+.thanks-contact-info .lines{display:flex;gap:24px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,.8)}
+.thanks-contact-info .lines span{display:flex;align-items:center;gap:6px}
+
+/* ═════ SLIDE 13 · APÊNDICE ═════ */
+.appendix-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;flex:1;align-items:stretch;margin-top:20px}
+.appendix-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:28px 26px;display:flex;flex-direction:column;transition:all .2s;cursor:pointer;text-decoration:none;color:inherit}
+.appendix-card:hover{background:rgba(255,107,53,.04);border-color:rgba(255,107,53,.3);transform:translateY(-4px)}
+.appendix-ic{font-size:32px;margin-bottom:16px}
+.appendix-card h4{font-size:17px;font-weight:700;color:#fff;margin-bottom:8px}
+.appendix-card p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.5;flex:1;margin-bottom:16px}
+.appendix-link{font-family:'JetBrains Mono',monospace;font-size:11px;color:#ff6b35;font-weight:700;letter-spacing:.05em}
+
+/* ═════ NAV ═════ */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:100;background:rgba(20,20,28,.85);backdrop-filter:blur(14px);padding:8px 12px;border-radius:40px;border:1px solid rgba(255,255,255,.08)}
+.nav button{background:rgba(255,255,255,.06);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.nav button:hover{background:rgba(255,107,53,.3)}
+.nav-dots{display:flex;gap:3px;align-items:center;padding:0 12px}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s}
+.nav-dot.active{background:#ff6b35;width:24px;border-radius:4px}
+.nav-fs{background:rgba(255,255,255,.06)!important}
+.nav-pdf{background:linear-gradient(135deg,#ff6b35,#ffb74d)!important;width:auto!important;padding:0 12px;border-radius:17px!important;font-size:11px!important;font-weight:700;letter-spacing:.05em}
+.hint{position:fixed;top:14px;right:24px;font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;font-weight:600;z-index:100;display:flex;gap:12px;align-items:center}
+.hint kbd{background:rgba(255,255,255,.08);padding:2px 7px;border-radius:3px;color:#ff6b35;font-family:inherit}
+
+/* ═════ SLIDE 8 · CRONOGRAMA OPERACIONAL ═════ */
+.ops-slide{padding:40px 50px}
+.ops-intro{font-size:14px;color:rgba(255,255,255,.6);max-width:980px;margin:6px 0 16px}
+.ops-legend{display:flex;gap:18px;font-size:11px;color:rgba(255,255,255,.65);font-family:'JetBrains Mono',monospace;margin-bottom:14px;align-items:center}
+.ops-legend-tag{display:flex;align-items:center;gap:8px}
+.ops-legend-ico{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.ops-legend-ico.cli{background:rgba(255,183,77,.15);border:1px solid rgba(255,183,77,.35);color:#ffb74d}
+.ops-legend-ico.hab{background:rgba(102,187,106,.15);border:1px solid rgba(102,187,106,.35);color:#66bb6a}
+.ops-legend-ico.both{background:rgba(66,165,245,.15);border:1px solid rgba(66,165,245,.35);color:#42a5f5}
+.ops-scroll{flex:1;overflow-y:auto;padding-right:8px}
+.ops-scroll::-webkit-scrollbar{width:6px}
+.ops-scroll::-webkit-scrollbar-thumb{background:rgba(255,107,53,.3);border-radius:3px}
+.ops-quinzenas{display:flex;flex-direction:column;gap:8px}
+.ops-q{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:flex-start;transition:all .2s}
+.ops-q:hover{background:rgba(255,255,255,.035);border-color:rgba(255,107,53,.2)}
+.ops-q.marco{border-left:4px solid #ff3a3a;background:rgba(255,58,58,.04)}
+.ops-q-head{display:flex;flex-direction:column;gap:2px;border-right:1px solid rgba(255,255,255,.06);padding-right:14px}
+.ops-q-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:#ff6b35;letter-spacing:.15em;font-weight:700;text-transform:uppercase}
+.ops-q-date{font-family:'JetBrains Mono',monospace;font-size:13px;color:#fff;font-weight:700;margin-top:2px}
+.ops-q-fase{font-size:9px;color:rgba(255,255,255,.45);letter-spacing:.12em;text-transform:uppercase;margin-top:4px;font-weight:700}
+.ops-q.marco .ops-q-fase{color:#ff3a3a}
+.ops-q-body{display:flex;flex-direction:column;gap:5px}
+.ops-q-lane{display:flex;gap:10px;align-items:flex-start}
+.ops-q-lane-ico{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;font-weight:800}
+.ops-q-lane.cli .ops-q-lane-ico{background:rgba(255,183,77,.15);border:1px solid rgba(255,183,77,.35);color:#ffb74d}
+.ops-q-lane.hab .ops-q-lane-ico{background:rgba(102,187,106,.15);border:1px solid rgba(102,187,106,.35);color:#66bb6a}
+.ops-q-lane.both .ops-q-lane-ico{background:rgba(66,165,245,.15);border:1px solid rgba(66,165,245,.35);color:#42a5f5}
+.ops-q-lane-txt{font-size:12px;color:rgba(255,255,255,.78);line-height:1.5;padding-top:3px}
+.ops-q-lane-txt b{color:#fff;font-weight:700}
+
+/* ═════ SLIDE 9 · AGENDA DO PROPRIETÁRIO ═════ */
+.agenda-slide{padding:40px 50px}
+.agenda-intro{font-size:14px;color:rgba(255,255,255,.6);max-width:900px;margin:6px 0 18px}
+.agenda-scroll{flex:1;overflow-y:auto;padding-right:8px}
+.agenda-scroll::-webkit-scrollbar{width:6px}
+.agenda-scroll::-webkit-scrollbar-thumb{background:rgba(255,107,53,.3);border-radius:3px}
+.agenda-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start}
+.agenda-card{background:rgba(255,183,77,.04);border:1px solid rgba(255,183,77,.18);border-left:4px solid #ffb74d;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-height:140px}
+.agenda-card:hover{background:rgba(255,183,77,.07)}
+.agenda-card.urgent{border-left-color:#ff3a3a;background:rgba(255,58,58,.05)}
+.agenda-card.urgent:hover{background:rgba(255,58,58,.08)}
+.agenda-card.marco{border-left-color:#ff6b35;background:rgba(255,107,53,.07);grid-column:span 3;min-height:auto}
+.agenda-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.agenda-card-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:#ffb74d;letter-spacing:.1em;font-weight:800;text-transform:uppercase}
+.agenda-card.urgent .agenda-card-date{color:#ff3a3a}
+.agenda-card.marco .agenda-card-date{color:#ff6b35;font-size:12px}
+.agenda-card-tag{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;font-weight:700;background:rgba(255,255,255,.05);padding:3px 7px;border-radius:4px}
+.agenda-card-action{font-size:14px;font-weight:700;color:#fff;line-height:1.3;margin-top:2px}
+.agenda-card.marco .agenda-card-action{font-size:18px}
+.agenda-card-desc{font-size:11px;color:rgba(255,255,255,.58);line-height:1.5;margin-top:auto}
+.agenda-card-desc b{color:#fff}
+
+/* ═════ PRINT ═════ */
+@media print{
+  @page{size:A4 landscape;margin:0}
+  html,body{overflow:visible;height:auto;background:#fff}
+  .deck{height:auto}
+  .slide{position:relative;opacity:1!important;transform:none!important;page-break-after:always;height:100vh;height:190mm;width:100%;padding:20mm 25mm}
+  .nav,.hint,.progress-bar{display:none!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .cover,.thanks,.clock-slide{background:linear-gradient(135deg,#1a1f3a,#08080c)!important}
+}
+
+/* ═════ RESPONSIVO ═════ */
+@media(max-width:1200px){
+  .slide{padding:40px 50px}
+  .cover-title{font-size:60px}
+  .thanks-title{font-size:70px}
+  .clock-num{font-size:180px}
+  .clock-wrap{grid-template-columns:1fr;gap:30px}
+  h1{font-size:44px}h2{font-size:32px}
+  .diag-grid{grid-template-columns:repeat(2,1fr)}
+  .tool-hero{grid-template-columns:1fr;gap:30px}
+  .invest-wrap{grid-template-columns:1fr}
+  .invest-big-num{font-size:80px}
+  .plan-grid{grid-template-columns:repeat(2,1fr)}
+  .parc-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .steps-line{grid-template-columns:1fr;gap:14px}
+  .steps-line::before{display:none}
+  .appendix-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress-bar" style="width:0%"></div>
+<div class="hint">
+  <kbd>←</kbd><kbd>→</kbd> navegar · <kbd>F</kbd> tela cheia · <kbd>P</kbd> imprimir
+</div>
+<div class="deck">
+
+<section class="slide cover active" data-slide="1" data-dark>
+  <div class="cover-logo-row">
+    <div class="cover-logo-mark">H</div>
+    <div class="cover-logo-text">HÁBILIS<small>Regularização Ambiental</small></div>
+  </div>
+  <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding-top:80px">
+    <div class="cover-eyebrow">Apresentação ao Proprietário · Abril 2026</div>
+    <h1 class="cover-title"><span class="split">Auto Posto</span>América</h1>
+    <div class="cover-subtitle">Onde estamos, o que estamos gerindo e quando chegamos ao protocolo · <b style="color:#fff">renovação LAO 033/2020</b> · 71 itens em 4 frentes · janela 24/08/2026.</div>
+  </div>
+  <div class="cover-strip">
+    <div class="cover-strip-item"><div class="cover-strip-lbl">Processo</div><div class="cover-strip-val">22760/2020</div></div>
+    <div class="cover-strip-item"><div class="cover-strip-lbl">Licenciador</div><div class="cover-strip-val">SEMMA Guapó</div></div>
+    <div class="cover-strip-item"><div class="cover-strip-lbl">Janela Protocolo</div><div class="cover-strip-val accent">24/08/2026</div></div>
+    <div class="cover-strip-item"><div class="cover-strip-lbl">Vencimento LAO</div><div class="cover-strip-val accent">23/12/2026</div></div>
+  </div>
+</section>
+
+<section class="slide clock-slide" data-slide="2">
+  <div class="clock-wrap">
+    <div class="clock-num" id="clock-days">253</div>
+    <div class="clock-info">
+      <div class="label">Contagem regressiva</div>
+      <h2>dias até <span class="accent">o posto<br>operar ilegalmente</span></h2>
+      <p style="font-size:15px;color:rgba(255,255,255,.65);line-height:1.55;max-width:540px">Se a LAO 033/2020 vencer sem protocolo aceito, o posto opera <b style="color:#fff">sem licença ambiental</b> e fica sujeito a <b style="color:#ff3a3a">embargo · multa de R$ 500 a R$ 10 milhões · responsabilização criminal do titular</b> (Lei 9.605/98).</p>
+      <div class="clock-meta">
+        <div class="clock-meta-row">
+          <div class="clock-meta-dot"></div>
+          <div class="clock-meta-date">24·08·2026</div>
+          <div class="clock-meta-text"><b>Janela ideal de protocolo</b> — 120 dias antes do vencimento, preserva vigência automática durante análise da SEMMA.</div>
+        </div>
+        <div class="clock-meta-row warn">
+          <div class="clock-meta-dot"></div>
+          <div class="clock-meta-date">20·10·2026</div>
+          <div class="clock-meta-text">Certificado CBM vence — nova vistoria + SPDA atualizado.</div>
+        </div>
+        <div class="clock-meta-row">
+          <div class="clock-meta-dot"></div>
+          <div class="clock-meta-date">23·12·2026</div>
+          <div class="clock-meta-text"><b>LAO expira</b> — sem protocolo, operação é irregular a partir desta data.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">01 · URGÊNCIA</span><span class="mono">02 / 14</span></div>
+</section>
+
+<section class="slide tool-slide" data-slide="3">
+  <div class="slide-header">
+    <div class="slide-chapter">02 · Dashboard v5</div>
+    <div class="slide-counter">03 / 14</div>
+  </div>
+  <div class="tool-hero">
+    <div class="tool-pitch">
+      <div class="eyebrow">O que estamos gerindo</div>
+      <h2>Uma <span class="accent">ferramenta viva</span>, não só papéis.</h2>
+      <p>A gestão do posto hoje passa por um dashboard que acompanha em tempo real o status de cada obrigação ambiental · operacional · trabalhista. Acesso 24/7 pelo navegador — sem instalação, sem caixa-preta.</p>
+      <div class="tool-features">
+        <div class="tool-feature">
+          <div class="tool-feature-ic">📊</div>
+          <div class="tool-feature-txt"><b>71 itens rastreados</b> — 11 Uso do Solo · 26 LAO · 14 Condicionantes · 23 Compliance paralelo, em 4 frentes simultâneas.</div>
+        </div>
+        <div class="tool-feature">
+          <div class="tool-feature-ic">🔄</div>
+          <div class="tool-feature-txt"><b>Dados ao vivo</b> — KPIs, cronograma, financeiro, heatmap, matriz de prioridades · tudo atualiza a cada mudança de status.</div>
+        </div>
+        <div class="tool-feature">
+          <div class="tool-feature-ic">🛡</div>
+          <div class="tool-feature-txt"><b>2 modos de uso</b> — LAO (foco renovação) ou Completo (+ compliance MTE · ANP · IBAMA · PNRS). Liga/desliga com um clique.</div>
+        </div>
+        <div class="tool-feature">
+          <div class="tool-feature-ic">📎</div>
+          <div class="tool-feature-txt"><b>Vínculos cross-tab</b> — cada documento, condicionante, item de campo e gap de compliance linkado navegavelmente.</div>
+        </div>
+      </div>
+    </div>
+    <div class="tool-browser">
+      <div class="tool-browser-bar">
+        <div class="tool-browser-dot r"></div><div class="tool-browser-dot y"></div><div class="tool-browser-dot g"></div>
+        <div class="tool-browser-url">🔒 habilis.app/posto-america/dashboard-v5</div>
+      </div>
+      <iframe class="tool-iframe" src="Dashboard_LAO_Auto_Posto_America_v5.html" title="Dashboard live"></iframe>
+      <div class="tool-iframe-hint">Dashboard real · ao vivo</div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">02 · O PRODUTO</span><span class="mono">03 / 14</span></div>
+</section>
+
+<section class="slide" data-slide="4">
+  <div class="slide-header">
+    <div class="slide-chapter">03 · Diagnóstico</div>
+    <div class="slide-counter">04 / 14</div>
+  </div>
+  <h2 style="margin-bottom:10px">Onde o posto está <span class="accent">hoje</span></h2>
+  <h3 style="margin-bottom:40px">Foto atual das 4 frentes que estamos gerindo · dados consolidados em 15/04/2026</h3>
+  <div class="diag-grid">
+    <div class="diag-card solo">
+      <div class="diag-donut-wrap">
+        
+  <svg width="180" height="180" viewBox="0 0 180 180" style="transform:rotate(-90deg)">
+    <circle cx="90" cy="90" r="76" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14"/>
+    <circle cx="90" cy="90" r="76" fill="none" stroke="#66bb6a"
+      stroke-width="14" stroke-dasharray="86.8221969719361 477.5220833456485"
+      stroke-dashoffset="0" stroke-linecap="butt"/><circle cx="90" cy="90" r="76" fill="none" stroke="#ffa726"
+      stroke-width="14" stroke-dasharray="173.6443939438722 477.5220833456485"
+      stroke-dashoffset="-86.8221969719361" stroke-linecap="butt"/><circle cx="90" cy="90" r="76" fill="none" stroke="#ef5350"
+      stroke-width="14" stroke-dasharray="217.05549242984023 477.5220833456485"
+      stroke-dashoffset="-260.4665909158083" stroke-linecap="butt"/>
+  </svg>
+        <div class="diag-donut-center"><div class="diag-score" style="transform:rotate(90deg)">36<small style="font-size:18px;color:rgba(255,255,255,.3)">%</small></div><div class="diag-score-sub" style="transform:rotate(90deg)">de 11 subitens</div></div>
+      </div>
+      <div class="diag-title">📋 Uso do Solo</div>
+      <div class="diag-sub">Pré-requisito · Prefeitura Guapó</div>
+      <div class="diag-legend">
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#66bb6a"></span>2 ok</div>
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#ffa726"></span>4</div>
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#ef5350"></span>5</div>
+      </div>
+    </div>
+    <div class="diag-card lao">
+      <div class="diag-donut-wrap">
+        
+  <svg width="180" height="180" viewBox="0 0 180 180" style="transform:rotate(-90deg)">
+    <circle cx="90" cy="90" r="76" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14"/>
+    <circle cx="90" cy="90" r="76" fill="none" stroke="#66bb6a"
+      stroke-width="14" stroke-dasharray="73.46493589933054 477.5220833456485"
+      stroke-dashoffset="0" stroke-linecap="butt"/><circle cx="90" cy="90" r="76" fill="none" stroke="#ffa726"
+      stroke-width="14" stroke-dasharray="183.66233974832636 477.5220833456485"
+      stroke-dashoffset="-73.46493589933054" stroke-linecap="butt"/><circle cx="90" cy="90" r="76" fill="none" stroke="#ef5350"
+      stroke-width="14" stroke-dasharray="220.39480769799164 477.5220833456485"
+      stroke-dashoffset="-257.1272756476569" stroke-linecap="butt"/>
+  </svg>
+        <div class="diag-donut-center"><div class="diag-score" style="transform:rotate(90deg)">35<small style="font-size:18px;color:rgba(255,255,255,.3)">%</small></div><div class="diag-score-sub" style="transform:rotate(90deg)">de 26 itens</div></div>
+      </div>
+      <div class="diag-title">🌿 Renovação LAO</div>
+      <div class="diag-sub">Núcleo ambiental · SEMMA</div>
+      <div class="diag-legend">
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#66bb6a"></span>4</div>
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#ffa726"></span>10</div>
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#ef5350"></span>12</div>
+      </div>
+    </div>
+    <div class="diag-card cond">
+      <div class="diag-donut-wrap">
+        
+  <svg width="180" height="180" viewBox="0 0 180 180" style="transform:rotate(-90deg)">
+    <circle cx="90" cy="90" r="76" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14"/>
+    <circle cx="90" cy="90" r="76" fill="none" stroke="#66bb6a"
+      stroke-width="14" stroke-dasharray="0 477.5220833456485"
+      stroke-dashoffset="0" stroke-linecap="butt"/><circle cx="90" cy="90" r="76" fill="none" stroke="#ffa726"
+      stroke-width="14" stroke-dasharray="306.9784821507741 477.5220833456485"
+      stroke-dashoffset="0" stroke-linecap="butt"/><circle cx="90" cy="90" r="76" fill="none" stroke="#ef5350"
+      stroke-width="14" stroke-dasharray="170.54360119487447 477.5220833456485"
+      stroke-dashoffset="-306.9784821507741" stroke-linecap="butt"/>
+  </svg>
+        <div class="diag-donut-center"><div class="diag-score" style="transform:rotate(90deg)">32<small style="font-size:18px;color:rgba(255,255,255,.3)">%</small></div><div class="diag-score-sub" style="transform:rotate(90deg)">de 14</div></div>
+      </div>
+      <div class="diag-title">📌 Condicionantes</div>
+      <div class="diag-sub">Obrigações continuadas</div>
+      <div class="diag-legend">
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#66bb6a"></span>0</div>
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#ffa726"></span>9</div>
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#ef5350"></span>5</div>
+      </div>
+    </div>
+    <div class="diag-card cp">
+      <div class="diag-donut-wrap">
+
+  <svg width="180" height="180" viewBox="0 0 180 180" style="transform:rotate(-90deg)">
+    <circle cx="90" cy="90" r="76" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14"/>
+    <circle cx="90" cy="90" r="76" fill="none" stroke="#66bb6a"
+      stroke-width="14" stroke-dasharray="0 477.5220833456485"
+      stroke-dashoffset="0" stroke-linecap="butt"/><circle cx="90" cy="90" r="76" fill="none" stroke="#ffa726"
+      stroke-width="14" stroke-dasharray="186.8044673691819 477.5220833456485"
+      stroke-dashoffset="0" stroke-linecap="butt"/><circle cx="90" cy="90" r="76" fill="none" stroke="#ef5350"
+      stroke-width="14" stroke-dasharray="290.71761597646655 477.5220833456485"
+      stroke-dashoffset="-186.8044673691819" stroke-linecap="butt"/>
+  </svg>
+        <div class="diag-donut-center"><div class="diag-score" style="transform:rotate(90deg)">23<small style="font-size:18px;color:rgba(255,255,255,.3)">%</small></div><div class="diag-score-sub" style="transform:rotate(90deg)">de 23</div></div>
+      </div>
+      <div class="diag-title">🛡 Compliance Paralelo</div>
+      <div class="diag-sub">MTE · ANP · IBAMA · PNRS</div>
+      <div class="diag-legend">
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#66bb6a"></span>0 ok</div>
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#ffa726"></span>9</div>
+        <div class="diag-legend-item"><span class="diag-legend-dot" style="background:#ef5350"></span>14</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">03 · DIAGNÓSTICO</span><span class="mono">04 / 14</span></div>
+</section>
+
+<section class="slide gap-slide" data-slide="5">
+  <div class="slide-header">
+    <div class="slide-chapter">04 · Prioridades</div>
+    <div class="slide-counter">05 / 14</div>
+  </div>
+  <h2 style="margin-bottom:10px">Os <span class="accent">6</span> pontos que já estamos atacando</h2>
+  <h3 style="margin-bottom:30px">Top prioridades SST/Compliance ordenadas por urgência × lead-time</h3>
+  <div class="slide-content">
+    <div class="gap-list">
+    <div class="gap-row prio-alta">
+      <div class="gap-n">CP-01</div>
+      <div>
+        <div class="gap-title">ASO · Atestado de Saúde Ocupacional</div>
+        <div class="gap-desc">Aptidão física e mental de cada colaborador, emitido por médico do trabalho. Pendente para 100% da equipe do posto.</div>
+      </div>
+      <div class="gap-prio alta">alta</div>
+      <div class="gap-lead">30d<small>lead-time</small></div>
+    </div>
+    <div class="gap-row prio-alta">
+      <div class="gap-n">CP-02</div>
+      <div>
+        <div class="gap-title">PCMSO · Programa de Controle Médico</div>
+        <div class="gap-desc">Documento anual obrigatório coordenado por médico do trabalho. Base para ASO e acompanhamento da saúde dos empregados.</div>
+      </div>
+      <div class="gap-prio alta">alta</div>
+      <div class="gap-lead">60d<small>lead-time</small></div>
+    </div>
+    <div class="gap-row prio-critica">
+      <div class="gap-n">CP-03</div>
+      <div>
+        <div class="gap-title">PGR · Programa de Gerenciamento de Riscos</div>
+        <div class="gap-desc">Identifica, avalia e controla riscos ocupacionais (químicos, físicos, ergonômicos). Exigido pela NR-01 para toda empresa com empregados.</div>
+      </div>
+      <div class="gap-prio critica">critica</div>
+      <div class="gap-lead">90d<small>lead-time</small></div>
+    </div>
+    <div class="gap-row prio-alta">
+      <div class="gap-n">CP-11</div>
+      <div>
+        <div class="gap-title">CIPA · Comissão Interna de Prevenção</div>
+        <div class="gap-desc">Até 19 colaboradores designa 1 responsável (Designado CIPA); acima de 20, comissão eleita. Obrigatório pela NR-05.</div>
+      </div>
+      <div class="gap-prio alta">alta</div>
+      <div class="gap-lead">45d<small>lead-time</small></div>
+    </div>
+    <div class="gap-row prio-critica">
+      <div class="gap-n">CP-12</div>
+      <div>
+        <div class="gap-title">Brigada de Incêndio</div>
+        <div class="gap-desc">Brigadistas treinados para primeira resposta a incêndio, vazamento e evacuação. Obrigatório em postos (IT-17 CBM-GO).</div>
+      </div>
+      <div class="gap-prio critica">critica</div>
+      <div class="gap-lead">60d<small>lead-time</small></div>
+    </div>
+    <div class="gap-row prio-alta">
+      <div class="gap-n">CP-13</div>
+      <div>
+        <div class="gap-title">eSocial SST</div>
+        <div class="gap-desc">Eventos S-2210/2220/2240 obrigatórios desde jan/2022. Sem eles, ASO e CAT não têm validade fiscal/trabalhista.</div>
+      </div>
+      <div class="gap-prio alta">alta</div>
+      <div class="gap-lead">30d<small>lead-time</small></div>
+    </div></div>
+  </div>
+  <div class="slide-footer"><span class="mono">04 · PRIORIDADES</span><span class="mono">05 / 14</span></div>
+</section>
+
+<section class="slide tl-slide" data-slide="6">
+  <div class="slide-header">
+    <div class="slide-chapter">05 · Linha do Tempo</div>
+    <div class="slide-counter">06 / 14</div>
+  </div>
+  <h2 style="margin-bottom:10px">Linha do tempo · Abr → Dez 2026</h2>
+  <h3 style="margin-bottom:30px">4 frentes executadas em paralelo · janela de protocolo 24/08 · zona vermelha = operação irregular</h3>
+  <div class="gantt">
+    <div class="gantt-header">
+      <div>ABR</div><div>MAI</div><div>JUN</div><div>JUL</div><div>AGO</div><div>SET</div><div>OUT</div><div>NOV</div><div>DEZ</div>
+    </div>
+    <div class="gantt-rows">
+      <div class="gantt-row">
+        <div class="gantt-row-lbl"><span class="gantt-row-lbl-ico">📋</span>Uso do Solo</div>
+        <div class="gantt-track">
+          <div class="gantt-bar solo" style="left:0%;width:33%">Coleta + emissão</div>
+        </div>
+      </div>
+      <div class="gantt-row">
+        <div class="gantt-row-lbl"><span class="gantt-row-lbl-ico">🌿</span>Renovação LAO</div>
+        <div class="gantt-track">
+          <div class="gantt-zone-risk" style="left:74%;right:0%"></div>
+          <div class="gantt-bar lao" style="left:0%;width:50%">Consolidação técnica</div>
+          <div class="gantt-bar proto" style="left:50%;width:5%">📥</div>
+          <div class="gantt-bar lao" style="left:56%;width:40%;opacity:.5">Análise SEMMA (120d)</div>
+          <div class="gantt-zone-label" style="right:10px;top:-28px">⚠ LAO vence 23/12</div>
+        </div>
+      </div>
+      <div class="gantt-row">
+        <div class="gantt-row-lbl"><span class="gantt-row-lbl-ico">📌</span>Condicionantes</div>
+        <div class="gantt-track">
+          <div class="gantt-bar cond" style="left:5%;width:55%">14 condicionantes · RCA · ART · MCE</div>
+        </div>
+      </div>
+      <div class="gantt-row">
+        <div class="gantt-row-lbl"><span class="gantt-row-lbl-ico">🛡</span>Compliance Paralelo</div>
+        <div class="gantt-track">
+          <div class="gantt-bar cp" style="left:3%;width:60%">23 CPs · MTE + ANP + IBAMA + PNRS</div>
+        </div>
+      </div>
+      <div class="gantt-row">
+        <div class="gantt-row-lbl"><span class="gantt-row-lbl-ico">🎯</span>Visita + Protocolo</div>
+        <div class="gantt-track">
+          <div class="gantt-bar lao" style="left:37%;width:10%">Visita técnica</div>
+          <div class="gantt-bar proto" style="left:51%;width:3%">🎯</div>
+        </div>
+      </div>
+    </div>
+    <div class="gantt-legend">
+      <div class="gantt-legend-item"><div class="gantt-legend-sq" style="background:linear-gradient(90deg,#66bb6a,#9ccc65)"></div>Execução</div>
+      <div class="gantt-legend-item"><div class="gantt-legend-sq" style="background:linear-gradient(90deg,#d32f2f,#f44336)"></div>Marco crítico</div>
+      <div class="gantt-legend-item"><div class="gantt-legend-sq" style="background:rgba(255,58,58,.15)"></div>Zona de risco (LAO vencida)</div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">05 · CRONOGRAMA</span><span class="mono">06 / 14</span></div>
+</section>
+
+<section class="slide" data-slide="7">
+  <div class="slide-header">
+    <div class="slide-chapter">06 · Plano</div>
+    <div class="slide-counter">07 / 14</div>
+  </div>
+  <h2 style="margin-bottom:10px">O cronograma em <span class="accent">4 fases</span></h2>
+  <h3>O que entregamos em cada etapa · marcos claros · estamos entrando na Fase 01 agora</h3>
+  <div class="plan-grid">
+    <div class="plan-fase f1" data-n="01">
+      <div class="plan-fase-num">Fase 01</div>
+      <div class="plan-fase-data">15/04 → 15/05 · 30d</div>
+      <h4>Desbloqueio</h4>
+      <ul class="plan-fase-ul">
+        <li>Auditoria dos 13 recebidos (R-01 a R-13)</li>
+        <li>Certidões negativas federais + estaduais</li>
+        <li>Rotinas ANP (SIMP + movimentação mensal)</li>
+        <li>Plano de ação top 5 gaps críticos</li>
+      </ul>
+    </div>
+    <div class="plan-fase f2" data-n="02">
+      <div class="plan-fase-num">Fase 02</div>
+      <div class="plan-fase-data">15/05 → 30/06 · 45d</div>
+      <h4>Consolidação</h4>
+      <ul class="plan-fase-ul">
+        <li>Certidão de Uso do Solo emitida</li>
+        <li>MCE atualizado com config 2026 + ART</li>
+        <li>PGR Trabalhista + PCMSO + ASOs</li>
+        <li>CTF/RAPP IBAMA regularizado</li>
+      </ul>
+    </div>
+    <div class="plan-fase f3" data-n="03">
+      <div class="plan-fase-num">Fase 03</div>
+      <div class="plan-fase-data">01/07 → 15/08 · 45d</div>
+      <h4>Execução técnica</h4>
+      <ul class="plan-fase-ul">
+        <li>Visita técnica conjunta (34 VCs)</li>
+        <li>RCA semestral + investigação passivo P-01</li>
+        <li>PGRS · FISPQ · SPDA laudado</li>
+        <li>Treinamento NR-20 + brigada</li>
+      </ul>
+    </div>
+    <div class="plan-fase f4" data-n="04">
+      <div class="plan-fase-num">Fase 04</div>
+      <div class="plan-fase-data">24/08 · marco 🎯</div>
+      <h4>Protocolo + análise</h4>
+      <ul class="plan-fase-ul">
+        <li>Dossiê completo entregue à SEMMA</li>
+        <li>ART + DUAM + MCE + 14 condicionantes</li>
+        <li>Resposta a diligências (SLA 30d/each)</li>
+        <li>Acompanhamento até emissão LAO nova</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">06 · PLANO</span><span class="mono">07 / 14</span></div>
+</section>
+
+<section class="slide ops-slide" data-slide="8">
+  <div class="slide-header">
+    <div class="slide-chapter">07 · Cronograma operacional</div>
+    <div class="slide-counter">08 / 14</div>
+  </div>
+  <h2 style="margin-bottom:8px">Cada <span class="accent">passo</span>, semana a semana</h2>
+  <div class="ops-intro">Timeline detalhada das 18 semanas até o protocolo (24/08/2026). Cada ação tem responsável claro · cliente, Hábilis ou conjunto.</div>
+  <div class="ops-legend">
+    <div class="ops-legend-tag"><div class="ops-legend-ico cli">🏢</div> Proprietário / Auto Posto América</div>
+    <div class="ops-legend-tag"><div class="ops-legend-ico hab">🧑‍💼</div> Hábilis · coordenação técnica</div>
+    <div class="ops-legend-tag"><div class="ops-legend-ico both">🤝</div> Conjunto · decisão + execução</div>
+  </div>
+  <div class="ops-scroll">
+    <div class="ops-quinzenas">
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Quinzena 01</div>
+          <div class="ops-q-date">15 → 30 · abr</div>
+          <div class="ops-q-fase">Fase 01 · Desbloqueio</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Assinar procuração + contrato Hábilis</b> · enviar CNPJ, contrato social e 2ª Alteração Contratual · liberar senhas ANP / SisCTF / eSocial.</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt"><b>Auditoria dos 13 recebidos</b> (R-01 a R-13) · emissão de certidões negativas federais e estaduais · ativação do Dashboard v5.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Quinzena 02</div>
+          <div class="ops-q-date">01 → 15 · mai</div>
+          <div class="ops-q-fase">Fase 01 → Fase 02</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane both"><div class="ops-q-lane-ico">🤝</div><div class="ops-q-lane-txt"><b>Revisão executiva quinzenal #1</b> · validar Top 5 gaps críticos e plano de ação.</div></div>
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Aprovar contratação</b> de médico do trabalho, engenheiro de segurança e eletricista SPDA (orçamentos Hábilis).</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt">Regularização de rotinas ANP (SIMP + movimentação mensal) · abertura do processo Uso do Solo na Prefeitura.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Quinzena 03</div>
+          <div class="ops-q-date">16 → 31 · mai</div>
+          <div class="ops-q-fase">Fase 02 · Consolidação</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Pagar taxa Uso do Solo</b> (Prefeitura de Guapó) · liberar acesso ao posto para levantamento do MCE.</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt">Levantamento de campo para MCE 2026 · início da elaboração de PGR Trabalhista + PCMSO.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Quinzena 04</div>
+          <div class="ops-q-date">01 → 15 · jun</div>
+          <div class="ops-q-fase">Fase 02 · Consolidação</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Liberar equipe</b> para realização dos ASOs (médico do trabalho no posto) · validar cronograma de ASO.</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt">MCE atualizado com configuração 2026 · ART de MCE registrada · CTF/RAPP IBAMA regularizado.</div></div>
+          <div class="ops-q-lane both"><div class="ops-q-lane-ico">🤝</div><div class="ops-q-lane-txt"><b>Revisão executiva #2</b> · certidão de Uso do Solo emitida.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Quinzena 05</div>
+          <div class="ops-q-date">16 → 30 · jun</div>
+          <div class="ops-q-fase">Fase 02 → Fase 03</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Quitar DUAM / TCFA</b> (taxas federais e estaduais) · validar MCE final · assinar ART do projeto.</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt">Fechamento de PGR + PCMSO + 1ª rodada de ASOs · PGRS elaborado · FISPQ consolidada.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Quinzena 06</div>
+          <div class="ops-q-date">01 → 15 · jul</div>
+          <div class="ops-q-fase">Fase 03 · Execução técnica</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Agendar a visita técnica</b> (14 dias de antecedência) · liberar acesso total ao posto na data · confirmar presença do responsável técnico do posto.</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt">Preparação dos 34 VCs (verificações de campo) · SPDA laudado por eletricista · RCA semestral em elaboração.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Quinzena 07</div>
+          <div class="ops-q-date">16 → 31 · jul</div>
+          <div class="ops-q-fase">Fase 03 · Execução técnica</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane both"><div class="ops-q-lane-ico">🤝</div><div class="ops-q-lane-txt"><b>Visita técnica conjunta</b> · 34 verificações de campo · preenchimento presencial com cliente.</div></div>
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Aprovar contratação de brigadistas</b> + treinamento NR-20 · autorizar teste de estanqueidade complementar (se necessário).</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt">Investigação do passivo solo P-01 · PAE revisado · CIPA/Designado formalizado.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Quinzena 08</div>
+          <div class="ops-q-date">01 → 15 · ago</div>
+          <div class="ops-q-fase">Fase 03 → Fase 04</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Validar dossiê final</b> de protocolo · assinar ART de execução · quitar taxas finais (DUAM de protocolo + taxas municipais residuais).</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt">Consolidação do dossiê (47 docs · 14 condicionantes · ART · DUAM · MCE) · revisão jurídica final · ensaio do protocolo.</div></div>
+          <div class="ops-q-lane both"><div class="ops-q-lane-ico">🤝</div><div class="ops-q-lane-txt"><b>Revisão executiva #4</b> · go/no-go do protocolo.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q marco">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Marco 🎯</div>
+          <div class="ops-q-date">24 · ago</div>
+          <div class="ops-q-fase">Fase 04 · Protocolo SEMMA</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt"><b>Protocolo formal na SEMMA Guapó</b> — dossiê completo entregue (Proc. 22760/2020) · recibo digital enviado ao proprietário no mesmo dia.</div></div>
+        </div>
+      </div>
+
+      <div class="ops-q">
+        <div class="ops-q-head">
+          <div class="ops-q-num">Pós-protocolo</div>
+          <div class="ops-q-date">25 · ago → 23 · dez</div>
+          <div class="ops-q-fase">Análise SEMMA · 120 dias</div>
+        </div>
+        <div class="ops-q-body">
+          <div class="ops-q-lane cli"><div class="ops-q-lane-ico">🏢</div><div class="ops-q-lane-txt"><b>Responder diligências</b> da SEMMA dentro do SLA de 30 dias de cada exigência (decisão + assinatura) · 20/10: CBM vence → nova vistoria.</div></div>
+          <div class="ops-q-lane hab"><div class="ops-q-lane-ico">🧑‍💼</div><div class="ops-q-lane-txt">Acompanhamento técnico contínuo · resposta a diligências · renovação CBM + SPDA · acompanhamento até emissão da nova LAO.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">07 · CRONOGRAMA OPERACIONAL</span><span class="mono">08 / 14</span></div>
+</section>
+
+<section class="slide agenda-slide" data-slide="9">
+  <div class="slide-header">
+    <div class="slide-chapter">08 · Agenda do proprietário</div>
+    <div class="slide-counter">09 / 14</div>
+  </div>
+  <h2 style="margin-bottom:8px">A <span class="accent">sua</span> agenda · o que fazer e quando</h2>
+  <div class="agenda-intro">Apenas o que depende da sua decisão, pagamento ou assinatura. Ordenado por data. Cada ação segura o cronograma seguinte — atrasos se acumulam até o marco de 24/08.</div>
+  <div class="agenda-scroll">
+    <div class="agenda-grid">
+
+      <div class="agenda-card urgent">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 22/04/2026</div>
+          <div class="agenda-card-tag">assinatura</div>
+        </div>
+        <div class="agenda-card-action">Assinar procuração + contrato Hábilis</div>
+        <div class="agenda-card-desc">Procuração nos moldes Hábilis (modelo pronto) e contrato de coordenação técnica. <b>Destrava tudo</b>: sem isso não protocolamos em seu nome.</div>
+      </div>
+
+      <div class="agenda-card urgent">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 30/04/2026</div>
+          <div class="agenda-card-tag">acesso</div>
+        </div>
+        <div class="agenda-card-action">Liberar senhas de sistemas</div>
+        <div class="agenda-card-desc"><b>ANP · SisCTF · eSocial · Conectividade Social</b>. Entrega por canal seguro. Sem acesso, não regularizamos rotinas ANP e SST.</div>
+      </div>
+
+      <div class="agenda-card urgent">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 30/04/2026</div>
+          <div class="agenda-card-tag">documentos</div>
+        </div>
+        <div class="agenda-card-action">Enviar docs societários vigentes</div>
+        <div class="agenda-card-desc">CNPJ atualizado · Contrato Social + 2ª Alteração · RG/CPF do proprietário · comprovante de endereço. <b>Em PDF</b>.</div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 15/05/2026</div>
+          <div class="agenda-card-tag">decisão</div>
+        </div>
+        <div class="agenda-card-action">Aprovar 3 contratações técnicas</div>
+        <div class="agenda-card-desc"><b>Médico do trabalho</b> (PCMSO/ASO) · <b>Engenheiro de segurança</b> (PGR) · <b>Eletricista SPDA</b> (laudo). Orçamentos enviados pela Hábilis.</div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 31/05/2026</div>
+          <div class="agenda-card-tag">pagamento</div>
+        </div>
+        <div class="agenda-card-action">Pagar taxa Uso do Solo</div>
+        <div class="agenda-card-desc">Taxa da <b>Prefeitura de Guapó</b> para emissão da Certidão de Uso do Solo · pré-requisito obrigatório para o dossiê LAO.</div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 15/06/2026</div>
+          <div class="agenda-card-tag">acesso</div>
+        </div>
+        <div class="agenda-card-action">Liberar ASOs da equipe</div>
+        <div class="agenda-card-desc">Garantir que <b>100% dos colaboradores</b> compareçam às consultas com o médico do trabalho · sem ASO vigente, o posto fica irregular.</div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 30/06/2026</div>
+          <div class="agenda-card-tag">pagamento</div>
+        </div>
+        <div class="agenda-card-action">Quitar DUAM + TCFA</div>
+        <div class="agenda-card-desc"><b>DUAM</b> (taxa estadual) e <b>TCFA</b> (taxa IBAMA trimestral). Boletos emitidos pela Hábilis · pagamento direto pelo cliente.</div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 15/07/2026</div>
+          <div class="agenda-card-tag">agenda</div>
+        </div>
+        <div class="agenda-card-action">Agendar visita técnica conjunta</div>
+        <div class="agenda-card-desc">Confirmar data com <b>14 dias de antecedência</b> · garantir presença de responsável pelo posto no dia · liberar acesso a tanques, bombas e área de mecânica.</div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 31/07/2026</div>
+          <div class="agenda-card-tag">decisão</div>
+        </div>
+        <div class="agenda-card-action">Aprovar brigada + treinamento NR-20</div>
+        <div class="agenda-card-desc">Contratação de brigadistas e treinamento <b>NR-20</b> para toda a equipe operacional · obrigatório por IT-17 CBM-GO.</div>
+      </div>
+
+      <div class="agenda-card urgent">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 15/08/2026</div>
+          <div class="agenda-card-tag">assinatura</div>
+        </div>
+        <div class="agenda-card-action">Validar dossiê final + assinar ART</div>
+        <div class="agenda-card-desc"><b>Última janela de validação</b> antes do protocolo. Revisão executiva conjunta · ART de execução registrada · DUAM de protocolo quitado.</div>
+      </div>
+
+      <div class="agenda-card marco">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">🎯 24/08/2026 · MARCO</div>
+          <div class="agenda-card-tag">protocolo</div>
+        </div>
+        <div class="agenda-card-action">Protocolo formal na SEMMA Guapó · 120 dias antes do vencimento</div>
+        <div class="agenda-card-desc">Hábilis executa o protocolo. Você recebe o <b>recibo digital no mesmo dia</b>. A partir daqui, a LAO fica automaticamente preservada durante a análise da SEMMA.</div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">25/08 → 23/12/2026</div>
+          <div class="agenda-card-tag">acompanhar</div>
+        </div>
+        <div class="agenda-card-action">Responder diligências (SLA 30d)</div>
+        <div class="agenda-card-desc">Cada exigência da SEMMA tem <b>SLA de 30 dias</b> para resposta. Decisões e assinaturas pontuais · Hábilis elabora as respostas técnicas.</div>
+      </div>
+
+      <div class="agenda-card">
+        <div class="agenda-card-head">
+          <div class="agenda-card-date">até 20/10/2026</div>
+          <div class="agenda-card-tag">renovação</div>
+        </div>
+        <div class="agenda-card-action">Renovar Certificado CBM</div>
+        <div class="agenda-card-desc">Certificado do CBM vence em 20/10 · <b>nova vistoria + SPDA atualizado</b>. Previsto no cronograma Hábilis · acesso ao posto requerido.</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">08 · AGENDA DO PROPRIETÁRIO</span><span class="mono">09 / 14</span></div>
+</section>
+
+<section class="slide" data-slide="10">
+  <div class="slide-header">
+    <div class="slide-chapter">09 · Investimento</div>
+    <div class="slide-counter">10 / 14</div>
+  </div>
+  <h2 style="margin-bottom:10px">Quanto custa <span class="accent">regularizar 100%</span>?</h2>
+  <h3>CAPEX total consolidado das 4 frentes · exclui contingentes (passivo solo P-01 + alvará sanitário)</h3>
+  <div class="invest-wrap">
+    <div class="invest-big">
+      <div class="invest-big-lbl">💰 CAPEX total · 4 frentes integradas</div>
+      <div class="invest-big-num">R$ 1,4<span class="accent">M</span></div>
+      <div class="invest-big-range">faixa: R$ 1.398k (mínimo) — R$ 2.567k (teto)</div>
+      <div class="invest-big-desc">Cobre 71 itens: Uso do Solo (11) + LAO (26) + Condicionantes (14) + Compliance paralelo (20 obrigatórios). Honorários Hábilis + taxas de órgãos (DUAM · TCFA · municipais) + terceiros técnicos (médico do trabalho · eng. segurança · eletricista SPDA · topógrafo).</div>
+    </div>
+    <div class="invest-context">
+      <div class="invest-ctx-card">
+        <div class="invest-ctx-lbl">Contexto 1 · custo de não agir</div>
+        <div class="invest-ctx-val">multa até R$ 10 milhões</div>
+        <div class="invest-ctx-sub">Lei 9.605/98: operação sem LAO = <b>embargo + multa de R$ 500 a R$ 10 milhões + responsabilização criminal do titular</b>. Uma única autuação IBAMA típica já chega a <b>R$ 50k–500k</b>.</div>
+      </div>
+      <div class="invest-ctx-card">
+        <div class="invest-ctx-lbl">Contexto 2 · % faturamento anual</div>
+        <div class="invest-ctx-val">≈ 6% a 13% de 1 ano</div>
+        <div class="invest-ctx-sub">Posto médio fatura <b>R$ 15–25 milhões/ano</b>. CAPEX total pago uma única vez representa <b>menos de 2 meses de margem operacional</b> — cobre 4 anos até a próxima renovação (2030).</div>
+      </div>
+      <div class="invest-ctx-card">
+        <div class="invest-ctx-lbl">Contexto 3 · cada dia parado</div>
+        <div class="invest-ctx-val">≈ R$ 40–70k / dia</div>
+        <div class="invest-ctx-sub">Embargo por LAO vencida = posto fechado. Faturamento diário típico = <b>R$ 40–70 mil</b>. <b>10 dias de interdição</b> já supera o CAPEX mínimo das 4 frentes.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">09 · INVESTIMENTO</span><span class="mono">10 / 14</span></div>
+</section>
+
+<section class="slide" data-slide="11">
+  <div class="slide-header">
+    <div class="slide-chapter">10 · Parceria</div>
+    <div class="slide-counter">11 / 14</div>
+  </div>
+  <h2 style="margin-bottom:10px">Responsabilidades claras</h2>
+  <h3 style="margin-bottom:30px">Hábilis coordena técnica e legalmente · Cliente mantém operação e decisões estratégicas</h3>
+  <div class="parc-grid">
+    <div class="parc-col cli">
+      <div class="parc-col-ico">🏢</div>
+      <h4>Auto Posto América</h4>
+      <div class="parc-col-sub">O que o cliente provê e decide</div>
+      <ul class="parc-list">
+        <li>Acesso ao posto para a visita técnica (data agendada com 14d de antecedência)</li>
+        <li>Documentos fiscais e societários vigentes (contrato social · procurações)</li>
+        <li>Senhas de sistemas existentes: ANP · SINIR · SisCTF · eSocial (se tiver)</li>
+        <li>Decisão sobre escopo (LAO apenas ou LAO + Compliance Paralelo)</li>
+        <li>Aprovação de contratações externas (médico trabalho · eng. segurança · eletricista SPDA)</li>
+        <li>Pagamento de taxas de órgãos (DUAM · TCFA · taxas municipais)</li>
+      </ul>
+    </div>
+    <div class="parc-col hab">
+      <div class="parc-col-ico">🧑‍💼</div>
+      <h4>Hábilis · Coordenação Técnica</h4>
+      <div class="parc-col-sub">O que entregamos e coordenamos</div>
+      <ul class="parc-list">
+        <li>Dashboard v5 de gestão — acesso 24/7 durante toda a vigência do contrato</li>
+        <li>Coordenação executiva + cronograma vivo + acompanhamento semanal</li>
+        <li>Elaboração técnica: MCE · PGR · PAE · PGRS · RCA · ART registrada</li>
+        <li>Interface formal com SEMMA · SEMAD · IBAMA · ANP · CBM-GO</li>
+        <li>Visita técnica conjunta (34 VCs validados em campo)</li>
+        <li>Montagem do dossiê de protocolo + acompanhamento até emissão LAO nova</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">10 · PARCERIA</span><span class="mono">11 / 14</span></div>
+</section>
+
+<section class="slide" data-slide="12">
+  <div class="slide-header">
+    <div class="slide-chapter">11 · Diferencial</div>
+    <div class="slide-counter">12 / 14</div>
+  </div>
+  <h2 style="margin-bottom:10px">Por que <span class="accent">Hábilis</span>?</h2>
+  <h3 style="margin-bottom:30px">Três diferenciais que nenhuma consultoria tradicional entrega</h3>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-ic">🛠</div>
+      <h4>Ferramenta de gestão incluída</h4>
+      <p>Dashboard v5 é parte do pacote · não custa extra · atualiza ao vivo. Vocês ficam com a ferramenta mesmo após a emissão da LAO — serve para monitorar condicionantes continuadas e próxima renovação (2030).</p>
+      <div class="why-stat">71</div>
+      <div class="why-stat-lbl">itens rastreados</div>
+    </div>
+    <div class="why-card">
+      <div class="why-ic">🎯</div>
+      <h4>Método de cobertura 100%</h4>
+      <p>Diferente de consultoria que resolve só o que o TR-SEMMA pede, nossa metodologia cobre as 4 frentes (LAO + Compliance MTE · ANP · IBAMA · PNRS). Cliente fica protegido em 360° contra autuações paralelas, não só ambientais.</p>
+      <div class="why-stat">4</div>
+      <div class="why-stat-lbl">frentes integradas</div>
+    </div>
+    <div class="why-card">
+      <div class="why-ic">📑</div>
+      <h4>Transparência total</h4>
+      <p>Você vê o status exato de cada item em cada momento · cronograma vivo · financeiro rastreado · sem surpresas. Relatório mestre gerado automaticamente · deck executivo para apresentar a sócios · tudo auditável.</p>
+      <div class="why-stat">0</div>
+      <div class="why-stat-lbl">caixa-preta</div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">11 · DIFERENCIAL</span><span class="mono">12 / 14</span></div>
+</section>
+
+<section class="slide" data-slide="13">
+  <div class="slide-header">
+    <div class="slide-chapter">12 · Próximos passos</div>
+    <div class="slide-counter">13 / 14</div>
+  </div>
+  <h2 style="margin-bottom:10px">Decisões do proprietário · <span class="accent">30 / 60 / 90 dias</span></h2>
+  <h3 style="margin-bottom:20px">O que precisa do seu sim para o cronograma seguir · cada atraso encurta a janela até 24/08</h3>
+  <div class="steps-wrap">
+    <div class="steps-line">
+      <div class="step">
+        <div class="step-dot">30</div>
+        <div class="step-prazo">até 15/05/2026 · Fase 01</div>
+        <div class="step-title">Escopo + contratações iniciais</div>
+        <div class="step-desc">Aprovar escopo (LAO + Compliance) · autorizar contratação de médico do trabalho, eng. de segurança e eletricista SPDA · liberar senhas ANP · SisCTF · eSocial.</div>
+      </div>
+      <div class="step">
+        <div class="step-dot">60</div>
+        <div class="step-prazo">até 30/06/2026 · Fase 02</div>
+        <div class="step-title">Uso do Solo + DUAM</div>
+        <div class="step-desc">Aprovar taxas municipais (Uso do Solo Guapó) · pagar DUAM/TCFA · validar MCE atualizado · agendar visita técnica conjunta (14d antecedência).</div>
+      </div>
+      <div class="step">
+        <div class="step-dot">90</div>
+        <div class="step-prazo">até 15/08/2026 · Fase 03-04</div>
+        <div class="step-title">Protocolo SEMMA</div>
+        <div class="step-desc">Assinar ART + procurações finais · validar dossiê completo antes do protocolo 24/08 · alinhar resposta a diligências (SLA 30d cada).</div>
+      </div>
+    </div>
+    <div class="steps-cta">
+      <div class="steps-cta-txt">⏱ <b>Cada semana de atraso numa decisão</b> desloca o protocolo da janela ideal de 24/08. Depois de 23/12/2026 o posto opera ilegalmente — embargo + multa até R$ 10 milhões + responsabilização criminal.</div>
+      <button class="steps-cta-btn">📊 Abrir Dashboard</button>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">12 · AÇÃO</span><span class="mono">13 / 14</span></div>
+</section>
+
+<section class="slide thanks" data-slide="14">
+  <div class="cover-logo-row">
+    <div class="cover-logo-mark">H</div>
+    <div class="cover-logo-text">HÁBILIS<small>Regularização Ambiental</small></div>
+  </div>
+  <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding-top:80px">
+    <div class="thanks-eyebrow">Obrigado · dúvidas e alinhamentos</div>
+    <h1 class="thanks-title">Agora é <span class="accent">executar</span>.<br><span class="dim">O tempo joga contra.</span></h1>
+    <div class="thanks-sub">Janela ideal de protocolo: <b style="color:#fff">24/08/2026</b>. Vencimento da LAO: <b style="color:#fff">23/12/2026</b>. Todo o acompanhamento estará vivo no dashboard — você recebe o link por e-mail após esta reunião.</div>
+    <div class="thanks-contact">
+      <div class="thanks-contact-ico">📞</div>
+      <div class="thanks-contact-info">
+        <div class="name">Equipe Hábilis · Coordenação</div>
+        <div class="role">Regularização Ambiental · Auto Posto América</div>
+        <div class="lines">
+          <span>📧 contato@habilis.com.br</span>
+          <span>📱 (62) 9 0000-0000</span>
+          <span>🌐 habilis.com.br</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer"><span class="mono">OBRIGADO</span><span class="mono">14 / 14</span></div>
+</section>
+</div>
+<nav class="nav">
+  <button id="nav-prev" title="Anterior (←)">‹</button>
+  <div class="nav-dots" id="nav-dots"></div>
+  <button id="nav-next" title="Próximo (→)">›</button>
+  <button class="nav-fs" id="nav-fs" title="Tela cheia (F)">⛶</button>
+  <button class="nav-pdf" id="nav-pdf" title="Exportar PDF">PDF</button>
+</nav>
+<script>
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('progress-bar');
+const dotsEl = document.getElementById('nav-dots');
+let cur = 0;
+function go(i){
+  cur = Math.max(0, Math.min(slides.length-1, i));
+  slides.forEach((s,idx) => {
+    s.classList.remove('active','prev');
+    if(idx === cur) s.classList.add('active');
+    else if(idx < cur) s.classList.add('prev');
+  });
+  dotsEl.querySelectorAll('.nav-dot').forEach((d,idx) => d.classList.toggle('active', idx===cur));
+  progressBar.style.width = (((cur+1)/slides.length)*100)+'%';
+}
+slides.forEach((s,idx) => {
+  const d = document.createElement('div');
+  d.className = 'nav-dot' + (idx===0 ? ' active' : '');
+  d.onclick = () => go(idx);
+  dotsEl.appendChild(d);
+});
+document.getElementById('nav-prev').onclick = () => go(cur-1);
+document.getElementById('nav-next').onclick = () => go(cur+1);
+document.getElementById('nav-fs').onclick = () => {
+  if(document.fullscreenElement) document.exitFullscreen();
+  else document.documentElement.requestFullscreen();
+};
+document.getElementById('nav-pdf').onclick = () => window.print();
+document.addEventListener('keydown', e => {
+  if(e.target.tagName === 'IFRAME') return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); go(cur+1); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+  else if(e.key==='Home'){ e.preventDefault(); go(0); }
+  else if(e.key==='End'){ e.preventDefault(); go(slides.length-1); }
+  else if(e.key==='f'||e.key==='F'){ document.getElementById('nav-fs').click(); }
+  else if(e.key==='p'||e.key==='P'){ if(e.ctrlKey||e.metaKey) return; window.print(); }
+});
+// Contagem regressiva ao vivo no slide 2
+function updateClock(){
+  const alvo = new Date('2026-12-23T00:00:00');
+  const hoje = new Date();
+  const dias = Math.max(0, Math.ceil((alvo - hoje) / 86400000));
+  const el = document.getElementById('clock-days');
+  if(el) el.textContent = dias;
+}
+updateClock();
+setInterval(updateClock, 60000);
+// Swipe mobile
+let tx=null;
+document.addEventListener('touchstart', e => tx=e.touches[0].clientX);
+document.addEventListener('touchend', e => {
+  if(tx===null) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if(Math.abs(dx)>50) go(cur+(dx<0?1:-1));
+  tx=null;
+});
+go(0);
+</script>
+</body>
+</html>

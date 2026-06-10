@@ -1,0 +1,74 @@
+[
+  {
+    "tema": "regularizacao ambiental dos empreendimentos especificos",
+    "escopo": "Agua Pora, SunPark/Clube e Vale do Rio Grande/Loteamento",
+    "objetivo": "consolidar o que esta comprovado, o que nao esta comprovado, quais lacunas documentais existem e quais documentos oficiais fecham cada lacuna de regularidade ambiental",
+    "empreendimentos": [
+      {
+        "nome": "Agua Pora",
+        "buscar": [
+          "licenca ambiental",
+          "outorga ou ato equivalente de uso/captacao de agua",
+          "ato da ANM ou processo minerario aplicavel",
+          "laudo hidrogeologico",
+          "analise oficial da agua",
+          "aprovacao municipal de uso do solo e localizacao",
+          "matricula da area de captacao e da area operacional",
+          "ART ou RRT dos projetos e laudos",
+          "autorizacao sanitaria se houver envase",
+          "comprovacao de destinacao de residuos e efluentes se houver operacao"
+        ]
+      },
+      {
+        "nome": "SunPark_Clube",
+        "buscar": [
+          "licenca ambiental do clube parque hotel e estruturas associadas",
+          "alvara municipal e ato de aprovacao",
+          "certidao de uso do solo",
+          "AVCB ou ato do Corpo de Bombeiros",
+          "regularidade sanitaria",
+          "abastecimento de agua e esgotamento",
+          "matriculas da area",
+          "averbacao das construcoes",
+          "regularizacao das estruturas existentes",
+          "APP CAR e averbacoes ambientais se alegados",
+          "comprovacao de inexistencia ou tratamento de passivos ambientais"
+        ]
+      },
+      {
+        "nome": "Vale_do_Rio_Grande_Loteamento",
+        "buscar": [
+          "aprovacao do parcelamento ou loteamento",
+          "licenca ambiental do empreendimento",
+          "uso do solo e aprovacao urbanistica",
+          "anuencia por interferencia em reservatorio faixa ou cotas se aplicavel",
+          "matricula e poligonal",
+          "APP oficialmente delimitada",
+          "autorizacao para intervencao em APP se houver",
+          "projeto de drenagem e infraestrutura",
+          "termos de areas verdes institucionais e corredores ecologicos",
+          "ato formal que confirme as cotas 388 e 389 como restricao aplicavel",
+          "comprovacao de implantacao regular se houver obra"
+        ]
+      }
+    ],
+    "regras": [
+      "nao confundir projeto com licenca",
+      "nao confundir laudo com autorizacao",
+      "nao confundir material institucional com prova regulatoria",
+      "separar rigorosamente os tres empreendimentos",
+      "priorizar documentos oficiais e probatorios",
+      "classificar cada item como comprovado, nao comprovado, citado sem prova ou inconsistente"
+    ],
+    "saida_esperada": [
+      "empreendimento",
+      "documento_ou_ato",
+      "status",
+      "orgao_relacionado",
+      "funcao_regulatoria",
+      "lacuna_identificada",
+      "documento_que_fecha_a_lacuna",
+      "observacao_objetiva"
+    ]
+  }
+]

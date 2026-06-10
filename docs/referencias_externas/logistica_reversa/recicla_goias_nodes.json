@@ -1,0 +1,1081 @@
+[
+  {
+    "id": "sistema",
+    "parent": null,
+    "categoria": "raiz",
+    "titulo": "Recicla Goiás — Visão Geral do Sistema",
+    "resumo": "Plataforma estadual de logística reversa de embalagens, fundamentada na PNRS, com escopo territorial restrito ao estado de Goiás, metas progressivas e prazo definido.",
+    "explicacao_detalhada": "O Recicla Goiás é o sistema estadual criado para operacionalizar as obrigações de logística reversa de embalagens no âmbito do estado de Goiás, em conformidade com a Política Nacional de Resíduos Sólidos (Lei 12.305/2010) e seus decretos regulamentadores. O sistema traduz as diretrizes federais em procedimentos administrativos estaduais, com plataforma digital própria, fluxos documentais específicos e estrutura de governança bipartite.\n\nO escopo territorial é um ponto crítico: apenas as embalagens colocadas no mercado consumidor do estado de Goiás são computadas para fins de cálculo de metas e comprovação de cumprimento. Volumes nacionais não se aplicam diretamente — a empresa deve calcular sua participação goiana no total nacional, utilizando critérios como proporção de vendas, notas fiscais de saída ou outros métodos aceitos pela SEMAD.\n\nAs empresas obrigadas são aquelas que fabricam, importam, distribuem ou comercializam produtos em embalagens e que colocam tais embalagens no mercado goiano em volumes relevantes. A obrigação abrange tanto empresas de grande porte quanto aquelas que, mesmo de menor porte, atingem os limiares estabelecidos pela regulamentação estadual.\n\nAs metas vigentes são escalonadas: 22% de massa recuperada em relação à massa colocada no mercado para o ciclo atual, com progressão para 30% no ciclo seguinte. O descumprimento dessas metas, sem justificativa técnica válida aceita pela SEMAD, sujeita a empresa a autuação e penalidades administrativas.\n\nO prazo de 31 de março de 2026 é o marco de encerramento do ciclo vigente para entrega do relatório final, incluindo documentação completa, verificação independente e declaração do verificador. Empresas que não concluírem o ciclo dentro deste prazo estarão sujeitas a sanções, independentemente do estágio em que se encontrem no processo.",
+    "momento_operacional": "Referência permanente — aplicável a todas as etapas de A a H",
+    "entradas": [
+      "Legislação federal (PNRS, Decreto 10.936/2022)",
+      "Regulamentação estadual de Goiás",
+      "Dados de volume de embalagens colocadas no mercado goiano"
+    ],
+    "saidas": [
+      "Enquadramento da empresa no sistema",
+      "Base para cálculo de metas",
+      "Definição de obrigações aplicáveis"
+    ],
+    "documentos": [
+      "Lei 12.305/2010 (PNRS)",
+      "Decreto Federal 10.936/2022",
+      "Regulamentação estadual Recicla Goiás",
+      "Resolução SEMAD aplicável"
+    ],
+    "implicacoes": "Toda empresa obrigada que não participar do sistema estará sujeita a autuação administrativa pela SEMAD, com aplicação de multas proporcionais ao volume colocado no mercado e ao grau de descumprimento.",
+    "riscos": "Subestimar o volume goiano, calcular metas com base em dados nacionais sem proporcionalização, ou ignorar o prazo de 31/03/2026 são os principais vetores de risco sistêmico.",
+    "erros_comuns": "Usar dados nacionais de embalagem sem recalcular a participação goiana. Confundir resíduos industriais internos com embalagens pós-consumo. Não registrar a empresa no sistema antes do início do ciclo.",
+    "atores_relacionados": [
+      "SEMAD",
+      "Comitê Intersetorial",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Operador",
+      "Verificador"
+    ],
+    "visao_consultoria": "A consultoria deve iniciar qualquer engajamento com uma leitura criteriosa do escopo territorial. Empresas com operações nacionais frequentemente cometem o erro de reportar volumes totais, o que distorce tanto o cálculo da meta quanto a comprovação de cumprimento.\n\nO prazo de 31/03/2026 deve ser tratado como não negociável. O planejamento reverso a partir dessa data é o primeiro entregável concreto que a consultoria deve apresentar ao cliente, mapeando cada etapa com folga operacional para revisões e correções.\n\nA consultoria deve também alertar o cliente sobre a natureza acumulativa do processo: documentação incompleta em etapas anteriores invalida etapas posteriores. Não há como corrigir retroativamente uma cadeia documental quebrada após o encerramento do ciclo."
+  },
+  {
+    "id": "gov",
+    "parent": "sistema",
+    "categoria": "governança",
+    "titulo": "Estrutura de Governança do Recicla Goiás",
+    "resumo": "A governança do sistema opera em dois eixos complementares: o Comitê Intersetorial, de caráter estratégico e articulador, e a SEMAD, dotada de poder de polícia e competência fiscalizatória.",
+    "explicacao_detalhada": "A estrutura de governança do Recicla Goiás foi desenhada para separar as funções de coordenação política das funções de fiscalização e enforcement. Essa separação é fundamental para entender quem toma quais decisões e quais atos produzem efeitos jurídicos vinculantes para as empresas.\n\nO primeiro eixo é o Comitê Intersetorial, composto por representantes da SEMAD, da Secretaria de Retomada Econômica e do Ministério Público de Goiás. O Comitê atua no plano estratégico: define metas, aprova campanhas, articula atores e emite orientações de política pública. Ele não possui poder de polícia e não emite autos de infração.\n\nO segundo eixo é a SEMAD, que concentra o poder de polícia ambiental no estado. É a SEMAD que analisa relatórios, deferir ou indeferir justificativas de não enquadramento, aplica multas e pode acionar o Ministério Público nos casos de descumprimento grave ou reincidente.\n\nA interação entre os dois eixos é orgânica mas hierarquicamente distinta: o Comitê orienta e articula; a SEMAD executa a política regulatória com força de lei. Para a empresa, o interlocutor operacional é sempre a SEMAD, mesmo que as diretrizes gerais emerjam do Comitê.\n\nCompreender essa distinção é essencial para que a consultoria oriente adequadamente o cliente sobre a quem recorrer em cada situação — seja uma dúvida interpretativa sobre metas (Comitê/SEMAD via consulta formal) ou uma contestação de autuação (SEMAD via processo administrativo).",
+    "momento_operacional": "Referência institucional permanente — relevante especialmente nas etapas A, B e H",
+    "entradas": [
+      "Regulamentação estadual",
+      "Decisões do Comitê Intersetorial",
+      "Atos normativos da SEMAD"
+    ],
+    "saidas": [
+      "Diretrizes operacionais do sistema",
+      "Atos de fiscalização",
+      "Orientações de conformidade"
+    ],
+    "documentos": [
+      "Portarias SEMAD",
+      "Resoluções do Comitê Intersetorial",
+      "Atos de constituição do Comitê"
+    ],
+    "implicacoes": "A dualidade de governança significa que orientações do Comitê não substituem exigências formais da SEMAD. A empresa deve acompanhar publicações de ambos os órgãos.",
+    "riscos": "Basear decisões operacionais apenas em orientações informais do Comitê, ignorando exigências formais da SEMAD. Confundir poder de articulação com poder de polícia.",
+    "erros_comuns": "Tratar o Comitê como instância recursal contra autuações da SEMAD. Ignorar publicações normativas da SEMAD por considerar que o Comitê já sinalizou determinada orientação.",
+    "atores_relacionados": [
+      "Comitê Intersetorial",
+      "SEMAD",
+      "MP-GO",
+      "Secretaria de Retomada Econômica"
+    ],
+    "visao_consultoria": "A consultoria deve monitorar publicações de ambos os eixos de governança, pois alterações de metas ou prazos podem emergir do Comitê antes de se formalizarem em atos da SEMAD.\n\nEm situações de ambiguidade normativa, a recomendação é sempre buscar posicionamento formal da SEMAD via consulta administrativa, documentando a resposta. Orientações verbais ou informais não produzem efeito protetor em eventual processo administrativo.\n\nO relacionamento institucional com a SEMAD, construído ao longo do ciclo, pode ser um ativo relevante para a consultoria — desde que mantido em bases formais e transparentes."
+  },
+  {
+    "id": "comite",
+    "parent": "gov",
+    "categoria": "governança",
+    "titulo": "Comitê Intersetorial",
+    "resumo": "Órgão colegiado formado por SEMAD, Secretaria de Retomada Econômica e MP-GO, responsável pela coordenação estratégica do sistema, sem poder de polícia.",
+    "explicacao_detalhada": "O Comitê Intersetorial é a instância de governança compartilhada do Recicla Goiás. Sua composição tripartite — SEMAD, Retomada e MP-GO — reflete a intenção de articular perspectivas ambiental, econômica e jurídica na condução do sistema.\n\nNo plano funcional, o Comitê define as metas progressivas de recuperação de massa, aprova o calendário operacional do sistema, endossa campanhas de comunicação e mobilização, e emite recomendações de política pública. Suas deliberações têm natureza orientadora e estratégica.\n\nO Comitê não possui poder de polícia. Isso significa que ele não pode autuar empresas, aplicar multas, indeferir relatórios ou determinar sanções. Essas competências pertencem exclusivamente à SEMAD. Confundir as atribuições do Comitê com as da SEMAD é um erro recorrente entre empresas que tentam usar o Comitê como instância de apelação.\n\nA presença do MP-GO no Comitê é um sinal da seriedade com que o estado trata o descumprimento das obrigações de logística reversa. O MP-GO pode, a partir de informações produzidas no âmbito do Comitê, instaurar inquéritos civis ou propor ações civis públicas contra empresas em situação de descumprimento grave.\n\nPara a consultoria, acompanhar as deliberações do Comitê é parte do monitoramento regulatório — especialmente em momentos de revisão de metas ou de mudança de calendário.",
+    "momento_operacional": "Relevante nas etapas A (triagem/enquadramento) e ao longo de todo o ciclo para monitoramento de diretrizes",
+    "entradas": [
+      "Dados de desempenho do sistema",
+      "Propostas de revisão de metas",
+      "Relatórios de situação do ciclo"
+    ],
+    "saidas": [
+      "Metas aprovadas",
+      "Calendário operacional",
+      "Recomendações de política pública"
+    ],
+    "documentos": [
+      "Atas de reunião do Comitê",
+      "Resoluções do Comitê",
+      "Relatórios de desempenho do sistema"
+    ],
+    "implicacoes": "Deliberações do Comitê podem alterar metas e prazos. Empresas devem monitorar essas deliberações mesmo durante a execução do ciclo.",
+    "riscos": "Não monitorar alterações de metas aprovadas pelo Comitê durante o ciclo. Tentar usar o Comitê como instância de contestação de autuações.",
+    "erros_comuns": "Solicitar ao Comitê orientações com efeito vinculante. Tratar recomendações do Comitê como substitutivas de exigências formais da SEMAD.",
+    "atores_relacionados": [
+      "SEMAD",
+      "Secretaria de Retomada Econômica",
+      "MP-GO"
+    ],
+    "visao_consultoria": "A consultoria deve incluir o monitoramento das deliberações do Comitê em seu escopo de serviço contínuo. Alterações de metas ou prazos aprovadas pelo Comitê impactam diretamente o planejamento do cliente.\n\nA presença do MP-GO no Comitê deve ser comunicada ao cliente como fator de risco adicional: descumprimento grave pode resultar não apenas em multa administrativa, mas em ação civil pública com efeitos muito mais amplos.\n\nRecomenda-se que a consultoria mantenha registro sistemático de todas as deliberações do Comitê que possam afetar o cliente, construindo um histórico regulatório que apoie eventuais contestações ou esclarecimentos futuros."
+  },
+  {
+    "id": "semad",
+    "parent": "gov",
+    "categoria": "governança",
+    "titulo": "SEMAD — Secretaria de Meio Ambiente e Desenvolvimento Sustentável",
+    "resumo": "Órgão estadual com poder de polícia ambiental, responsável pela fiscalização, análise de relatórios, aplicação de multas e acionamento do MP-GO em casos de descumprimento.",
+    "explicacao_detalhada": "A SEMAD é o órgão executor da política ambiental estadual em Goiás e o principal interlocutor regulatório das empresas no âmbito do Recicla Goiás. Diferentemente do Comitê, a SEMAD possui poder de polícia: pode autuar, multar, indeferir documentos e determinar correções com prazo.\n\nNo contexto do Recicla Goiás, a SEMAD analisa os relatórios finais submetidos pelas empresas e entidades gestoras, avalia as justificativas de não enquadramento, verifica a consistência da cadeia documental e determina o status final de cada participante: adimplente, pendente de correção ou em risco de sanção.\n\nA SEMAD não opera o sistema de logística reversa — ela não gerencia coletores, não contrata operadores e não executa ações de recuperação de massa. Sua função é exclusivamente regulatória e fiscalizatória. Essa distinção é importante para evitar expectativas equivocadas sobre o papel do órgão.\n\nEm casos de descumprimento grave, reincidência ou fraude documental, a SEMAD pode acionar o MP-GO, que tem legitimidade para propor ações civis públicas com efeitos que podem incluir suspensão de atividades e reparação de danos ambientais.\n\nO relacionamento com a SEMAD deve ser sempre formal, documentado e transparente. Consultas administrativas formais, com resposta registrada, são o único mecanismo que produz efeito protetor para a empresa em caso de autuação posterior.",
+    "momento_operacional": "Relevante em todas as etapas, com protagonismo especial nas etapas G (verificação), H (status) e em eventual processo sancionatório",
+    "entradas": [
+      "Relatórios finais submetidos",
+      "Justificativas de não enquadramento",
+      "Denúncias de irregularidade"
+    ],
+    "saidas": [
+      "Parecer de conformidade",
+      "Auto de infração",
+      "Notificação de pendências",
+      "Acionamento do MP-GO"
+    ],
+    "documentos": [
+      "Auto de Infração SEMAD",
+      "Notificação Administrativa",
+      "Despacho de análise de relatório",
+      "Ofício de acionamento do MP-GO"
+    ],
+    "implicacoes": "A decisão da SEMAD sobre o relatório final é o ato administrativo que determina a situação jurídica da empresa. Relatórios indeferidos sem recurso tempestivo resultam em autuação automática.",
+    "riscos": "Submeter relatório com cadeia documental incompleta. Não acompanhar o prazo de análise da SEMAD. Deixar de recorrer de indeferimento dentro do prazo legal.",
+    "erros_comuns": "Confiar em orientações verbais de servidores da SEMAD sem registro formal. Não monitorar o status do relatório após a submissão. Ignorar notificações de pendência.",
+    "atores_relacionados": [
+      "Comitê Intersetorial",
+      "MP-GO",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Verificador"
+    ],
+    "visao_consultoria": "A consultoria deve orientar o cliente a manter canal formal com a SEMAD durante todo o ciclo, documentando todas as comunicações. Em caso de dúvida interpretativa, a consulta administrativa formal é sempre preferível à orientação informal.\n\nO prazo de análise da SEMAD após a submissão do relatório deve ser monitorado ativamente. A consultoria deve ter processo de acompanhamento do status do relatório no sistema, com alertas para aproximação de prazos de recurso.\n\nEm caso de indeferimento ou notificação de pendência, a consultoria deve acionar imediatamente o cliente e o assessor jurídico para avaliação da resposta. O prazo recursal em processos administrativos é frequentemente curto e sua perda é fatal para a defesa."
+  },
+  {
+    "id": "perfis",
+    "parent": "sistema",
+    "categoria": "perfis",
+    "titulo": "Perfis de Participação no Recicla Goiás",
+    "resumo": "O sistema reconhece quatro perfis de participação: Entidade Gestora, Empresa Individual, Operador de Logística Reversa e Verificador Independente. Cada perfil tem funções, responsabilidades e restrições distintas.",
+    "explicacao_detalhada": "A arquitetura de participação do Recicla Goiás é construída sobre quatro perfis funcionalmente distintos, cada um com papel específico na cadeia de cumprimento das obrigações de logística reversa.\n\nA Entidade Gestora (EG) é a pessoa jurídica que representa coletivamente um conjunto de empresas obrigadas, gerenciando em seu nome o cumprimento das metas. A EG integra suas empresas aderentes via API ou planilha, agrega os volumes, estrutura o plano de ação coletivo e submete o relatório consolidado. É o modelo preferencial para setores com muitas empresas de médio e pequeno porte.\n\nA Empresa Individual (EI) assume diretamente, em nome próprio, todas as responsabilidades do ciclo: diagnóstico, plano, execução, relatório e verificação. É o modelo adequado para grandes empresas com volume goiano relevante e capacidade operacional própria, ou para empresas que por qualquer razão não integram uma EG.\n\nO Operador de Logística Reversa é a pessoa jurídica que executa fisicamente as atividades de coleta, triagem, processamento e destinação final das embalagens. O operador deve estar cadastrado e ativo no Recicla Goiás, lançar as chaves de NF-e no módulo específico, emitir o Certificado de Massa e transferir créditos de massa para a empresa ou EG beneficiária.\n\nO Verificador Independente é o auditor externo que valida a documentação apresentada no relatório. Deve ser uma pessoa jurídica sem vínculos com a empresa, a consultoria ou o operador envolvidos no ciclo. Emite a Declaração do Verificador e o Relatório de Auditoria de Terceira Parte, documentos sem os quais o relatório é inválido.\n\nA compreensão clara dos quatro perfis é pré-requisito para que a consultoria estruture adequadamente o fluxo de trabalho do cliente e identifique os parceiros necessários com antecedência suficiente.",
+    "momento_operacional": "Definição de perfis ocorre na etapa B (cadastro), com implicações em todas as etapas subsequentes",
+    "entradas": [
+      "Decisão estratégica da empresa (individual vs. coletivo)",
+      "Disponibilidade de operadores e verificadores credenciados"
+    ],
+    "saidas": [
+      "Perfil de participação definido",
+      "Estrutura de responsabilidades estabelecida"
+    ],
+    "documentos": [
+      "Contrato com Entidade Gestora (se aplicável)",
+      "Contrato com Operador",
+      "Contrato com Verificador",
+      "Cadastro no sistema Recicla Goiás"
+    ],
+    "implicacoes": "A escolha do perfil determina a estrutura de custos, o nível de esforço operacional e a distribuição de responsabilidades documentais ao longo do ciclo.",
+    "riscos": "Contratar verificador com vínculos com a consultoria ou o operador. Escolher o modelo individual sem capacidade operacional adequada. Aderir a uma EG sem verificar sua capacidade de gestão.",
+    "erros_comuns": "Assumir que aderir a uma EG elimina todas as responsabilidades da empresa. Contratar verificador indicado pela mesma consultoria que presta serviços à empresa.",
+    "atores_relacionados": [
+      "Entidade Gestora",
+      "Empresa Individual",
+      "Operador",
+      "Verificador",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A seleção de perfil é uma decisão estratégica com consequências de longo prazo. A consultoria deve apresentar ao cliente uma análise comparativa dos modelos, considerando volume goiano, capacidade operacional, custo total e nível de controle desejado.\n\nA identificação e contratação antecipada de operador e verificador é crítica. Esses prestadores têm capacidade limitada e a demanda concentra-se nos últimos meses do ciclo. Deixar para contratar próximo ao prazo de março aumenta custos e risco de indisponibilidade.\n\nA consultoria deve ser transparente sobre sua própria restrição: não pode atuar como verificadora de seus próprios clientes. Essa limitação deve ser comunicada desde o início do engajamento, com indicação de verificadores independentes disponíveis no mercado."
+  },
+  {
+    "id": "entidade",
+    "parent": "perfis",
+    "categoria": "perfis",
+    "titulo": "Entidade Gestora (EG) — Modelo Coletivo",
+    "resumo": "Pessoa jurídica que gerencia coletivamente o cumprimento das metas de logística reversa de múltiplas empresas aderentes, via integração por API ou planilha. Ponto crítico: tanto EG quanto empresa individual usam o mesmo ícone de acesso no sistema.",
+    "explicacao_detalhada": "A Entidade Gestora é o instrumento do modelo coletivo de cumprimento das obrigações de logística reversa. Em vez de cada empresa obrigada gerenciar individualmente seu ciclo, elas delegam essa responsabilidade a uma EG, que agrega volumes, estrutura o plano de ação coletivo, contrata operadores e verificadores, e submete o relatório consolidado à SEMAD.\n\nA integração das empresas aderentes à EG ocorre por dois mecanismos: via API, para empresas com sistemas de gestão compatíveis, ou via planilha padronizada, para empresas sem integração sistêmica. Em ambos os casos, a EG precisa manter registro atualizado e rastreável de cada empresa aderente e seu respectivo volume goiano.\n\nUm ponto contra-intuitivo e crítico do sistema: tanto as Entidades Gestoras quanto as Empresas Individuais utilizam o mesmo ícone de acesso no sistema Recicla Goiás. Isso significa que, ao navegar na plataforma, não é imediatamente óbvio se um cadastro corresponde a uma EG ou a uma EI. Consultores e empresas devem verificar explicitamente o tipo de cadastro antes de qualquer ação no sistema.\n\nA adesão a uma EG não elimina a responsabilidade individual da empresa aderente. Se a EG falhar — por má gestão, insolvência ou descumprimento — as empresas aderentes podem ser individualmente responsabilizadas. O contrato de adesão deve prever claramente as obrigações da EG e os mecanismos de prestação de contas.\n\nA EG deve estar registrada e ativa no Recicla Goiás antes de aceitar aderentes. A consultoria que assessora uma EG tem um escopo de trabalho significativamente mais complexo do que a que assessora uma empresa individual, pois precisa consolidar dados de múltiplas fontes com diferentes níveis de qualidade.",
+    "momento_operacional": "Etapas B (cadastro), C (plano), E (execução via operadores), F (relatório consolidado) e G (verificação)",
+    "entradas": [
+      "Lista de empresas aderentes",
+      "Volumes goianos individuais de cada aderente",
+      "Contratos de adesão"
+    ],
+    "saidas": [
+      "Plano de ação coletivo",
+      "Relatório consolidado",
+      "Certificados de massa agregados"
+    ],
+    "documentos": [
+      "Contrato de adesão das empresas aderentes",
+      "Planilha ou API de integração",
+      "Relatório consolidado da EG",
+      "Declaração do Verificador sobre o relatório da EG"
+    ],
+    "implicacoes": "A EG responde perante a SEMAD pelo conjunto das empresas aderentes. Falha da EG pode resultar em autuação das empresas aderentes individualmente.",
+    "riscos": "EG sem capacidade de gestão adequada para o volume de aderentes. Dados inconsistentes fornecidos pelas aderentes. Falha na integração via API sem contingência de planilha.",
+    "erros_comuns": "Aderir a uma EG sem verificar sua situação cadastral no sistema. Assumir que a adesão à EG transfere integralmente a responsabilidade. Confundir o ícone da EG com o da empresa individual no sistema.",
+    "atores_relacionados": [
+      "Empresas aderentes",
+      "Operador",
+      "Verificador",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria que assessora uma EG precisa estabelecer processo robusto de coleta e validação de dados das aderentes. Dados de volume goiano informados pelas aderentes frequentemente apresentam inconsistências que precisam ser identificadas e corrigidas antes da submissão do plano.\n\nO contrato de adesão é um documento crítico que a consultoria deve revisar criteriosamente: ele deve prever prazos, penalidades por informação incorreta, mecanismos de auditoria interna e responsabilidades em caso de descumprimento da EG.\n\nA confusão de ícones no sistema é um risco operacional real. A consultoria deve treinar o cliente para verificar sempre o tipo de cadastro antes de qualquer ação, especialmente ao lançar dados ou submeter documentos."
+  },
+  {
+    "id": "empresa",
+    "parent": "perfis",
+    "categoria": "perfis",
+    "titulo": "Empresa Individual (EI) — Modelo Direto",
+    "resumo": "Empresa que assume diretamente, em nome próprio, todas as responsabilidades do ciclo de logística reversa. Mesmo ícone que a Entidade Gestora no sistema. Maior esforço operacional e responsabilidade documental integral.",
+    "explicacao_detalhada": "A Empresa Individual é o perfil adotado pela empresa que opta por cumprir suas obrigações de logística reversa de forma autônoma, sem intermediação de uma Entidade Gestora. Nesse modelo, a empresa é responsável por todas as etapas: diagnóstico, cadastro, elaboração do plano, contratação de operador, execução, produção do relatório e contratação do verificador.\n\nO modelo individual é adequado para empresas com volume goiano relevante, estrutura interna de ESG ou sustentabilidade, capacidade de gestão documental e interesse em manter controle direto sobre sua cadeia de cumprimento. Para empresas menores ou sem estrutura interna, o modelo coletivo via EG costuma ser mais eficiente.\n\nUm ponto crítico e contra-intuitivo: no sistema Recicla Goiás, a empresa individual utiliza o mesmo ícone de acesso que a Entidade Gestora. Isso pode gerar confusão operacional, especialmente para novos usuários da plataforma. A empresa deve verificar explicitamente seu tipo de cadastro antes de iniciar qualquer ação no sistema.\n\nNo modelo individual, toda a cadeia documental é responsabilidade da empresa: NF-e dos operadores, Certificados de Massa, evidências georreferenciadas, relatório final e Declaração do Verificador. Qualquer elo quebrado nessa cadeia invalida o cumprimento.\n\nO esforço operacional do modelo individual é significativamente maior do que o percebido inicialmente. Empresas que subestimam esse esforço tendem a chegar ao final do ciclo com documentação incompleta, forçando soluções emergenciais caras e de maior risco.",
+    "momento_operacional": "Todas as etapas de A a H, com responsabilidade integral em cada uma",
+    "entradas": [
+      "Volume de embalagens colocadas no mercado goiano",
+      "Decisão de adotar modelo individual"
+    ],
+    "saidas": [
+      "Relatório individual completo",
+      "Cadeia documental própria",
+      "Declaração do Verificador específica"
+    ],
+    "documentos": [
+      "Cadastro individual no Recicla Goiás",
+      "Contrato com Operador",
+      "Contrato com Verificador",
+      "NF-e dos operadores",
+      "Certificados de Massa",
+      "Relatório final individual"
+    ],
+    "implicacoes": "A empresa responde integralmente perante a SEMAD por toda a cadeia documental. Não há como transferir responsabilidade para terceiros em caso de falha.",
+    "riscos": "Subestimar o esforço operacional do modelo individual. Não contratar operador e verificador com antecedência suficiente. Perder controle sobre a cadeia documental por falta de processo interno.",
+    "erros_comuns": "Iniciar o ciclo sem sistema de gestão documental adequado. Contratar operador sem verificar seu cadastro ativo no Recicla Goiás. Confundir o ícone da EI com o da EG no sistema.",
+    "atores_relacionados": [
+      "Operador",
+      "Verificador",
+      "SEMAD",
+      "Consultoria"
+    ],
+    "visao_consultoria": "Para clientes no modelo individual, a consultoria deve desde o início estruturar um sistema de gestão documental — seja uma pasta compartilhada, um sistema de gestão de documentos ou uma planilha de controle — que permita rastreabilidade completa de cada documento produzido ao longo do ciclo.\n\nA contratação antecipada de operador e verificador é ainda mais crítica no modelo individual, pois não há a capacidade de negociação coletiva que uma EG possui. A consultoria deve apoiar o cliente nesse processo com critérios de seleção claros e checklist de verificação de cadastro ativo.\n\nA consultoria deve fazer revisões periódicas da cadeia documental ao longo do ciclo — não apenas no final. Identificar lacunas em janeiro é muito mais barato do que descobri-las em março, às vésperas do prazo."
+  },
+  {
+    "id": "operador",
+    "parent": "perfis",
+    "categoria": "perfis",
+    "titulo": "Operador de Logística Reversa",
+    "resumo": "Pessoa jurídica que executa fisicamente as atividades de coleta, triagem e destinação de embalagens pós-consumo. Lança chaves de NF-e no módulo específico, emite Certificado de Massa e transfere créditos de massa para a empresa beneficiária.",
+    "explicacao_detalhada": "O Operador de Logística Reversa é o elo de execução física da cadeia de cumprimento. Sem o operador, não há massa recuperada, não há NF-e, não há Certificado de Massa e não há crédito a ser vinculado ao relatório. É o perfil que transforma a obrigação legal em ação concreta no território.\n\nPara atuar no Recicla Goiás, o operador deve estar cadastrado e com situação ativa na plataforma. Operadores com cadastro vencido, suspenso ou em situação irregular não podem emitir Certificados de Massa válidos. A verificação do status do operador antes da contratação é uma due diligence obrigatória.\n\nO fluxo operacional do operador começa com a coleta ou recebimento das embalagens, passa pelo processamento (triagem, prensagem, ou outro tratamento aplicável) e culmina na emissão da NF-e de saída do material. As chaves eletrônicas dessas NF-e são lançadas pelo operador no módulo específico do Recicla Goiás — não pela empresa contratante.\n\nCom base nas NF-e lançadas, o sistema gera o Certificado de Massa, documento que atesta a quantidade de material processado e serve de base para o crédito de massa. O operador transfere esses créditos para a conta da empresa ou EG beneficiária dentro da plataforma.\n\nA rastreabilidade é total: cada Certificado de Massa está vinculado a NF-e específicas, que por sua vez estão vinculadas a operações físicas datadas e localizadas. Qualquer tentativa de duplicar, inflar ou falsificar esses dados é detectável na verificação e constitui fraude administrativa grave.",
+    "momento_operacional": "Protagonismo na etapa E (execução). Seus documentos são insumos críticos para as etapas F (relatório) e G (verificação)",
+    "entradas": [
+      "Embalagens pós-consumo coletadas",
+      "NF-e de recebimento e saída de materiais"
+    ],
+    "saidas": [
+      "Chaves de NF-e lançadas no módulo do operador",
+      "Certificado de Massa",
+      "Créditos de massa transferidos"
+    ],
+    "documentos": [
+      "NF-e de saída do material processado",
+      "Certificado de Massa emitido pelo sistema",
+      "Comprovante de transferência de crédito de massa",
+      "Licença ambiental do operador"
+    ],
+    "implicacoes": "Sem operador ativo e com documentação em ordem, não há comprovação de recuperação de massa. O Certificado de Massa emitido por operador em situação irregular é inválido.",
+    "riscos": "Contratar operador sem verificar situação cadastral ativa no Recicla Goiás. Operador lançar NF-e com erros que invalidam o Certificado de Massa. Créditos de massa não transferidos dentro do ciclo.",
+    "erros_comuns": "Assumir que o operador gerencia automaticamente o lançamento de NF-e sem acompanhamento. Não verificar se os créditos foram efetivamente transferidos para a conta da empresa. Contratar operador sem licença ambiental válida.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "SEMAD",
+      "Verificador"
+    ],
+    "visao_consultoria": "A consultoria deve incluir na due diligence de seleção de operadores a verificação de: cadastro ativo no Recicla Goiás, licença ambiental válida, capacidade instalada compatível com o volume goiano do cliente, e histórico de emissão de Certificados de Massa em ciclos anteriores.\n\nDurante a execução, a consultoria deve monitorar periodicamente se o operador está lançando as NF-e no módulo correto e se os créditos estão sendo transferidos. Deixar esse monitoramento para o final do ciclo é um risco alto: erros de lançamento identificados tarde podem não ter correção dentro do prazo.\n\nRecomenda-se que o contrato com o operador preveja expressamente prazos para lançamento de NF-e, emissão de certificados e transferência de créditos, com cláusulas de responsabilidade por atrasos ou erros que comprometam o cumprimento do cliente."
+  },
+  {
+    "id": "verif",
+    "parent": "perfis",
+    "categoria": "perfis",
+    "titulo": "Verificador Independente",
+    "resumo": "Terceiro independente que audita a documentação do relatório, verifica ausência de duplicidades e emite a Declaração do Verificador e o Relatório de Auditoria de Terceira Parte. Sem esses documentos, o relatório é inválido.",
+    "explicacao_detalhada": "O Verificador Independente é o mecanismo de controle de qualidade externo do sistema Recicla Goiás. Sua função é auditar, de forma independente, toda a cadeia documental apresentada pela empresa ou EG no relatório final, assegurando que os dados são verídicos, consistentes e não duplicados.\n\nA independência é requisito absoluto: o verificador não pode ter qualquer vínculo societário, comercial ou de prestação de serviços com a empresa auditada, com a consultoria que assessorou a empresa ou com o operador que executou as atividades. Qualquer vínculo que comprometa a independência invalida a verificação.\n\nO escopo de trabalho do verificador inclui: conferência das NF-e lançadas pelo operador, validação dos Certificados de Massa, verificação de ausência de duplicidade de créditos entre diferentes empresas ou ciclos, análise das evidências georreferenciadas e consistência geral da cadeia documental.\n\nAo final, o verificador emite dois documentos: a Declaração do Verificador, que atesta formalmente a conformidade da documentação, e o Relatório de Auditoria de Terceira Parte, que detalha o escopo, a metodologia e as conclusões da auditoria. Ambos devem ser anexados ao relatório final.\n\nA contratação do verificador deve ocorrer com antecedência, pois verificadores com boa reputação têm agenda limitada nos meses finais do ciclo. Deixar a contratação para março é um erro estratégico que pode resultar em relatório submetido sem verificação válida — situação que a SEMAD trata como não cumprimento.",
+    "momento_operacional": "Protagonismo na etapa G (verificação). Seus documentos são requisitos obrigatórios para a etapa H (status final)",
+    "entradas": [
+      "Relatório pré-final da empresa/EG",
+      "NF-e e Certificados de Massa",
+      "Evidências georreferenciadas"
+    ],
+    "saidas": [
+      "Declaração do Verificador",
+      "Relatório de Auditoria de Terceira Parte"
+    ],
+    "documentos": [
+      "Declaração do Verificador",
+      "Relatório de Auditoria de Terceira Parte",
+      "Contrato de prestação de serviços de verificação"
+    ],
+    "implicacoes": "Relatório submetido sem Declaração do Verificador válida é considerado incompleto pela SEMAD e tratado como descumprimento.",
+    "riscos": "Contratar verificador com vínculo com consultoria ou operador. Deixar contratação para os últimos meses do ciclo. Verificador identificar duplicidades ou inconsistências sem tempo hábil para correção.",
+    "erros_comuns": "Contratar verificador indicado pela mesma consultoria que assessora a empresa. Achar que o verificador pode ser contratado em qualquer momento do ciclo. Não compartilhar a documentação completa com o verificador com antecedência.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "SEMAD",
+      "Operador"
+    ],
+    "visao_consultoria": "A restrição de independência do verificador é uma limitação que a consultoria deve comunicar explicitamente ao cliente desde o início: a consultoria não pode ser o verificador do seu próprio cliente. Qualquer tentativa de contornar essa restrição expõe tanto o cliente quanto a consultoria a riscos regulatórios graves.\n\nA consultoria deve manter uma lista de verificadores independentes disponíveis no mercado goiano, com avaliação de reputação, capacidade e agenda. Essa lista é um ativo de valor para o cliente e um diferencial de serviço para a consultoria.\n\nO momento de engajar o verificador não é ao final do ciclo: a consultoria deve recomendar que o verificador seja contratado pelo menos com quatro meses de antecedência do prazo, permitindo que ele acompanhe a produção da documentação e identifique gaps antes que se tornem problemas insolúveis."
+  },
+  {
+    "id": "consultoria",
+    "parent": "perfis",
+    "categoria": "perfis",
+    "titulo": "Consultoria de Apoio",
+    "resumo": "Prestadora de serviços que apoia o cliente na estruturação e execução do ciclo. Não pode ser verificadora de seus próprios clientes. Não pode agrupar múltiplos clientes sob seu próprio CNPJ. Cada cliente mantém trilha documental independente.",
+    "explicacao_detalhada": "A consultoria de apoio é um perfil não oficial do sistema — ela não tem cadastro específico no Recicla Goiás como perfil de acesso — mas é um ator essencial na prática operacional do mercado. A maioria das empresas obrigadas, especialmente aquelas sem estrutura interna de sustentabilidade, recorre a consultorias especializadas para navegar o ciclo.\n\nO escopo de atuação da consultoria abrange: diagnóstico de enquadramento, cálculo do volume goiano, elaboração do plano de ação, suporte ao cadastro no sistema, estruturação do processo de execução, gestão da cadeia documental, elaboração do relatório final e coordenação com o verificador independente.\n\nDuas restrições fundamentais delimitam o que a consultoria não pode fazer. Primeira: a consultoria não pode atuar como verificadora de seus próprios clientes, pois isso viola o requisito de independência do verificador. Segunda: a consultoria não pode agrupar múltiplos clientes sob seu próprio CNPJ, criando uma espécie de EG informal — cada cliente deve ter sua própria trilha documental e seu próprio acesso ao sistema.\n\nA tentação de criar atalhos — como usar o CNPJ da consultoria como titular de cadastros de clientes ou indicar a própria empresa como verificadora — pode parecer operacionalmente conveniente mas cria vícios insanáveis na cadeia documental, que podem ser identificados pela SEMAD ou pelo verificador legítimo.\n\nA consultoria deve atuar como gestora de processo, não como executora em nome do cliente. Toda ação no sistema deve ser realizada pelo cliente ou por pessoa expressamente autorizada pelo cliente, com rastreabilidade clara de quem fez o quê e quando.",
+    "momento_operacional": "Presente em todas as etapas de A a H, com papel de suporte e orientação",
+    "entradas": [
+      "Dados do cliente",
+      "Regulamentação vigente",
+      "Contratos de prestação de serviço"
+    ],
+    "saidas": [
+      "Plano de ação estruturado",
+      "Documentação organizada",
+      "Relatório final em conformidade"
+    ],
+    "documentos": [
+      "Contrato de prestação de serviços de consultoria",
+      "Procuração ou autorização de acesso ao sistema",
+      "Relatório de diagnóstico",
+      "Plano de ação"
+    ],
+    "implicacoes": "A consultoria que viola as restrições de independência expõe o cliente a ter seu relatório invalidado e a si própria a responsabilidade solidária por irregularidades documentais.",
+    "riscos": "Indicar verificador com vínculo com a consultoria. Usar CNPJ da consultoria como titular de cadastros de clientes. Misturar documentação de clientes diferentes.",
+    "erros_comuns": "Criar um único repositório de documentos para múltiplos clientes sem separação clara. Atuar como verificadora de clientes sob a justificativa de que é uma empresa diferente dentro do mesmo grupo econômico.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Verificador",
+      "Operador",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve ter processo interno claro de segregação de clientes: cada cliente com pasta própria, acesso próprio ao sistema e trilha documental independente. Misturar documentação é um risco para todos os clientes envolvidos.\n\nA restrição de verificação deve ser tratada como regra inegociável, mesmo quando o cliente solicita que a consultoria acumule essa função por razões de custo ou praticidade. A consultoria deve explicar claramente o risco: um relatório com verificação comprometida é tratado como relatório sem verificação.\n\nA consultoria deve documentar formalmente sua relação com o cliente — escopo, limitações, responsabilidades — preferentemente em contrato que inclua expressamente a impossibilidade de atuar como verificadora e a necessidade de contratação de verificador independente."
+  },
+  {
+    "id": "processo",
+    "parent": "sistema",
+    "categoria": "processo",
+    "titulo": "Processo Operacional — Visão Geral das 8 Etapas",
+    "resumo": "O ciclo de cumprimento das obrigações de logística reversa no Recicla Goiás segue 8 etapas sequenciais: Triagem, Não Enquadramento (se aplicável), Cadastro, Plano de Ação, Execução, Relatório, Verificação e Status Final.",
+    "explicacao_detalhada": "O processo operacional do Recicla Goiás é estruturado em 8 etapas sequenciais, identificadas pelas letras A a H. A sequencialidade é relevante: etapas posteriores dependem de etapas anteriores devidamente concluídas. Não é possível, por exemplo, submeter o relatório (Etapa F) sem ter executado as atividades (Etapa E) e produzido a documentação correspondente.\n\nEtapa A — Triagem: diagnóstico de enquadramento. A empresa avalia se coloca embalagens no mercado goiano em volume suficiente para ser obrigada. Resultado: enquadrada ou não enquadrada.\n\nEtapa B — Não Enquadramento (condicional): apenas para empresas que concluíram na triagem que não estão obrigadas. Requer justificativa técnica robusta e evidências georreferenciadas. Não é uma saída simples do sistema.\n\nEtapa C — Cadastro: registro no sistema Recicla Goiás, com ativação por e-mail. Ponto crítico: o ícone de acesso é o mesmo para EG e EI.\n\nEtapa D — Plano de Ação: definição do modelo de cumprimento (individual, coletivo, crédito, estruturante ou híbrido), orçamento e metas baseadas no volume goiano.\n\nEtapa E — Execução: operador entra em cena, lança NF-e, emite Certificados de Massa, transfere créditos.\n\nEtapa F — Relatório: empresa/EG declara a massa produzida, vincula certificados, NF-e e evidências georreferenciadas.\n\nEtapa G — Verificação: verificador independente audita a documentação e emite Declaração do Verificador e Relatório de Auditoria.\n\nEtapa H — Status Final: relatório submetido é analisado pela SEMAD. Três resultados possíveis: adimplente, pendente de correções ou em risco de sanção.",
+    "momento_operacional": "Visão geral de todas as etapas de A a H",
+    "entradas": [
+      "Dados de volume goiano",
+      "Decisão estratégica de modelo de cumprimento"
+    ],
+    "saidas": [
+      "Status final de conformidade perante a SEMAD"
+    ],
+    "documentos": [
+      "Conjunto completo de documentos de cada etapa"
+    ],
+    "implicacoes": "A natureza sequencial do processo significa que falhas em etapas iniciais comprometem etapas posteriores. Não há mecanismo de correção retroativa após o encerramento do ciclo.",
+    "riscos": "Subestimar o tempo necessário para cada etapa. Não provisionar recursos para todas as etapas antes do início do ciclo.",
+    "erros_comuns": "Iniciar a execução sem plano aprovado. Tentar submeter o relatório sem verificação concluída. Não monitorar o status do relatório após a submissão.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Operador",
+      "Verificador",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve apresentar ao cliente um cronograma reverso detalhado a partir de 31/03/2026, com datas-limite para cada etapa e alertas de risco para atrasos. Esse cronograma é o instrumento central de gestão do engajamento.\n\nCada etapa deve ter um responsável claramente definido — cliente, consultoria ou terceiro — com entregáveis específicos e mecanismo de aprovação antes do avanço para a etapa seguinte.\n\nA consultoria deve realizar reuniões de checkpoint ao final de cada etapa para validar a completude da documentação antes de avançar. Identificar gaps cedo é sempre mais barato e menos arriscado do que identificá-los próximo ao prazo final."
+  },
+  {
+    "id": "etapa-triagem",
+    "parent": "processo",
+    "categoria": "processo",
+    "titulo": "Etapa A — Triagem e Diagnóstico de Enquadramento",
+    "resumo": "Diagnóstico inicial que determina se a empresa coloca embalagens no mercado goiano em volume suficiente para ser obrigada. Exige cálculo específico do volume goiano, não do volume nacional.",
+    "explicacao_detalhada": "A triagem é a etapa fundacional do ciclo. Seu objetivo é responder a uma pergunta binária: a empresa está ou não obrigada a participar do Recicla Goiás? A resposta exige análise técnica cuidadosa, não uma avaliação superficial baseada em percepção.\n\nO cálculo do volume goiano é o coração da triagem. A empresa deve identificar, a partir de suas notas fiscais de saída, contratos de distribuição ou outros registros comerciais, qual proporção de suas embalagens é efetivamente colocada no mercado consumidor do estado de Goiás. Usar dados nacionais diretamente, sem proporcionalização, é um erro metodológico que pode resultar em enquadramento incorreto ou em cálculo de meta equivocado.\n\nUma distinção crítica deve ser feita durante a triagem: resíduos de processo industrial interno não são embalagens pós-consumo para fins de logística reversa. A obrigação recai sobre embalagens que chegam ao consumidor final e retornam como resíduo pós-consumo. Confundir resíduo industrial com embalagem pós-consumo pode levar a cálculos incorretos tanto na direção de inflar quanto de deflacionar a obrigação.\n\nO resultado da triagem deve ser documentado de forma técnica e rastreável: memória de cálculo, fontes de dados utilizadas, período de referência e conclusão fundamentada. Esse documento é a base para todas as etapas subsequentes e pode ser exigido pela SEMAD em caso de contestação.\n\nEmpresas que concluem pela não obrigatoriedade devem avançar para a Etapa B (Não Enquadramento). Empresas que concluem pela obrigatoriedade avançam para a Etapa C (Cadastro). A triagem não é uma etapa que pode ser pulada ou simplificada sem risco.",
+    "momento_operacional": "Etapa A — início do ciclo, anterior a qualquer ação no sistema",
+    "entradas": [
+      "Notas fiscais de saída com destino em Goiás",
+      "Dados de volume nacional de embalagens",
+      "Cadastro de clientes por estado"
+    ],
+    "saidas": [
+      "Memória de cálculo do volume goiano",
+      "Conclusão de enquadramento ou não enquadramento",
+      "Documentação de suporte"
+    ],
+    "documentos": [
+      "Memória de cálculo de volume goiano",
+      "Relatório de diagnóstico de enquadramento",
+      "Extrato de NF-e com filtro por destino Goiás"
+    ],
+    "implicacoes": "Uma triagem incorreta que conclui por não enquadramento quando a empresa está de fato obrigada resulta em tratamento como não participante, com as mesmas penalidades de quem nunca participou.",
+    "riscos": "Usar volume nacional sem proporcionalizar para Goiás. Incluir resíduos industriais internos no cálculo de embalagens pós-consumo. Não documentar a metodologia de cálculo.",
+    "erros_comuns": "Basear o diagnóstico em estimativas sem suporte documental. Não distinguir entre embalagens primárias, secundárias e terciárias para fins de obrigação. Realizar a triagem verbalmente sem registro escrito.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A triagem deve sempre resultar em um documento formal com memória de cálculo detalhada. Esse documento não é apenas um insumo para o ciclo atual — é a defesa da empresa em caso de questionamento pela SEMAD sobre a metodologia de cálculo.\n\nA consultoria deve usar fontes primárias para o cálculo: NF-e de saída filtradas por CNPJ de destinatário em Goiás são a fonte mais robusta. Dados de ERP ou planilhas internas sem rastreabilidade à NF-e são fontes secundárias que enfraquecem a defesa documental.\n\nEm casos limítrofes — onde o volume goiano está próximo ao limiar de obrigatoriedade — a consultoria deve recomendar conservadorismo: é menos arriscado enquadrar-se e participar do ciclo do que não enquadrar-se e ser autuado por descumprimento. O custo de participação é calculável; o custo de autuação é imprevisível."
+  },
+  {
+    "id": "etapa-nao-enq",
+    "parent": "processo",
+    "categoria": "processo",
+    "titulo": "Etapa B — Declaração de Não Enquadramento",
+    "resumo": "Procedimento para empresas que concluíram pela não obrigatoriedade. Exige justificativa técnica robusta e evidências georreferenciadas. Rejeição pela SEMAD equivale a tratamento como não participante, com aplicação de multa.",
+    "explicacao_detalhada": "A declaração de não enquadramento não é uma saída simples do sistema. É um procedimento formal que requer a mesma rigorosidade documental que o ciclo completo de cumprimento. Empresas que tratam o não enquadramento como um simples formulário a ser preenchido cometem um erro estratégico grave.\n\nA justificativa técnica deve demonstrar, com dados verificáveis, por que a empresa não está obrigada. Os argumentos mais comuns incluem: volume goiano abaixo do limiar regulatório, tipo de embalagem não sujeito à obrigação, ou ausência de comercialização direta no estado. Cada argumento deve ser suportado por documentação específica.\n\nA exigência de evidências georreferenciadas é um requisito que surprende muitas empresas. A SEMAD pode solicitar, por exemplo, registros fotográficos datados e com coordenadas GPS demonstrando que o produto não é comercializado em Goiás, ou que os pontos de venda estão fora do estado. Essa exigência eleva significativamente o esforço de preparação da declaração.\n\nSe a SEMAD rejeitar a declaração de não enquadramento, a empresa é tratada como se nunca tivesse participado do sistema. Isso significa que não apenas a empresa está sujeita a multa, como também não tem a possibilidade de retroativamente cumprir o ciclo — pois os prazos de execução terão passado.\n\nO risco assimétrico é claro: os benefícios de uma declaração de não enquadramento bem-sucedida são a isenção dos custos do ciclo; o custo de uma declaração rejeitada é uma multa aplicada como se a empresa tivesse descumprido integralmente. Essa assimetria deve ser comunicada ao cliente de forma explícita.",
+    "momento_operacional": "Etapa B — imediatamente após a triagem, antes do cadastro no sistema",
+    "entradas": [
+      "Resultado da triagem",
+      "Memória de cálculo de volume goiano",
+      "Documentação de suporte à justificativa"
+    ],
+    "saidas": [
+      "Declaração de Não Enquadramento submetida",
+      "Aceite ou rejeição pela SEMAD"
+    ],
+    "documentos": [
+      "Formulário de Declaração de Não Enquadramento",
+      "Memória de cálculo detalhada",
+      "Evidências georreferenciadas",
+      "NF-e demonstrando ausência de comercialização em Goiás"
+    ],
+    "implicacoes": "Rejeição da declaração pela SEMAD resulta em tratamento como não participante e aplicação de multa equivalente ao descumprimento integral. Não há possibilidade de cumprimento retroativo.",
+    "riscos": "Justificativa técnica insuficiente ou não suportada por documentação. Ausência de evidências georreferenciadas quando exigidas. Não acompanhar o status da declaração após submissão.",
+    "erros_comuns": "Tratar a declaração de não enquadramento como um formulário simples. Não documentar a metodologia de cálculo que suporta a justificativa. Submeter a declaração sem evidências fotográficas georreferenciadas.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve apresentar ao cliente uma análise de risco explícita antes de recomendar a declaração de não enquadramento. O custo de preparar uma declaração robusta versus o custo de participar do ciclo deve ser comparado com o custo de uma multa em caso de rejeição.\n\nEm casos onde o volume goiano está claramente abaixo do limiar, a declaração é justificável. Em casos limítrofes, a consultoria deve recomendar participação no ciclo como estratégia de gestão de risco. A decisão final é sempre do cliente, mas deve ser informada por análise quantitativa.\n\nSe a empresa optar pela declaração, a consultoria deve construir o dossier completo de suporte — não apenas o formulário. Evidências georreferenciadas, extratos de NF-e, declarações de distribuidores e outros documentos devem ser organizados de forma coerente e apresentados junto com a justificativa técnica."
+  },
+  {
+    "id": "etapa-cadastro",
+    "parent": "processo",
+    "categoria": "processo",
+    "titulo": "Etapa C — Cadastro no Sistema Recicla Goiás",
+    "resumo": "Registro formal da empresa ou Entidade Gestora no sistema. Ativação por e-mail. Ponto crítico: tanto EG quanto empresa individual usam o mesmo ícone de acesso — ponto contra-intuitivo que gera confusão operacional.",
+    "explicacao_detalhada": "O cadastro no sistema Recicla Goiás é o ato formal de ingresso no ciclo operacional. Sem cadastro ativo e validado, nenhuma ação subsequente — plano, execução, relatório — pode ser realizada. O cadastro deve ser concluído com antecedência suficiente para absorver eventuais problemas de ativação.\n\nO processo de cadastro inclui o preenchimento de dados da empresa ou EG, a definição de usuários com acesso ao sistema e a ativação via e-mail. O e-mail de ativação pode demorar mais do que o esperado, especialmente em períodos de alta demanda. A consultoria deve orientar o cliente a realizar o cadastro com várias semanas de antecedência do início planejado da etapa de plano.\n\nO ponto mais crítico e contra-intuitivo do cadastro é a identidade visual: tanto a Entidade Gestora quanto a Empresa Individual utilizam o mesmo ícone de acesso no sistema Recicla Goiás. Isso não é um erro de design — é uma característica do sistema que precisa ser conhecida. Ao navegar na plataforma ou ao verificar o cadastro de um parceiro, não é possível distinguir EG de EI apenas pelo ícone. É necessário verificar explicitamente o tipo de cadastro no perfil do usuário.\n\nEssa ambiguidade visual pode gerar erros operacionais significativos: uma empresa pode, por engano, iniciar um fluxo de EG quando deveria ser EI, ou vice-versa. A correção de um cadastro criado no tipo errado pode ser demorada e gerar perda de tempo crítico no ciclo.\n\nA consultoria deve acompanhar pessoalmente o processo de cadastro do cliente, verificando o tipo de perfil selecionado, os dados preenchidos e a ativação do e-mail. Não delegar essa etapa integralmente ao cliente sem supervisão.",
+    "momento_operacional": "Etapa C — após conclusão da triagem com resultado de obrigatoriedade, anterior ao plano de ação",
+    "entradas": [
+      "Dados cadastrais da empresa ou EG",
+      "CNPJ",
+      "Responsável técnico e legal",
+      "E-mail de ativação"
+    ],
+    "saidas": [
+      "Cadastro ativo no sistema Recicla Goiás",
+      "Credenciais de acesso",
+      "Perfil validado"
+    ],
+    "documentos": [
+      "Comprovante de cadastro no sistema",
+      "E-mail de ativação",
+      "Documentos societários da empresa"
+    ],
+    "implicacoes": "Cadastro no tipo errado (EG vs EI) pode exigir recriação e gerar perda de tempo. Cadastro sem ativação de e-mail bloqueia todas as etapas seguintes.",
+    "riscos": "Selecionar tipo de cadastro incorreto. E-mail de ativação não recebido por filtro de spam. Dados cadastrais incorretos que exigem correção posterior.",
+    "erros_comuns": "Não verificar o tipo de cadastro após a criação. Delegar integralmente o cadastro ao cliente sem supervisão. Usar e-mail corporativo com filtros restritivos que bloqueiam o e-mail de ativação.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve estar presente — ou pelo menos disponível por videoconferência — durante o processo de cadastro do cliente. A seleção do tipo correto de perfil (EG vs EI) é uma decisão que deve ser confirmada em tempo real, não posteriormente.\n\nA verificação pós-cadastro deve incluir: tipo de perfil correto, dados cadastrais conferidos, e-mail de ativação recebido e clicado, e acesso ao painel principal funcionando. Esses quatro pontos formam o checklist mínimo de conclusão da etapa C.\n\nA confusão de ícones é um tema que deve ser abordado no treinamento do cliente. O usuário que vai operar o sistema precisa saber que o ícone não distingue EG de EI e que deve sempre verificar o tipo de cadastro antes de iniciar qualquer ação."
+  },
+  {
+    "id": "etapa-plano",
+    "parent": "processo",
+    "categoria": "processo",
+    "titulo": "Etapa D — Elaboração do Plano de Ação",
+    "resumo": "Definição formal do modelo de cumprimento (individual, coletivo, crédito, estruturante ou híbrido), do orçamento, das ações planejadas e das metas baseadas exclusivamente no volume goiano.",
+    "explicacao_detalhada": "O plano de ação é o documento que formaliza a estratégia de cumprimento da empresa para o ciclo. Ele deve ser elaborado com base no volume goiano calculado na triagem e deve definir claramente: o modelo de cumprimento escolhido, as ações planejadas, os operadores envolvidos, o orçamento estimado e as metas específicas de recuperação de massa.\n\nA escolha do modelo de cumprimento é a decisão estratégica central do plano. Os modelos disponíveis são: crédito de massa (operador recupera massa e transfere créditos), estruturante (ações que fortalecem a infraestrutura de logística reversa no estado), e híbrido (combinação dos dois). Cada modelo tem requisitos documentais, custos e complexidades distintos.\n\nAs metas do plano devem ser calculadas com base no volume goiano — não no volume nacional. A meta de 22% ou 30% é aplicada sobre a massa de embalagens colocada no mercado goiano no período de referência. Um plano que usa volume nacional para calcular metas estará estruturalmente incorreto.\n\nO orçamento do plano deve provisionar todas as categorias de custo: consultoria, operadores, certificados, verificação, documentação e custos de conformidade interna. Planos elaborados sem provisão completa de custos levam a rupturas de execução quando despesas imprevistas surgem.\n\nO plano aprovado dentro do sistema serve como compromisso formal da empresa perante o sistema. Desvios significativos entre o plano aprovado e a execução real podem gerar questionamentos na etapa de verificação e análise da SEMAD.",
+    "momento_operacional": "Etapa D — após cadastro ativo, anterior ao início da execução",
+    "entradas": [
+      "Volume goiano calculado na triagem",
+      "Metas regulatórias (22%/30%)",
+      "Orçamento disponível",
+      "Modelo de cumprimento escolhido"
+    ],
+    "saidas": [
+      "Plano de ação formalizado no sistema",
+      "Orçamento aprovado",
+      "Compromissos de ação definidos"
+    ],
+    "documentos": [
+      "Plano de Ação aprovado no sistema Recicla Goiás",
+      "Memória de cálculo de metas",
+      "Orçamento detalhado por categoria"
+    ],
+    "implicacoes": "O plano aprovado é o parâmetro de avaliação do relatório final. Desvios relevantes precisam ser justificados. Um plano mal elaborado compromete toda a estratégia de cumprimento.",
+    "riscos": "Calcular metas com base em volume nacional. Subestimar custos no orçamento. Escolher modelo de cumprimento sem avaliar requisitos documentais e operacionais.",
+    "erros_comuns": "Elaborar o plano de forma genérica sem ações específicas. Não provisionar custo de verificação no orçamento. Escolher modelo estruturante sem ter capacidade de produzir evidências robustas.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria",
+      "Operador",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve liderar a elaboração do plano de ação, mas o cliente deve revisar e aprovar cada elemento antes da formalização no sistema. O plano não é um documento da consultoria — é um compromisso formal da empresa.\n\nA escolha do modelo de cumprimento merece atenção especial: a consultoria deve apresentar uma análise comparativa com os custos, riscos e complexidades de cada opção, permitindo que o cliente faça uma escolha informada. O modelo estruturante, em particular, costuma ser subestimado em termos de esforço evidentário.\n\nO orçamento do plano deve incluir uma reserva de contingência de pelo menos 15-20% sobre o custo estimado. Imprevistos na execução — operador com problema de cadastro, NF-e com erro, necessidade de evidência adicional — são frequentes e seu custo não pode ser absorvido por um orçamento sem folga."
+  },
+  {
+    "id": "etapa-execucao",
+    "parent": "processo",
+    "categoria": "processo",
+    "titulo": "Etapa E — Execução das Atividades de Logística Reversa",
+    "resumo": "O operador entra em ação: coleta embalagens pós-consumo, lança chaves de NF-e no módulo específico do operador, gera o balanço de massa, emite o Certificado de Massa e transfere os créditos para a empresa beneficiária.",
+    "explicacao_detalhada": "A execução é a etapa onde a obrigação legal se transforma em ação física concreta. É aqui que a massa de embalagens pós-consumo é efetivamente coletada, processada e destinada, gerando a documentação que vai suportar o relatório final.\n\nO protagonista desta etapa é o operador de logística reversa. Após a coleta e processamento das embalagens, o operador lança as chaves eletrônicas das NF-e de saída no módulo específico do operador dentro do sistema Recicla Goiás. Esse lançamento é o ato que desencadeia a geração do Certificado de Massa pelo sistema.\n\nO balanço de massa é o cálculo que o sistema realiza com base nas NF-e lançadas: quantidade de material entrada, quantidade processada, perdas no processo e quantidade de material destinado. Esse balanço é a base técnica do Certificado de Massa e deve ser consistente com as NF-e que o suportam.\n\nApós a emissão do Certificado de Massa, o operador realiza a transferência dos créditos de massa para a conta da empresa ou EG beneficiária dentro da plataforma. Essa transferência é um ato explícito — não ocorre automaticamente. A empresa deve monitorar se a transferência foi efetivada, pois créditos não transferidos não são computados no relatório.\n\nA consultoria deve acompanhar a execução de forma periódica, não apenas ao final. Verificar mensalmente se o operador está lançando NF-e, se os certificados estão sendo emitidos e se os créditos estão sendo transferidos permite identificar e corrigir problemas enquanto ainda há tempo hábil.",
+    "momento_operacional": "Etapa E — durante o período de execução do ciclo, que pode se estender por vários meses",
+    "entradas": [
+      "Embalagens pós-consumo coletadas",
+      "NF-e de saída do operador",
+      "Cadastro ativo do operador no sistema"
+    ],
+    "saidas": [
+      "NF-e lançadas no módulo do operador",
+      "Balanço de massa gerado",
+      "Certificado de Massa emitido",
+      "Créditos de massa transferidos"
+    ],
+    "documentos": [
+      "NF-e de saída do operador (chaves eletrônicas)",
+      "Certificado de Massa emitido pelo sistema",
+      "Comprovante de transferência de créditos",
+      "Licença ambiental do operador"
+    ],
+    "implicacoes": "Créditos não transferidos dentro do ciclo não são computados no relatório. NF-e com erros invalidam o Certificado de Massa correspondente.",
+    "riscos": "Operador lançar NF-e fora do prazo do ciclo. Erros nas NF-e que invalidam os certificados. Créditos transferidos para conta errada.",
+    "erros_comuns": "Não monitorar o andamento do lançamento de NF-e pelo operador. Assumir que os créditos são transferidos automaticamente. Não verificar se o operador manteve cadastro ativo ao longo de todo o período de execução.",
+    "atores_relacionados": [
+      "Operador",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria"
+    ],
+    "visao_consultoria": "A consultoria deve estabelecer um calendário de monitoramento da execução, com verificações mensais do status dos lançamentos de NF-e e das transferências de crédito. Um dashboard simples de acompanhamento — mesmo que seja uma planilha — é suficiente para manter controle.\n\nQualquer anomalia identificada durante o monitoramento — NF-e não lançada, certificado não emitido, crédito não transferido — deve ser escalada imediatamente ao operador com prazo de resolução. Problemas de execução identificados em dezembro podem ser corrigidos; os mesmos problemas identificados em março dificilmente têm solução.\n\nA consultoria deve verificar, antes do início da execução, se o operador tem disponibilidade operacional para absorver o volume do cliente dentro do prazo do ciclo. Operadores com excesso de clientes podem atrasar lançamentos e comprometer múltiplos clientes simultaneamente."
+  },
+  {
+    "id": "etapa-relatorio",
+    "parent": "processo",
+    "categoria": "processo",
+    "titulo": "Etapa F — Elaboração do Relatório Final",
+    "resumo": "A empresa ou EG declara a massa produzida em toneladas, vincula os Certificados de Massa, as chaves de NF-e e as evidências georreferenciadas. O relatório é o documento central de prestação de contas perante a SEMAD.",
+    "explicacao_detalhada": "O relatório final é o documento de prestação de contas da empresa ou EG perante o sistema Recicla Goiás e, por extensão, perante a SEMAD. Ele consolida todas as ações realizadas durante a execução e demonstra, de forma documentalmente rastreável, que as metas foram cumpridas.\n\nO relatório deve declarar a massa total de embalagens recuperadas durante o ciclo, expressa em toneladas. Essa declaração não pode ser uma estimativa: deve ser suportada pelos Certificados de Massa emitidos pelo operador, que por sua vez devem ser rastreáveis às NF-e lançadas no módulo do operador.\n\nAlém dos certificados e NF-e, o relatório deve incluir evidências georreferenciadas das atividades realizadas. Essas evidências — registros fotográficos com data e coordenadas GPS — demonstram que as ações ocorreram no território goiano e nos locais declarados. A ausência de evidências georreferenciadas ou a apresentação de evidências sem georreferenciamento válido é motivo de questionamento pela SEMAD.\n\nPara empresas no modelo estruturante ou híbrido, o relatório deve incluir também a documentação das ações estruturantes: contratos, notas fiscais de serviço, registros de capacitação, laudos técnicos ou outros documentos que comprovem que as ações foram realizadas conforme planejado e que produziram fortalecimento mensurável da infraestrutura de logística reversa.\n\nAntes de submeter o relatório à SEMAD, ele deve ser revisado pelo verificador independente. A prática de submeter um relatório preliminar ao verificador — para que este identifique lacunas antes da submissão formal — é altamente recomendada e economiza tempo e esforço na etapa de verificação.",
+    "momento_operacional": "Etapa F — após conclusão das atividades de execução, anterior à verificação independente",
+    "entradas": [
+      "Certificados de Massa",
+      "Chaves de NF-e do operador",
+      "Evidências georreferenciadas",
+      "Documentação de ações estruturantes (se aplicável)"
+    ],
+    "saidas": [
+      "Relatório pré-final para revisão do verificador",
+      "Relatório final submetido à SEMAD"
+    ],
+    "documentos": [
+      "Relatório Final (submetido no sistema)",
+      "Certificados de Massa anexados",
+      "NF-e vinculadas",
+      "Evidências fotográficas georreferenciadas",
+      "Documentação de ações estruturantes"
+    ],
+    "implicacoes": "Relatório com cadeia documental incompleta é considerado inválido pela SEMAD. Evidências sem georreferenciamento válido enfraquecem a defesa do relatório.",
+    "riscos": "Declarar massa sem suporte documental adequado. Apresentar evidências fotográficas sem georreferenciamento. Vincular NF-e que não estão lançadas no módulo do operador.",
+    "erros_comuns": "Submeter o relatório diretamente à SEMAD sem revisão prévia pelo verificador. Usar evidências fotográficas antigas ou de outros ciclos. Não vincular cada Certificado de Massa à NF-e correspondente.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Operador",
+      "Verificador",
+      "Consultoria",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve elaborar o relatório de forma estruturada, com cada declaração de massa vinculada explicitamente ao Certificado de Massa e às NF-e correspondentes. Uma tabela de rastreabilidade — que mapeia cada certificado às suas NF-e e às evidências correspondentes — é um instrumento útil tanto para a elaboração quanto para a verificação.\n\nA revisão prévia pelo verificador deve ser planejada com pelo menos 30 dias de antecedência do prazo de submissão. Isso garante tempo suficiente para que o verificador identifique e a empresa corrija eventuais lacunas antes da submissão formal.\n\nA consultoria deve revisar a consistência interna do relatório antes de enviá-lo ao verificador: a soma dos certificados deve corresponder à massa total declarada, os prazos das NF-e devem estar dentro do ciclo, e as evidências georreferenciadas devem corresponder aos locais declarados nas ações estruturantes."
+  },
+  {
+    "id": "etapa-verif",
+    "parent": "processo",
+    "categoria": "processo",
+    "titulo": "Etapa G — Verificação Independente",
+    "resumo": "O verificador independente audita toda a documentação do relatório, verifica a ausência de duplicidades de créditos, e emite a Declaração do Verificador e o Relatório de Auditoria de Terceira Parte.",
+    "explicacao_detalhada": "A verificação independente é a etapa de controle de qualidade externo do ciclo. Sem ela, o relatório não é válido. O verificador audita a documentação apresentada pela empresa ou EG com o objetivo de assegurar que os dados são verídicos, consistentes, não duplicados e que a cadeia documental é rastreável e íntegra.\n\nO escopo da verificação abrange múltiplas dimensões: conferência das NF-e lançadas pelo operador contra os Certificados de Massa emitidos, verificação de que os créditos transferidos correspondem aos certificados, análise de ausência de duplicidade — ou seja, que os mesmos créditos não foram utilizados por múltiplas empresas ou em múltiplos ciclos — e revisão das evidências georreferenciadas.\n\nA verificação de duplicidade é um aspecto técnico que merece atenção especial. O sistema Recicla Goiás tem mecanismos de controle de duplicidade, mas a verificação humana pelo auditor independente é uma camada adicional de segurança. Créditos duplicados identificados após a submissão do relatório resultam em invalidação parcial ou total do cumprimento.\n\nAo final da auditoria, o verificador emite dois documentos obrigatórios: a Declaração do Verificador, que é um documento sintético atestando a conformidade da documentação, e o Relatório de Auditoria de Terceira Parte, que detalha o escopo da auditoria, a metodologia aplicada, as amostras verificadas e as conclusões. Ambos devem ser formalmente assinados pelo verificador e anexados ao relatório final.\n\nO verificador pode identificar não conformidades durante a auditoria. Quando isso acontece, a empresa tem a oportunidade de corrigir as lacunas antes que o verificador emita seu parecer final — desde que haja tempo dentro do prazo. Por isso, a contratação antecipada do verificador é estratégica.",
+    "momento_operacional": "Etapa G — após elaboração do relatório pré-final e antes da submissão formal à SEMAD",
+    "entradas": [
+      "Relatório pré-final",
+      "Certificados de Massa",
+      "NF-e vinculadas",
+      "Evidências georreferenciadas"
+    ],
+    "saidas": [
+      "Declaração do Verificador",
+      "Relatório de Auditoria de Terceira Parte"
+    ],
+    "documentos": [
+      "Declaração do Verificador (assinada)",
+      "Relatório de Auditoria de Terceira Parte (assinado)",
+      "Contrato de prestação de serviços de verificação"
+    ],
+    "implicacoes": "Sem os dois documentos emitidos pelo verificador, o relatório é inválido. Não conformidades identificadas pelo verificador sem tempo de correção resultam em parecer negativo.",
+    "riscos": "Verificador identificar duplicidades sem tempo hábil para resolução. Contratação tardia do verificador resultando em agenda indisponível. Verificador com vínculo com a empresa ou consultoria.",
+    "erros_comuns": "Entregar documentação ao verificador de forma fragmentada, sem organização. Não dar ao verificador acesso completo à plataforma para conferência das NF-e. Contratar o verificador na última semana antes do prazo.",
+    "atores_relacionados": [
+      "Verificador",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve preparar um pacote de verificação organizado para o verificador: um índice de todos os documentos, com a localização de cada um (sistema, pasta compartilhada, e-mail), a tabela de rastreabilidade de certificados e NF-e, e um resumo executivo do relatório. Facilitar o trabalho do verificador reduz o tempo de auditoria e o custo final.\n\nQualquer não conformidade identificada pelo verificador deve ser tratada como prioridade máxima. A consultoria deve ter processo de escalada imediata ao cliente com opções de resolução, prazos e estimativa de custo de cada opção.\n\nA consultoria não deve tentar influenciar o julgamento do verificador nem propor soluções que contornem irregularidades identificadas. O papel da consultoria nessa etapa é fornecer documentação suplementar legítima quando solicitado pelo verificador, não negociar o parecer."
+  },
+  {
+    "id": "etapa-status",
+    "parent": "processo",
+    "categoria": "processo",
+    "titulo": "Etapa H — Status Final e Análise pela SEMAD",
+    "resumo": "O relatório submetido é analisado pela SEMAD. Três resultados possíveis: adimplente (cumprimento verificado), pendente de correções (prazo para ajuste), ou em risco de sanção (descumprimento confirmado ou documentação inválida).",
+    "explicacao_detalhada": "A etapa H é o desfecho do ciclo operacional. Após a submissão do relatório final com a Declaração do Verificador e o Relatório de Auditoria de Terceira Parte, a SEMAD analisa a documentação e determina o status da empresa perante o sistema.\n\nO primeiro resultado possível é o reconhecimento de adimplência: a SEMAD verifica que a documentação está completa, a cadeia é rastreável, as metas foram atingidas e a verificação é válida. A empresa recebe o reconhecimento formal de cumprimento para o ciclo e não está sujeita a penalidades.\n\nO segundo resultado possível é a pendência de correções: a SEMAD identifica lacunas ou inconsistências que não configuram descumprimento definitivo, mas que precisam ser sanadas dentro de um prazo estabelecido. Nesse caso, a empresa tem a oportunidade de corrigir e resubmeter documentação complementar. É fundamental monitorar o prazo de resposta e não deixá-lo vencer.\n\nO terceiro resultado, o mais grave, é o reconhecimento de descumprimento e o encaminhamento para processo sancionatório. Isso pode decorrer de: documentação irrecuperável, metas não atingidas sem justificativa válida, verificação inválida ou fraudulenta, ou não participação no ciclo. O processo sancionatório pode resultar em autuação, multa e, em casos graves, acionamento do MP-GO.\n\nApós a análise, a empresa deve monitorar continuamente o sistema para verificar o status do relatório. A SEMAD pode emitir notificações com prazos curtos para resposta, e o não atendimento de uma notificação pode transformar uma pendência em sanção.",
+    "momento_operacional": "Etapa H — após submissão do relatório final, encerramento do ciclo operacional",
+    "entradas": [
+      "Relatório final submetido",
+      "Declaração do Verificador",
+      "Relatório de Auditoria de Terceira Parte"
+    ],
+    "saidas": [
+      "Status de adimplência",
+      "Notificação de pendências (se aplicável)",
+      "Auto de Infração (se aplicável)"
+    ],
+    "documentos": [
+      "Comprovante de submissão do relatório",
+      "Notificação da SEMAD (se emitida)",
+      "Auto de Infração (se emitido)",
+      "Recurso administrativo (se aplicável)"
+    ],
+    "implicacoes": "O status de adimplência é o único resultado que isenta a empresa de penalidades. Pendências não respondidas no prazo podem ser convertidas em sanção. Descumprimento pode gerar autuação e acionamento do MP-GO.",
+    "riscos": "Não monitorar o sistema após a submissão do relatório. Deixar vencer prazo de resposta a notificação de pendência. Não contestar Auto de Infração dentro do prazo recursal.",
+    "erros_comuns": "Assumir que a submissão do relatório encerra o ciclo. Não acompanhar o status no sistema após a submissão. Não ter assessoria jurídica disponível para atuar em eventual processo sancionatório.",
+    "atores_relacionados": [
+      "SEMAD",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Verificador",
+      "MP-GO"
+    ],
+    "visao_consultoria": "O encerramento do ciclo operacional não significa o fim do serviço de consultoria. A fase pós-submissão — monitoramento do status, resposta a pendências e eventual suporte a recurso administrativo — é parte integral do escopo e deve estar prevista no contrato.\n\nA consultoria deve definir um processo de monitoramento pós-submissão com verificações semanais do status no sistema, durante pelo menos 60 dias após o prazo final. Notificações da SEMAD com prazos curtos são comuns e não podem ser perdidas.\n\nEm caso de Auto de Infração, a consultoria deve acionar imediatamente o assessor jurídico do cliente. O prazo recursal em processos administrativos da SEMAD é definido em lei e sua perda é geralmente fatal para a defesa. A consultoria deve ter esse fluxo de escalada previamente acordado com o cliente."
+  },
+  {
+    "id": "compensacao",
+    "parent": "sistema",
+    "categoria": "conceito",
+    "titulo": "Compensação de Logística Reversa — Cadeia de Equivalência Comprovada",
+    "resumo": "Compensação não é pagamento nem declaração. Exige cadeia de equivalência completa e documentalmente rastreável: massa colocada no mercado → meta → massa recuperada → NF-e → Certificado de Massa → crédito → vínculo documental → verificação → relatório. Qualquer elo quebrado invalida a cadeia.",
+    "explicacao_detalhada": "A compensação no contexto do Recicla Goiás é frequentemente mal compreendida. Ela não é um pagamento em dinheiro a um fundo ambiental, nem uma declaração unilateral de que determinada ação foi realizada. É a demonstração documentalmente rastreável de que a empresa recuperou massa de embalagens equivalente à sua obrigação regulatória.\n\nA cadeia de equivalência comprovada começa com a massa colocada no mercado goiano — calculada na triagem. Dessa massa, aplica-se o percentual de meta (22% ou 30%) para obter a massa a ser recuperada. A recuperação efetiva dessa massa deve ser demonstrada por NF-e de saída do operador, que geram o Certificado de Massa, que é convertido em crédito de massa, que é transferido para a conta da empresa beneficiária.\n\nO vínculo documental é o elemento que une cada crédito à empresa que está cumprindo sua meta. Não basta que o operador tenha recuperado massa — é necessário que essa massa tenha sido explicitamente vinculada, via transferência de crédito, à empresa ou EG que está compensando sua obrigação. Créditos de massa flutuantes, sem vínculo explícito, não são válidos para fins de cumprimento.\n\nA verificação pelo verificador independente é a camada de validação externa que atesta que toda a cadeia é real, consistente e não duplicada. Sem a verificação, não há como assegurar à SEMAD que a cadeia é legítima — e um relatório sem verificação válida é tratado como inválido.\n\nO relatório é o documento que consolida e apresenta toda essa cadeia à SEMAD. Um relatório sem cadeia completa — com qualquer elo faltando ou inválido — é um relatório de descumprimento, independentemente do esforço real empregado pela empresa.",
+    "momento_operacional": "Conceito transversal, com impacto nas etapas D (plano), E (execução), F (relatório), G (verificação) e H (status)",
+    "entradas": [
+      "Volume goiano colocado no mercado",
+      "Meta regulatória aplicável",
+      "Créditos de massa transferidos"
+    ],
+    "saidas": [
+      "Cadeia de compensação completa e válida",
+      "Relatório de cumprimento aceito pela SEMAD"
+    ],
+    "documentos": [
+      "NF-e do operador",
+      "Certificado de Massa",
+      "Comprovante de transferência de crédito",
+      "Declaração do Verificador",
+      "Relatório Final"
+    ],
+    "implicacoes": "A ausência de qualquer elo da cadeia invalida a compensação inteira. Não há compensação parcial reconhecida: ou a cadeia está completa ou o cumprimento não é reconhecido.",
+    "riscos": "Quebrar a cadeia em qualquer ponto sem perceber até a etapa de verificação. Confundir pagamento a fundos com compensação de logística reversa. Usar créditos de massa não vinculados explicitamente à empresa.",
+    "erros_comuns": "Acreditar que contratar um operador é suficiente para comprovar compensação. Não transferir os créditos de massa para a conta da empresa. Apresentar evidências de ações sem vinculação a NF-e e certificados.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Operador",
+      "Verificador",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve dedicar uma sessão específica de alinhamento com o cliente para explicar a natureza da cadeia de compensação. Clientes que entendem o conceito tomam decisões operacionais mais cuidadosas e valorizam mais a documentação produzida ao longo do ciclo.\n\nA metáfora útil é a de uma corrente: a resistência da corrente é determinada pelo seu elo mais fraco. Uma cadeia de compensação com 9 elos perfeitos e 1 elo quebrado é uma cadeia inválida. Isso justifica o investimento em qualidade documental em todas as etapas, não apenas no final.\n\nA consultoria deve construir e manter atualizada a tabela de rastreabilidade da cadeia de compensação ao longo do ciclo — não apenas ao final. Isso permite identificar elos que estão se formando de forma inadequada antes que se tornem problemas irreversíveis."
+  },
+  {
+    "id": "modelo-credito",
+    "parent": "compensacao",
+    "categoria": "modelo",
+    "titulo": "Modelo de Crédito de Massa",
+    "resumo": "O operador gera créditos de massa via lançamento de NF-e, emissão de Certificado de Massa e transferência para a empresa beneficiária. Modelo direto, previsível e de complexidade documental média.",
+    "explicacao_detalhada": "O modelo de crédito de massa é o mecanismo de compensação mais direto e previsível disponível no Recicla Goiás. Nele, o operador de logística reversa executa a coleta e o processamento das embalagens pós-consumo, lança as NF-e no módulo do operador, o sistema gera os Certificados de Massa e o operador transfere os créditos correspondentes para a conta da empresa beneficiária.\n\nA previsibilidade é uma das principais vantagens desse modelo: dado um volume goiano calculado e uma meta definida, é possível calcular antecipadamente quantos créditos de massa serão necessários, a que custo e em que prazo. Isso facilita o orçamento, o planejamento da execução e o monitoramento do progresso ao longo do ciclo.\n\nA complexidade documental do modelo de crédito é considerada média: os documentos principais são as NF-e do operador, os Certificados de Massa emitidos pelo sistema e os comprovantes de transferência de crédito. Não há necessidade de evidências georreferenciadas de ações estruturantes, o que simplifica o pacote de documentação.\n\nA principal limitação do modelo é a dependência total do operador: se o operador não lançar as NF-e, não emitir os certificados ou não transferir os créditos dentro do ciclo, a empresa não tem cumprimento. Por isso, o monitoramento ativo do operador é crítico nesse modelo.\n\nO custo do modelo de crédito inclui a taxa cobrada pelo operador pelos serviços de logística reversa, que pode ser calculada por tonelada processada ou por volume de crédito gerado. Esse custo varia conforme o tipo de material, o volume e a região, e deve ser pesquisado e orçado com antecedência.",
+    "momento_operacional": "Etapas D (plano — escolha do modelo), E (execução — geração de créditos) e F/G (relatório e verificação — vinculação e validação dos créditos)",
+    "entradas": [
+      "Volume goiano calculado",
+      "Meta de recuperação",
+      "Operador contratado e ativo"
+    ],
+    "saidas": [
+      "Créditos de massa transferidos",
+      "Certificados de Massa vinculados",
+      "Cumprimento documentado"
+    ],
+    "documentos": [
+      "NF-e do operador",
+      "Certificado de Massa",
+      "Comprovante de transferência de crédito",
+      "Contrato com operador"
+    ],
+    "implicacoes": "A empresa é totalmente dependente do desempenho do operador. Falha do operador em qualquer ponto da cadeia compromete o cumprimento.",
+    "riscos": "Operador com capacidade insuficiente para o volume necessário. Atraso no lançamento de NF-e pelo operador. Créditos gerados fora do prazo do ciclo.",
+    "erros_comuns": "Não monitorar o andamento dos lançamentos de NF-e. Contratar operador com capacidade instalada inferior ao volume necessário. Não verificar se o crédito foi efetivamente transferido.",
+    "atores_relacionados": [
+      "Operador",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Verificador"
+    ],
+    "visao_consultoria": "Para clientes com volume goiano bem definido e orçamento disponível, o modelo de crédito é a recomendação padrão por sua previsibilidade e simplicidade relativa. A consultoria deve apresentar ao cliente uma projeção de custo por tonelada de crédito, permitindo que o cliente avalie o custo total de conformidade.\n\nO contrato com o operador deve ter SLAs claros: prazo para lançamento de NF-e após o processamento, prazo para emissão de certificados e prazo para transferência de créditos. Esses SLAs são a base do monitoramento da consultoria durante a execução.\n\nA consultoria deve ter pelo menos dois operadores qualificados na sua rede de indicações para cada cliente, permitindo que, em caso de problema com o operador primário, haja uma alternativa disponível sem perda de tempo crítico."
+  },
+  {
+    "id": "modelo-estruturante",
+    "parent": "compensacao",
+    "categoria": "modelo",
+    "titulo": "Modelo Estruturante",
+    "resumo": "Ações que fortalecem a infraestrutura de logística reversa no estado de Goiás. Exige evidências concretas com vínculo territorial ao estado, alto ônus probatório, evidências georreferenciadas obrigatórias. Não é substituto do modelo de crédito.",
+    "explicacao_detalhada": "O modelo estruturante reconhece como cumprimento de obrigações de logística reversa as ações que fortalecem a infraestrutura do setor no estado de Goiás. Isso pode incluir: implantação ou melhoria de ecopontos, capacitação de catadores e cooperativas, instalação de equipamentos de triagem, campanhas de educação ambiental com alcance territorial definido, entre outros.\n\nO requisito fundamental do modelo estruturante é a territorialidade: as ações devem ter vínculo demonstrável com o estado de Goiás. Ações realizadas em outros estados, mesmo que relevantes para a logística reversa nacional, não são válidas para fins de cumprimento no Recicla Goiás. Esse é um erro frequente de empresas com programas nacionais de sustentabilidade.\n\nO ônus probatório do modelo estruturante é significativamente maior do que o do modelo de crédito. Para cada ação, é necessário demonstrar: que foi realizada (contratos, notas fiscais, registros fotográficos georreferenciados), que ocorreu no território goiano (georreferenciamento, endereços, CNPJs de beneficiários goianos), e que produziu fortalecimento mensurável da infraestrutura de logística reversa (indicadores de capacidade instalada, número de beneficiários, volumes de material processado após a ação).\n\nO modelo estruturante não é um substituto para o modelo de crédito. A SEMAD pode exigir que as ações estruturantes demonstrem equivalência com a massa que seria recuperada via crédito. Ações estruturantes sem essa equivalência demonstrável podem não ser aceitas como cumprimento integral.\n\nA decisão de adotar o modelo estruturante deve ser tomada com plena consciência do esforço evidentário envolvido. Empresas que optam por esse modelo sem capacidade de produzir evidências robustas frequentemente chegam ao final do ciclo com documentação insuficiente para suportar o cumprimento.",
+    "momento_operacional": "Etapas D (plano — escolha e detalhamento das ações), E (execução das ações com registro de evidências), F (relatório com documentação completa) e G (verificação do ônus probatório)",
+    "entradas": [
+      "Plano de ações estruturantes aprovado",
+      "Orçamento para execução das ações",
+      "Parceiros goianos para as ações"
+    ],
+    "saidas": [
+      "Evidências georreferenciadas de cada ação",
+      "Documentação de contratos e notas fiscais",
+      "Indicadores de resultado das ações"
+    ],
+    "documentos": [
+      "Contratos com beneficiários das ações",
+      "NF-e de serviços realizados",
+      "Registros fotográficos georreferenciados",
+      "Laudos técnicos de capacidade instalada",
+      "Relatório de indicadores de resultado"
+    ],
+    "implicacoes": "Ações sem vínculo territorial com Goiás são inválidas. Ações sem evidências suficientes podem ser rejeitadas pela SEMAD mesmo tendo sido realizadas.",
+    "riscos": "Realizar ações em outros estados e tentar computá-las no ciclo goiano. Não produzir evidências georreferenciadas durante a execução (impossível de reconstituir depois). Subestimar o ônus probatório.",
+    "erros_comuns": "Apresentar registros fotográficos sem georreferenciamento. Não documentar os indicadores de resultado das ações. Tentar usar ações de anos anteriores como evidência do ciclo atual.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Parceiros locais (cooperativas, municípios)",
+      "Verificador",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A consultoria deve ser direta com o cliente sobre o ônus probatório do modelo estruturante: ele é maior do que parece na descrição teórica. Antes de recomendar esse modelo, a consultoria deve avaliar se o cliente tem capacidade operacional para produzir e organizar as evidências necessárias.\n\nSe o cliente insistir no modelo estruturante, a consultoria deve implementar um sistema de captura de evidências desde o início de cada ação — registros fotográficos georreferenciados, listas de presença, contratos assinados — sem esperar o final da ação para documentar. Evidências produzidas retrospectivamente têm valor probatório muito menor.\n\nA equivalência com créditos de massa é o parâmetro que a SEMAD usa para avaliar ações estruturantes. A consultoria deve orientar o cliente a quantificar o impacto de cada ação em termos de massa recuperada equivalente, construindo uma narrativa de cumprimento que seja compreensível e defensável perante o órgão regulador."
+  },
+  {
+    "id": "modelo-hibrido",
+    "parent": "compensacao",
+    "categoria": "modelo",
+    "titulo": "Modelo Híbrido",
+    "resumo": "Combinação de crédito de massa e ações estruturantes. Estratégia diversificada de cumprimento, maior complexidade operacional e documental, mas narrativa de conformidade mais completa e defensável.",
+    "explicacao_detalhada": "O modelo híbrido combina elementos do modelo de crédito de massa com ações estruturantes, permitindo que a empresa distribua seu esforço de cumprimento entre a comprovação direta de recuperação de massa e o fortalecimento da infraestrutura local de logística reversa.\n\nA principal vantagem do modelo híbrido é a diversificação estratégica: se houver qualquer problema com a geração de créditos pelo operador, as ações estruturantes podem compensar parcialmente. Inversamente, se as ações estruturantes não atingirem a equivalência esperada, os créditos cobrem a lacuna. Essa resiliência é valiosa especialmente para empresas com volumes maiores ou em contextos operacionais incertos.\n\nA narrativa de conformidade do modelo híbrido é frequentemente mais robusta do que a de cada modelo isolado: a empresa demonstra tanto recuperação direta de massa quanto investimento na infraestrutura do setor. Essa narrativa pode ser relevante em contextos de ESG, relatórios de sustentabilidade e comunicação com stakeholders.\n\nA complexidade operacional e documental do modelo híbrido é, evidentemente, maior do que a de cada modelo isolado. A empresa precisa gerenciar simultaneamente a cadeia de créditos (com monitoramento do operador) e a cadeia de evidências das ações estruturantes (com georreferenciamento, contratos e indicadores). Isso demanda maior capacidade de gestão e, geralmente, maior suporte de consultoria.\n\nO orçamento do modelo híbrido deve refletir essa complexidade aumentada: além dos custos do operador e das ações estruturantes, há maior custo de documentação, maior tempo de verificação e potencialmente maior custo de consultoria. Planos híbridos com orçamento subdimensionado tendem a colapsar na etapa de execução.",
+    "momento_operacional": "Etapas D (plano — definição da proporção crédito/estruturante), E (execução paralela dos dois modelos), F (relatório consolidado) e G (verificação mais extensa)",
+    "entradas": [
+      "Volume goiano calculado",
+      "Meta regulatória",
+      "Capacidade de execução de ações estruturantes em Goiás",
+      "Orçamento ampliado"
+    ],
+    "saidas": [
+      "Créditos de massa para parte da meta",
+      "Evidências de ações estruturantes para o restante",
+      "Relatório híbrido consolidado"
+    ],
+    "documentos": [
+      "Documentos do modelo de crédito (NF-e, certificados, transferências)",
+      "Documentos do modelo estruturante (contratos, NF-e de serviços, fotos georreferenciadas, indicadores)",
+      "Relatório híbrido final"
+    ],
+    "implicacoes": "A complexidade dupla exige maior gestão. O verificador precisará auditar duas cadeias documentais distintas, o que aumenta o tempo e o custo de verificação.",
+    "riscos": "Subestimar a complexidade de gerenciar dois modelos simultaneamente. Orçamento insuficiente para cobrir todos os custos de ambos os modelos. Verificação mais longa que excede o prazo disponível.",
+    "erros_comuns": "Adotar o modelo híbrido sem orçamento adequado para ambas as cadeias. Não monitorar separadamente o progresso de cada modelo. Apresentar ao verificador documentação misturada sem organização por modelo.",
+    "atores_relacionados": [
+      "Operador",
+      "Parceiros de ações estruturantes",
+      "Verificador",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "SEMAD"
+    ],
+    "visao_consultoria": "A recomendação do modelo híbrido deve ser acompanhada de uma análise de capacidade do cliente: ele tem equipe e processos para gerenciar duas cadeias documentais simultaneamente? Se não, o modelo híbrido pode ser mais arriscado do que o modelo de crédito puro.\n\nQuando o modelo híbrido é adequado, a consultoria deve estruturar o gerenciamento do projeto com trilhas separadas para créditos e ações estruturantes, com responsáveis distintos e checkpoints individuais. Misturar as duas trilhas em um único processo de gestão é receita para confusão e lacunas documentais.\n\nO verificador deve ser informado desde o início sobre a natureza híbrida do relatório, para que dimensione adequadamente o escopo e o custo da auditoria. Uma verificação de relatório híbrido contratada pelo preço de uma verificação de relatório de crédito puro resultará em insatisfação de ambos os lados."
+  },
+  {
+    "id": "custos",
+    "parent": "sistema",
+    "categoria": "custos",
+    "titulo": "Estrutura de Custos do Ciclo de Logística Reversa",
+    "resumo": "Visão geral das 5 categorias de custo: entrada, execução, documental, verificação e conformidade. A ausência de provisão prévia é o principal vetor de risco financeiro — leva a soluções emergenciais caras, documentação inadequada e potenciais multas.",
+    "explicacao_detalhada": "A estrutura de custos do ciclo de logística reversa no Recicla Goiás é frequentemente subestimada pelas empresas, especialmente aquelas que participam do sistema pela primeira vez. Compreender as cinco categorias de custo e seu momento de incidência é essencial para um planejamento financeiro adequado.\n\nOs custos se distribuem ao longo de todas as etapas do ciclo e não se concentram em um único momento. Essa distribuição temporal é importante: o orçamento deve ser provisionado antes do início do ciclo, não reconstruído ao longo dele. Empresas que tentam ajustar o orçamento durante a execução frequentemente tomam decisões subótimas por pressão de caixa.\n\nA ausência de provisão tem um custo multiplicado. Primeiro, soluções emergenciais — contratar operador de última hora, acelerar verificação, produzir documentação às pressas — custam significativamente mais do que as mesmas soluções planejadas com antecedência. Segundo, documentação produzida sob pressão de tempo tende a ter mais lacunas e inconsistências, aumentando o risco de indeferimento pela SEMAD. Terceiro, o indeferimento resulta em autuação, cujo custo pode superar em muito o custo de tudo o que foi gasto no ciclo.\n\nO custo total do ciclo varia significativamente conforme o volume goiano, o modelo de cumprimento escolhido, a complexidade do relatório e a região de atuação dos operadores. A consultoria deve ajudar o cliente a construir uma estimativa realista antes do início do ciclo, com margens de contingência adequadas.\n\nUma visão de custo total — que inclui não apenas os desembolsos diretos com operadores e verificadores, mas também o tempo interno da equipe, os custos de gestão documental e os custos de monitoramento — frequentemente revela que o ciclo é mais caro do que o cliente imaginava. Essa transparência, embora inicialmente desconfortável, é preferível à descoberta durante a execução.",
+    "momento_operacional": "Referência de planejamento na etapa D (plano), com incidência ao longo de todas as etapas subsequentes",
+    "entradas": [
+      "Volume goiano",
+      "Modelo de cumprimento escolhido",
+      "Tarifas de operadores e verificadores"
+    ],
+    "saidas": [
+      "Orçamento total do ciclo",
+      "Provisão financeira adequada",
+      "Reserva de contingência"
+    ],
+    "documentos": [
+      "Orçamento detalhado por categoria",
+      "Contratos com prestadores",
+      "Notas fiscais de serviços contratados"
+    ],
+    "implicacoes": "Orçamento subdimensionado leva a rupturas de execução e soluções emergenciais caras. A ausência de provisão pode tornar o custo de conformidade mais alto do que o custo de uma multa — o que é um falso raciocínio, pois a multa também gera registro de descumprimento.",
+    "riscos": "Provisionar apenas custos diretos, ignorando tempo interno e custos de gestão. Não reservar contingência para imprevistos de execução. Comparar custo de conformidade com custo de multa sem considerar o risco reputacional do descumprimento.",
+    "erros_comuns": "Não incluir o custo do verificador no orçamento inicial. Assumir que o tempo interno da equipe é custo zero. Não provisionar para eventuais correções após notificação da SEMAD.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria",
+      "Operador",
+      "Verificador"
+    ],
+    "visao_consultoria": "A consultoria deve apresentar ao cliente uma estimativa de custo total do ciclo antes de qualquer compromisso de engajamento. Essa estimativa deve cobrir todas as cinco categorias e incluir uma reserva de contingência de 15-20%.\n\nA comparação entre custo de conformidade e custo de multa é uma análise que a consultoria deve fazer com cuidado: além do valor da multa, o descumprimento gera registro de infração, risco de acionamento do MP-GO e dano reputacional que pode ter custo muito superior ao da multa em si.\n\nA consultoria deve ajudar o cliente a identificar oportunidades de eficiência de custo — como contratar operador com maior capacidade instalada que resulta em menor custo por tonelada — sem comprometer a qualidade documental ou o cumprimento das metas."
+  },
+  {
+    "id": "custo-entrada",
+    "parent": "custos",
+    "categoria": "custos",
+    "titulo": "Custo de Entrada — Diagnóstico e Estruturação",
+    "resumo": "Honorários de consultoria, diagnóstico de enquadramento, elaboração do plano e registro no sistema. Incorre antes de qualquer execução — na etapa A e nas etapas B/C/D.",
+    "explicacao_detalhada": "Os custos de entrada são os primeiros a incidir no ciclo e são frequentemente subestimados porque ocorrem antes de qualquer ação visível de logística reversa. Eles cobrem o trabalho intelectual de diagnóstico, estruturação e planejamento que precede toda a execução.\n\nOs principais componentes do custo de entrada incluem: honorários de consultoria para o diagnóstico de enquadramento (incluindo cálculo do volume goiano e memória de cálculo), honorários para a elaboração do plano de ação (incluindo análise de modelos, orçamento e formalização no sistema), e custos de registro no sistema Recicla Goiás (que podem incluir taxas administrativas, dependendo da regulamentação vigente).\n\nO custo de diagnóstico varia conforme a complexidade da situação do cliente: empresas com operações simples e dados de NF-e bem organizados exigem menor esforço; empresas com múltiplos CNPJs, distribuição complexa ou dados fragmentados exigem diagnóstico mais extenso.\n\nA antecipação do custo de entrada é importante por uma razão prática: sem o diagnóstico e o plano concluídos, não é possível iniciar a execução. Empresas que protelarizam a contratação da consultoria e a elaboração do plano perdem tempo precioso do período de execução, comprimindo o ciclo e aumentando riscos.\n\nO custo de entrada não retorna se a empresa decidir não prosseguir com o ciclo após o diagnóstico. Por isso, é importante que o cliente tome a decisão de participar antes de iniciar o diagnóstico, ou que o diagnóstico inclua uma análise de viabilidade que informe essa decisão.",
+    "momento_operacional": "Etapas A (triagem), B (não enquadramento, se aplicável), C (cadastro) e D (plano de ação)",
+    "entradas": [
+      "Dados da empresa",
+      "Decisão de participação no ciclo"
+    ],
+    "saidas": [
+      "Diagnóstico documentado",
+      "Plano de ação elaborado",
+      "Cadastro ativo no sistema"
+    ],
+    "documentos": [
+      "Relatório de diagnóstico de enquadramento",
+      "Plano de ação",
+      "Proposta e contrato de consultoria",
+      "Comprovante de cadastro no sistema"
+    ],
+    "implicacoes": "Custos de entrada são irrecuperáveis caso a empresa decida não prosseguir. Protelar esses custos comprime o período de execução e aumenta riscos.",
+    "riscos": "Subestimar o custo de diagnóstico para empresas com dados fragmentados. Não incluir taxas de sistema no orçamento. Protelizar a elaboração do plano e perder tempo de execução.",
+    "erros_comuns": "Tratar os honorários de consultoria como custo opcional que pode ser cortado. Iniciar o cadastro sem ter concluído o diagnóstico. Não provisionar para revisões do plano.",
+    "atores_relacionados": [
+      "Consultoria",
+      "Empresa Individual",
+      "Entidade Gestora"
+    ],
+    "visao_consultoria": "A consultoria deve apresentar proposta de honorários transparente e detalhada por fase do ciclo. O custo de entrada — diagnóstico e plano — deve ser separado do custo de acompanhamento da execução e do relatório, permitindo que o cliente tome decisões informadas sobre o escopo de cada fase.\n\nA antecipação é o argumento mais forte para convencer o cliente a contratar com cuidado: cada semana de atraso no diagnóstico é uma semana a menos no período de execução. Para clientes com volumes altos, isso pode significar não conseguir gerar créditos suficientes dentro do prazo.\n\nA consultoria deve incluir no escopo do diagnóstico uma avaliação da qualidade dos dados disponíveis. Se os dados do cliente são fragmentados ou de difícil acesso, isso deve ser refletido no prazo e no custo do diagnóstico — não descoberto durante a execução."
+  },
+  {
+    "id": "custo-execucao",
+    "parent": "custos",
+    "categoria": "custos",
+    "titulo": "Custo de Execução — Serviços de Logística Reversa",
+    "resumo": "Serviços de logística reversa do operador, aquisição ou vinculação de créditos de massa. Incorre durante a etapa E, podendo se estender até a etapa F.",
+    "explicacao_detalhada": "O custo de execução é o mais diretamente relacionado à atividade de recuperação de massa. Ele abrange os serviços do operador de logística reversa: coleta, triagem, processamento e destinação final das embalagens pós-consumo. É o custo mais variável do ciclo, pois depende do volume, do tipo de material, da região e das tarifas do operador contratado.\n\nA principal componente do custo de execução é a tarifa do operador, geralmente expressa em reais por tonelada de material processado. Essa tarifa varia significativamente conforme o tipo de embalagem (plástico, papel, metal, vidro) e a região de atuação. Materiais de menor valor de mercado (vidro, por exemplo) tendem a ter tarifas mais altas, pois o operador tem menos receita da venda do material reciclado para compensar seus custos.\n\nAlém da tarifa do operador, o custo de execução pode incluir o custo de aquisição de créditos de massa no mercado, quando o operador não consegue gerar créditos suficientes a partir da massa coletada. Esse mercado secundário de créditos existe mas deve ser utilizado com cautela: créditos adquiridos de terceiros precisam de rastreabilidade tão robusta quanto créditos gerados diretamente.\n\nO momento de incidência do custo de execução é a etapa E, mas o pagamento ao operador frequentemente se estende até a etapa F, quando a documentação final é conciliada. Os contratos com operadores devem prever claramente os marcos de pagamento e as condições de recebimento de certificados.\n\nEmpresas que tentam reduzir o custo de execução escolhendo operadores de menor preço sem verificar qualidade e capacidade operacional frequentemente pagam mais ao final — com correções de NF-e, retrabalho de certificados e, em casos graves, necessidade de contratar outro operador.",
+    "momento_operacional": "Protagonismo na etapa E (execução), com desdobramentos na etapa F (relatório)",
+    "entradas": [
+      "Plano de ação aprovado",
+      "Contrato com operador",
+      "Volume a ser recuperado"
+    ],
+    "saidas": [
+      "Serviços de logística reversa executados",
+      "NF-e emitidas",
+      "Créditos de massa gerados"
+    ],
+    "documentos": [
+      "Contrato com operador",
+      "NF-e de serviços do operador",
+      "Medições de volume processado",
+      "Comprovantes de pagamento"
+    ],
+    "implicacoes": "Custo de execução é o maior desembolso direto do ciclo. Operadores de menor preço podem gerar custos indiretos maiores por má qualidade de documentação.",
+    "riscos": "Operador sem capacidade para o volume necessário. Tarifa real maior do que orçada por variação de tipo de material. Créditos de massa insuficientes por baixo desempenho do operador.",
+    "erros_comuns": "Escolher operador apenas por preço sem avaliar qualidade de documentação. Não prever no contrato marcos de pagamento vinculados à entrega de certificados. Não monitorar o progresso de geração de créditos ao longo da execução.",
+    "atores_relacionados": [
+      "Operador",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria"
+    ],
+    "visao_consultoria": "A consultoria deve apoiar o cliente na seleção do operador com um critério multi-dimensional: preço, qualidade de documentação, capacidade instalada, histórico de emissão de certificados e situação cadastral no sistema. Uma planilha de avaliação comparativa é um entregável útil nessa fase.\n\nO contrato com o operador deve ser revisado pela consultoria antes da assinatura, com atenção especial a: prazo para lançamento de NF-e, prazo para emissão de certificados, prazo para transferência de créditos, responsabilidade por erros de lançamento e condições de rescisão.\n\nDurante a execução, a consultoria deve monitorar mensalmente o volume de créditos gerados versus o volume necessário para atingir a meta. Se a geração estiver abaixo do esperado, é preciso identificar a causa e tomar ação corretiva enquanto há tempo."
+  },
+  {
+    "id": "custo-documental",
+    "parent": "custos",
+    "categoria": "custos",
+    "titulo": "Custo Documental — Organização e Elaboração do Relatório",
+    "resumo": "Organização de evidências, certificados, notas fiscais e preparação do relatório final. Incorre nas etapas F e G.",
+    "explicacao_detalhada": "O custo documental abrange todo o trabalho de organização, sistematização e elaboração da documentação que vai suportar o relatório final. É um custo frequentemente subestimado porque não está associado a uma ação física visível — é trabalho de gestão de informação.\n\nOs principais componentes do custo documental incluem: horas de consultoria e de equipe interna para organizar a documentação ao longo do ciclo, custo de ferramentas de gestão documental (quando necessárias), custo de produção de evidências georreferenciadas para o modelo estruturante ou híbrido, e horas para elaboração, revisão e formatação do relatório final.\n\nA qualidade do trabalho documental tem impacto direto no custo de verificação: um relatório bem organizado, com tabela de rastreabilidade e documentos indexados, pode ser verificado em menos tempo e com menos questionamentos. Um relatório desorganizado aumenta o tempo do verificador e, consequentemente, seu custo.\n\nO custo documental pode ser reduzido por uma boa prática ao longo de todo o ciclo: organizar a documentação progressivamente, à medida que cada documento é produzido, em vez de tentar reconstituir tudo ao final. Essa abordagem prospectiva é muito mais eficiente do que a retrospectiva.\n\nPara empresas no modelo estruturante ou híbrido, o custo documental é proporcionalmente maior, pois as evidências de ações estruturantes exigem maior esforço de captura e organização. A consultoria deve dimensionar esse custo corretamente no orçamento do ciclo.",
+    "momento_operacional": "Etapas F (elaboração do relatório) e G (suporte à verificação), com preparação ao longo de toda a etapa E",
+    "entradas": [
+      "Documentos produzidos ao longo do ciclo",
+      "Certificados de Massa",
+      "NF-e",
+      "Evidências georreferenciadas"
+    ],
+    "saidas": [
+      "Pacote documental organizado",
+      "Relatório final elaborado",
+      "Índice de documentos para o verificador"
+    ],
+    "documentos": [
+      "Relatório final",
+      "Índice de documentos",
+      "Tabela de rastreabilidade certificados-NF-e",
+      "Evidências fotográficas organizadas"
+    ],
+    "implicacoes": "Documentação desorganizada aumenta o tempo e o custo de verificação. Lacunas documentais identificadas na etapa de elaboração do relatório podem ser irrecuperáveis se os prazos já estiverem esgotados.",
+    "riscos": "Tentar organizar toda a documentação ao final do ciclo. Não indexar documentos por etapa e por tipo. Perder evidências que não foram capturadas durante a execução.",
+    "erros_comuns": "Não manter repositório atualizado de documentos ao longo do ciclo. Entregar documentação ao verificador em formato não estruturado. Não produzir tabela de rastreabilidade antes da verificação.",
+    "atores_relacionados": [
+      "Consultoria",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Verificador"
+    ],
+    "visao_consultoria": "A consultoria deve implementar um sistema de gestão documental desde o início do ciclo — não apenas na fase de elaboração do relatório. Uma estrutura de pastas compartilhadas com nomenclatura padronizada, atualizada ao longo de todo o ciclo, reduz o custo de elaboração do relatório e o custo de verificação.\n\nA tabela de rastreabilidade — que mapeia cada declaração de massa a seu certificado, cada certificado a suas NF-e, e cada NF-e ao registro de execução correspondente — deve ser construída progressivamente durante a execução, não produzida do zero na fase de relatório.\n\nO investimento em qualidade documental ao longo do ciclo é um dos melhores retornos de custo disponíveis: cada hora investida na organização progressiva da documentação economiza mais do que uma hora na fase de elaboração do relatório e de verificação."
+  },
+  {
+    "id": "custo-verificacao",
+    "parent": "custos",
+    "categoria": "custos",
+    "titulo": "Custo de Verificação — Auditor Independente",
+    "resumo": "Honorários do verificador independente pela emissão da Declaração do Verificador e do Relatório de Auditoria de Terceira Parte. Incorre na etapa G. Não pode ser evitado — sem verificação válida, o relatório é inválido.",
+    "explicacao_detalhada": "O custo de verificação é o custo dos honorários do verificador independente contratado para auditar a documentação do relatório final. É um custo obrigatório e não pode ser eliminado sem comprometer a validade do relatório.\n\nO valor dos honorários de verificação varia conforme a complexidade do relatório (volume de documentos a auditar, número de NF-e e certificados, presença de ações estruturantes), o prazo disponível para a auditoria e a reputação e demanda do verificador. Verificadores contratados com antecedência tendem a cobrar menos do que verificadores contratados às pressas próximo ao prazo.\n\nUm fator que impacta significativamente o custo de verificação é a qualidade da documentação entregue ao verificador. Um relatório bem organizado, com índice claro e tabela de rastreabilidade, pode ser auditado em menos tempo — o que reduz o custo para o cliente. Um relatório desorganizado aumenta o tempo de auditoria e pode resultar em cobrança adicional pelo verificador.\n\nO verificador pode identificar não conformidades durante a auditoria que exigem trabalho adicional da empresa para correção. Esse trabalho adicional — produção de documentação complementar, correção de NF-e, obtenção de novos certificados — gera custos que não estavam originalmente no orçamento. Uma reserva de contingência de 20-30% sobre o custo estimado de verificação é prudente.\n\nA contratação tardia do verificador — nos últimos 30 dias antes do prazo — pode resultar em agenda indisponível ou em cobrança de urgência significativamente acima do valor normal. Esse é um dos custos de emergência mais frequentes em ciclos mal planejados.",
+    "momento_operacional": "Protagonismo na etapa G (verificação), com contratação recomendada já na etapa D (plano)",
+    "entradas": [
+      "Relatório pré-final",
+      "Pacote documental organizado",
+      "Acesso ao sistema para conferência de NF-e"
+    ],
+    "saidas": [
+      "Declaração do Verificador",
+      "Relatório de Auditoria de Terceira Parte"
+    ],
+    "documentos": [
+      "Contrato com verificador",
+      "Proposta de honorários",
+      "Declaração do Verificador",
+      "Relatório de Auditoria de Terceira Parte"
+    ],
+    "implicacoes": "Custo obrigatório, não pode ser eliminado. Contratação tardia gera custo adicional de urgência. Documentação desorganizada aumenta o custo de verificação.",
+    "riscos": "Não provisionar para o custo de verificação no orçamento inicial. Contratar verificador próximo ao prazo e pagar prêmio de urgência. Verificação resultar em não conformidades que exigem custos adicionais de correção.",
+    "erros_comuns": "Tratar o custo de verificação como custo opcional a ser cortado em caso de aperto orçamentário. Não negociar o contrato do verificador com clareza sobre escopo e honorários. Entregar documentação desorganizada ao verificador.",
+    "atores_relacionados": [
+      "Verificador",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria"
+    ],
+    "visao_consultoria": "A consultoria deve incluir o custo de verificação no orçamento inicial do ciclo, desde a fase de elaboração do plano. Clientes que descobrem esse custo apenas na fase G tendem a tentar eliminá-lo, colocando em risco a validade de todo o ciclo.\n\nA seleção e contratação antecipada do verificador — com pelo menos quatro meses de antecedência do prazo — é uma medida de gestão de risco que a consultoria deve recomendar com firmeza. O custo de contratar cedo é sempre menor do que o custo de contratar tarde.\n\nA consultoria deve facilitar o processo de verificação preparando o pacote documental antes de entregá-lo ao verificador: índice, tabela de rastreabilidade e resumo executivo do ciclo. Isso demonstra profissionalismo, facilita o trabalho do verificador e pode resultar em verificações mais ágeis e menos onerosas para o cliente."
+  },
+  {
+    "id": "custo-conformidade",
+    "parent": "custos",
+    "categoria": "custos",
+    "titulo": "Custo de Conformidade Interna",
+    "resumo": "Tempo interno da equipe, monitoramento do ciclo, gestão de acesso ao sistema e acompanhamento regulatório. Incorre de forma contínua ao longo de todo o ciclo, da etapa A à H.",
+    "explicacao_detalhada": "O custo de conformidade interna é o custo mais invisível do ciclo e, por isso, o mais frequentemente subestimado. Ele abrange o tempo e os recursos que a empresa investe internamente para participar e monitorar o ciclo, sem que esses custos se materializem em notas fiscais de terceiros.\n\nOs principais componentes do custo de conformidade interna incluem: horas do responsável interno pelo ciclo (gerente de sustentabilidade, compliance ou financeiro, conforme a estrutura da empresa), tempo de operação do sistema Recicla Goiás (cadastro, lançamento de dados, monitoramento de status), horas de alinhamento interno com áreas jurídica, financeira e operacional, e tempo dedicado à resposta de notificações e questões regulatórias.\n\nEsse custo é muitas vezes desconsiderado nos orçamentos de ciclo porque é absorvido pelo custo fixo da equipe interna. No entanto, ao calcular o custo real de conformidade, o tempo interno deve ser contabilizado — especialmente para a análise de custo-benefício entre modelos de cumprimento.\n\nO custo de conformidade interna é contínuo: ele ocorre desde a etapa A (triagem) até a etapa H (acompanhamento do status pós-submissão) e se estende pelo período de monitoramento pós-ciclo. Não há um momento em que ele cessa completamente dentro do ciclo.\n\nEmpresas que delegam integralmente o ciclo à consultoria, sem envolvimento de equipe interna, tendem a ter menor custo de conformidade interna mas maior custo de consultoria. A decisão sobre o nível de envolvimento interno versus terceirizado deve ser tomada conscientemente, com base em capacidade, interesse estratégico e custo comparativo.",
+    "momento_operacional": "Contínuo ao longo de todas as etapas de A a H, e no período pós-submissão",
+    "entradas": [
+      "Capacidade da equipe interna",
+      "Nível de envolvimento interno definido no contrato de consultoria"
+    ],
+    "saidas": [
+      "Monitoramento contínuo do ciclo",
+      "Respostas a notificações regulatórias",
+      "Gestão de acesso ao sistema"
+    ],
+    "documentos": [
+      "Registros internos de horas dedicadas ao ciclo",
+      "Log de acesso ao sistema",
+      "Comunicações internas sobre o ciclo"
+    ],
+    "implicacoes": "Subestimar o custo de conformidade interna leva a orçamentos irreais e à sobrecarga de equipes internas que não foram dimensionadas para absorver o trabalho do ciclo.",
+    "riscos": "Designar responsável interno com capacidade insuficiente para o volume de trabalho. Não definir claramente o que é responsabilidade interna versus responsabilidade da consultoria. Não monitorar o sistema após a submissão do relatório.",
+    "erros_comuns": "Não incluir horas internas no orçamento do ciclo. Delegar o monitoramento pós-submissão exclusivamente à consultoria sem processo de acompanhamento interno. Não ter responsável interno claramente designado.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria"
+    ],
+    "visao_consultoria": "A consultoria deve ajudar o cliente a dimensionar o custo de conformidade interna desde o início do engajamento. Um simples mapeamento de horas esperadas por fase do ciclo, multiplicado pelo custo hora do responsável interno, produz uma estimativa útil para a análise de custo total.\n\nA definição clara de responsabilidades — o que é da consultoria, o que é do cliente, o que é compartilhado — deve estar formalizada no contrato de prestação de serviços. Ambiguidade de responsabilidades é uma das principais fontes de conflito entre consultoria e cliente ao longo do ciclo.\n\nA consultoria deve recomendar que o cliente designe pelo menos um responsável interno com dedicação parcial ao ciclo, mesmo que todo o trabalho técnico seja feito pela consultoria. Esse responsável é o ponto de contato para decisões e aprovações, e sua disponibilidade impacta diretamente a velocidade de execução."
+  },
+  {
+    "id": "retorno",
+    "parent": "sistema",
+    "categoria": "retorno",
+    "titulo": "Retornos da Conformidade — 5 Dimensões de Valor",
+    "resumo": "A conformidade no Recicla Goiás gera cinco tipos de retorno: regulatório (redução de risco), documental/jurídico (rastreabilidade e defensabilidade), operacional (previsibilidade e governança), reputacional/ESG (conformidade demonstrável) e econômico indireto (evitar multas e retrabalho). Não há promessa de ganho financeiro direto.",
+    "explicacao_detalhada": "O retorno da conformidade no Recicla Goiás não é financeiro direto — a empresa não recebe pagamento por participar do sistema. O retorno é de cinco outras naturezas, todas igualmente relevantes para a gestão estratégica da empresa.\n\nO retorno regulatório é a redução do risco de autuação e multa. Uma empresa adimplente no Recicla Goiás elimina o risco de processo administrativo relacionado à logística reversa de embalagens em Goiás. Em um ambiente regulatório crescentemente rigoroso, esse é um retorno de valor mensurável quando comparado ao custo potencial de descumprimento.\n\nO retorno documental e jurídico é a construção de um histórico de rastreabilidade que suporta a defesa da empresa em auditorias, due diligences de M&A, processos judiciais e investigações regulatórias. Uma cadeia documental íntegra, construída ao longo de ciclos consecutivos, é um ativo jurídico de longo prazo.\n\nO retorno operacional é a previsibilidade e a governança que o processo de conformidade introduz nas operações da empresa. Empresas que passam por um ciclo completo tendem a ter melhor controle sobre seus volumes de embalagem, melhores dados de supply chain e processos internos mais estruturados.\n\nO retorno reputacional e de ESG é a capacidade de demonstrar, de forma documentalmente verificada, o cumprimento de obrigações de responsabilidade estendida do produtor. Isso é relevante para relatórios de sustentabilidade, certificações, clientes corporativos com exigências de cadeia de fornecimento sustentável e investidores ESG.\n\nO retorno econômico indireto é a evitação de custos: multas administrativas, custos de defesa jurídica, retrabalho por documentação inadequada e custo de soluções emergenciais. Esses custos evitados, somados, podem superar o custo de conformidade — especialmente para empresas com volumes goianos relevantes.",
+    "momento_operacional": "Relevante como argumento de decisão na etapa D (plano) e como comunicação de valor ao longo de todo o ciclo",
+    "entradas": [
+      "Análise de custo de conformidade versus custo de descumprimento",
+      "Estratégia de ESG da empresa"
+    ],
+    "saidas": [
+      "Reconhecimento formal de adimplência pela SEMAD",
+      "Histórico documental rastreável",
+      "Posicionamento ESG verificável"
+    ],
+    "documentos": [
+      "Certidão de adimplência no Recicla Goiás (quando emitida)",
+      "Relatório de sustentabilidade com dados de logística reversa",
+      "Histórico de relatórios de ciclos anteriores"
+    ],
+    "implicacoes": "A conformidade gera ativos intangíveis de valor crescente em contextos de ESG, M&A e procurement. A ausência de conformidade, por outro lado, cria passivos que se acumulam com o tempo.",
+    "riscos": "Comunicar retorno de conformidade como retorno financeiro direto, gerando expectativas equivocadas. Não documentar adequadamente os resultados de cada ciclo para uso futuro em due diligences ou relatórios.",
+    "erros_comuns": "Tratar o cumprimento do Recicla Goiás como um custo sem retorno. Não registrar e comunicar internamente os resultados obtidos em cada ciclo. Não incluir os dados de logística reversa nos relatórios de sustentabilidade.",
+    "atores_relacionados": [
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria",
+      "Áreas de ESG, jurídico e financeiro da empresa"
+    ],
+    "visao_consultoria": "A consultoria deve ajudar o cliente a construir a narrativa de valor da conformidade, traduzindo resultados técnicos (toneladas recuperadas, certificados emitidos) em linguagem compreensível para diferentes audiências: diretoria, equipe de ESG, jurídico e financeiro.\n\nOs dados de logística reversa produzidos no ciclo devem ser integrados ao relatório de sustentabilidade da empresa. A consultoria pode apoiar esse processo fornecendo os números em formato compatível com os principais frameworks de reporte (GRI, SASB, etc.).\n\nA análise de custo-benefício da conformidade — que compara o custo do ciclo com o custo esperado de descumprimento, incluindo multas, defesa jurídica e impacto reputacional — é um documento útil para apresentar à diretoria e justificar o investimento no ciclo. A consultoria deve produzir essa análise para cada cliente, usando dados reais de custo de multa disponíveis na regulamentação."
+  },
+  {
+    "id": "diretrizes",
+    "parent": "sistema",
+    "categoria": "diretrizes",
+    "titulo": "Diretrizes Regulatórias — Metas, Prazo e Escopo",
+    "resumo": "Meta de 22% para o ciclo atual, progressão para 30% no ciclo seguinte. Prazo de 31 de março de 2026. Escopo exclusivamente goiano. Método de cálculo da meta baseado na massa de embalagens colocada no mercado goiano no período de referência.",
+    "explicacao_detalhada": "As diretrizes regulatórias do Recicla Goiás definem os parâmetros quantitativos e temporais que as empresas obrigadas devem atingir para ter seu cumprimento reconhecido pela SEMAD. Compreendê-las com precisão é requisito para qualquer planejamento adequado.\n\nA meta de 22% significa que a empresa deve demonstrar a recuperação de, no mínimo, 22% da massa total de embalagens colocada por ela no mercado goiano durante o período de referência do ciclo. Para o ciclo seguinte, essa meta eleva-se para 30%, refletindo a progressão gradual estabelecida na regulamentação. Essas metas são calculadas individualmente para cada empresa, com base em seus próprios dados de volume goiano.\n\nO método de cálculo da meta parte da massa total de embalagens colocadas no mercado goiano (em toneladas), apurada no período de referência, e aplica o percentual regulatório para obter a massa a ser recuperada. Por exemplo: uma empresa que colocou 100 toneladas de embalagens no mercado goiano tem meta de 22 toneladas de recuperação no ciclo atual e 30 toneladas no ciclo seguinte.\n\nO prazo de 31 de março de 2026 é a data limite para a submissão do relatório final completo — incluindo a Declaração do Verificador e o Relatório de Auditoria de Terceira Parte. Não é a data limite para a execução das atividades, mas para a submissão do relatório verificado. Isso significa que as atividades de execução devem estar concluídas e o verificador deve ter emitido seus documentos antes dessa data.\n\nO escopo territorial goiano é absoluto: apenas embalagens colocadas no mercado do estado de Goiás são computadas para o cálculo da meta e para a demonstração de cumprimento. Ações de logística reversa realizadas em outros estados, mesmo que em volumes equivalentes, não são válidas. A territorialidade das evidências — georreferenciadas em Goiás — é uma exigência decorrente desse escopo.",
+    "momento_operacional": "Referência normativa permanente — define os parâmetros de todas as etapas de A a H",
+    "entradas": [
+      "Volume goiano de embalagens colocadas no mercado",
+      "Período de referência do ciclo"
+    ],
+    "saidas": [
+      "Meta de recuperação calculada em toneladas",
+      "Prazo definido para todas as etapas"
+    ],
+    "documentos": [
+      "Regulamentação estadual com metas e prazos",
+      "Memória de cálculo da meta específica da empresa",
+      "Calendário operacional do ciclo"
+    ],
+    "implicacoes": "Metas calculadas incorretamente invalidam o planejamento de todo o ciclo. O prazo de 31/03/2026 é inegociável e sua perda resulta em tratamento como descumprimento.",
+    "riscos": "Calcular meta com base em volume nacional sem proporcionalizar para Goiás. Não considerar que o prazo é de submissão do relatório verificado, não de conclusão da execução. Ignorar a progressão de meta para o próximo ciclo no planejamento de longo prazo.",
+    "erros_comuns": "Confundir o prazo de execução com o prazo de submissão. Não atualizar o cálculo de meta quando há mudança nos dados de volume goiano. Não incluir no plano o tempo necessário para verificação antes do prazo de submissão.",
+    "atores_relacionados": [
+      "SEMAD",
+      "Comitê Intersetorial",
+      "Empresa Individual",
+      "Entidade Gestora",
+      "Consultoria"
+    ],
+    "visao_consultoria": "O cálculo da meta é o ponto de partida de qualquer engajamento. A consultoria deve produzi-lo com rigor metodológico e documentação completa das fontes utilizadas. Um cálculo de meta bem documentado é a primeira linha de defesa em eventual contestação pela SEMAD.\n\nO prazo de 31/03/2026 deve ser decomendado em marcos intermediários: data limite para conclusão da execução (deixando tempo para o verificador), data limite para entrega ao verificador (deixando tempo para correções), data limite para submissão final. Esse cronograma reverso é o instrumento central de gestão do ciclo.\n\nA progressão de meta para 30% no ciclo seguinte deve ser comunicada ao cliente desde o início: as decisões de infraestrutura, de seleção de operador e de estruturação de processos internos devem considerar não apenas o ciclo atual, mas também a capacidade de atender a meta mais exigente do próximo ciclo sem retrabalho completo."
+  }
+]

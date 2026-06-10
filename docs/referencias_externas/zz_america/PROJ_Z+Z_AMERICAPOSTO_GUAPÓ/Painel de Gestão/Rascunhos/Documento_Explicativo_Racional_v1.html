@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documento Explicativo · Racional do Documento Técnico Executivo v3 · Auto Posto América</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #1B5E20;
+  --verde-m: #2E7D32;
+  --verde-l: #4CAF50;
+  --verde-bg: #E8F5E9;
+  --verde-mid: #C8E6C9;
+  --amber: #F57F17;
+  --amber-l: #FFA000;
+  --amber-bg: #FFF8E1;
+  --vermelho: #B71C1C;
+  --vermelho-l: #E53935;
+  --vermelho-bg: #FFEBEE;
+  --azul: #0D47A1;
+  --azul-l: #1976D2;
+  --azul-bg: #E3F2FD;
+  --cinza-9: #1C1C1E;
+  --cinza-7: #3A3A3C;
+  --cinza-5: #6C6C70;
+  --cinza-3: #AEAEB2;
+  --cinza-1: #F2F2F7;
+  --cinza-0: #FAFAFA;
+  --borda: #E5E5EA;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cinza-1);
+  color: var(--cinza-9);
+  font-size: 10.5pt;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: 'DM Mono', monospace; }
+
+.page {
+  width: 210mm;
+  margin: 14mm auto;
+  background: #fff;
+  padding: 16mm 16mm 14mm;
+  box-shadow: 0 4px 28px rgba(0,0,0,.08);
+  position: relative;
+  page-break-after: always;
+}
+.page:last-child { page-break-after: auto; }
+.page.cover { min-height: 297mm; }
+
+.runhead {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid var(--borda);
+  padding-bottom: 5px; margin-bottom: 12px;
+  font-family: 'DM Mono', monospace; font-size: 8pt;
+  color: var(--cinza-5); letter-spacing: .04em; text-transform: uppercase;
+}
+.runhead strong { color: var(--verde); font-weight: 600; }
+
+.runfoot {
+  margin-top: 18px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--borda);
+  padding-top: 5px;
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .04em;
+}
+
+.cover {
+  background: linear-gradient(180deg, #E8F5E9 0%, #F1F8F2 45%, #FAFAFA 100%);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 24mm 20mm;
+}
+.cover-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: linear-gradient(180deg, #164E1A 0%, #1B5E20 55%, #2E7D32 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 16px;
+}
+.brand-name { font-size: 15pt; font-weight: 600; color: var(--verde); letter-spacing: -.01em; }
+.brand-tag {
+  font-family: 'DM Mono', monospace; font-size: 8.5pt;
+  color: var(--cinza-5); letter-spacing: .04em; margin-top: 1px;
+}
+.cover-ref {
+  text-align: right; font-family: 'DM Mono', monospace;
+  font-size: 8.5pt; color: var(--cinza-5); letter-spacing: .04em;
+  line-height: 1.55;
+}
+.cover-ref strong { color: var(--cinza-9); font-weight: 600; }
+
+.cover-mid { margin-top: 30mm; }
+.cover-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 10pt;
+  color: var(--verde); letter-spacing: .22em; text-transform: uppercase;
+  font-weight: 600;
+}
+.cover-title {
+  font-size: 28pt; font-weight: 600; letter-spacing: -.02em; line-height: 1.1;
+  color: var(--cinza-9); margin-top: 8px;
+}
+.cover-sub {
+  font-size: 13pt; color: var(--cinza-7);
+  margin-top: 10px; line-height: 1.3;
+}
+.cover-lede {
+  margin-top: 16mm; max-width: 140mm;
+  font-size: 11pt; color: var(--cinza-7); line-height: 1.55;
+  text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+}
+.cover-lede strong { color: var(--cinza-9); font-weight: 600; }
+
+.cover-foot {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  padding-top: 12px; border-top: 1px solid var(--verde-mid);
+}
+.cover-foot-l {
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .1em; text-transform: uppercase;
+}
+.cover-foot-v { font-size: 10pt; color: var(--cinza-9); font-weight: 500; margin-top: 2px; }
+.cover-foot-v.mono { font-family: 'DM Mono', monospace; }
+
+h2.section {
+  font-size: 15pt; color: var(--verde); font-weight: 600;
+  padding-bottom: 6px; border-bottom: 2px solid var(--verde);
+  margin-bottom: 12px;
+  display: flex; align-items: baseline; gap: 10px;
+}
+h2.section .n {
+  font-family: 'DM Mono', monospace; font-size: 10.5pt;
+  color: var(--verde-l); font-weight: 500;
+}
+h3 {
+  font-size: 11.5pt; color: var(--cinza-9); font-weight: 600;
+  margin-top: 12px; margin-bottom: 5px;
+  padding-left: 8px; border-left: 3px solid var(--verde);
+}
+h4 {
+  font-size: 9.5pt; color: var(--cinza-7); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .08em;
+  margin-top: 8px; margin-bottom: 3px;
+}
+p {
+  margin-bottom: 6px; color: var(--cinza-7);
+  text-align: justify; text-justify: inter-word;
+  hyphens: auto; -webkit-hyphens: auto;
+}
+p strong { color: var(--cinza-9); font-weight: 600; }
+
+.lede {
+  font-size: 11pt; line-height: 1.55; color: var(--cinza-9);
+  padding: 10px 12px; background: var(--verde-bg);
+  border-left: 3px solid var(--verde);
+  margin-bottom: 12px;
+  text-align: justify; text-justify: inter-word;
+  hyphens: auto; -webkit-hyphens: auto;
+}
+
+ul, ol { padding-left: 18px; margin-bottom: 6px; }
+ul li, ol li { color: var(--cinza-7); margin-bottom: 2px; }
+ul li strong, ol li strong { color: var(--cinza-9); font-weight: 600; }
+
+.callout {
+  border-left: 3px solid var(--verde);
+  padding: 9px 12px;
+  background: var(--verde-bg);
+  margin: 8px 0;
+  border-radius: 0 4px 4px 0;
+}
+.callout.amber { border-left-color: var(--amber); background: var(--amber-bg); }
+.callout.red { border-left-color: var(--vermelho); background: var(--vermelho-bg); }
+.callout.blue { border-left-color: var(--azul); background: var(--azul-bg); }
+.callout.gray { border-left-color: var(--cinza-5); background: var(--cinza-0); }
+.callout h4 { margin-top: 0; color: var(--cinza-9); }
+.callout p { text-align: justify; text-justify: inter-word; }
+
+/* Linha de tese (1-linha que resume a justificativa da seção) */
+.tese {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5pt; font-weight: 600;
+  color: var(--cinza-9);
+  background: #fff;
+  border: 1px solid var(--verde-mid);
+  border-left: 4px solid var(--verde);
+  padding: 10px 14px;
+  margin: 4px 0 12px;
+  border-radius: 0 4px 4px 0;
+  line-height: 1.4;
+  letter-spacing: -.005em;
+}
+.tese::before {
+  content: 'TESE · ';
+  font-family: 'DM Mono', monospace; font-size: 8.5pt;
+  color: var(--verde); font-weight: 700;
+  letter-spacing: .12em;
+  margin-right: 4px;
+  vertical-align: 1px;
+}
+
+/* Caixa verde de datas-âncora */
+.ancora {
+  background: var(--verde-bg);
+  border: 1px solid var(--verde-mid);
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin: 10px 0 12px;
+}
+.ancora-title {
+  font-family: 'DM Mono', monospace; font-size: 8pt;
+  color: var(--verde); font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.ancora-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 4px 14px;
+}
+.ancora-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 8px;
+  font-size: 9pt;
+  padding: 3px 0;
+  border-bottom: 1px dashed var(--verde-mid);
+}
+.ancora-row:last-child { border-bottom: none; }
+.ancora-row .what { color: var(--cinza-7); }
+.ancora-row .when {
+  font-family: 'DM Mono', monospace;
+  color: var(--verde);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ancora-row.red .when { color: var(--vermelho); }
+.ancora-row.amber .when { color: var(--amber); }
+
+/* Premissas (caixa cinza) */
+.premissa {
+  background: var(--cinza-0);
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--cinza-5);
+  border-radius: 0 4px 4px 0;
+  padding: 9px 12px;
+  margin: 8px 0;
+}
+.premissa h4 {
+  color: var(--cinza-7);
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+.premissa p { margin-bottom: 0; }
+
+/* Bloco "decisão → ancora → consequência" */
+.dec-block {
+  margin: 10px 0 14px;
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+}
+.dec-head {
+  background: var(--verde);
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 10pt;
+  font-weight: 600;
+  letter-spacing: -.005em;
+}
+.dec-body {
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  font-size: 9pt;
+}
+.dec-col .l {
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 600;
+  margin-bottom: 3px;
+}
+.dec-col .v {
+  color: var(--cinza-7); line-height: 1.45;
+  text-align: left;
+}
+.dec-col .v strong { color: var(--cinza-9); font-weight: 600; }
+
+/* Tabela das 4 frentes (contabilidade §3) */
+.contab-table {
+  width: 100%; border-collapse: collapse;
+  margin: 8px 0 12px;
+  font-size: 9pt;
+  background: #fff;
+}
+.contab-table th {
+  background: var(--verde); color: #fff;
+  font-weight: 600; text-align: left;
+  padding: 6px 8px;
+  font-size: 8pt; letter-spacing: .05em; text-transform: uppercase;
+  border-bottom: 2px solid var(--verde-m);
+}
+.contab-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--borda);
+  color: var(--cinza-7); vertical-align: top;
+}
+.contab-table td strong { color: var(--cinza-9); font-weight: 600; }
+.contab-table tr.total td {
+  background: var(--verde-bg);
+  font-weight: 600;
+  color: var(--cinza-9);
+  border-top: 2px solid var(--verde);
+}
+.contab-table td.num {
+  font-family: 'DM Mono', monospace;
+  text-align: right;
+  font-weight: 600;
+  color: var(--cinza-9);
+}
+
+/* Timeline das fases (§4) */
+.timeline-fases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin: 10px 0 14px;
+}
+.tl-fase {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-top: 4px solid var(--verde);
+  border-radius: 4px;
+  padding: 9px 10px;
+}
+.tl-fase.f2 { border-top-color: var(--verde-l); }
+.tl-fase.f3 { border-top-color: var(--amber); }
+.tl-fase.f4 { border-top-color: var(--vermelho); }
+.tl-fase-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9pt; font-weight: 700;
+  color: var(--verde);
+  letter-spacing: .05em;
+}
+.tl-fase.f2 .tl-fase-tag { color: var(--verde-m); }
+.tl-fase.f3 .tl-fase-tag { color: var(--amber); }
+.tl-fase.f4 .tl-fase-tag { color: var(--vermelho); }
+.tl-fase-nome {
+  font-size: 10.5pt; font-weight: 600; color: var(--cinza-9);
+  margin: 2px 0 2px; line-height: 1.2;
+}
+.tl-fase-dates {
+  font-family: 'DM Mono', monospace;
+  font-size: 8pt; color: var(--cinza-5);
+  letter-spacing: .03em; margin-bottom: 5px;
+  padding-bottom: 5px; border-bottom: 1px dashed var(--borda);
+}
+.tl-fase-porque {
+  font-size: 8.5pt; color: var(--cinza-7); line-height: 1.4;
+}
+.tl-fase-porque strong { color: var(--cinza-9); }
+
+/* Tabela de condicionantes (§6) */
+.cond-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px; margin: 10px 0 12px;
+}
+.cond-card {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-top: 3px solid var(--verde);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+.cond-card.part { border-top-color: var(--amber); }
+.cond-card.miss { border-top-color: var(--vermelho); }
+.cond-card .n {
+  font-family: 'DM Mono', monospace;
+  font-size: 20pt; font-weight: 700;
+  color: var(--verde); line-height: 1;
+}
+.cond-card.part .n { color: var(--amber); }
+.cond-card.miss .n { color: var(--vermelho); }
+.cond-card .status {
+  font-family: 'DM Mono', monospace; font-size: 8pt;
+  letter-spacing: .1em; text-transform: uppercase; font-weight: 600;
+  color: var(--cinza-5); margin-top: 3px;
+}
+.cond-card .porque {
+  font-size: 9pt; color: var(--cinza-7);
+  margin-top: 6px; line-height: 1.4;
+  padding-top: 6px; border-top: 1px dashed var(--borda);
+}
+.cond-card .porque strong { color: var(--cinza-9); }
+
+/* Caixa CAPEX (§7) */
+.capex-box {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin: 10px 0 12px;
+}
+.capex-heads {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--borda);
+  margin-bottom: 10px;
+}
+.capex-title {
+  font-size: 10.5pt; font-weight: 600; color: var(--cinza-9);
+}
+.capex-flag {
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--amber); font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 2px 7px; background: var(--amber-bg);
+  border-radius: 3px; border: 1px solid var(--amber);
+}
+.capex-range {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-bottom: 10px;
+}
+.capex-side {
+  padding: 10px 12px;
+  border-radius: 3px;
+  background: var(--cinza-0);
+  border: 1px solid var(--borda);
+}
+.capex-side.piso { border-left: 3px solid var(--verde); }
+.capex-side.teto { border-left: 3px solid var(--vermelho); }
+.capex-side .l {
+  font-family: 'DM Mono', monospace; font-size: 7.5pt;
+  color: var(--cinza-5); letter-spacing: .08em;
+  text-transform: uppercase; font-weight: 600;
+}
+.capex-side .v {
+  font-family: 'DM Mono', monospace;
+  font-size: 16pt; font-weight: 700; color: var(--cinza-9);
+  margin: 2px 0 3px; line-height: 1.1;
+}
+.capex-side.piso .v { color: var(--verde); }
+.capex-side.teto .v { color: var(--vermelho); }
+.capex-side .s {
+  font-size: 8.5pt; color: var(--cinza-7); line-height: 1.4;
+}
+
+/* Checklist de validação (§10) */
+.checkl {
+  background: #fff;
+  border: 1px solid var(--verde-mid);
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin: 10px 0 12px;
+}
+.checkl-title {
+  font-family: 'DM Mono', monospace; font-size: 8.5pt;
+  color: var(--verde); font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--verde-mid);
+}
+.checkl ul {
+  list-style: none; padding: 0; margin: 0;
+}
+.checkl li {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--borda);
+  font-size: 9.5pt;
+  color: var(--cinza-7);
+  line-height: 1.4;
+}
+.checkl li:last-child { border-bottom: none; }
+.checkl li strong { color: var(--cinza-9); font-weight: 600; }
+.checkl li .box {
+  flex-shrink: 0;
+  width: 14px; height: 14px;
+  border: 1.5px solid var(--verde);
+  border-radius: 2px;
+  background: #fff;
+  margin-top: 2px;
+}
+
+/* Índice na capa */
+.toc-mini {
+  margin-top: 14mm;
+  padding-top: 8mm;
+  border-top: 1px solid var(--verde-mid);
+}
+.toc-mini-l {
+  font-family: 'DM Mono', monospace; font-size: 8.5pt;
+  color: var(--verde); letter-spacing: .14em;
+  text-transform: uppercase; font-weight: 600;
+  margin-bottom: 8px;
+}
+.toc-mini ol {
+  list-style: none; padding: 0; margin: 0;
+  columns: 2; column-gap: 16mm;
+  font-size: 10pt;
+}
+.toc-mini ol li {
+  padding: 3px 0;
+  border-bottom: 1px dashed var(--verde-mid);
+  break-inside: avoid;
+  display: flex; align-items: baseline; gap: 8px;
+  color: var(--cinza-7);
+}
+.toc-mini ol li .n {
+  font-family: 'DM Mono', monospace; font-size: 8.5pt;
+  color: var(--verde); font-weight: 600;
+  width: 22px; flex-shrink: 0;
+}
+.toc-mini ol li strong {
+  color: var(--cinza-9); font-weight: 600;
+}
+
+/* Print */
+@media print {
+  body { background: #fff; }
+  .page {
+    margin: 0; box-shadow: none;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  @page { size: A4 portrait; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- =============== CAPA =============== -->
+<section class="page cover">
+  <div class="cover-top">
+    <div class="brand">
+      <div class="brand-mark">H</div>
+      <div>
+        <div class="brand-name">Hábilis</div>
+        <div class="brand-tag">Regularização Ambiental</div>
+      </div>
+    </div>
+    <div class="cover-ref">
+      <strong>Documento Explicativo</strong><br>
+      Racional do Doc. Técnico v3<br>
+      Abril de 2026
+    </div>
+  </div>
+
+  <div class="cover-mid">
+    <div class="cover-eyebrow">Auditoria Técnica · Racional de Decisões</div>
+    <div class="cover-title">Por que este plano</div>
+    <div class="cover-sub">Documento Explicativo · espelho justificado do Documento Técnico Executivo v3 · Auto Posto América</div>
+
+    <p class="cover-lede">
+      Este documento não é uma nova proposta. É a <strong>justificativa estruturada</strong> de
+      cada decisão que aparece no Documento Técnico Executivo v3: por que 4 frentes, por que
+      71 itens, por que o cronograma é esse, por que aquelas datas. Serve para o Grupo Z+Z
+      auditar se o plano está <strong>consolidado, coerente e cabível</strong> antes de
+      aprovar o dossiê de renovação da LAO 033/2020.
+    </p>
+
+    <div class="toc-mini">
+      <div class="toc-mini-l">Sumário · 10 seções · racional completo</div>
+      <ol>
+        <li><span class="n">01</span>Por que este documento existe</li>
+        <li><span class="n">02</span>Por que 4 frentes e não uma só</li>
+        <li><span class="n">03</span>Por que 71 itens · contabilidade</li>
+        <li><span class="n">04</span>Por que o cronograma começa em 20/04</li>
+        <li><span class="n">05</span>Por que a outorga é o gatilho</li>
+        <li><span class="n">06</span>Por que algumas CPs estão parciais</li>
+        <li><span class="n">07</span>Por que o CAPEX é faixa</li>
+        <li><span class="n">08</span>Por que compliance paralelo entra</li>
+        <li><span class="n">09</span>Riscos que podem derrubar o plano</li>
+        <li><span class="n">10</span>Como validar que está cabível</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="cover-foot">
+    <div><div class="cover-foot-l">Destinatário</div><div class="cover-foot-v">Grupo Z+Z</div></div>
+    <div><div class="cover-foot-l">Emissor</div><div class="cover-foot-v">Hábilis</div></div>
+    <div><div class="cover-foot-l">Protocolo-meta</div><div class="cover-foot-v mono">26/06/2026</div></div>
+    <div><div class="cover-foot-l">Emissão</div><div class="cover-foot-v mono">19/04/2026</div></div>
+  </div>
+</section>
+
+<!-- =============== 01 · POR QUE ESTE DOCUMENTO EXISTE =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Por que este documento existe</span>
+  </div>
+
+  <h2 class="section"><span class="n">01</span> Por que este documento existe</h2>
+
+  <div class="tese">
+    A renovação da LAO não é um prazo a cumprir; é um dossiê que precisa ser <em>cabível</em> na
+    janela até 26/06/2026 — este documento justifica decisão por decisão para que o Grupo Z+Z
+    possa auditar o plano antes de assinar.
+  </div>
+
+  <p>
+    Guilherme, o Documento Técnico Executivo v3 mostra o <strong>o quê</strong>: quatro frentes,
+    71 itens, cronograma de 67 dias, protocolo em 26/06. Este documento aqui mostra o
+    <strong>por quê</strong>: por que a data não é 24/08, por que a outorga vem primeiro, por
+    que o CAPEX tem faixa em vez de número único, por que o compliance paralelo está no escopo
+    mesmo não sendo exigência direta da SEMMA. A ideia é que você consiga ler o v3 ao lado
+    deste e validar cada escolha contra fato e norma — sem precisar perguntar à Hábilis.
+  </p>
+
+  <h3>Por que 26/06/2026 e não 24/08/2026</h3>
+  <p>
+    A LAO 033/2020 vence em <strong>23/12/2026</strong>. O mínimo legal para protocolar
+    renovação é 120 dias antes do vencimento, o que colocaria a data em <strong>24/08/2026</strong>
+    como limite absoluto. O v3 adota protocolo-meta <strong>180 dias antes</strong> do
+    vencimento, fixando 26/06/2026. A diferença de 60 dias entre 26/06 e 24/08 não é margem
+    ociosa: é <strong>colchão para absorver exigências complementares</strong> que a SEMMA
+    tipicamente faz após a análise inicial do dossiê, sem empurrar o empreendimento para a
+    zona de risco do vencimento.
+  </p>
+
+  <div class="dec-block">
+    <div class="dec-head">Decisão · Protocolo-meta em 26/06/2026</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Decisão</div>
+        <div class="v">Submeter o dossiê da renovação em <strong>26/06/2026</strong> (180 dias antes do vencimento), não no mínimo legal.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Norma / fato que ancora</div>
+        <div class="v">LAO 033/2020 vence em <strong>23/12/2026</strong>. Legislação prevê protocolo mínimo de 120 dias antes (24/08). Prática da SEMMA Guapó: exige complementos em até 60 dias da análise inicial.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Consequência se decidido diferente</div>
+        <div class="v">Protocolar em 24/08 deixaria o empreendimento <strong>sem colchão</strong> para exigências complementares. Qualquer exigência da SEMMA após 22/10 empurraria a resposta para dezembro, <strong>último mês antes do vencimento</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ancora">
+    <div class="ancora-title">Datas-âncora citadas</div>
+    <div class="ancora-grid">
+      <div class="ancora-row"><span class="what">Vencimento LAO 033/2020</span><span class="when">23/12/2026</span></div>
+      <div class="ancora-row"><span class="what">Protocolo mínimo legal (120d)</span><span class="when">24/08/2026</span></div>
+      <div class="ancora-row"><span class="what">Protocolo-meta Hábilis (180d)</span><span class="when">26/06/2026</span></div>
+      <div class="ancora-row"><span class="what">Colchão regulatório preservado</span><span class="when">180 dias</span></div>
+    </div>
+  </div>
+
+  <div class="premissa">
+    <h4>Premissa deste documento</h4>
+    <p>
+      Todo número, data e item citado aqui foi extraído do próprio Documento Técnico v3 e
+      referenciado à norma ou fato de origem. Onde existe divergência entre a totalização do
+      v3 e a soma dos detalhes, está flagado com <strong>[VALIDAR]</strong> e apresentado sem
+      correção — cabe ao Grupo Z+Z e à Hábilis decidirem a redação final.
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>02 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 02 · POR QUE 4 FRENTES =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Por que 4 frentes e não uma só</span>
+  </div>
+
+  <h2 class="section"><span class="n">02</span> Por que 4 frentes e não uma só</h2>
+
+  <div class="tese">
+    Tratar a renovação como dossiê único ignora que Uso do Solo é pré-requisito de outro órgão
+    (Prefeitura), Condicionantes dependem de histórico da LAO vigente e Compliance Paralelo
+    gera passivo que contamina o processo principal — por isso 4 frentes, cada uma com ritmo e
+    interlocutor próprios.
+  </div>
+
+  <p>
+    A regularização de um posto não é um processo único na SEMMA. É um processo <strong>central
+    na SEMMA</strong> (renovação da LAO) que depende de uma peça <strong>da Prefeitura</strong>
+    (certidão de uso do solo), é avaliado à luz do <strong>histórico da LAO vigente</strong>
+    (condicionantes da 033/2020) e pode ser <strong>derrubado por autuações correlatas</strong>
+    em ANP, IBAMA, NR-20 e PNRS mesmo estando documentalmente perfeito. Separar em 4 frentes
+    torna visível o que depende de quem — e permite gerir cada uma com o ritmo certo.
+  </p>
+
+  <h3>Papel operacional de cada frente</h3>
+
+  <div class="dec-block">
+    <div class="dec-head">Frente 01 · Uso do Solo · pré-requisito locacional</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Papel</div>
+        <div class="v"><strong>Destrava</strong> a renovação. Sem certidão vigente na data do protocolo, a SEMMA não recebe o dossiê.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Por que separada da LAO</div>
+        <div class="v">Órgão diferente (<strong>Prefeitura de Guapó</strong>, não SEMMA). Prazo municipal típico 15-45 dias. Se tratada como item da LAO, o gargalo municipal paralisa a frente técnica.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Consequência se tratada junta</div>
+        <div class="v">Atraso na prefeitura congelaria os 70 itens técnicos da LAO, que podem e devem rodar em paralelo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dec-block">
+    <div class="dec-head">Frente 02 · Renovação LAO · objeto central</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Papel</div>
+        <div class="v">Dossiê técnico no <strong>Processo SEMMA 22760/2020</strong>. Peça principal do trabalho contratado.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Por que separada das condicionantes</div>
+        <div class="v">A renovação olha para <strong>frente</strong> (novo ciclo de 4 anos). As condicionantes olham para <strong>trás</strong> (cumprimento da LAO vigente). Métodos de evidência distintos.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Consequência se tratada junta</div>
+        <div class="v">Mistura as 26 peças do novo dossiê com as 26 evidências históricas. Dobra o volume por peça e dilui a rastreabilidade.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dec-block">
+    <div class="dec-head">Frente 03 · Condicionantes · evidenciação técnica</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Papel</div>
+        <div class="v">Plano de atendimento das <strong>26 condicionantes da LAO 033/2020</strong>. A SEMMA avalia o histórico antes de deferir.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Por que está no escopo</div>
+        <div class="v">Mesmo não sendo "renovação" stricto sensu, <strong>não-cumprimento derruba o deferimento</strong>. A SEMMA consulta o Extrato de Condicionantes (05/2024) antes de decidir.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Consequência se omitida</div>
+        <div class="v">Dossiê tecnicamente perfeito pode ser indeferido pelo histórico. Risco altíssimo de retrabalho ou perda de janela.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dec-block">
+    <div class="dec-head">Frente 04 · Compliance Paralelo · proteção permanente</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Papel</div>
+        <div class="v">ANP · IBAMA (CTF/APP · RAPP) · NR-20 · PNRS · monitoramentos. Cadência <strong>própria</strong>, não amarrada ao cronograma de 67 dias.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Por que no escopo, se não é exigência direta</div>
+        <div class="v">Autuação em qualquer dessas frentes gera <strong>antecedente regulatório</strong> que a SEMMA pode consultar. Posicionamento: gestão efetiva, não renovação episódica.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Consequência se deixada fora</div>
+        <div class="v">Auto de infração trabalhista (NR-20) ou da ANP durante a análise do dossiê <strong>contamina</strong> a renovação. Risco inassumível para uma operação com LAO ativa.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h4>Síntese · o encadeamento lógico</h4>
+    <p style="margin:0;">
+      Uso do Solo <strong>destrava</strong>. Renovação LAO <strong>é o objeto</strong>.
+      Condicionantes <strong>sustentam o deferimento</strong>. Compliance Paralelo
+      <strong>protege o conjunto</strong>. Uma frente só seria possível se os 4 interlocutores
+      fossem o mesmo órgão e o mesmo tempo — não são.
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>03 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 03 · POR QUE 71 ITENS =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Por que 71 itens · contabilidade</span>
+  </div>
+
+  <h2 class="section"><span class="n">03</span> Por que 71 itens · contabilidade aberta</h2>
+
+  <div class="tese">
+    O número 71 não é arbitrário — cada item rastreia a uma exigência de norma, TR ou checklist
+    oficial; abrir essa contabilidade permite verificar que nada foi inventado e nada obrigatório
+    foi omitido.
+  </div>
+
+  <p>
+    O Documento Técnico v3 declara "71 itens mapeados" no Resumo (seção 02). A contabilidade
+    vem da soma das 4 frentes. A tabela abaixo abre cada frente contra sua norma de origem, e
+    no final flagamos uma discrepância aritmética que precisa ser revisada antes do envio.
+  </p>
+
+  <table class="contab-table">
+    <thead>
+      <tr>
+        <th style="width: 24%;">Frente</th>
+        <th style="width: 10%;">Itens</th>
+        <th style="width: 30%;">Norma / checklist de origem</th>
+        <th style="width: 36%;">O que garante que o número é esse</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>01 · Uso do Solo</strong></td>
+        <td class="num">11</td>
+        <td>Checklist da Certidão de Uso e Ocupação · Prefeitura de Guapó</td>
+        <td>Itens <em>a</em> a <em>k</em> do checklist municipal (inclui ART específica, CAR se rural, CNDs, RGI, plantas com Quadro UTM SIRGAS 2000).</td>
+      </tr>
+      <tr>
+        <td><strong>02 · Renovação LAO</strong></td>
+        <td class="num">26</td>
+        <td>TR SEMMA Guapó · Processo 22760/2020</td>
+        <td>Conjunto completo de peças exigidas pelo Termo de Referência da SEMMA: do Requerimento (item 1) à documentação de destinação (itens 25-26), passando por MCO, Anexos CONAMA 273, investigação confirmatória, estanqueidade, publicação CONAMA 006/86.</td>
+      </tr>
+      <tr>
+        <td><strong>03 · Condicionantes</strong></td>
+        <td class="num">14</td>
+        <td>Plano de atendimento das 26 condicionantes da LAO 033/2020</td>
+        <td>14 entregáveis que consolidam a evidência das 26 CPs: plano-mestre, recomposição das 3 parciais, execução das 8 pendentes, novo teste de estanqueidade, novas análises de efluentes e água, laudo de investigação confirmatória, protocolo Veredas e documentação de suporte.</td>
+      </tr>
+      <tr>
+        <td><strong>04 · Compliance Paralelo</strong></td>
+        <td class="num">23</td>
+        <td>ANP · IBAMA (CTF/APP, RAPP) · NR-20 · PNRS · monitoramentos</td>
+        <td>23 obrigações distribuídas nas 5 frentes regulatórias correlatas. Cadência própria, independente do cronograma da renovação.</td>
+      </tr>
+      <tr class="total">
+        <td><strong>Soma aritmética</strong></td>
+        <td class="num">74</td>
+        <td>Soma direta das 4 frentes</td>
+        <td>11 + 26 + 14 + 23 = <strong>74 itens</strong></td>
+      </tr>
+      <tr class="total">
+        <td><strong>Declarado no v3 (§02)</strong></td>
+        <td class="num">71</td>
+        <td>Resumo executivo · Estrutura da Gestão</td>
+        <td>Texto do v3 diz "totalizando 71 itens mapeados"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout amber">
+    <h4>[VALIDAR] · discrepância de 3 itens entre total declarado e soma aritmética</h4>
+    <p style="margin:0;">
+      O Documento Técnico v3 declara <strong>71 itens</strong> no Resumo Executivo, mas a soma
+      das 4 frentes dá <strong>74</strong>. Diferença de 3. Hipóteses prováveis: (a) 3 itens de
+      Compliance Paralelo são itens de acompanhamento, não entregáveis próprios do dossiê; (b)
+      o "RCA semestral" aparece em Renovação LAO e em Condicionantes e foi contado duas vezes;
+      (c) o total 71 foi fixado em versão anterior e não foi recalculado depois de ajustes nas
+      frentes. <strong>Recomendação</strong>: cruzar com a Hábilis antes do envio ao Grupo Z+Z e
+      padronizar 71 ou 74 em todas as peças (v3 + dashboard + memória de gestão).
+    </p>
+  </div>
+
+  <div class="ancora">
+    <div class="ancora-title">Ancoragem normativa de cada frente</div>
+    <div class="ancora-grid">
+      <div class="ancora-row"><span class="what">Frente 01 · Uso do Solo</span><span class="when">Checklist municipal Guapó</span></div>
+      <div class="ancora-row"><span class="what">Frente 02 · Renovação LAO</span><span class="when">TR SEMMA Proc. 22760/2020</span></div>
+      <div class="ancora-row"><span class="what">Frente 03 · Condicionantes</span><span class="when">LAO 033/2020 · Extrato 05/2024</span></div>
+      <div class="ancora-row"><span class="what">Frente 04 · Compliance</span><span class="when">Matriz ANP + IBAMA + MTE + PNRS</span></div>
+    </div>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>04 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 04 · POR QUE O CRONOGRAMA COMEÇA EM 20/04 =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Por que o cronograma começa em 20/04</span>
+  </div>
+
+  <h2 class="section"><span class="n">04</span> Por que o cronograma começa em 20/04</h2>
+
+  <div class="tese">
+    A data de início não é escolha estética — é resultado de subtrair 67 dias do protocolo-meta
+    (26/06) e de alinhar com a data em que a base documental (recebida em 14/04) estava triada
+    o suficiente para iniciar a análise técnica.
+  </div>
+
+  <p>
+    A base documental do posto foi recebida em <strong>14/04/2026</strong>. Seis dias depois, a
+    triagem inicial permitiu identificar peças em mãos (LAO vigente, AVCB Cercon 161726, RGI
+    2025, plantas 05/2024, teste de estanqueidade 10/2024) e mapear as lacunas (MCO
+    desatualizado, MCO via TR SEMMA, outorga DURH002737 vencida, INMETRO da estanqueidade
+    vencido). Em 20/04 a Hábilis tinha diagnóstico suficiente para estruturar as 4 fases.
+    Antecipar seria trabalhar no escuro; atrasar comeria colchão no protocolo.
+  </p>
+
+  <h3>Por que 4 fases em 67 dias — e não 2 ou 6</h3>
+  <p>
+    Quatro fases refletem <strong>quatro transições de estado</strong> do dossiê: de nada
+    organizado (F1) para base estruturada, de base estruturada (F2) para realidade de campo
+    validada, de campo validado (F3) para evidência consolidada em laudos, de evidência (F4)
+    para peça protocolada. Cada transição tem dependência técnica própria e entregáveis
+    rastreáveis. Menos fases empilhariam dependências invisíveis; mais fases gerariam overhead
+    de coordenação sem acelerar o prazo.
+  </p>
+
+  <div class="timeline-fases">
+    <div class="tl-fase">
+      <div class="tl-fase-tag">F1</div>
+      <div class="tl-fase-nome">Estruturação</div>
+      <div class="tl-fase-dates">20/04 → 08/05 · 19 dias</div>
+      <div class="tl-fase-porque">
+        <strong>Por que 19 dias:</strong> prazo suficiente para verificar Uso do Solo
+        (prefeitura responde em 15-45d) e situação de outorga (consulta Veredas imediata) —
+        <em>destrava</em> a F2 sem pedir obra de campo.
+      </div>
+    </div>
+    <div class="tl-fase f2">
+      <div class="tl-fase-tag">F2</div>
+      <div class="tl-fase-nome">Consolidação</div>
+      <div class="tl-fase-dates">09/05 → 30/05 · 22 dias</div>
+      <div class="tl-fase-porque">
+        <strong>Por que 22 dias:</strong> janela cobre inspeção 12/05 (<em>20 pontos · 5
+        eixos</em>), protocolo Veredas 11/05, mobilização de laboratório e investigação
+        confirmatória, MCO atualizado e Plano das 26 CPs.
+      </div>
+    </div>
+    <div class="tl-fase f3">
+      <div class="tl-fase-tag">F3</div>
+      <div class="tl-fase-nome">Execução</div>
+      <div class="tl-fase-dates">31/05 → 19/06 · 20 dias</div>
+      <div class="tl-fase-porque">
+        <strong>Por que 20 dias:</strong> prazo para estanqueidade (08/06), laudo
+        confirmatório (15/06), execução das 8 CPs pendentes e relatório técnico consolidado
+        (19/06). Todos os ensaios precisam estar emitidos antes de F4.
+      </div>
+    </div>
+    <div class="tl-fase f4">
+      <div class="tl-fase-tag">F4</div>
+      <div class="tl-fase-nome">Protocolo</div>
+      <div class="tl-fase-dates">20/06 → 26/06 · 7 dias</div>
+      <div class="tl-fase-porque">
+        <strong>Por que 7 dias:</strong> aprovação escrita do cliente (22/06), CNDs (23/06),
+        checklist final (24/06), taxas (25/06), protocolo (26/06). Zero obra técnica —
+        apenas consolidação e submissão.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <h4>[VALIDAR] · soma das fases dá 68 dias, v3 declara 67 dias</h4>
+    <p style="margin:0;">
+      F1 (19) + F2 (22) + F3 (20) + F4 (7) = <strong>68 dias</strong>. O v3 declara janela de
+      <strong>67 dias</strong>. A diferença cabe na sobreposição de 1 dia entre fases
+      (ex.: 08/05 conta como fechamento de F1 e início de F2) ou em arredondamento de
+      contagem. <strong>Recomendação</strong>: padronizar antes do envio — ou "67 dias
+      corridos entre 20/04 e 26/06" ou "68 dias de execução distribuídos em 4 fases".
+      Pequeno, mas auditável pelo leitor atento.
+    </p>
+  </div>
+
+  <h3>Dependências visíveis entre fases</h3>
+  <ul>
+    <li><strong>F1 → F2:</strong> uso do solo consolidado ou em protocolo + ART indicada + análise documental fechada.</li>
+    <li><strong>F2 → F3:</strong> MCO atualizado + plano das 26 CPs emitido + laboratórios mobilizados.</li>
+    <li><strong>F3 → F4:</strong> todos os laudos em mãos (estanqueidade, confirmatório, RCA, PGRS, PAE) + relatório técnico consolidado + aprovação escrita do cliente.</li>
+  </ul>
+
+  <div class="ancora">
+    <div class="ancora-title">Marcos operacionais por fase</div>
+    <div class="ancora-grid">
+      <div class="ancora-row"><span class="what">F1 · Verificação outorga (Hábilis)</span><span class="when">28/04/2026</span></div>
+      <div class="ancora-row"><span class="what">F1 · Publicação CONAMA 006/86</span><span class="when">04/05/2026</span></div>
+      <div class="ancora-row"><span class="what">F1 · Mapeamento 8 CPs pendentes</span><span class="when">10/05/2026</span></div>
+      <div class="ancora-row"><span class="what">F2 · Protocolo Veredas</span><span class="when">11/05/2026</span></div>
+      <div class="ancora-row"><span class="what">F2 · Inspeção de campo</span><span class="when">12/05/2026</span></div>
+      <div class="ancora-row"><span class="what">F2 · MCO atualizado</span><span class="when">28/05/2026</span></div>
+      <div class="ancora-row"><span class="what">F3 · Novo teste de estanqueidade</span><span class="when">08/06/2026</span></div>
+      <div class="ancora-row"><span class="what">F3 · Laudo Investigação Confirmatória</span><span class="when">15/06/2026</span></div>
+      <div class="ancora-row"><span class="what">F3 · Relatório técnico consolidado</span><span class="when">19/06/2026</span></div>
+      <div class="ancora-row red"><span class="what">F4 · Protocolo SEMMA</span><span class="when">26/06/2026</span></div>
+    </div>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>05 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 05 · POR QUE A OUTORGA É O GATILHO =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Por que a outorga é o gatilho da sequência</span>
+  </div>
+
+  <h2 class="section"><span class="n">05</span> Por que a outorga é o gatilho da sequência</h2>
+
+  <div class="tese">
+    A outorga não é só mais um item: é a <em>única frente com passivo ativo de 2 anos e prazo
+    federal encerrado em 16/04/2026</em>. Sem certidão de tramitação Veredas, o dossiê SEMMA
+    fica incompleto — e não há substituto para esse documento no rol exigido pelo TR.
+  </div>
+
+  <p>
+    Guilherme, reparo que o cronograma tem um gatilho assimétrico: a Hábilis coloca
+    <strong>verificação de outorga em 28/04</strong> (item de F1) e <strong>protocolo Veredas
+    em 11/05</strong> (primeira entrega técnica de F2). Antes de laudos, antes de inspeção,
+    antes até do MCO. Por que tão cedo? Porque três fatos se combinam e transformam a outorga
+    no gargalo regulatório mais frágil do dossiê.
+  </p>
+
+  <div class="dec-block">
+    <div class="dec-head">Decisão · verificar outorga em 28/04 e protocolar Veredas em 11/05</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Fato 1 · passivo ativo</div>
+        <div class="v">Dispensa <strong>DURH002737 venceu em 09/12/2023</strong>. O empreendimento opera sem dispensa vigente há mais de 2 anos. Não é atualização administrativa — é regularização de inconformidade.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Fato 2 · prazo federal encerrado</div>
+        <div class="v">Sistema Web Outorga migrou para <strong>Sistema Veredas</strong>; prazo de transição encerrou em <strong>16/04/2026</strong>. Protocolar após essa data só via Veredas (SEMAD/GO).</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Fato 3 · dossiê não fecha sem certidão</div>
+        <div class="v">O TR da SEMMA exige demonstração da situação hídrica. <strong>Certidão de tramitação Veredas</strong> supre essa exigência — a análise de mérito (60-120d) pode correr em paralelo sem bloquear o protocolo de 26/06.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>A lógica da sequência 28/04 → 11/05 → 26/06</h3>
+  <p>
+    Em <strong>28/04</strong> a Hábilis consulta o Veredas e confirma o que as memórias apontam
+    (DURH002737 vencida, inexistência de processo em tramitação). Em até 13 dias úteis, monta
+    requerimento, memorial técnico e plantas e <strong>protocola em 11/05</strong>. O
+    protocolo gera certidão de tramitação imediata — documento que já compõe o dossiê da LAO
+    sem exigir deferimento de mérito. A SEMAD analisa o mérito em 60-120 dias (julho a
+    setembro). Se a análise retornar exigências, o posto responde em ciclo próprio, sem afetar
+    o protocolo SEMMA de <strong>26/06</strong>.
+  </p>
+
+  <div class="callout">
+    <h4>O que acontece se a outorga for deixada para F2 ou F3</h4>
+    <p style="margin:0;">
+      Protocolar Veredas em junho deixaria o dossiê SEMMA sem certidão de tramitação na data
+      do protocolo. A SEMMA recebe, mas registra <strong>exigência formal</strong> na triagem.
+      Resposta no último trimestre do ano empurraria a análise para depois de
+      <strong>23/12/2026</strong> (vencimento LAO) — cenário em que o posto opera sem licença
+      até o deferimento. Risco não-aceitável.
+    </p>
+  </div>
+
+  <div class="ancora">
+    <div class="ancora-title">Datas-âncora da frente outorga</div>
+    <div class="ancora-grid">
+      <div class="ancora-row amber"><span class="what">Vencimento DURH002737</span><span class="when">09/12/2023</span></div>
+      <div class="ancora-row amber"><span class="what">Fim transição Web Outorga → Veredas</span><span class="when">16/04/2026</span></div>
+      <div class="ancora-row"><span class="what">Verificação outorga (Hábilis)</span><span class="when">28/04/2026</span></div>
+      <div class="ancora-row"><span class="what">Protocolo Veredas</span><span class="when">11/05/2026</span></div>
+      <div class="ancora-row"><span class="what">Análise SEMAD (mérito, paralelo)</span><span class="when">60-120 dias</span></div>
+      <div class="ancora-row red"><span class="what">Protocolo SEMMA (certidão em mãos)</span><span class="when">26/06/2026</span></div>
+    </div>
+  </div>
+
+  <div class="premissa">
+    <h4>Contato oficial (registrado no v3, §4.1)</h4>
+    <p>
+      Gerência de Sistemas da SEMAD/GO · <span class="mono">gesis.meioambiente@goias.gov.br</span>
+      · (62) 3201-5235. Canal oficial para dúvidas técnicas sobre o Sistema Veredas durante a
+      montagem do requerimento.
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>06 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 06 · POR QUE AS CONDICIONANTES ESTÃO PARCIAIS =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Por que as condicionantes estão classificadas assim</span>
+  </div>
+
+  <h2 class="section"><span class="n">06</span> Por que as condicionantes estão classificadas assim</h2>
+
+  <div class="tese">
+    A classificação 15 / 3 / 8 é a fotografia honesta do histórico da LAO 033/2020 — classificar
+    em verde o que não tem evidência documental hoje seria mascarar o risco para a SEMMA e
+    piorar o resultado do deferimento.
+  </div>
+
+  <p>
+    A LAO 033/2020 estabeleceu <strong>26 condicionantes</strong>. O Extrato de Condicionantes
+    de 05/2024 e a triagem documental de 14/04 permitem classificar cada uma em 3 estados:
+    <em>atendida</em> (evidência completa no acervo), <em>parcial</em> (evidência existe mas
+    com lacuna material) e <em>pendente</em> (sem evidência ou com evidência expirada).
+  </p>
+
+  <div class="cond-grid">
+    <div class="cond-card">
+      <div class="n">15</div>
+      <div class="status">Atendidas</div>
+      <div class="porque">
+        Evidência completa no acervo documental do cliente. Aparecem no v3 (§3.3) como
+        <strong>docs-ok</strong>: Extrato 05/2024, Teste de Estanqueidade 10/2024, Análise
+        Qualitativa de Efluentes 2024, Análise de Água 03/2024, Dispensa de Outorga 2023,
+        Cercon 161726.
+      </div>
+    </div>
+    <div class="cond-card part">
+      <div class="n">3</div>
+      <div class="status">Parciais</div>
+      <div class="porque">
+        Evidência parcial — existe documento de base, mas com <strong>lacuna material</strong>
+        que precisa ser recomposta. Exemplo-tipo: análise qualitativa de efluentes 2024
+        registra <strong>não-conformidade (Óleos 64 mg/L · limite 20 mg/L)</strong>, o que
+        implica em recomposição técnica antes de anexar ao dossiê de renovação.
+      </div>
+    </div>
+    <div class="cond-card miss">
+      <div class="n">8</div>
+      <div class="status">Pendentes</div>
+      <div class="porque">
+        Sem evidência ou com evidência expirada. Exigem execução nova: novo teste de
+        estanqueidade 2026, nova análise de efluentes 2026, nova análise de água 2026,
+        laudo de investigação confirmatória (CONAMA 420/09), protocolo novo via Veredas.
+        <strong>F3 (31/05 → 19/06)</strong> é a fase em que essas peças são produzidas.
+      </div>
+    </div>
+  </div>
+
+  <h3>Por que não "forçar" mais atendidas</h3>
+  <p>
+    A SEMMA consulta o histórico antes de deferir. Declarar condicionante como atendida sem
+    evidência material documentada gera <strong>não-conformidade na análise</strong>, com
+    risco de indeferimento ou pedido de complemento. O custo de "parcial" hoje (recomposição
+    em F3) é muito menor do que o custo de "atendida forçada" depois (retrabalho completo em
+    prazo apertado). A classificação honesta acelera o deferimento.
+  </p>
+
+  <div class="dec-block">
+    <div class="dec-head">Decisão · calibração e estanqueidade como armadilha técnica</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Situação herdada</div>
+        <div class="v">Teste de estanqueidade de 10/2024 (NBR 16795) em mãos. Usado como evidência de CPs. Parece atendido.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Problema oculto</div>
+        <div class="v">Credenciamento <strong>INMETRO NCC 21.08786</strong> da empresa venceu em <strong>29/04/2024</strong>. Calibração do equipamento (Suporty) venceu em <strong>03/2023</strong>. Laudo pode ser contestado por perda de validade do credenciamento.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Por isso novo teste em F3</div>
+        <div class="v"><strong>08/06/2026</strong> · empresa com credenciamento INMETRO vigente confirmado e equipamento com calibração ISO/IEC 17025 vigente. Sem isso, não adianta contratar.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout red">
+    <h4>Cenário de risco · RCA 2024 reprovado</h4>
+    <p style="margin:0;">
+      A análise de efluentes 2024 registra <strong>Óleos e Graxas 64 mg/L (limite 20 mg/L)</strong>
+      e Turbidez fora do limite. Indica <strong>disfunção do SAO</strong>. Se o novo RCA
+      (03/06) for coletado sem adequação prévia do sistema, <strong>há risco concreto de nova
+      reprovação</strong>. Por isso a inspeção de 12/05 inclui auditoria do SAO e a
+      contratação de Bauer/Limpmil para limpeza/substituição precisa ocorrer entre 15/05 e
+      25/05. Se a adequação exigir obra, o escopo pode <strong>extrapolar a janela de 67 dias</strong>
+      — abre escopo contingente.
+    </p>
+  </div>
+
+  <div class="ancora">
+    <div class="ancora-title">Datas-âncora da frente condicionantes</div>
+    <div class="ancora-grid">
+      <div class="ancora-row amber"><span class="what">Venc. credenciamento INMETRO NCC 21.08786</span><span class="when">29/04/2024</span></div>
+      <div class="ancora-row amber"><span class="what">Venc. calibração Suporty</span><span class="when">03/2023</span></div>
+      <div class="ancora-row"><span class="what">Extrato de condicionantes (referência)</span><span class="when">05/2024</span></div>
+      <div class="ancora-row"><span class="what">Mapeamento das 8 CPs pendentes</span><span class="when">10/05/2026</span></div>
+      <div class="ancora-row"><span class="what">Novo teste de estanqueidade</span><span class="when">08/06/2026</span></div>
+      <div class="ancora-row"><span class="what">Execução das 8 CPs pendentes</span><span class="when">15/06/2026</span></div>
+    </div>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>07 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 07 · POR QUE O CAPEX É FAIXA =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Por que o CAPEX é faixa</span>
+  </div>
+
+  <h2 class="section"><span class="n">07</span> Por que o CAPEX é faixa, não número único</h2>
+
+  <div class="tese">
+    Comprometer com número único antes do laudo de investigação confirmatória (15/06) seria
+    enganar o cliente: o principal fator de variação do investimento — passivo ambiental no
+    solo — só se revela depois das sondagens.
+  </div>
+
+  <p>
+    Guilherme, este é o item do plano que concentra a maior incerteza razoável. A faixa
+    declarada na memória de gestão do projeto Hábilis é de <strong>R$ 1.398k (piso) a
+    R$ 2.567k (teto)</strong>, uma diferença de R$ 1.169k. Não é margem de negociação — é a
+    diferença entre cenário sem passivo de solo (P-01 negativo) e cenário com investigação
+    detalhada disparada pelo laudo confirmatório.
+  </p>
+
+  <div class="capex-box">
+    <div class="capex-heads">
+      <span class="capex-title">Faixa de investimento · Renovação LAO integrada</span>
+      <span class="capex-flag">[VALIDAR] Valor da memória de gestão</span>
+    </div>
+    <div class="capex-range">
+      <div class="capex-side piso">
+        <div class="l">Piso · cenário limpo</div>
+        <div class="v">R$ 1.398k</div>
+        <div class="s">Laudo confirmatório negativo (P-01 sem detecção acima CONAMA 420). RCA novo dentro do limite após limpeza de SAO. Sem exigência de alvará sanitário adicional. Cobre os 67 dias de execução + taxas + laboratórios + ART + terceiros contratados.</div>
+      </div>
+      <div class="capex-side teto">
+        <div class="v">R$ 2.567k</div>
+        <div class="l">Teto · cenário contingente</div>
+        <div class="s">Laudo confirmatório aciona Investigação Detalhada (NBR 16210 · 60-90 dias). Plano de intervenção / remediação (NBR 16784 · 3-18 meses). Exigência de SEMMA para adequação do SAO com obra. Abre frente de monitoramento pós-remediação.</div>
+      </div>
+    </div>
+    <p style="font-size: 9pt; color: var(--cinza-7); margin-bottom: 0; line-height: 1.45;">
+      Itens que mais movem a faixa: <strong>(1)</strong> investigação detalhada se P-01 for
+      positivo · <strong>(2)</strong> obra de adequação do SAO se a análise de efluentes nova
+      não normalizar após limpeza · <strong>(3)</strong> Análise de Risco em nível
+      APP/ARQ se exigida pela SEMMA em resposta à triagem.
+    </p>
+  </div>
+
+  <div class="callout amber">
+    <h4>[VALIDAR] · valor não consta do Documento Técnico v3</h4>
+    <p style="margin:0;">
+      A faixa R$ 1.398k–2.567k vem da <strong>memória de gestão do projeto Hábilis</strong>
+      (dashboard de gestão), não do Documento Técnico v3. O v3 não traz CAPEX explícito —
+      posiciona o trabalho como gestão contínua sem comprometer número fechado. Antes do
+      envio ao Grupo Z+Z, <strong>validar com a Hábilis</strong>: (a) se esta faixa é a
+      vigente; (b) se os 2 cenários (piso / teto) descritos acima refletem as premissas
+      atuais; (c) se o CAPEX entra no documento técnico ou permanece em peça comercial
+      separada.
+    </p>
+  </div>
+
+  <h3>Por que faixa é mais honesta que número único</h3>
+  <p>
+    O laudo de investigação confirmatória está previsto para <strong>15/06/2026</strong> —
+    11 dias antes do protocolo-meta. Até essa data, o piso (R$ 1.398k) é um compromisso firme
+    e o teto (R$ 2.567k) é um teto <strong>contingente</strong>. Anunciar número único antes
+    do laudo significaria: (a) assumir piso e arcar com a diferença se P-01 for positivo; ou
+    (b) anunciar teto e cobrar "reembolso" depois — ambos geram ruído na relação. A faixa
+    preserva honestidade técnica e comercial.
+  </p>
+
+  <div class="premissa">
+    <h4>Premissa · o que está dentro e fora do CAPEX declarado</h4>
+    <p style="margin-bottom: 4px;">
+      <strong>Dentro:</strong> honorários Hábilis · taxas SEMMA/Prefeitura/SEMAD ·
+      laboratórios (água, efluentes, solo) · estanqueidade · investigação confirmatória
+      (1ª fase) · ARTs · publicação CONAMA 006/86.
+    </p>
+    <p style="margin-bottom: 0;">
+      <strong>Fora:</strong> investigação detalhada (se disparada) · remediação · obra física
+      de adequação do SAO · passivos contingentes em Compliance Paralelo (MTE, ANP, IBAMA,
+      PNRS) · alvará sanitário (se exigido).
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>08 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 08 · POR QUE COMPLIANCE PARALELO ENTRA =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Por que compliance paralelo entra</span>
+  </div>
+
+  <h2 class="section"><span class="n">08</span> Por que compliance paralelo entra no escopo</h2>
+
+  <div class="tese">
+    Um posto com LAO deferida mas com RAPP em atraso no IBAMA, NR-20 desatualizada ou ANP com
+    cadastro pendente está a um auto de infração de <em>contaminar</em> a renovação — por isso
+    compliance paralelo entra no mesmo guarda-chuva de gestão, mesmo com ritmo distinto.
+  </div>
+
+  <p>
+    As 23 obrigações da Frente 04 não são exigência direta da SEMMA para o Processo
+    22760/2020. Um dossiê pode ser tecnicamente perfeito e a SEMMA deferir mesmo com RAPP
+    atrasado no IBAMA. O ponto é outro: durante a <strong>análise do dossiê</strong>
+    (julho-setembro) e durante a <strong>vigência da nova LAO</strong> (2027-2030), qualquer
+    auto de infração nessas frentes correlatas gera antecedente regulatório consultável. E o
+    posto tem um passivo ativo relevante agora — a Licença Ambiental de Instalação (LAI)
+    citada na memória de gestão.
+  </p>
+
+  <div class="dec-block">
+    <div class="dec-head">Decisão · tratar Compliance Paralelo como frente permanente, não item da LAO</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Por que "permanente"</div>
+        <div class="v">RAPP é anual (até 31/03 de cada ano). Declarações ANP são anuais. NR-20 é contínua (PGR + capacitação). PNRS exige MTR rastreado por destinação. <strong>Cadência não cabe em 67 dias</strong>.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Por que "paralelo"</div>
+        <div class="v">Se fosse tratada como item da renovação, o atraso de RAPP (cadência anual) bloquearia o protocolo de 26/06. Tratada em paralelo, o RAPP corre em seu próprio ciclo sem interferência.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Por que no escopo do contrato</div>
+        <div class="v">Sem a frente paralela no escopo, o próximo ciclo (2027-2030) ficaria exposto. O posicionamento da Hábilis é <strong>gestão efetiva</strong>, não renovação episódica.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>As 5 sub-frentes e por que cada uma importa</h3>
+  <ul>
+    <li><strong>ANP · cadastro e declarações anuais:</strong> revendedor de combustíveis tem registro obrigatório; declarações fora do prazo geram multa e antecedente.</li>
+    <li><strong>IBAMA · CTF/APP + RAPP:</strong> Cadastro Técnico Federal ativo e Relatório Anual de Potencial Poluidor entregue até 31/03 de cada ano. Conjunto de obrigações federais que independem da LAO estadual.</li>
+    <li><strong>NR-20 · segurança com inflamáveis:</strong> PGR vigente e capacitação da equipe operacional. Fiscalização do MTE é independente do licenciamento ambiental.</li>
+    <li><strong>PNRS · rastreabilidade de resíduos:</strong> Plano de Resíduos e MTR (Manifesto de Transporte de Resíduos) por cada destinação. Integra-se ao PGRS da renovação.</li>
+    <li><strong>Monitoramentos pós-LAO:</strong> rotinas periódicas (água, efluentes, estanqueidade) em ciclo fixo durante toda a vigência da nova LAO.</li>
+  </ul>
+
+  <div class="callout amber">
+    <h4>[VALIDAR] · LAI 008/2020 vencida em 31/03/2026</h4>
+    <p style="margin:0;">
+      Registro na <strong>memória de gestão do projeto</strong> (não extraído do v3): Licença
+      Ambiental de Instalação 008/2020 venceu em <strong>31/03/2026</strong>. Se a LAI ainda
+      está ativa no cadastro como obrigação (ou se houve migração tácita para a LAO), precisa
+      de tratamento explícito no escopo. <strong>Recomendação</strong>: validar com a Hábilis
+      se (a) a LAI foi consumida no momento da emissão da LAO 033/2020 (típico); (b) se há
+      saldo de obrigações da LAI ainda rastreadas; (c) se é item de F1 ou de Compliance
+      Paralelo.
+    </p>
+  </div>
+
+  <div class="ancora">
+    <div class="ancora-title">Cadências regulatórias paralelas</div>
+    <div class="ancora-grid">
+      <div class="ancora-row"><span class="what">RAPP anual · IBAMA</span><span class="when">até 31/03/ano</span></div>
+      <div class="ancora-row"><span class="what">Declarações ANP · revendedor</span><span class="when">anual</span></div>
+      <div class="ancora-row"><span class="what">PGR · NR-20</span><span class="when">contínua</span></div>
+      <div class="ancora-row"><span class="what">MTR · PNRS</span><span class="when">por destinação</span></div>
+      <div class="ancora-row amber"><span class="what">LAI 008/2020 · vencimento</span><span class="when">31/03/2026</span></div>
+      <div class="ancora-row"><span class="what">Monitoramentos pós-LAO</span><span class="when">semestral/anual</span></div>
+    </div>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>09 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 09 · RISCOS =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Riscos que podem derrubar o cronograma</span>
+  </div>
+
+  <h2 class="section"><span class="n">09</span> Riscos que podem derrubar o cronograma</h2>
+
+  <div class="tese">
+    Cinco cenários podem empurrar o protocolo para depois de 26/06 — todos previsíveis, todos
+    com gatilho de contingência definido. Identificar antes não elimina o risco, mas permite
+    agir nas primeiras 48h do evento em vez de nas últimas 48h do prazo.
+  </div>
+
+  <p>
+    O v3 descreve dois cenários contingentes (passivo ambiental · AVCB vencido). A leitura
+    auditiva identifica mais três pontos de quebra previsíveis. Abaixo, os 5 riscos ordenados
+    por probabilidade × impacto, com gatilho de contingência explicitado.
+  </p>
+
+  <div class="dec-block">
+    <div class="dec-head">Risco 1 · Laudo de Investigação Confirmatória positivo (15/06)</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Gatilho</div>
+        <div class="v">Detecção acima dos valores de investigação (CONAMA 420/09) em qualquer dos 3 furos de sondagem.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Impacto</div>
+        <div class="v"><strong>Protocolo em 26/06 fica inviável</strong>. SEMMA exige resolução do passivo como pré-condição. Abre Investigação Detalhada (60-90d) + Plano de Intervenção (3-18 meses).</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Contingência</div>
+        <div class="v">Hábilis apresenta plano revisado em até <strong>10 dias úteis</strong> da identificação. Preserva margem até 23/12 para protocolo emergencial ou extensão formal junto à SEMMA.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dec-block">
+    <div class="dec-head">Risco 2 · RCA 2026 reprovado (03/06) · disfunção SAO não resolvida</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Gatilho</div>
+        <div class="v">Nova análise de efluentes (22/05) registra Óleos e Graxas fora do limite, mesmo após limpeza.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Impacto</div>
+        <div class="v">Indica que a disfunção do SAO exige <strong>obra física</strong> (substituição de componentes), não apenas manutenção. Escopo pode extrapolar F3.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Contingência</div>
+        <div class="v">Auditoria SAO antecipada para <strong>12/05 (inspeção)</strong>. Se diagnóstico de obra, contratação Bauer/Limpmil até 20/05 para execução antes da coleta 22/05.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dec-block">
+    <div class="dec-head">Risco 3 · Certidão de Uso do Solo demora além de 45 dias</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Gatilho</div>
+        <div class="v">Prefeitura de Guapó não emite a certidão até 10/06 (45 dias após 25/04).</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Impacto</div>
+        <div class="v">Bloqueio do protocolo SEMMA. Certidão é pré-requisito absoluto.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Contingência</div>
+        <div class="v">Protocolo municipal em 30/04 (não em 10/05) e acompanhamento direto pela Hábilis na Secretaria. Se indeferida, abre escopo de ajuste locacional fora da janela.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dec-block">
+    <div class="dec-head">Risco 4 · Cliente atrasa decisão/contratação de terceiros</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Gatilho</div>
+        <div class="v">Investigação confirmatória não contratada até 05/05 · demais terceiros (laboratório, estanqueidade, projetista) não contratados até 15/05.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Impacto</div>
+        <div class="v">Mobilização em 25/05 ficaria inviável. Laudos empilham em F3 sem tempo de produção.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Contingência</div>
+        <div class="v">Compromisso formal do Grupo Z+Z de <strong>retorno em até 5 dias úteis</strong> (já no v3, §06). Monitoramento com alerta explícito em D-5 de cada contratação.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dec-block">
+    <div class="dec-head">Risco 5 · AVCB Cercon 161726 exige renovação em 20/10/2026</div>
+    <div class="dec-body">
+      <div class="dec-col">
+        <div class="l">Gatilho</div>
+        <div class="v">SEMMA pede AVCB vigente na resposta a exigências pós-protocolo (julho-setembro).</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Impacto</div>
+        <div class="v">AVCB vigente até 20/10. Resposta após 20/10 exige novo AVCB — abre frente externa (Corpo de Bombeiros) fora do escopo contratado.</div>
+      </div>
+      <div class="dec-col">
+        <div class="l">Contingência</div>
+        <div class="v">Verificação AVCB em F2 (<strong>12/05, inspeção</strong>). Se necessidade de renovação identificada, abrir frente externa com prazo próprio junto ao CBMGO entre junho e setembro.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout gray">
+    <h4>Feriados na janela — 3 dias úteis a menos</h4>
+    <p style="margin:0;">
+      <strong>21/04 Tiradentes</strong> · <strong>01/05 Trabalho</strong> · <strong>04/06
+      Corpus Christi</strong>. Dentro da janela de 67 dias corridos, 3 feriados caem em dias
+      úteis e consomem capacidade operacional sem aparecer em cronograma de dias corridos.
+    </p>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo</span><span>10 / 11</span>
+  </div>
+</section>
+
+<!-- =============== 10 · COMO VALIDAR =============== -->
+<section class="page">
+  <div class="runhead">
+    <span><strong>Auto Posto América</strong> · Documento Explicativo</span>
+    <span>Como validar que o plano está cabível</span>
+  </div>
+
+  <h2 class="section"><span class="n">10</span> Como validar que o plano está cabível</h2>
+
+  <div class="tese">
+    Um plano cabível satisfaz 4 testes independentes — ancoragem normativa, rastreabilidade de
+    itens, dependências explicitadas e margem regulatória suficiente. Abaixo, o checklist de
+    auditoria para o Grupo Z+Z aplicar antes de aprovar o envio.
+  </div>
+
+  <p>
+    Guilherme, você pediu um documento que permitisse auditar. Aqui está o teste final. Se os
+    4 blocos abaixo forem respondidos com "sim" após leitura cruzada do v3, este Documento
+    Explicativo e as datas-âncora desta seção, o plano está consolidado. Se algum bloco for
+    "não", identificamos onde refazer antes do envio.
+  </p>
+
+  <div class="checkl">
+    <div class="checkl-title">Teste 1 · Ancoragem normativa</div>
+    <ul>
+      <li><span class="box"></span>Toda <strong>data citada</strong> no v3 (26/06/2026, 23/12/2026, 20/10/2026, 09/12/2023, 29/04/2024, 16/04/2026) está ancorada em documento oficial verificável (LAO · AVCB · DURH · credenciamento INMETRO · prazo federal de transição)?</li>
+      <li><span class="box"></span>Toda <strong>norma citada</strong> (CONAMA 006/86, CONAMA 273/2000, CONAMA 319/2002, CONAMA 362/2005, CONAMA 420/2009, CEMAM 029/2018, NBR 16795/2019, NBR 16210, Portarias INMETRO) tem aplicação justificada no item em que aparece?</li>
+    </ul>
+  </div>
+
+  <div class="checkl">
+    <div class="checkl-title">Teste 2 · Rastreabilidade dos itens</div>
+    <ul>
+      <li><span class="box"></span>Os <strong>11 itens de Uso do Solo</strong> mapeiam um-a-um contra o checklist da Prefeitura de Guapó (itens <em>a</em> a <em>k</em>)?</li>
+      <li><span class="box"></span>Os <strong>26 itens da LAO</strong> mapeiam um-a-um contra o TR SEMMA (itens 1 a 26)?</li>
+      <li><span class="box"></span>Os <strong>14 itens de Condicionantes</strong> cobrem as 3 parciais + 8 pendentes + entregáveis de consolidação das 15 atendidas?</li>
+      <li><span class="box"></span>A <strong>discrepância 71 vs 74</strong> (§03 deste documento) está resolvida antes do envio ao cliente?</li>
+    </ul>
+  </div>
+
+  <div class="checkl">
+    <div class="checkl-title">Teste 3 · Dependências explicitadas</div>
+    <ul>
+      <li><span class="box"></span>Cada marco do cronograma (swimlane v3, §05) tem <strong>dependência a montante</strong> identificada — o que precisa estar pronto antes?</li>
+      <li><span class="box"></span>Cada marco tem <strong>dependência a jusante</strong> identificada — o que se destrava se ele concluir?</li>
+      <li><span class="box"></span>A <strong>discrepância 67 vs 68 dias</strong> (§04 deste documento) está padronizada em todas as peças?</li>
+      <li><span class="box"></span>Os <strong>gatilhos de contingência</strong> dos 5 riscos (§09 deste documento) têm responsável nomeado e prazo de acionamento?</li>
+    </ul>
+  </div>
+
+  <div class="checkl">
+    <div class="checkl-title">Teste 4 · Margem regulatória suficiente</div>
+    <ul>
+      <li><span class="box"></span>A janela <strong>26/06 → 23/12 (180 dias)</strong> cobre o pior cenário razoável de exigências complementares da SEMMA sem empurrar o posto para operação pós-vencimento?</li>
+      <li><span class="box"></span>O <strong>cenário contingente de passivo ambiental</strong> (laudo positivo em 15/06) tem plano alternativo que use os 180 dias de margem antes de 23/12?</li>
+      <li><span class="box"></span>A <strong>faixa de CAPEX (R$ 1.398k–2.567k)</strong> contempla piso e teto do trabalho com premissas auditadas por ambas as partes?</li>
+      <li><span class="box"></span>As <strong>cadências permanentes de Compliance Paralelo</strong> (RAPP anual, ANP, NR-20 contínua) estão acordadas como escopo continuado pós-protocolo de 26/06?</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <h4>Itens a resolver antes do envio formal ao Grupo Z+Z</h4>
+    <ol style="margin: 0; padding-left: 18px; font-size: 9.5pt;">
+      <li>Padronizar <strong>71 ou 74 itens</strong> em todas as peças (v3, dashboard, memória).</li>
+      <li>Padronizar <strong>67 ou 68 dias</strong> na descrição da janela de execução.</li>
+      <li>Validar se a <strong>faixa de CAPEX</strong> entra no Documento Técnico ou permanece em peça comercial separada.</li>
+      <li>Resolver a <strong>situação da LAI 008/2020</strong> (consumida na LAO ou ativa como obrigação residual).</li>
+      <li>Confirmar que os <strong>5 riscos</strong> mapeados têm responsável nomeado no plano interno da Hábilis.</li>
+    </ol>
+  </div>
+
+  <div class="ancora">
+    <div class="ancora-title">Síntese · 14 datas-âncora do plano</div>
+    <div class="ancora-grid">
+      <div class="ancora-row amber"><span class="what">Venc. calibração Suporty</span><span class="when">03/2023</span></div>
+      <div class="ancora-row amber"><span class="what">Venc. DURH002737 (outorga)</span><span class="when">09/12/2023</span></div>
+      <div class="ancora-row amber"><span class="what">Venc. credenciamento INMETRO</span><span class="when">29/04/2024</span></div>
+      <div class="ancora-row amber"><span class="what">Venc. LAI 008/2020</span><span class="when">31/03/2026</span></div>
+      <div class="ancora-row amber"><span class="what">Fim transição Web Outorga → Veredas</span><span class="when">16/04/2026</span></div>
+      <div class="ancora-row"><span class="what">Início da janela de execução</span><span class="when">20/04/2026</span></div>
+      <div class="ancora-row"><span class="what">Verificação outorga</span><span class="when">28/04/2026</span></div>
+      <div class="ancora-row"><span class="what">Protocolo Veredas</span><span class="when">11/05/2026</span></div>
+      <div class="ancora-row"><span class="what">Inspeção de campo</span><span class="when">12/05/2026</span></div>
+      <div class="ancora-row"><span class="what">Laudo Investigação Confirmatória</span><span class="when">15/06/2026</span></div>
+      <div class="ancora-row red"><span class="what">Protocolo SEMMA (meta)</span><span class="when">26/06/2026</span></div>
+      <div class="ancora-row"><span class="what">Venc. AVCB Cercon 161726</span><span class="when">20/10/2026</span></div>
+      <div class="ancora-row red"><span class="what">Venc. LAO 033/2020</span><span class="when">23/12/2026</span></div>
+      <div class="ancora-row"><span class="what">Protocolo mínimo legal (120d)</span><span class="when">24/08/2026</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--borda);
+              display: flex; justify-content: space-between; align-items: flex-end;">
+    <div>
+      <div style="font-family: 'DM Mono', monospace; font-size: 8pt;
+                  color: var(--cinza-5); letter-spacing: .08em; text-transform: uppercase;">
+        Documento emitido por
+      </div>
+      <div style="font-size: 13pt; font-weight: 600; color: var(--verde); margin-top: 4px;">
+        Hábilis Consultoria
+      </div>
+      <div style="font-size: 9pt; color: var(--cinza-5); margin-top: 1px;">
+        Regularização Ambiental · Documento Explicativo complementar ao Técnico v3
+      </div>
+    </div>
+    <div style="text-align: right; font-family: 'DM Mono', monospace;
+                font-size: 8.5pt; color: var(--cinza-5); letter-spacing: .04em;">
+      <div>Versão 1.0 · Confidencial</div>
+      <div>Emitido em 19/04/2026</div>
+      <div>Destinatário: Grupo Z+Z</div>
+    </div>
+  </div>
+
+  <div class="runfoot">
+    <span>Hábilis · Documento Explicativo · Racional do Doc. Técnico v3</span><span>11 / 11</span>
+  </div>
+</section>
+
+</body>
+</html>

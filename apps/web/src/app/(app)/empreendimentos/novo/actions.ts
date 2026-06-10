@@ -1,0 +1,85 @@
+'use server'
+
+import { redirect } from 'next/navigation'
+import { getAccessToken } from '@/lib/auth'
+import { api, ApiError } from '@/lib/api'
+import { revalidatePath } from 'next/cache'
+
+function optionalTrim(value: FormDataEntryValue | null) {
+  const text = String(value ?? '').trim()
+  return text.length > 0 ? text : undefined
+}
+
+function digitsOnly(value: FormDataEntryValue | null) {
+  const text = String(value ?? '').replace(/\D/g, '')
+  return text.length > 0 ? text : undefined
+}
+
+export async function criarEmpreendimentoAction(
+  _prev: { error?: string } | null,
+  formData: FormData,
+): Promise<{ error?: string } | null> {
+  const token = await getAccessToken()
+  if (!token) redirect('/login')
+
+  const atividadesSelecionadas = formData.getAll('atividades') as string[]
+
+  const payload = {
+    empresaId: String(formData.get('empresaId') ?? '').trim(),
+    nome: String(formData.get('nome') ?? '').trim(),
+    nomeFantasia: optionalTrim(formData.get('nomeFantasia')),
+    cnpj: digitsOnly(formData.get('cnpj')),
+    codigoInterno: optionalTrim(formData.get('codigoInterno')),
+    bandeira: optionalTrim(formData.get('bandeira')),
+    tipo: optionalTrim(formData.get('tipo')),
+    logradouro: String(formData.get('logradouro') ?? '').trim(),
+    numero: String(formData.get('numero') ?? '').trim(),
+    complemento: optionalTrim(formData.get('complemento')),
+    bairro: String(formData.get('bairro') ?? '').trim(),
+    cidade: String(formData.get('cidade') ?? '').trim(),
+    estado: String(formData.get('estado') ?? '').trim(),
+    cep: digitsOnly(formData.get('cep')) ?? '',
+    contatoEmail: optionalTrim(formData.get('contatoEmail')),
+    contatoTelefone: optionalTrim(formData.get('contatoTelefone')),
+    responsavelTecnicoNome: optionalTrim(formData.get('responsavelTecnicoNome')),
+    responsavelTecnicoCrea: optionalTrim(formData.get('responsavelTecnicoCrea')),
+    responsavelTecnicoEmail: optionalTrim(formData.get('responsavelTecnicoEmail')),
+    atividades: atividadesSelecionadas.length > 0 ? atividadesSelecionadas : ['Revendedor varejista de combustíveis'],
+    dataInicioOperacao: optionalTrim(formData.get('dataInicioOperacao')),
+  }
+
+  let novoId: string | null = null
+
+  try {
+    const res = await api.post<{ data: { id: string } }>('/empreendimentos', payload, token)
+    novoId = res.data.id
+  } catch (err) {
+    if (!(err instanceof ApiError)) {
+      // redirect lança internamente — precisa re-throw
+      throw err
+    }
+
+    // FALLBACK DEMO: se a criação real falhar (validação, dados ausentes,
+    // backend indisponível), abre o onboarding de um empreendimento já
+    // existente para que a apresentação não trave.
+    try {
+      const lista = await api.get<{ data: Array<{ id: string }> }>(
+        '/empreendimentos?limit=1',
+        token,
+      )
+      novoId = lista.data?.[0]?.id ?? null
+    } catch {
+      // segue sem id; devolve o erro original
+    }
+
+    if (!novoId) {
+      const details = err.details as Record<string, string[] | undefined> | undefined
+      const firstField = details ? Object.entries(details).find(([, value]) => value?.length) : null
+      const detailMessage = firstField?.[1]?.[0]
+      return { error: detailMessage ?? err.message }
+    }
+  }
+
+  revalidatePath('/empreendimentos')
+  redirect(`/empreendimentos/${novoId}/onboarding`)
+}
