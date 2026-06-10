@@ -1,24 +1,52 @@
 import { Camera, ImagePlus, MapPin } from 'lucide-react'
+import { getAccessToken } from '@/lib/auth'
+import { api } from '@/lib/api'
+import { formatDate } from '@/lib/date'
 
 export const metadata = { title: 'Evidências coletadas' }
 
-const EVIDS = [
-  { id: 'ev-001', setor: 'SASC',     hora: '09:18', os: 'OS-2026-0184', nota: 'Bocal tanque 2, sem indício de vazamento.' },
-  { id: 'ev-002', setor: 'SAO',      hora: '09:34', os: 'OS-2026-0184', nota: 'Caixa separadora antes da limpeza.' },
-  { id: 'ev-003', setor: 'Resíduos', hora: '09:52', os: 'OS-2026-0184', nota: 'Abrigo de resíduos sem cobertura adequada.' },
-  { id: 'ev-004', setor: 'Pista',    hora: '10:05', os: 'OS-2026-0184', nota: 'Manchas leves próximas à bomba 03.' },
-  { id: 'ev-005', setor: 'Bombeiros',hora: '10:21', os: 'OS-2026-0184', nota: 'Extintor PQS-6 com lacre violado.' },
-  { id: 'ev-006', setor: 'Tanques',  hora: '10:38', os: 'OS-2026-0184', nota: 'Respiro tanque 1 dentro do padrão.' },
-]
+type StatusValidacao = 'PENDENTE' | 'VALIDADA' | 'REJEITADA'
 
-export default function EvidenciasPage() {
+interface Evidencia {
+  id: string
+  setor: string
+  nota: string
+  chaveS3: string | null
+  capturadoEm: string
+  statusValidacao: StatusValidacao
+  latitude: number | null
+  longitude: number | null
+  ordemServico?: { numero: string } | null
+}
+
+const VAL_LABEL: Record<StatusValidacao, string> = { PENDENTE: 'A validar', VALIDADA: 'Validada', REJEITADA: 'Rejeitada' }
+const VAL_TONE: Record<StatusValidacao, string> = {
+  PENDENTE: 'bg-amber-50 text-amber-700 border-amber-200',
+  VALIDADA: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  REJEITADA: 'bg-red-50 text-red-700 border-red-200',
+}
+
+export default async function EvidenciasPage() {
+  const token = await getAccessToken()
+  let itens: Evidencia[] = []
+  let erro: string | null = null
+
+  if (token) {
+    try {
+      const res = await api.get<{ data: Evidencia[] }>('/evidencias?limit=60', token)
+      itens = res.data
+    } catch {
+      erro = 'Não foi possível carregar as evidências no momento.'
+    }
+  }
+
+  const aValidar = itens.filter((e) => e.statusValidacao === 'PENDENTE').length
+
   return (
     <div className="space-y-5">
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
-            OS-2026-0184 · Posto BR-153 km 312
-          </p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Operação de campo</p>
           <h1 className="mt-1 text-2xl font-bold tracking-tight">Evidências coletadas</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Fotos e arquivos vinculados a serviço, setor e achado. Geotag e horário gravados.
@@ -29,38 +57,55 @@ export default function EvidenciasPage() {
         </button>
       </div>
 
+      {erro ? (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">{erro}</div>
+      ) : null}
+
       <article className="rounded-xl border bg-card">
         <header className="flex items-center gap-2 border-b px-5 py-3">
           <ImagePlus className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-semibold tracking-tight">Galeria do dia</h2>
+          <h2 className="text-sm font-semibold tracking-tight">Galeria</h2>
           <span className="ml-auto text-[11px] text-muted-foreground tabular-nums">
-            {EVIDS.length} arquivos · 23 a validar
+            {itens.length} registro{itens.length === 1 ? '' : 's'} · {aValidar} a validar
           </span>
         </header>
-        <div className="grid gap-3 p-5 sm:grid-cols-2 lg:grid-cols-3">
-          {EVIDS.map((e) => (
-            <div key={e.id} className="rounded-lg border bg-white p-3 shadow-sm">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-md border bg-gradient-to-br from-stone-200 via-stone-300 to-stone-400">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.45),transparent_55%)]" />
-                <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded bg-black/55 px-1.5 py-0.5 text-[9px] font-semibold text-white">
-                  <Camera className="h-2.5 w-2.5" />
-                  {e.id.toUpperCase()}
-                </span>
-                <span className="absolute top-1.5 right-1.5 inline-flex items-center gap-1 rounded bg-white/95 px-1.5 py-0.5 text-[9px] font-semibold text-foreground shadow-sm">
-                  {e.setor}
-                </span>
+        {itens.length === 0 && !erro ? (
+          <p className="px-5 py-12 text-center text-sm text-muted-foreground">Nenhuma evidência registrada.</p>
+        ) : (
+          <div className="grid gap-3 p-5 sm:grid-cols-2 lg:grid-cols-3">
+            {itens.map((e) => (
+              <div key={e.id} className="rounded-lg border bg-white p-3 shadow-sm">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-md border bg-gradient-to-br from-stone-200 via-stone-300 to-stone-400">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.45),transparent_55%)]" />
+                  <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded bg-black/55 px-1.5 py-0.5 text-[9px] font-semibold text-white">
+                    <Camera className="h-2.5 w-2.5" />
+                    {e.chaveS3 ? 'foto' : 'sem foto'}
+                  </span>
+                  <span className="absolute top-1.5 right-1.5 inline-flex items-center gap-1 rounded bg-white/95 px-1.5 py-0.5 text-[9px] font-semibold text-foreground shadow-sm">
+                    {e.setor}
+                  </span>
+                </div>
+                <div className="mt-2.5 flex items-center justify-between">
+                  <p className="text-xs font-semibold text-foreground">{e.ordemServico?.numero ?? '—'}</p>
+                  <span className={`inline-flex items-center gap-1 rounded-full border px-1.5 py-0.5 text-[9px] font-bold ${VAL_TONE[e.statusValidacao]}`}>
+                    {VAL_LABEL[e.statusValidacao]}
+                  </span>
+                </div>
+                <p className="mt-1 text-[11px] text-muted-foreground leading-snug">{e.nota}</p>
+                <div className="mt-2 flex items-center justify-between text-[10px] text-muted-foreground">
+                  {e.latitude != null && e.longitude != null ? (
+                    <span className="inline-flex items-center gap-1">
+                      <MapPin className="h-2.5 w-2.5" /> {e.latitude.toFixed(3)}, {e.longitude.toFixed(3)}
+                    </span>
+                  ) : (
+                    <span />
+                  )}
+                  <span className="tabular-nums">{formatDate(e.capturadoEm)}</span>
+                </div>
               </div>
-              <div className="mt-2.5 flex items-center justify-between">
-                <p className="text-xs font-semibold text-foreground">{e.os}</p>
-                <p className="text-[10px] text-muted-foreground tabular-nums">{e.hora}</p>
-              </div>
-              <p className="mt-1 text-[11px] text-muted-foreground leading-snug">{e.nota}</p>
-              <p className="mt-2 inline-flex items-center gap-1 text-[10px] text-muted-foreground">
-                <MapPin className="h-2.5 w-2.5" /> -16.674, -49.265
-              </p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </article>
     </div>
   )

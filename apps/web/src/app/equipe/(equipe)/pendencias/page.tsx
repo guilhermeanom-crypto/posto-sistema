@@ -1,31 +1,61 @@
 import { ListChecks } from 'lucide-react'
+import { getAccessToken } from '@/lib/auth'
+import { api } from '@/lib/api'
+import { formatDate } from '@/lib/date'
 
 export const metadata = { title: 'Pendências da equipe' }
 
-const ROWS = [
-  { id: 'p-001', desc: 'Comprovante de limpeza recente da SAO',                 os: 'OS-2026-0184', prio: 'Alta',    prazo: '7 dias',  status: 'Enviada cliente' },
-  { id: 'p-002', desc: 'Foto de bocais e descarga selada por tanque',           os: 'OS-2026-0184', prio: 'Média',   prazo: '3 dias',  status: 'Aberta' },
-  { id: 'p-003', desc: 'Abrigo de resíduos perigosos: cobertura e contenção',    os: 'OS-2026-0184', prio: 'Crítica', prazo: '15 dias', status: 'Aberta' },
-  { id: 'p-004', desc: 'AVCB vencida: solicitar atualização',                    os: 'OS-2026-0185', prio: 'Crítica', prazo: '5 dias',  status: 'Aberta' },
-  { id: 'p-005', desc: 'Revisar polígono CAR: sobreposição com APP detectada',   os: 'OS-2026-0179', prio: 'Alta',    prazo: '10 dias', status: 'Em andamento' },
-  { id: 'p-006', desc: 'Complementar FCA com mapeamento (IPHAN)',                os: 'OS-2026-0167', prio: 'Média',   prazo: '20 dias', status: 'Em andamento' },
-]
+type Prioridade = 'CRITICA' | 'ALTA' | 'MEDIA' | 'BAIXA'
+type StatusPendencia = 'ABERTA' | 'EM_ANDAMENTO' | 'ENVIADA_CLIENTE' | 'RESOLVIDA' | 'CANCELADA'
 
-const PRIO: Record<string, string> = {
-  Crítica: 'bg-red-50 text-red-700 border-red-200',
-  Alta: 'bg-orange-50 text-orange-700 border-orange-200',
-  Média: 'bg-amber-50 text-amber-700 border-amber-200',
-  Baixa: 'bg-sky-50 text-sky-700 border-sky-200',
+interface Pendencia {
+  id: string
+  descricao: string
+  prioridade: Prioridade
+  status: StatusPendencia
+  prazo: string | null
+  ordemServico?: { numero: string } | null
+  responsavel?: { nome: string } | null
 }
 
-const ST: Record<string, string> = {
-  'Aberta': 'bg-orange-50 text-orange-700 border-orange-200',
-  'Enviada cliente': 'bg-sky-50 text-sky-700 border-sky-200',
-  'Em andamento': 'bg-amber-50 text-amber-700 border-amber-200',
-  'Resolvida': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+const PRIO_LABEL: Record<Prioridade, string> = { CRITICA: 'Crítica', ALTA: 'Alta', MEDIA: 'Média', BAIXA: 'Baixa' }
+const PRIO_TONE: Record<Prioridade, string> = {
+  CRITICA: 'bg-red-50 text-red-700 border-red-200',
+  ALTA: 'bg-orange-50 text-orange-700 border-orange-200',
+  MEDIA: 'bg-amber-50 text-amber-700 border-amber-200',
+  BAIXA: 'bg-sky-50 text-sky-700 border-sky-200',
+}
+const ST_LABEL: Record<StatusPendencia, string> = {
+  ABERTA: 'Aberta',
+  EM_ANDAMENTO: 'Em andamento',
+  ENVIADA_CLIENTE: 'Enviada cliente',
+  RESOLVIDA: 'Resolvida',
+  CANCELADA: 'Cancelada',
+}
+const ST_TONE: Record<StatusPendencia, string> = {
+  ABERTA: 'bg-orange-50 text-orange-700 border-orange-200',
+  EM_ANDAMENTO: 'bg-amber-50 text-amber-700 border-amber-200',
+  ENVIADA_CLIENTE: 'bg-sky-50 text-sky-700 border-sky-200',
+  RESOLVIDA: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  CANCELADA: 'bg-muted text-muted-foreground border-border',
 }
 
-export default function PendenciasPage() {
+export default async function PendenciasPage() {
+  const token = await getAccessToken()
+  let itens: Pendencia[] = []
+  let erro: string | null = null
+
+  if (token) {
+    try {
+      const res = await api.get<{ data: Pendencia[] }>('/pendencias?limit=50', token)
+      itens = res.data
+    } catch {
+      erro = 'Não foi possível carregar as pendências no momento.'
+    }
+  }
+
+  const emAberto = itens.filter((p) => p.status !== 'RESOLVIDA' && p.status !== 'CANCELADA').length
+
   return (
     <div className="space-y-5">
       <div className="flex items-end justify-between flex-wrap gap-3">
@@ -37,9 +67,13 @@ export default function PendenciasPage() {
           </p>
         </div>
         <span className="rounded-full bg-muted px-3 py-1 text-xs font-bold tabular-nums text-muted-foreground">
-          {ROWS.length} em aberto
+          {emAberto} em aberto
         </span>
       </div>
+
+      {erro ? (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">{erro}</div>
+      ) : null}
 
       <article className="rounded-xl border bg-card overflow-hidden">
         <header className="flex items-center gap-2 border-b px-5 py-3">
@@ -58,25 +92,32 @@ export default function PendenciasPage() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {ROWS.map((r) => (
-                <tr key={r.id} className="hover:bg-muted/20">
-                  <td className="px-5 py-3 text-foreground font-medium">{r.desc}</td>
-                  <td className="px-5 py-3 font-mono text-muted-foreground">{r.os}</td>
-                  <td className="px-5 py-3 font-semibold tabular-nums">{r.prazo}</td>
+              {itens.map((p) => (
+                <tr key={p.id} className="hover:bg-muted/20">
+                  <td className="px-5 py-3 text-foreground font-medium">{p.descricao}</td>
+                  <td className="px-5 py-3 font-mono text-muted-foreground">{p.ordemServico?.numero ?? '—'}</td>
+                  <td className="px-5 py-3 font-semibold tabular-nums">{p.prazo ? formatDate(p.prazo) : '—'}</td>
                   <td className="px-5 py-3">
-                    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold ${PRIO[r.prio]}`}>
+                    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold ${PRIO_TONE[p.prioridade]}`}>
                       <span className="h-1.5 w-1.5 rounded-full bg-current opacity-60" />
-                      {r.prio}
+                      {PRIO_LABEL[p.prioridade]}
                     </span>
                   </td>
                   <td className="px-5 py-3">
-                    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold ${ST[r.status]}`}>
+                    <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold ${ST_TONE[p.status]}`}>
                       <span className="h-1.5 w-1.5 rounded-full bg-current opacity-60" />
-                      {r.status}
+                      {ST_LABEL[p.status]}
                     </span>
                   </td>
                 </tr>
               ))}
+              {itens.length === 0 && !erro ? (
+                <tr>
+                  <td colSpan={5} className="px-5 py-12 text-center text-sm text-muted-foreground">
+                    Nenhuma pendência registrada.
+                  </td>
+                </tr>
+              ) : null}
             </tbody>
           </table>
         </div>
