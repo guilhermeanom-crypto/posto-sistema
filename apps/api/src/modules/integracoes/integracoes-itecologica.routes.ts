@@ -1,3 +1,4 @@
+import crypto from 'node:crypto'
 import type { FastifyRequest } from 'fastify'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
@@ -6,6 +7,14 @@ import { ForbiddenError } from '../../shared/errors/app-errors.js'
 import { authenticate } from '../../shared/middleware/authenticate.js'
 import { extrairIp } from '../../shared/middleware/audit.js'
 import { integracoesItecologicaService } from './integracoes-itecologica.service.js'
+
+/** Comparação de segredo em tempo constante (evita timing attack) */
+function segredoConfere(recebido: string, esperado: string): boolean {
+  const a = Buffer.from(recebido)
+  const b = Buffer.from(esperado)
+  if (a.length !== b.length) return false
+  return crypto.timingSafeEqual(a, b)
+}
 
 const crmWinHeadersSchema = z.object({
   'x-integration-key': z.string().min(1),
@@ -190,6 +199,9 @@ export const integracoesItecologicaRoutes: FastifyPluginAsyncZod = async (app) =
   app.post(
     '/itecologica/crm-win',
     {
+      config: {
+        rateLimit: { max: 10, timeWindow: '1 minute' },
+      },
       schema: {
         headers: crmWinHeadersSchema,
         body: crmWinBodySchema,
@@ -207,7 +219,7 @@ export const integracoesItecologicaRoutes: FastifyPluginAsyncZod = async (app) =
         })
       }
 
-      if (request.headers['x-integration-key'] !== env.INTEGRATION_SHARED_SECRET) {
+      if (!segredoConfere(request.headers['x-integration-key'], env.INTEGRATION_SHARED_SECRET)) {
         return reply.status(401).send({
           error: {
             code: 'UNAUTHORIZED_INTEGRATION',

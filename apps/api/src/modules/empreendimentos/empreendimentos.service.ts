@@ -40,6 +40,13 @@ export class EmpreendimentosService {
   }
 
   async criar(ctx: ContextoUsuario, data: CriarEmpreendimentoInput) {
+    // Valida que a empresa pertence ao tenant (a FK garante existência, não posse)
+    const empresa = await prisma.empresa.findFirst({
+      where: { id: data.empresaId, tenantId: ctx.tenantId },
+      select: { id: true },
+    })
+    if (!empresa) throw new NotFoundError('Empresa', data.empresaId)
+
     const empreendimento = await empreendimentosRepository.create(ctx.tenantId, data)
 
     await registrarAuditoria({

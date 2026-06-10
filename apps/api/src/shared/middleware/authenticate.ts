@@ -18,6 +18,20 @@ export async function authenticate(request: FastifyRequest, _reply: FastifyReply
       empreendimentoIds: string[] | null
     }
 
+    // Token de portal do cliente: `sub` = "portal:<empreendimentoId>", sem usuário no banco.
+    // Popula o contexto direto do JWT (o vínculo com o tenant é revalidado nas rotas do portal).
+    if (typeof payload.sub === 'string' && payload.sub.startsWith('portal:')) {
+      request.user = {
+        id: payload.sub,
+        tenantId: payload.tenantId,
+        perfil: payload.perfil,
+        empreendimentoIds: payload.empreendimentoIds,
+        nome: 'Representante do posto',
+        email: '',
+      }
+      return
+    }
+
     // Busca o usuário no banco para garantir que ainda está ativo
     const usuario = await prisma.usuario.findUnique({
       where: { id: payload.sub },

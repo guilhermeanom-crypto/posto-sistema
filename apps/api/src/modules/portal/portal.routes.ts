@@ -15,8 +15,21 @@ export const portalRoutes: FastifyPluginAsyncZod = async (app) => {
   app.addHook('preHandler', authenticate)
 
   // Garante que apenas REPRESENTANTE_POSTO acessa estas rotas
+  // e que o empreendimento do token pertence de fato ao tenant do token
+  // (defesa cross-tenant aplicada uma vez para todas as rotas do portal).
   app.addHook('preHandler', async (request) => {
     if (request.user.perfil !== 'REPRESENTANTE_POSTO') {
+      throw new UnauthorizedError()
+    }
+    const empreendimentoId = request.user.empreendimentoIds?.[0]
+    if (!empreendimentoId) {
+      throw new UnauthorizedError()
+    }
+    const empreendimento = await prisma.empreendimento.findFirst({
+      where: { id: empreendimentoId, tenantId: request.user.tenantId },
+      select: { id: true },
+    })
+    if (!empreendimento) {
       throw new UnauthorizedError()
     }
   })

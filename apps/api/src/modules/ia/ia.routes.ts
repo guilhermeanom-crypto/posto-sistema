@@ -107,7 +107,10 @@ export const iaRoutes: FastifyPluginAsyncZod = async (app) => {
       tags: ['ia'],
     },
   }, async (req, reply) => {
-    const defesa = await prisma.defesaTecnica.findUnique({ where: { id: req.params.id } })
+    // Valida posse via tenant do auto de infração pai (DefesaTecnica não tem tenantId próprio)
+    const defesa = await prisma.defesaTecnica.findFirst({
+      where: { id: req.params.id, auto: { tenantId: tid(req) } },
+    })
     if (!defesa) throw new NotFoundError('DefesaTecnica', req.params.id)
 
     const updated = await prisma.defesaTecnica.update({

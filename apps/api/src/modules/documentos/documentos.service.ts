@@ -50,6 +50,13 @@ export class DocumentosService {
   }
 
   async criar(ctx: ContextoUsuario, data: CriarDocumentoInput) {
+    // Valida que o empreendimento alvo pertence ao tenant (evita vincular doc cross-tenant)
+    const empreendimento = await prisma.empreendimento.findFirst({
+      where: { id: data.empreendimentoId, tenantId: ctx.tenantId },
+      select: { id: true },
+    })
+    if (!empreendimento) throw new NotFoundError('Empreendimento', data.empreendimentoId)
+
     const documento = await documentosRepository.create(ctx.tenantId, data)
 
     await registrarAuditoria({
@@ -99,6 +106,9 @@ export class DocumentosService {
    * Schema `confirmarUploadSchema` inclui: documentoId (URL), chaveS3, observacoesEnvio.
    */
   async confirmarUpload(ctx: ContextoUsuario, documentoId: string, data: ConfirmarUploadInput) {
+    // Garante que o documento pertence ao tenant antes de confirmar o upload
+    await this.buscarPorId(ctx, documentoId)
+
     const versao = await documentosRepository.findVersaoPorChaveS3(documentoId, data.chaveS3)
     if (!versao) throw new UploadNaoConfirmadoError()
 
@@ -128,7 +138,7 @@ export class DocumentosService {
     }
 
     const versao = await documentosRepository.findVersao(versaoId)
-    if (!versao || versao.documentoId !== documentoId) {
+    if (!versao || versao.documentoId !== documentoId || versao.documento.tenantId !== ctx.tenantId) {
       throw new NotFoundError('Versão de documento', versaoId)
     }
 
@@ -172,7 +182,7 @@ export class DocumentosService {
     }
 
     const versao = await documentosRepository.findVersao(versaoId)
-    if (!versao || versao.documentoId !== documentoId) {
+    if (!versao || versao.documentoId !== documentoId || versao.documento.tenantId !== ctx.tenantId) {
       throw new NotFoundError('Versão de documento', versaoId)
     }
 
