@@ -77,9 +77,14 @@ Bloqueadores que impediam `docker compose up`:
   Login por e-mail+senha; layout/página índice usam `getSessao()`.
 - ✅ **Divergências de tipo**: motor-orçamento `score.atualizadoEm` → `calculadoEm`; lista de
   documentos passou a trazer `versaoAtual.enviadoPor`.
-- ⏳ **Pendente**: wiring de `/equipe/inicio` (KPIs/OS/roteiro ainda mock) e `/equipe/checklists`
-  (estado só client); **novos endpoints de pendências e evidências de campo** (não existem no
-  backend — exigem modelos Prisma + migration + rotas + wiring); redirect global em 401 (`serverApi`).
+- ✅ **Pendências e Evidências de campo (feature nova, completa)** — Bloco A (schema: models
+  `PendenciaCampo`/`EvidenciaCampo` + 3 enums + migration `20260610070243`), Bloco B (backend:
+  módulos `pendencias`/`evidencias` tenant-scoped, validação de OS, validação do analista, upload
+  presigned de foto; +5 testes incl. isolamento), Bloco C (telas `/equipe/pendencias` e
+  `/equipe/evidencias` ligadas à API). Decisões: pendência sempre via OS, foto opcional, analista valida.
+- ⏳ **Pendente (acabamento)**: wiring de `/equipe/inicio` (KPIs/OS/roteiro ainda mock) e
+  `/equipe/checklists` (estado só client); UI de captura/upload de foto (botão "Adicionar
+  evidência" — backend presigned já existe); redirect global em 401 (`serverApi`).
 
 ## 8. Limpeza — PARCIAL (commit `7ba68f6`)
 
