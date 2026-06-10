@@ -52,6 +52,23 @@ Conclusão: a imagem é **deployável**; `docker compose up` com um `.env` de pr
 
 > Lição: "passa nos testes" ≠ "deploya". Só a verificação real pegou estes 5 itens.
 
+## 4-bis. Verificação E2E da feature de campo (pendências/evidências)
+
+Após construir a feature, foi exercido o loop real **criar → renderizar → validar** com dado
+real numa OS do seed (não só testes unitários):
+
+| Passo | Resultado |
+|---|---|
+| Criar pendência + evidência via API numa OS real | ✅ 201 |
+| `/equipe/pendencias` renderiza a pendência real | ✅ (descrição + OS na tela) |
+| `/equipe/evidencias` renderiza a evidência real | ❌→✅ **bug pego e corrigido** |
+| Analista valida → badge muda para "Validada" | ✅ (statusValidacao + validadoEm) |
+
+**Bug pego (que typecheck e teste-de-vazio não pegariam):** `latitude/longitude` são `Decimal`
+no Prisma e serializam como **string** no JSON; a tela fazia `latitude.toFixed(3)` (método de
+number) → **HTTP 500**. Corrigido com `Number(...)`. Exatamente o tipo de divergência front↔API
+que só a renderização com dado real revela.
+
 ## 5. Veredito da verificação
 
 Os fluxos que tocamos nas correções foram **exercidos como sistema rodando** e se comportam como

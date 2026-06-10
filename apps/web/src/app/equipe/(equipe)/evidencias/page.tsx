@@ -14,8 +14,9 @@ interface Evidencia {
   chaveS3: string | null
   capturadoEm: string
   statusValidacao: StatusValidacao
-  latitude: number | null
-  longitude: number | null
+  // Prisma Decimal é serializado como string no JSON — tratar como string|number
+  latitude: number | string | null
+  longitude: number | string | null
   ordemServico?: { numero: string } | null
 }
 
@@ -95,7 +96,7 @@ export default async function EvidenciasPage() {
                 <div className="mt-2 flex items-center justify-between text-[10px] text-muted-foreground">
                   {e.latitude != null && e.longitude != null ? (
                     <span className="inline-flex items-center gap-1">
-                      <MapPin className="h-2.5 w-2.5" /> {e.latitude.toFixed(3)}, {e.longitude.toFixed(3)}
+                      <MapPin className="h-2.5 w-2.5" /> {Number(e.latitude).toFixed(3)}, {Number(e.longitude).toFixed(3)}
                     </span>
                   ) : (
                     <span />
