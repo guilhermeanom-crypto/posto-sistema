@@ -21,6 +21,16 @@ const prisma = new PrismaClient()
 const SENHA_PADRAO = process.env.SEED_ADMIN_PASSWORD ?? 'Demo@1234'
 
 async function main() {
+  // Guarda de produção: o seed cria usuários demo com senha conhecida (Demo@1234).
+  // Bloqueia execução acidental contra o banco de produção.
+  if (process.env.NODE_ENV === 'production' && process.env.ALLOW_PROD_SEED !== 'true') {
+    console.error(
+      '⛔ Seed demo bloqueado em produção (NODE_ENV=production). ' +
+        'Para forçar conscientemente, defina ALLOW_PROD_SEED=true.',
+    )
+    process.exit(1)
+  }
+
   console.log('🌱 Iniciando seed...')
 
   // ── Tenant ─────────────────────────────────────────────────────────────────
