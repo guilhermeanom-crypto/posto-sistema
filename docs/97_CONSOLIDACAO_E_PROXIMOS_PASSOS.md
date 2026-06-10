@@ -34,8 +34,11 @@ typecheck/testes não pegariam e refutou achados falsos da auditoria (401 já fu
 ### Fase B — Observabilidade de produção (pré-cliente)
 - ✅ **Logging estruturado (pino) no worker** — 59 console.* migrados; erros viram contexto
   estruturado; verificado bootando (JSON pino). `src/lib/logger.ts`.
-- ⏳ **Error tracking (Sentry)** — precisa de um **DSN** (usuário fornece) ou wiring inerte gated em env.
-- ⏳ **Monitor de filas (bull-board)** — precisa de dep nova + decidir como servir (rota no worker/api).
+- ⏳ **ADIADO (decisão tomada: Opção A)** — quando retomar: instalar Sentry **gated** numa env
+  `SENTRY_DSN` (inerte até preencher) + **bull-board** (painel de filas). NÃO exige o DSN agora.
+  O **DSN** vem de uma conta em sentry.io → Create Project (Node.js) → Settings → Client Keys (DSN),
+  formato `https://<key>@<org>.ingest.sentry.io/<id>` (alternativas: GlitchTip / Sentry self-hosted).
+  O usuário decidiu **deixar para depois** (2026-06-10) — só plugar o DSN quando tiver.
 
 ### Fase C — UX de sessão
 - Fluxo de refresh-token: renovar o access (15min) via refresh (7d) silenciosamente.
