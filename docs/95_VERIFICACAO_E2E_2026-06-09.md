@@ -69,6 +69,22 @@ no Prisma e serializam como **string** no JSON; a tela fazia `latitude.toFixed(3
 number) → **HTTP 500**. Corrigido com `Number(...)`. Exatamente o tipo de divergência front↔API
 que só a renderização com dado real revela.
 
+## 4-ter. Redirect em 401 — verificado: JÁ funciona (achado da auditoria estava errado)
+
+A auditoria de frontend afirmou "nenhuma das 84 telas redireciona em 401". Verificação empírica
+desmentiu:
+
+| Cenário | Resultado |
+|---|---|
+| `(app)/dashboard` com token inválido/expirado | **307 → /login** (guard `if (!sessao) redirect` no layout) |
+| `(app)/dashboard` sem cookie | 307 → /login?from=... |
+| `/equipe/os` com token inválido | 200 com tela "sessão expirou" + login (re-login com contexto) |
+
+O `(app)/layout.tsx` já protege as ~75 páginas internas; o `/equipe` mostra re-login amigável.
+O wrapper `serverApi` (não usado) é redundante. **Nenhum fix necessário.** Melhoria real futura
+(separada): fluxo de refresh-token (hoje access expira em 15min → re-login; o refresh de 7 dias
+não é usado para renovar silenciosamente).
+
 ## 5. Veredito da verificação
 
 Os fluxos que tocamos nas correções foram **exercidos como sistema rodando** e se comportam como
