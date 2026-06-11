@@ -52,7 +52,8 @@ export async function loginAction(_prevState: { error: string } | undefined, for
     const cookieStore = await cookies()
     setAuthCookies(cookieStore, res.data.accessToken, res.data.refreshToken)
   } catch (err) {
-    if (isDemoCredential(email, senha)) {
+    // Fallback demo SOMENTE fora de produção (em prod isso seria um bypass de auth)
+    if (process.env.NODE_ENV !== 'production' && isDemoCredential(email, senha)) {
       const cookieStore = await cookies()
       const demoUser = DEMO_USERS[email]
       if (!demoUser) {
@@ -70,10 +71,7 @@ export async function loginAction(_prevState: { error: string } | undefined, for
     if (err instanceof ApiError) {
       return { error: err.message }
     }
-    return {
-      error:
-        'Não foi possível validar com a API agora. Para apresentação, use admin@postodemo.com.br / Demo@1234.',
-    }
+    return { error: 'Não foi possível validar o acesso agora. Tente novamente.' }
   }
 
   redirect('/dashboard')

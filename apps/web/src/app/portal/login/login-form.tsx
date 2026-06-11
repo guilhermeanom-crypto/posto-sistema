@@ -53,11 +53,13 @@ export function PortalLoginForm() {
         {isPending ? 'Entrando...' : 'Entrar no Portal'}
       </button>
 
-      <div className="rounded-xl border border-sky-100 bg-sky-50/80 px-3.5 py-3 text-xs text-sky-900">
-        <p className="font-semibold">Acesso de apresentação</p>
-        <p className="mt-1">`representante@postodemo.com.br`</p>
-        <p>`Demo@1234`</p>
-      </div>
+      {process.env.NODE_ENV !== 'production' ? (
+        <div className="rounded-xl border border-sky-100 bg-sky-50/80 px-3.5 py-3 text-xs text-sky-900">
+          <p className="font-semibold">Acesso de apresentação (dev)</p>
+          <p className="mt-1">representante@postodemo.com.br</p>
+          <p>Demo@1234</p>
+        </div>
+      ) : null}
 
       <p className="text-center text-xs text-muted-foreground pt-2">
         Suas credenciais foram fornecidas pela equipe Hábilis Posto.<br />

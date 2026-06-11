@@ -77,6 +77,10 @@ export class UsuariosService {
     if (!['ADMIN_TENANT', 'SUPER_ADMIN'].includes(ctx.perfil)) {
       throw new ForbiddenError('Apenas administradores podem criar usuários')
     }
+    // SUPER_ADMIN administra TODOS os tenants — só um SUPER_ADMIN pode atribuí-lo
+    if (data.perfil === 'SUPER_ADMIN' && ctx.perfil !== 'SUPER_ADMIN') {
+      throw new ForbiddenError('Apenas SUPER_ADMIN pode atribuir o perfil SUPER_ADMIN')
+    }
 
     const existente = await prisma.usuario.findFirst({ where: { email: data.email } })
     if (existente) throw new ConflictError(`E-mail '${data.email}' já está em uso`)
@@ -139,6 +143,10 @@ export class UsuariosService {
   async alterarPerfil(ctx: ContextoUsuario, id: string, perfil: string) {
     if (!['ADMIN_TENANT', 'SUPER_ADMIN'].includes(ctx.perfil)) {
       throw new ForbiddenError('Apenas administradores podem alterar perfis')
+    }
+    // Só um SUPER_ADMIN pode promover alguém a SUPER_ADMIN (admin de todos os tenants)
+    if (perfil === 'SUPER_ADMIN' && ctx.perfil !== 'SUPER_ADMIN') {
+      throw new ForbiddenError('Apenas SUPER_ADMIN pode atribuir o perfil SUPER_ADMIN')
     }
     await this.buscarPorId(ctx, id)
 

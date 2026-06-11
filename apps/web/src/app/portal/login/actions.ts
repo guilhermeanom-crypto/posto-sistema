@@ -42,7 +42,12 @@ export async function portalLoginAction(
     const cookieStore = await cookies()
     setAuthCookies(cookieStore, res.data.accessToken, res.data.refreshToken)
   } catch (err) {
-    if (email.toLowerCase() === PORTAL_DEMO.email && senha === PORTAL_DEMO.senha) {
+    // Fallback demo SOMENTE fora de produção (em prod seria bypass de auth)
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      email.toLowerCase() === PORTAL_DEMO.email &&
+      senha === PORTAL_DEMO.senha
+    ) {
       const cookieStore = await cookies()
       setDemoSessao(cookieStore, {
         id: 'demo-representante-posto',
@@ -54,10 +59,7 @@ export async function portalLoginAction(
       redirect('/portal/inicio')
     }
     if (err instanceof ApiError) return { error: err.message }
-    return {
-      error:
-        'Não foi possível validar com a API agora. Para apresentação, use representante@postodemo.com.br / Demo@1234.',
-    }
+    return { error: 'Não foi possível validar o acesso agora. Tente novamente.' }
   }
 
   redirect('/portal/documentos')

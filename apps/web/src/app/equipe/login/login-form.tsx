@@ -91,7 +91,8 @@ export function EquipeLoginForm() {
       </button>
 
       <p className="text-center text-[11px] text-muted-foreground pt-1">
-        Use seu e-mail e senha do sistema. Demo: admin@postodemo.com.br / Demo@1234.
+        Use seu e-mail e senha do sistema.
+        {process.env.NODE_ENV !== 'production' ? ' Demo: admin@postodemo.com.br / Demo@1234.' : ''}
       </p>
     </form>
   )

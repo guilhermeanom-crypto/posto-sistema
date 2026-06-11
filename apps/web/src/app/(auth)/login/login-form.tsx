@@ -53,11 +53,13 @@ export function LoginForm() {
         {isPending ? 'Entrando...' : 'Entrar na conta'}
       </button>
 
-      <div className="rounded-xl border border-orange-100 bg-orange-50/70 px-3.5 py-3 text-xs text-orange-800">
-        <p className="font-semibold">Acesso de apresentação</p>
-        <p className="mt-1">`admin@postodemo.com.br`</p>
-        <p>`Demo@1234`</p>
-      </div>
+      {process.env.NODE_ENV !== 'production' ? (
+        <div className="rounded-xl border border-orange-100 bg-orange-50/70 px-3.5 py-3 text-xs text-orange-800">
+          <p className="font-semibold">Acesso de apresentação (dev)</p>
+          <p className="mt-1">admin@postodemo.com.br</p>
+          <p>Demo@1234</p>
+        </div>
+      ) : null}
     </form>
   )
 }

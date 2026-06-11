@@ -3,7 +3,7 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
 FROM base AS deps
-COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json tsconfig.base.json ./
 COPY apps/web/package.json apps/web/
 COPY packages/ packages/
 RUN pnpm install --frozen-lockfile --filter @posto/web...
@@ -11,9 +11,13 @@ RUN pnpm install --frozen-lockfile --filter @posto/web...
 FROM deps AS builder
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ARG WEB_ALLOWED_ORIGINS
+ENV WEB_ALLOWED_ORIGINS=$WEB_ALLOWED_ORIGINS
 COPY apps/web apps/web
 COPY packages packages
-RUN pnpm --filter @posto/web build
+# Filtro "..." constrói os pacotes-dependência (@repo/types/schemas/utils) antes do web,
+# em ordem topológica — eles exportam ./dist, que o .dockerignore exclui (precisa compilar aqui)
+RUN pnpm --filter "@posto/web..." build
 
 FROM node:20-alpine AS runner
 WORKDIR /app

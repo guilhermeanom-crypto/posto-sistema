@@ -20,6 +20,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "reset-password": "tsx prisma/reset-password.ts",
+    "create-superadmin": "tsx prisma/create-superadmin.ts",
     "clean": "rimraf dist"
   },
   "dependencies": {

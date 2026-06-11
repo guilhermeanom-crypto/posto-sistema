@@ -32,9 +32,14 @@ export const whatsappRoutes: FastifyPluginAsyncZod = async (app) => {
       tags: ['whatsapp'],
     },
   }, async (req, reply) => {
-    // Verifica token do webhook se configurado
+    // Verifica token do webhook. Fail-closed: em produção, sem token configurado o
+    // webhook NÃO pode ficar público (evita injeção de leads/jobs em qualquer tenant).
     const clientToken = req.headers['client-token']
-    if (env.ZAPI_CLIENT_TOKEN && clientToken !== env.ZAPI_CLIENT_TOKEN) {
+    if (!env.ZAPI_CLIENT_TOKEN) {
+      if (env.NODE_ENV === 'production') {
+        return reply.status(503).send({ error: 'Webhook do WhatsApp não configurado' })
+      }
+    } else if (clientToken !== env.ZAPI_CLIENT_TOKEN) {
       return reply.status(401).send({ error: 'Unauthorized' })
     }
 
