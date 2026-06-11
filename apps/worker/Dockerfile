@@ -13,11 +13,12 @@ RUN pnpm install --frozen-lockfile --filter @posto/worker... --prod=false
 FROM deps AS builder
 COPY apps/worker apps/worker
 COPY packages packages
-# O worker consome @prisma/client mas o schema vive em apps/api. Copia o schema e
-# gera o client ANTES do tsc (o build importa @prisma/client e precisa dos tipos).
-COPY apps/api/prisma apps/api/prisma
-RUN npm i -g prisma@5.22.0
-RUN prisma generate --schema apps/api/prisma/schema.prisma
+# O worker consome @prisma/client mas o schema vive em apps/api. Copia o schema para
+# DENTRO do pacote worker: o Prisma infere o project root subindo a partir do schema e
+# precisa achar um package.json que declare prisma/@prisma/client — senão tenta
+# auto-instalar (pnpm add) e quebra o build.
+COPY apps/api/prisma apps/worker/prisma
+RUN pnpm --filter @posto/worker exec prisma generate --schema prisma/schema.prisma
 # Filtro "..." constrói os pacotes-dependência antes do worker (ordem topológica)
 RUN pnpm --filter "@posto/worker..." build
 

@@ -7,9 +7,9 @@ on:
 
 jobs:
   validate:
-    name: Typecheck + Lint
+    name: Typecheck + Lint + Test + Build
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
 
     services:
       postgres:
@@ -45,6 +45,7 @@ jobs:
       API_PORT: 3001
       API_URL: http://localhost:3001/api/v1
       WEB_URL: http://localhost:3000
+      NEXT_PUBLIC_API_URL: http://localhost:3001
       NODE_ENV: test
       LOG_LEVEL: error
 
@@ -71,8 +72,37 @@ jobs:
 
       - name: Lint
         run: pnpm lint
-        continue-on-error: true   # Lint advisory enquanto consolidamos regras
+
+      - name: Migrate (banco de teste)
+        run: pnpm --filter @repo/api db:migrate:prod
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build (todos os pacotes)
+        run: pnpm build
 
       - name: Empreendimento ID audit
         run: pnpm tsx scripts/lint-empreendimento-id.ts
         continue-on-error: true   # Advisory inicial — falhar duro a partir da Fase 1
+
+  docker:
+    name: Docker images (produção)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build imagem API
+        run: docker build -f apps/api/Dockerfile .
+
+      - name: Build imagem Web
+        run: >-
+          docker build -f apps/web/Dockerfile
+          --build-arg NEXT_PUBLIC_API_URL=https://api.ci-placeholder.local
+          --build-arg WEB_ALLOWED_ORIGINS=app.ci-placeholder.local
+          .
+
+      - name: Build imagem Worker
+        run: docker build -f apps/worker/Dockerfile .

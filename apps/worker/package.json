@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/node": "^20.14.0",
     "@types/pdfkit": "^0.17.5",
+    "prisma": "5.22.0",
     "tsx": "^4.15.0",
     "typescript": "^5.5.0",
     "vitest": "^2.0.0"

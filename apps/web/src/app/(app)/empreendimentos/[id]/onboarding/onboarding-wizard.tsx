@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { gerarTarefasOnboardingAction } from './actions'
 
@@ -253,12 +254,12 @@ export function OnboardingWizard({ empreendimentoId, gapAnalysis }: Props) {
         >
           Ir para o hub do posto →
         </a>
-        <a
+        <Link
           href="/empreendimentos/novo"
           className="rounded-md border px-6 py-2 text-sm font-medium hover:bg-muted transition-colors"
         >
           Cadastrar outro posto
-        </a>
+        </Link>
       </div>
     </div>
   )

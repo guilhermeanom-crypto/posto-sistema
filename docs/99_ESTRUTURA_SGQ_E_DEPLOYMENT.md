@@ -19,19 +19,13 @@ Organização conforme boas práticas de Sistema de Gestão de Qualidade (SGQ) p
 │   ├── nginx-logs/                 # Logs do proxy
 │   └── postgres-backups/           # Backups automáticos
 │
-├── infra/                          # Configuração de infraestrutura
-│   ├── nginx/
-│   │   ├── nginx.conf              # Proxy reverso (domínios, HTTPS)
-│   │   ├── certs/                  # Certificados SSL
-│   │   │   ├── api.crt/key
-│   │   │   └── app.crt/key
-│   │   └── conf.d/
-│   │       └── security-headers.conf
-│   └── scripts/
-│       ├── deploy.sh               # Deploy automatizado
-│       ├── rollback.sh             # Reversão de emergência
-│       ├── backup-now.sh           # Backup manual
-│       └── health-check.sh         # Monitoramento
+├── infra/                          # Configuração de infraestrutura (dentro do repo: /opt/posto/infra)
+│   └── nginx/
+│       ├── nginx.conf              # Proxy reverso (domínios, HTTPS, headers de segurança,
+│       │                           #   rate-limit e X-Robots-Tag já incluídos neste arquivo)
+│       └── certs/                  # Certificados SSL (gerados no servidor — NÃO commitar)
+│           ├── api.crt / api.key
+│           └── web.crt / web.key
 │
 ├── logs/                           # Logs estruturados (fora do container)
 │   ├── api/
@@ -252,31 +246,21 @@ Editar `/opt/posto/infra/nginx/nginx.conf`:
 nano /opt/posto/infra/nginx/nginx.conf
 ```
 
-**Trocar placeholders:**
+**Domínios já configurados no arquivo** (conferir se são os finais):
 
 ```nginx
-# Linha ~15: servidor API
-server_name api.seu-dominio.com.br;
+# Server block da API
+server_name api-posto.itecologica.com.br;
 
-# Linha ~70: servidor Web
-server_name app.seu-dominio.com.br;
+# Server block do Web
+server_name posto.itecologica.com.br;
 ```
 
-**Adicionar headers de segurança + bloqueio de indexação:**
-
-Editar `/opt/posto/infra/nginx/conf.d/security-headers.conf` (criar se não existir):
-
-```nginx
-# Não indexar em Google/Bing (testes privados)
-add_header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet";
-
-# Segurança
-add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-add_header X-Frame-Options "DENY" always;
-add_header X-Content-Type-Options "nosniff" always;
-add_header X-XSS-Protection "1; mode=block" always;
-add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-```
+**Headers de segurança já incluídos no próprio `nginx.conf`** (não há conf.d separado):
+- `X-Robots-Tag: noindex, nofollow, noarchive, nosnippet` (bloqueio de indexação no server block do Web)
+- `Strict-Transport-Security` (HSTS, nos dois server blocks 443)
+- `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy` (bloco `http`)
+- Rate limiting (30 r/s API, 100 r/s webhook) e `robots.txt` com `Disallow: /`
 
 **Validar sintaxe:**
 

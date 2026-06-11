@@ -41,7 +41,7 @@ export default function TrabalheConoscoPage() {
             <a href={`mailto:${CONTATO.email}`} className="font-semibold text-primary hover:text-primary/80">
               {CONTATO.email}
             </a>{' '}
-            com o assunto <strong>"Banco técnico — sua área"</strong>.
+            com o assunto <strong>&quot;Banco técnico — sua área&quot;</strong>.
           </p>
         </div>
       </section>

@@ -215,10 +215,10 @@ docker compose -f docker-compose.prod.yml logs worker | head -20
 
 ## Pós-subida (1ª semana)
 
-- [ ] Configurar monitoramento (Sentry para errors — [docs/sentry-setup.md](TODO), ou até pós-lançamento por Opção A)
+- [ ] Configurar monitoramento (Sentry — decisão adiada para pós-lançamento; ver docs/97_CONSOLIDACAO_E_PROXIMOS_PASSOS.md)
 - [ ] Testar fluxo completo: login → criar OS → gerar evidência → renovar sessão → logout
-- [ ] Validar restore de backup (procedure: [docs/backup-restore.md](TODO))
-- [ ] Certificar domínio em HTTPS (navegador verde): `curl -I https://app.X.com.br`
+- [ ] Validar restore de backup (procedimento completo em [docs/PROCEDURES.md](PROCEDURES.md))
+- [ ] Certificar domínio em HTTPS (navegador verde): `curl -I https://posto.itecologica.com.br`
 
 ## Referências
 

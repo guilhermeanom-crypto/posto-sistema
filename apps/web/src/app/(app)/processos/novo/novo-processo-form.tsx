@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useState } from 'react'
+import Link from 'next/link'
 import { criarProcessoAction } from '../actions'
 import { toast } from '@/hooks/use-toast'
 
@@ -141,12 +142,12 @@ export function NovoProcessoForm({ empreendimentos, tiposProcesso, usuarios }: P
       </div>
 
       <div className="flex justify-end gap-3 pt-2">
-        <a
+        <Link
           href="/processos"
           className="inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
         >
           Cancelar
-        </a>
+        </Link>
         <button
           type="submit"
           disabled={pending}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
+import Link from 'next/link'
 import { criarEmpreendimentoAction } from './actions'
 
 const UFS = [
@@ -307,12 +308,12 @@ export function NovoEmpreendimentoForm({ empresas }: Props) {
 
       {/* ── Ações ───────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between">
-        <a
+        <Link
           href="/empreendimentos"
           className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
         >
           Cancelar
-        </a>
+        </Link>
         <button
           type="submit"
           disabled={pending}

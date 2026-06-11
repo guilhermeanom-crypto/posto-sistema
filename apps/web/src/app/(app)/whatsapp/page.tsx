@@ -98,7 +98,7 @@ export default async function WhatsAppPage() {
           </div>
           <div className="space-y-1">
             <p className="font-medium text-foreground">💬 Consultas (clientes)</p>
-            <p>Número cadastrado pergunta "qual o status da minha LO?" — IA responde com dados reais.</p>
+            <p>Número cadastrado pergunta &quot;qual o status da minha LO?&quot; — IA responde com dados reais.</p>
           </div>
           <div className="space-y-1">
             <p className="font-medium text-foreground">🤝 Captura comercial</p>

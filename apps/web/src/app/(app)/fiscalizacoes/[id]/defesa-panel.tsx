@@ -71,7 +71,7 @@ export function DefesaPanel({ autoId, defesas }: DefesaPanelProps) {
 
       {defesas.length === 0 ? (
         <div className="p-8 text-center text-sm text-muted-foreground">
-          Nenhuma defesa gerada. Clique em "Gerar Defesa com IA" para criar um rascunho.
+          Nenhuma defesa gerada. Clique em &quot;Gerar Defesa com IA&quot; para criar um rascunho.
         </div>
       ) : (
         <div className="divide-y">

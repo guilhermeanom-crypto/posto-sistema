@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
+import Link from 'next/link'
 import { criarTenantAction } from './actions'
 
 function gerarSlug(nome: string): string {
@@ -157,12 +158,12 @@ export function NovoTenantForm() {
       </div>
 
       <div className="flex justify-end gap-3">
-        <a
+        <Link
           href="/tenants"
           className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
         >
           Cancelar
-        </a>
+        </Link>
         <button
           type="submit"
           disabled={pending}
