@@ -192,6 +192,9 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
       NODE_ENV: production
+      # Chamadas server-side (login da action, refresh do middleware) vão pela rede
+      # interna do Docker — evita hairpin pela URL pública, TLS e rate-limit do nginx
+      API_URL: http://api:3001/api/v1
     depends_on:
       api:
         condition: service_healthy

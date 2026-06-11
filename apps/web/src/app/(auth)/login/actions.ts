@@ -71,6 +71,8 @@ export async function loginAction(_prevState: { error: string } | undefined, for
     if (err instanceof ApiError) {
       return { error: err.message }
     }
+    // Falha de rede/TLS até a API — sem este log o diagnóstico em produção fica cego
+    console.error('[login] falha inesperada ao chamar a API:', err)
     return { error: 'Não foi possível validar o acesso agora. Tente novamente.' }
   }
 
