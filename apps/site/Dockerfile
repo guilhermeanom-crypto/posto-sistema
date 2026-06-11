@@ -19,6 +19,8 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 # O server.js standalone do Next lê PORT (o script `start -p 3100` não se aplica aqui)
 ENV PORT=3100
+# Docker injeta HOSTNAME=<id do container>; sem isto o Next binda no IP interno
+ENV HOSTNAME=0.0.0.0
 
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 USER nextjs

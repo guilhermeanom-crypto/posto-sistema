@@ -24,6 +24,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+# Docker injeta HOSTNAME=<id do container>; o server.js standalone do Next usa essa
+# env como endereço de bind e deixaria de ouvir em 127.0.0.1 (quebra o healthcheck)
+ENV HOSTNAME=0.0.0.0
 
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 USER nextjs
