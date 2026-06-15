@@ -164,6 +164,32 @@ export const tenantsRoutes: FastifyPluginAsyncZod = async (app) => {
           select: { id: true, nome: true, email: true, perfil: true },
         })
 
+        // Política de precificação do tenant — sem ela o diagnóstico não consegue
+        // compor proposta (propostas.service consulta politicaPrecificacaoDiagnostico
+        // por tenantId). Multiplicadores-padrão "Posto Compliance".
+        await tx.politicaPrecificacaoDiagnostico.create({
+          data: {
+            tenantId: tenant.id,
+            nome: 'Padrao Posto Compliance',
+            portePequenoMultiplier: 0.9,
+            porteMedioMultiplier: 1.15,
+            porteGrandeMultiplier: 1.4,
+            situacaoImplantacaoMultiplier: 1.1,
+            situacaoOperacaoMultiplier: 1,
+            situacaoIrregularMultiplier: 1.3,
+            situacaoAmpliacaoMultiplier: 1.15,
+            potencialAltoMultiplier: 1.1,
+            potencialMuitoAltoMultiplier: 1.2,
+            areaMediaMultiplier: 1.1,
+            areaGrandeMultiplier: 1.2,
+            descontoCategoria3Plus: 0.1,
+            descontoVolume5Plus: 0.05,
+            descontoMaximo: 0.15,
+            validadePropostaDias: 30,
+            ativo: true,
+          },
+        })
+
         return { tenant, admin }
       })
 
@@ -183,10 +209,13 @@ export const tenantsRoutes: FastifyPluginAsyncZod = async (app) => {
         dadosDepois: { nome, slug, plano, limiteEmpreendimentos, adminEmail },
       })
 
+      // A senha temporária é devolvida UMA ÚNICA VEZ ao SUPER_ADMIN para repasse
+      // ao admin do tenant (o e-mail de boas-vindas pode não estar configurado).
+      // Não entra na auditoria nem em logs.
       return reply.status(201).send({
         data: {
           ...tenant,
-          adminCriado: admin,
+          adminCriado: { ...admin, senhaTemporaria },
         },
       })
     },

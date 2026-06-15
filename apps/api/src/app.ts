@@ -24,6 +24,7 @@ import { AppError } from './shared/errors/app-errors.js'
 import { authRoutes } from './modules/auth/auth.routes.js'
 import { usuariosRoutes } from './modules/usuarios/usuarios.routes.js'
 import { empreendimentosRoutes } from './modules/empreendimentos/empreendimentos.routes.js'
+import { empresasRoutes } from './modules/empresas/empresas.routes.js'
 import { processosRoutes } from './modules/processos/processos.routes.js'
 import { documentosRoutes } from './modules/documentos/documentos.routes.js'
 import { condicionantesRoutes } from './modules/condicionantes/condicionantes.routes.js'
@@ -212,6 +213,7 @@ export async function buildApp() {
   await app.register(authRoutes, { prefix: '/api/v1/auth' })
   await app.register(usuariosRoutes, { prefix: '/api/v1/usuarios' })
   await app.register(empreendimentosRoutes, { prefix: '/api/v1/empreendimentos' })
+  await app.register(empresasRoutes, { prefix: '/api/v1/empresas' })
   await app.register(processosRoutes, { prefix: '/api/v1/processos' })
   await app.register(documentosRoutes, { prefix: '/api/v1/documentos' })
   await app.register(condicionantesRoutes, { prefix: '/api/v1/condicionantes' })
