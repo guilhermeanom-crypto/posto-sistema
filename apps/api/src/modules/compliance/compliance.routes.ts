@@ -29,12 +29,15 @@ export const complianceRoutes: FastifyPluginAsyncZod = async (app) => {
       })
 
       const indices = snapshots.map((s) => Number(s.indiceConformidade))
-      const media = indices.length > 0 ? indices.reduce((a, b) => a + b, 0) / indices.length : 0
-      const statusRede = determinarStatusCompliance(media)
+      // Sem empreendimentos com snapshot, a rede não está em EMERGÊNCIA — está
+      // SEM_DADOS. Antes média=0 virava status alarmista em tenant novo/vazio.
+      const semDados = indices.length === 0
+      const media = semDados ? 0 : indices.reduce((a, b) => a + b, 0) / indices.length
+      const statusRede = semDados ? 'SEM_DADOS' : determinarStatusCompliance(media)
 
       return reply.status(200).send({
         data: {
-          indiceConformidadeRede: Math.round(media * 10) / 10,
+          indiceConformidadeRede: semDados ? null : Math.round(media * 10) / 10,
           statusRede,
           totalEmpreendimentos: snapshots.length,
           empreendimentos: snapshots.map((s) => ({

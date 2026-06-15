@@ -76,7 +76,14 @@ export const whatsappRoutes: FastifyPluginAsyncZod = async (app) => {
     return reply.send({ ok: true })
   })
 
-  // ── Rotas autenticadas — configuração de contatos ──────────────────────────
+  // Rotas autenticadas vão num escopo ENCAPSULADO próprio. No Fastify um addHook
+  // vale para todo o escopo do plugin (inclusive rotas definidas antes), então
+  // mantê-las aqui fazia o webhook público acima herdar o authenticate e responder
+  // 401 à Z-API. Isolando num child plugin, o webhook (escopo pai) fica sem auth.
+  await app.register(whatsappRotasAutenticadas)
+}
+
+const whatsappRotasAutenticadas: FastifyPluginAsyncZod = async (app) => {
   app.addHook('preHandler', authenticate)
   const tid = (req: FastifyRequest) => req.user.tenantId
 
