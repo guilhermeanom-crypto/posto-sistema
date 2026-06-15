@@ -1,5 +1,6 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError } from '../../shared/errors/app-errors.js'
+import { assertEmpreendimento } from '../../shared/validators/assert-empreendimento.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // OUTORGA HÍDRICA SERVICE — Poços Artesianos + Laudos de Água
@@ -64,6 +65,7 @@ class OutorgaHidricaService {
   }
 
   async criarPoco(ctx: Ctx, data: CriarPocoInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
     return prisma.pocoArtesiano.create({
       data: {
         tenantId: ctx.tenantId,

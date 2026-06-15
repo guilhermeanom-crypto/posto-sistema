@@ -1,5 +1,6 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError, ForbiddenError } from '../../shared/errors/app-errors.js'
+import { assertEmpreendimento } from '../../shared/validators/assert-empreendimento.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
 import { eventBus } from '../../shared/events/event-bus.js'
 import { adicionarDias, adicionarMeses, adicionarAnos } from '@repo/utils'
@@ -75,6 +76,7 @@ export class CondicionantesService {
   }
 
   async criar(ctx: ContextoUsuario, data: CriarCondicionanteInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
     const condicionante = await prisma.condicionante.create({
       data: {
         tenantId: ctx.tenantId,

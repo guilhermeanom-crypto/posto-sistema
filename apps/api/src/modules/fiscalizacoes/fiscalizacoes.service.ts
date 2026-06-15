@@ -1,5 +1,6 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError } from '../../shared/errors/app-errors.js'
+import { assertEmpreendimento } from '../../shared/validators/assert-empreendimento.js'
 import type { StatusAutoInfracao, InstanciaRecurso } from '@prisma/client'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -78,6 +79,7 @@ class FiscalizacoesService {
   }
 
   async criar(ctx: Ctx, data: CriarAutoInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
     return prisma.autoInfracao.create({
       data: {
         tenantId: ctx.tenantId,

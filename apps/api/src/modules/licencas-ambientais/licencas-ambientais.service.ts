@@ -1,5 +1,6 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError } from '../../shared/errors/app-errors.js'
+import { assertEmpreendimento } from '../../shared/validators/assert-empreendimento.js'
 import type { TipoLicencaAmbiental, StatusLicenca } from '@prisma/client'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -98,6 +99,7 @@ class LicencasAmbientaisService {
   }
 
   async criar(ctx: Ctx, data: CriarLicencaInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
     return prisma.licencaAmbiental.create({
       data: {
         tenantId: ctx.tenantId,

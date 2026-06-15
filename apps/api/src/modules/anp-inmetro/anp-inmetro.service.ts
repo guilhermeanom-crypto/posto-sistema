@@ -1,5 +1,6 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError } from '../../shared/errors/app-errors.js'
+import { assertEmpreendimento } from '../../shared/validators/assert-empreendimento.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ANP / INMETRO SERVICE — Bombas de abastecimento e calibração
@@ -62,6 +63,7 @@ class AnpInmetroService {
   }
 
   async criar(ctx: Ctx, data: CriarBombaInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
     return prisma.bombaAbastecimento.create({
       data: {
         tenantId: ctx.tenantId,

@@ -1,5 +1,6 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError } from '../../shared/errors/app-errors.js'
+import { assertEmpreendimento } from '../../shared/validators/assert-empreendimento.js'
 import type { TipoAlvara, StatusLicenca } from '@prisma/client'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -78,6 +79,7 @@ class RegulatorioUrbanoService {
   }
 
   async criar(ctx: Ctx, data: CriarAlvaraInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
     const dataVencimento = data.dataVencimento ? new Date(data.dataVencimento) : undefined
 
     return prisma.alvaraUrbanistico.create({
