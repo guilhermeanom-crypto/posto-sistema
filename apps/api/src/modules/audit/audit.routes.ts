@@ -2,13 +2,23 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { prisma } from '../../infra/database/prisma.js'
 import { authenticate } from '../../shared/middleware/authenticate.js'
+import { ForbiddenError } from '../../shared/errors/app-errors.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AUDIT LOG ROUTES — leitura da trilha de auditoria
 // ─────────────────────────────────────────────────────────────────────────────
 
+const PERFIS_AUDITORIA = ['ADMIN_TENANT', 'COORDENADOR', 'SUPER_ADMIN']
+
 export const auditRoutes: FastifyPluginAsyncZod = async (app) => {
   app.addHook('preHandler', authenticate)
+  // A trilha expõe IPs, e-mails e ações de TODOS os usuários do tenant — restrita
+  // a perfis de gestão (antes qualquer autenticado conseguia ler tudo).
+  app.addHook('preHandler', async (request) => {
+    if (!PERFIS_AUDITORIA.includes(request.user.perfil)) {
+      throw new ForbiddenError('Acesso à trilha de auditoria restrito a gestores')
+    }
+  })
 
   /**
    * GET /api/v1/audit-log
