@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import { seedBaseInterface } from './seed/servicos-consultoria-base-interface.js'
+import { seedObrigacoesRegulatorias } from './seed/obrigacoes-regulatorias.js'
 import { seedServicosConsultoriaEPrecificacao } from './seed/servicos-consultoria.js'
+import { seedBaseInterface } from './seed/servicos-consultoria-base-interface.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SEED DE PRODUÇÃO — base regulatória + catálogo de serviços (GLOBAIS) e a
@@ -22,8 +23,11 @@ async function main() {
     process.exit(1)
   }
 
-  await seedBaseInterface(prisma)
+  // Ordem igual ao seed principal (seed.ts:803-805): obrigações regulatórias
+  // (cria AMB-/ANP-/SST-... que o catálogo referencia) → catálogo → base-interface.
+  await seedObrigacoesRegulatorias(prisma)
   await seedServicosConsultoriaEPrecificacao(prisma, tenantId)
+  await seedBaseInterface(prisma)
 
   const totalCatalogo = await prisma.servicoCatalogo.count()
   console.log(`✅ Base regulatória + catálogo semeados. ServicoCatalogo total: ${totalCatalogo}`)
