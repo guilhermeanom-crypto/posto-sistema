@@ -21,24 +21,10 @@ export default async function NovoEmpreendimentoPage() {
 
   let empresas: Empresa[] = []
   try {
-    const res = await api.get<{ data: { empresas: Empresa[] } }>('/onboarding/progresso', token)
-    empresas = res.data.empresas ?? []
+    const res = await api.get<{ data: Empresa[] }>('/empresas', token)
+    empresas = res.data ?? []
   } catch {
-    // fallback: extrai empresas distintas dos empreendimentos já cadastrados
-    try {
-      const res2 = await api.get<{ data: Array<{ empresa: Empresa | null }> }>(
-        '/empreendimentos?limit=200',
-        token,
-      )
-      empresas = Array.from(
-        new Map(
-          (res2.data ?? [])
-            .map((item) => item.empresa)
-            .filter((empresa): empresa is Empresa => !!empresa)
-            .map((empresa) => [empresa.id, empresa]),
-        ).values(),
-      )
-    } catch { /* exibe form sem empresas pré-carregadas */ }
+    // Sem empresas pré-carregadas o formulário oferece criar uma nova ali mesmo.
   }
 
   const STEPS = [

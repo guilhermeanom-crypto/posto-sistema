@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import Link from 'next/link'
 import { criarEmpreendimentoAction } from './actions'
 
@@ -22,6 +22,10 @@ interface Props {
 
 export function NovoEmpreendimentoForm({ empresas }: Props) {
   const [state, action, pending] = useActionState(criarEmpreendimentoAction, null)
+  // Sem empresa cadastrada (tenant novo), começa já no modo "criar nova".
+  const [modoEmpresa, setModoEmpresa] = useState<'existente' | 'nova'>(
+    empresas.length > 0 ? 'existente' : 'nova',
+  )
 
   return (
     <form action={action} className="space-y-6">
@@ -37,10 +41,42 @@ export function NovoEmpreendimentoForm({ empresas }: Props) {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-1.5 sm:col-span-2">
-            <label htmlFor="empresaId" className="text-sm font-medium">
+            <label className="text-sm font-medium">
               Empresa <span className="text-red-500">*</span>
             </label>
-            {empresas.length > 0 ? (
+
+            {/* Modo da empresa — só aparece o seletor se já houver empresas */}
+            {empresas.length > 0 && (
+              <div className="flex gap-2 pb-1">
+                <button
+                  type="button"
+                  onClick={() => setModoEmpresa('existente')}
+                  className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    modoEmpresa === 'existente'
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-border text-muted-foreground hover:border-primary/40'
+                  }`}
+                >
+                  Empresa existente
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModoEmpresa('nova')}
+                  className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    modoEmpresa === 'nova'
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-border text-muted-foreground hover:border-primary/40'
+                  }`}
+                >
+                  + Cadastrar nova empresa
+                </button>
+              </div>
+            )}
+
+            {/* Sinaliza ao servidor qual modo usar */}
+            <input type="hidden" name="empresaModo" value={modoEmpresa} />
+
+            {modoEmpresa === 'existente' && empresas.length > 0 ? (
               <select
                 id="empresaId"
                 name="empresaId"
@@ -56,13 +92,43 @@ export function NovoEmpreendimentoForm({ empresas }: Props) {
                 ))}
               </select>
             ) : (
-              <input
-                id="empresaId"
-                name="empresaId"
-                placeholder="ID da empresa (UUID)"
-                required
-                className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-              />
+              <div className="grid gap-3 rounded-md border border-dashed border-primary/30 bg-primary/[0.03] p-3 sm:grid-cols-2">
+                <div className="space-y-1.5 sm:col-span-2">
+                  <label htmlFor="novaEmpresaRazaoSocial" className="text-xs font-medium text-muted-foreground">
+                    Razão social da empresa <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="novaEmpresaRazaoSocial"
+                    name="novaEmpresaRazaoSocial"
+                    placeholder="Ex: Auto Posto Exemplo LTDA"
+                    required={modoEmpresa === 'nova'}
+                    className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label htmlFor="novaEmpresaCnpj" className="text-xs font-medium text-muted-foreground">
+                    CNPJ da empresa <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="novaEmpresaCnpj"
+                    name="novaEmpresaCnpj"
+                    placeholder="00.000.000/0000-00"
+                    required={modoEmpresa === 'nova'}
+                    className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label htmlFor="novaEmpresaNomeFantasia" className="text-xs font-medium text-muted-foreground">
+                    Nome fantasia (opcional)
+                  </label>
+                  <input
+                    id="novaEmpresaNomeFantasia"
+                    name="novaEmpresaNomeFantasia"
+                    placeholder="Ex: Posto Exemplo"
+                    className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
+                </div>
+              </div>
             )}
           </div>
 

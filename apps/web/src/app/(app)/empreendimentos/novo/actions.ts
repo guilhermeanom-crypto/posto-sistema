@@ -24,8 +24,35 @@ export async function criarEmpreendimentoAction(
 
   const atividadesSelecionadas = formData.getAll('atividades') as string[]
 
+  // ── Empresa: usa a existente OU cria uma nova ali mesmo ──────────────────────
+  const modoEmpresa = String(formData.get('empresaModo') ?? '').trim()
+  let empresaId = String(formData.get('empresaId') ?? '').trim()
+
+  if (modoEmpresa === 'nova' || !empresaId) {
+    const razaoSocial = String(formData.get('novaEmpresaRazaoSocial') ?? '').trim()
+    const cnpjEmpresa = digitsOnly(formData.get('novaEmpresaCnpj'))
+    if (!razaoSocial || !cnpjEmpresa) {
+      return { error: 'Informe a razão social e o CNPJ da empresa.' }
+    }
+    try {
+      const empRes = await api.post<{ data: { id: string } }>(
+        '/empresas',
+        {
+          nome: optionalTrim(formData.get('novaEmpresaNomeFantasia')) ?? razaoSocial,
+          razaoSocial,
+          cnpj: cnpjEmpresa,
+        },
+        token,
+      )
+      empresaId = empRes.data.id
+    } catch (err) {
+      if (err instanceof ApiError) return { error: `Empresa: ${err.message}` }
+      throw err
+    }
+  }
+
   const payload = {
-    empresaId: String(formData.get('empresaId') ?? '').trim(),
+    empresaId,
     nome: String(formData.get('nome') ?? '').trim(),
     nomeFantasia: optionalTrim(formData.get('nomeFantasia')),
     cnpj: digitsOnly(formData.get('cnpj')),
@@ -58,26 +85,11 @@ export async function criarEmpreendimentoAction(
       // redirect lança internamente — precisa re-throw
       throw err
     }
-
-    // FALLBACK DEMO: se a criação real falhar (validação, dados ausentes,
-    // backend indisponível), abre o onboarding de um empreendimento já
-    // existente para que a apresentação não trave.
-    try {
-      const lista = await api.get<{ data: Array<{ id: string }> }>(
-        '/empreendimentos?limit=1',
-        token,
-      )
-      novoId = lista.data?.[0]?.id ?? null
-    } catch {
-      // segue sem id; devolve o erro original
-    }
-
-    if (!novoId) {
-      const details = err.details as Record<string, string[] | undefined> | undefined
-      const firstField = details ? Object.entries(details).find(([, value]) => value?.length) : null
-      const detailMessage = firstField?.[1]?.[0]
-      return { error: detailMessage ?? err.message }
-    }
+    // Erro honesto: mostra a mensagem real do servidor (sem fallback que mascarava falha).
+    const details = err.details as Record<string, string[] | undefined> | undefined
+    const firstField = details ? Object.entries(details).find(([, value]) => value?.length) : null
+    const detailMessage = firstField?.[1]?.[0]
+    return { error: detailMessage ?? err.message }
   }
 
   revalidatePath('/empreendimentos')
