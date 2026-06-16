@@ -580,6 +580,28 @@ model Empreendimento {
   criadoEm                DateTime  @default(now()) @map("criado_em")
   atualizadoEm            DateTime  @updatedAt @map("atualizado_em")
 
+  // ── Fundação do diagnóstico (Blueprint 101) — discriminantes regulatórios ──
+  // Todos opcionais: migração ADITIVA, zero risco aos postos no ar. Backfill posterior.
+  cnaePrincipal                String?                       @map("cnae_principal")
+  cnaesSecundarios             String[]                      @map("cnaes_secundarios")
+  porte                        Porte?
+  situacaoEmpreendimento       SituacaoEmpreendimento?       @map("situacao_empreendimento")
+  codigoIBGE                   String?                       @map("codigo_ibge")
+  areaM2                       Decimal?                      @map("area_m2") @db.Decimal(12, 2)
+  possuiCaptacao               Boolean?                      @map("possui_captacao")
+  tipoCaptacao                 TipoCaptacao?                 @map("tipo_captacao")
+  possuiSAO                    Boolean?                      @map("possui_sao")
+  // Vulnerabilidade do meio (DRASTIC simplificado — default conservador quando "não sei")
+  classeAquifero               ClasseAquifero?               @map("classe_aquifero")
+  profundidadeNivelAguaM       Decimal?                      @map("profundidade_nivel_agua_m") @db.Decimal(6, 2)
+  tipoSolo                     TipoSolo?                     @map("tipo_solo")
+  // Receptor (setbacks CONAMA 273/2000 — usa lat/long já existentes)
+  distanciaPocoAbastecimentoM  Int?                          @map("distancia_poco_abastecimento_m")
+  distanciaCorpoHidricoM       Int?                          @map("distancia_corpo_hidrico_m")
+  emAPP                        Boolean?                      @map("em_app")
+  captaParaConsumo             Boolean?                      @map("capta_para_consumo")
+  classificacaoAreaContaminada ClassificacaoAreaContaminada? @map("classificacao_area_contaminada")
+
   empresa                Empresa                 @relation(fields: [empresaId], references: [id])
   acessosUsuario         EmpreendimentoAcesso[]
   processos              Processo[]
@@ -618,6 +640,7 @@ model Empreendimento {
   entregaveis            Entregavel[]
   pendenciasCampo        PendenciaCampo[]
   evidenciasCampo        EvidenciaCampo[]
+  diagnosticos           Diagnostico[]
 
   @@index([tenantId, ativo])
   @@index([tenantId, estado, cidade])
@@ -1560,18 +1583,19 @@ model EquipamentoHistorico {
 // ─────────────────────────────────────────────────────────────────────────────
 
 model Tanque {
-  id               String    @id @default(uuid())
-  tenantId         String    @map("tenant_id")
-  empreendimentoId String    @map("empreendimento_id")
+  id               String          @id @default(uuid())
+  tenantId         String          @map("tenant_id")
+  empreendimentoId String          @map("empreendimento_id")
   numero           Int
-  capacidadeLitros Int       @map("capacidade_litros")
+  capacidadeLitros Int             @map("capacidade_litros")
   combustivel      String
-  material         String? // FIBRA | ACO | DUPLA_PAREDE
-  dataInstalacao   DateTime? @map("data_instalacao") @db.Date
-  status           String    @default("ATIVO") // ATIVO | INATIVO | INTERDITADO | REMOVIDO
+  material         String? // [DEPRECADO p/ diagnóstico] FIBRA | ACO | DUPLA_PAREDE — usar materialTanque
+  materialTanque   MaterialTanque? @map("material_tanque") // parede+idade = fator #1 de vazamento (SASC)
+  dataInstalacao   DateTime?       @map("data_instalacao") @db.Date
+  status           String          @default("ATIVO") // ATIVO | INATIVO | INTERDITADO | REMOVIDO
   observacoes      String?
-  criadoEm         DateTime  @default(now()) @map("criado_em")
-  atualizadoEm     DateTime  @updatedAt @map("atualizado_em")
+  criadoEm         DateTime        @default(now()) @map("criado_em")
+  atualizadoEm     DateTime        @updatedAt @map("atualizado_em")
 
   empreendimento Empreendimento       @relation(fields: [empreendimentoId], references: [id])
   testes         TesteEstanqueidade[]
@@ -2246,28 +2270,36 @@ model ChecklistResposta {
 // ─────────────────────────────────────────────────────────────────────────────
 
 model ObrigacaoRegulatoriaBase {
-  id                 String            @id @default(uuid())
-  codigo             String            @unique
+  id                    String            @id @default(uuid())
+  codigo                String            @unique
   // 'revendedor' | 'distribuidor' | 'transportador' | 'todos'
-  tipoEmpreendimento String            @map("tipo_empreendimento")
+  tipoEmpreendimento    String            @map("tipo_empreendimento")
   // null = obrigação federal/nacional; 'SP', 'MG', etc = obrigação estadual
-  uf                 String?
+  uf                    String?
   // 'AMBIENTAL' | 'SST' | 'ANP' | 'URBANISTICO' | 'MONITORAMENTO' | 'LOGISTICA_REVERSA'
-  modulo             String
-  descricao          String
-  fundamentoLegal    String?           @map("fundamento_legal")
+  modulo                String
+  descricao             String
+  fundamentoLegal       String?           @map("fundamento_legal")
   // 'UNICA' | 'MENSAL' | 'TRIMESTRAL' | 'SEMESTRAL' | 'ANUAL' | 'BIENAL' | 'QUINQUENAL'
-  periodicidade      String
+  periodicidade         String
   // Referência descritiva ao tipo de documento que comprova o cumprimento
-  tipoDocumentoRef   String?           @map("tipo_documento_ref")
+  tipoDocumentoRef      String?           @map("tipo_documento_ref")
   // 'CRITICA' | 'ALTA' | 'MEDIA'
-  criticidade        String
-  diasAlertaAntes    Int[]             @default([90, 60, 30]) @map("dias_alerta_antes")
-  observacoes        String?
-  ativo              Boolean           @default(true)
-  criadoEm           DateTime          @default(now()) @map("criado_em")
-  atualizadoEm       DateTime          @updatedAt @map("atualizado_em")
-  servicosCatalogo   ServicoCatalogo[]
+  criticidade           String
+  diasAlertaAntes       Int[]             @default([90, 60, 30]) @map("dias_alerta_antes")
+  observacoes           String?
+  // Aplicabilidade CONDICIONAL (Blueprint 101) — substitui tipoEmpreendimento+uf como discriminante.
+  // Json: { sempre?, cnaePrefixos?[], cnaeExatos?[], portes?[], ufs?[], requerCaptacao?,
+  //   requerSAO?, requerTanqueParedeSimples?, tanqueIdadeMinAnos?, areaMinM2?, potencialPoluidorMin? }
+  aplicabilidade        Json?
+  consequenciaSemFazer  String?           @map("consequencia_sem_fazer")
+  multaMaxima           String?           @map("multa_maxima")
+  baseLegalConsequencia String?           @map("base_legal_consequencia")
+  custoServicoRef       Decimal?          @map("custo_servico_ref") @db.Decimal(12, 2)
+  ativo                 Boolean           @default(true)
+  criadoEm              DateTime          @default(now()) @map("criado_em")
+  atualizadoEm          DateTime          @updatedAt @map("atualizado_em")
+  servicosCatalogo      ServicoCatalogo[]
 
   @@index([tipoEmpreendimento, uf, ativo])
   @@index([modulo, ativo])
@@ -2586,12 +2618,12 @@ model OrdemServico {
   criadoEm              DateTime               @default(now()) @map("criado_em")
   atualizadoEm          DateTime               @updatedAt @map("atualizado_em")
 
-  tenant         Tenant         @relation(fields: [tenantId], references: [id])
-  contrato       Contrato       @relation(fields: [contratoId], references: [id])
-  empreendimento Empreendimento @relation(fields: [empreendimentoId], references: [id])
-  responsavel    Usuario?       @relation("OSResponsavel", fields: [responsavelId], references: [id])
-  criadoPor      Usuario        @relation("OSCriador", fields: [criadoPorId], references: [id])
-  atualizadoPor  Usuario?       @relation("OSAtualizador", fields: [atualizadoPorId], references: [id])
+  tenant         Tenant           @relation(fields: [tenantId], references: [id])
+  contrato       Contrato         @relation(fields: [contratoId], references: [id])
+  empreendimento Empreendimento   @relation(fields: [empreendimentoId], references: [id])
+  responsavel    Usuario?         @relation("OSResponsavel", fields: [responsavelId], references: [id])
+  criadoPor      Usuario          @relation("OSCriador", fields: [criadoPorId], references: [id])
+  atualizadoPor  Usuario?         @relation("OSAtualizador", fields: [atualizadoPorId], references: [id])
   entregaveis    Entregavel[]
   pendencias     PendenciaCampo[]
   evidencias     EvidenciaCampo[]
@@ -2828,4 +2860,172 @@ model EvidenciaCampo {
   @@index([tenantId, empreendimentoId, statusValidacao])
   @@index([tenantId, statusValidacao])
   @@map("evidencias_campo")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FUNDAÇÃO DO DIAGNÓSTICO (Blueprint 101) — fonte única calibrada
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum Porte {
+  MEI
+  ME
+  EPP
+  MEDIO
+  GRANDE
+}
+
+enum SituacaoEmpreendimento {
+  PLANEJADO
+  IMPLANTACAO
+  OPERACAO
+  IRREGULAR
+  RENOVACAO
+}
+
+enum TipoCaptacao {
+  POCO_ARTESIANO
+  SUPERFICIAL
+  CONCESSIONARIA
+  NENHUMA
+}
+
+// Parede + idade = os 2 fatores #1 de vazamento (literatura SASC / ABNT NBR 13.784)
+enum MaterialTanque {
+  ACO_PAREDE_SIMPLES
+  ACO_PAREDE_DUPLA
+  FIBRA_PAREDE_SIMPLES
+  FIBRA_PAREDE_DUPLA
+  JAQUETADO
+}
+
+enum ClasseAquifero {
+  LIVRE_RASO
+  LIVRE_PROFUNDO
+  CONFINADO
+  DESCONHECIDO
+}
+
+enum TipoSolo {
+  ARENOSO
+  ARGILOSO
+  MISTO
+  ROCHOSO
+  DESCONHECIDO
+}
+
+enum ClassificacaoAreaContaminada {
+  NAO_AVALIADA
+  SEM_INDICIO
+  SUSPEITA
+  CONTAMINADA
+  REABILITADA
+}
+
+enum EsferaLicenciamento {
+  MUNICIPAL
+  ESTADUAL
+  FEDERAL
+}
+
+enum NivelRiscoDiagnostico {
+  BAIXO
+  MEDIO
+  ALTO
+  CRITICO
+}
+
+enum StatusObrigacaoDiag {
+  CONFORME
+  A_RENOVAR
+  SEM_DADOS
+  NAO_APLICAVEL
+}
+
+// CATÁLOGO — 1.336 CNAEs oficiais (global, seed)
+model Cnae {
+  codigo    String  @id
+  descricao String
+  secao     String?
+  divisao   String?
+  grupo     String?
+
+  @@map("cnaes")
+}
+
+// Enquadramento por CNAE (matching exato → prefixo → grupo)
+model RegulatoryMatrix {
+  id                     String               @id @default(uuid())
+  cnaeCodigo             String               @unique @map("cnae_codigo")
+  classeRisco            String?              @map("classe_risco")
+  potencialPoluidor      String?              @map("potencial_poluidor")
+  licenciamentoTipo      String?              @map("licenciamento_tipo")
+  orgaoCompetente        String?              @map("orgao_competente")
+  esfera                 EsferaLicenciamento?
+  necessitaEIA           Boolean              @default(false) @map("necessita_eia")
+  necessitaOutorga       Boolean              @default(false) @map("necessita_outorga")
+  necessitaMonitoramento Boolean              @default(false) @map("necessita_monitoramento")
+  nivelRisco             Int?                 @map("nivel_risco")
+  impactos               String[]
+  servicosRecomendados   String[]             @map("servicos_recomendados")
+  criadoEm               DateTime             @default(now()) @map("criado_em")
+  atualizadoEm           DateTime             @updatedAt @map("atualizado_em")
+
+  @@map("regulatory_matrix")
+}
+
+// Órgão licenciador REAL por UF (LC 140/2011) — sem fallback genérico
+model OrgaoLicenciadorUF {
+  uf           String              @id @db.Char(2)
+  orgao        String
+  esferaPadrao EsferaLicenciamento @map("esfera_padrao")
+
+  @@map("orgaos_licenciadores_uf")
+}
+
+// RESULTADO — diagnóstico persistido, versionado, auditável (a FONTE ÚNICA)
+model Diagnostico {
+  id                     String                @id @default(uuid())
+  tenantId               String                @map("tenant_id")
+  empreendimentoId       String                @map("empreendimento_id")
+  versao                 Int                   @default(1)
+  snapshotHash           String                @map("snapshot_hash")
+  engineVersion          String                @map("engine_version")
+  rulesVersion           String                @map("rules_version")
+  riscoConformidadeScore Int                   @map("risco_conformidade_score")
+  riscoIntrinsecoScore   Int                   @map("risco_intrinseco_score")
+  riscoNivel             NivelRiscoDiagnostico @map("risco_nivel")
+  conformidadeScore      Int                   @map("conformidade_score")
+  enquadramento          Json?
+  fatoresRisco           Json?                 @map("fatores_risco")
+  fases                  Json?
+  orcamento              Json?
+  inputSnapshot          Json?                 @map("input_snapshot")
+  calculadoEm            DateTime              @default(now()) @map("calculado_em")
+
+  empreendimento Empreendimento         @relation(fields: [empreendimentoId], references: [id], onDelete: Cascade)
+  obrigacoes     DiagnosticoObrigacao[]
+
+  @@unique([empreendimentoId, versao])
+  @@index([tenantId, empreendimentoId])
+  @@map("diagnosticos")
+}
+
+// Obrigações APLICÁVEIS materializadas — o que gap-analysis e hub LEEM
+model DiagnosticoObrigacao {
+  id                    String              @id @default(uuid())
+  diagnosticoId         String              @map("diagnostico_id")
+  obrigacaoBaseId       String?             @map("obrigacao_base_id")
+  codigo                String
+  aplicavel             Boolean             @default(true)
+  motivoAplicabilidade  String?             @map("motivo_aplicabilidade")
+  status                StatusObrigacaoDiag @default(SEM_DADOS)
+  consequencia          String?
+  multaMaxima           String?             @map("multa_maxima")
+  custoServico          Decimal?            @map("custo_servico") @db.Decimal(12, 2)
+  periodicidadeDerivada String?             @map("periodicidade_derivada")
+
+  diagnostico Diagnostico @relation(fields: [diagnosticoId], references: [id], onDelete: Cascade)
+
+  @@index([diagnosticoId])
+  @@map("diagnostico_obrigacoes")
 }
