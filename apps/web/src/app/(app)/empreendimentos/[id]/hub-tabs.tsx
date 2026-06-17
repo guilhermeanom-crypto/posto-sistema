@@ -160,6 +160,34 @@ interface FuncionarioHub {
   statusGeral: string
 }
 
+interface DiagnosticoFator { descricao: string; pontos: number; baseNormativa?: string | null; baseTecnica?: string | null }
+interface DiagnosticoObrig {
+  codigo: string
+  descricao: string
+  modulo: string | null
+  criticidade: string | null
+  fundamentoLegal: string | null
+  status: string
+  consequencia: string | null
+  multaMaxima: string | null
+  custoServico: number | null
+  periodicidade: string | null
+}
+export interface DiagnosticoView {
+  versao: number
+  conformidadeScore: number
+  riscoConformidadeScore: number
+  riscoIntrinsecoScore: number
+  riscoNivel: string
+  engineVersion: string
+  rulesVersion: string
+  calculadoEm: string
+  enquadramento: { cnae?: string | null; classeRisco?: string | null; potencialPoluidor?: string | null; esfera?: string | null; orgaoCompetente?: string | null; licenciamentoTipo?: string | null } | null
+  fatoresRisco: { conformidade?: DiagnosticoFator[]; intrinseco?: { score: number; beta: boolean; fatores: DiagnosticoFator[] } } | null
+  orcamento: { minimo: number; recomendado: number } | null
+  obrigacoes: DiagnosticoObrig[]
+}
+
 export interface HubData {
   documentos: Documento[]
   condicionantes: Condicionante[]
@@ -178,6 +206,7 @@ export interface HubData {
   checklists: ChecklistExec[]
   funcionarios: FuncionarioHub[]
   empreendimentoId: string
+  diagnostico?: DiagnosticoView | null
 }
 
 // ─── helpers visuais ──────────────────────────────────────────────────────────
@@ -1133,10 +1162,160 @@ function TabPessoas({ asos, documentosSST, funcionarios, empId }: {
   )
 }
 
+// ─── aba diagnóstico (fonte única — Blueprint 101) ─────────────────────────────
+
+const STATUS_OBRIG_LABEL: Record<string, string> = {
+  CONFORME: 'Conforme', A_RENOVAR: 'A renovar', SEM_DADOS: 'Sem dados', NAO_APLICAVEL: 'N/A',
+}
+const STATUS_OBRIG_COLOR: Record<string, string> = {
+  CONFORME: 'bg-green-100 text-green-700', A_RENOVAR: 'bg-orange-100 text-orange-700',
+  SEM_DADOS: 'bg-gray-100 text-gray-500', NAO_APLICAVEL: 'bg-gray-100 text-gray-400',
+}
+const NIVEL_LABEL: Record<string, string> = { CRITICO: 'Crítico', ALTO: 'Alto', MEDIO: 'Médio', BAIXO: 'Baixo' }
+
+function ScoreCard({ titulo, valor, sufixo, status, hint }: { titulo: string; valor: string | number; sufixo?: string; status?: string; hint?: string }) {
+  return (
+    <div className="rounded-lg border bg-card px-4 py-3">
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{titulo}</p>
+      <div className="mt-1 flex items-baseline gap-1">
+        <span className="text-2xl font-bold">{valor}</span>
+        {sufixo && <span className="text-sm text-muted-foreground">{sufixo}</span>}
+        {status && <span className={`ml-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${statusColor[status] ?? 'bg-gray-100 text-gray-600'}`}>{NIVEL_LABEL[status] ?? status}</span>}
+      </div>
+      {hint && <p className="mt-0.5 text-[11px] text-muted-foreground">{hint}</p>}
+    </div>
+  )
+}
+
+function fmtMoeda(n: number | null | undefined) {
+  if (n == null) return '—'
+  return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 })
+}
+
+function AbaDiagnostico({ diag, empId }: { diag: DiagnosticoView | null | undefined; empId: string }) {
+  if (!diag) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2 py-12 text-center">
+        <p className="text-sm font-medium">Diagnóstico ainda não calculado</p>
+        <p className="text-xs text-muted-foreground">Edite o cadastro do posto para gerar o diagnóstico regulatório.</p>
+      </div>
+    )
+  }
+
+  const enq = diag.enquadramento
+  const cadastroIncompleto = !enq?.potencialPoluidor // sem CNAE/matriz → motor não sabe as obrigações
+  const intr = diag.fatoresRisco?.intrinseco
+  const gaps = diag.obrigacoes.filter((o) => o.status === 'A_RENOVAR' || o.status === 'SEM_DADOS')
+
+  return (
+    <div className="p-4 space-y-5">
+      {/* Cadastro incompleto: o 100% seria enganoso */}
+      {cadastroIncompleto && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <strong>Cadastro incompleto.</strong> O CNAE do empreendimento não está informado, então o motor não
+          consegue determinar as obrigações regulatórias aplicáveis. O índice de conformidade abaixo não é
+          confiável até o enquadramento ser preenchido.{' '}
+          <Link href={`/empreendimentos/${empId}/editar`} className="font-medium underline">Completar cadastro →</Link>
+        </div>
+      )}
+
+      {/* Cards de topo */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <ScoreCard titulo="Conformidade" valor={cadastroIncompleto ? '—' : diag.conformidadeScore} sufixo={cadastroIncompleto ? '' : '%'} hint={cadastroIncompleto ? 'indisponível s/ CNAE' : `${diag.obrigacoes.filter((o) => o.status === 'CONFORME').length}/${diag.obrigacoes.length} obrigações comprovadas`} />
+        <ScoreCard titulo="Risco de conformidade" valor={diag.riscoConformidadeScore} sufixo="/100" hint="exposição a multa/embargo" />
+        <ScoreCard titulo="Risco ecológico" valor={diag.riscoIntrinsecoScore} sufixo="/100" status={diag.riscoNivel} hint={intr?.beta ? 'pesos em beta' : 'gravidade de um vazamento aqui'} />
+      </div>
+
+      {/* Enquadramento */}
+      {enq && !cadastroIncompleto && (
+        <div className="rounded-lg border bg-muted/20 px-4 py-3">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-1.5">Enquadramento</p>
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
+            <span><span className="text-muted-foreground">CNAE:</span> {enq.cnae ?? '—'}</span>
+            <span><span className="text-muted-foreground">Potencial poluidor:</span> {enq.potencialPoluidor ?? '—'}</span>
+            <span><span className="text-muted-foreground">Esfera:</span> {enq.esfera ?? '—'}</span>
+            <span><span className="text-muted-foreground">Órgão:</span> {enq.orgaoCompetente ?? '—'}</span>
+            {enq.licenciamentoTipo && <span><span className="text-muted-foreground">Rito:</span> {enq.licenciamentoTipo}</span>}
+          </div>
+        </div>
+      )}
+
+      {/* Fatores do risco ecológico */}
+      {intr && intr.fatores.length > 0 && (
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-2">Por que o risco ecológico é {NIVEL_LABEL[diag.riscoNivel] ?? diag.riscoNivel}</p>
+          <div className="space-y-1.5">
+            {intr.fatores.slice(0, 6).map((f, i) => (
+              <div key={i} className="flex items-start gap-2 text-sm">
+                <span className="mt-0.5 rounded bg-red-50 text-red-700 text-[11px] font-bold px-1.5 py-0.5 min-w-[34px] text-center">+{f.pontos}</span>
+                <div>
+                  <p>{f.descricao}</p>
+                  {f.baseTecnica && <p className="text-[11px] text-muted-foreground">{f.baseTecnica}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Obrigações */}
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+          Obrigações aplicáveis {!cadastroIncompleto && `(${diag.obrigacoes.length})`}
+        </p>
+        {diag.obrigacoes.length === 0 ? (
+          <p className="text-sm text-muted-foreground">{cadastroIncompleto ? 'Informe o CNAE para listar as obrigações.' : 'Nenhuma obrigação aplicável.'}</p>
+        ) : (
+          <div className="rounded-lg border divide-y">
+            {diag.obrigacoes.map((o) => (
+              <div key={o.codigo} className="flex items-start justify-between gap-3 px-3 py-2.5">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium">{o.descricao}</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    {o.codigo}{o.fundamentoLegal ? ` · ${o.fundamentoLegal}` : ''}
+                    {(o.status === 'A_RENOVAR' || o.status === 'SEM_DADOS') && o.consequencia ? ` · ⚠ ${o.consequencia}` : ''}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {o.custoServico != null && (o.status === 'A_RENOVAR' || o.status === 'SEM_DADOS') && (
+                    <span className="text-[11px] text-muted-foreground">{fmtMoeda(o.custoServico)}</span>
+                  )}
+                  <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${STATUS_OBRIG_COLOR[o.status] ?? 'bg-gray-100 text-gray-600'}`}>
+                    {STATUS_OBRIG_LABEL[o.status] ?? o.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Orçamento */}
+      {diag.orcamento && gaps.length > 0 && (
+        <div className="rounded-lg border bg-muted/20 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Investimento para regularizar</p>
+            <p className="text-sm mt-0.5">{gaps.length} pendência(s) — mínimo (só críticas): <strong>{fmtMoeda(diag.orcamento.minimo)}</strong></p>
+          </div>
+          <div className="text-right">
+            <p className="text-[11px] text-muted-foreground">Recomendado</p>
+            <p className="text-xl font-bold">{fmtMoeda(diag.orcamento.recomendado)}</p>
+          </div>
+        </div>
+      )}
+
+      <p className="text-[11px] text-muted-foreground border-t pt-2">
+        Diagnóstico v{diag.versao} · motor {diag.engineVersion} · regras {diag.rulesVersion} · {formatDate(diag.calculadoEm)}
+      </p>
+    </div>
+  )
+}
+
 // ─── componente principal ─────────────────────────────────────────────────────
 
 const ABAS = [
   { id: 'prioridades',  label: 'Prioridades' },
+  { id: 'diagnostico',  label: 'Diagnóstico' },
   { id: 'licencas',     label: 'Licenças' },
   { id: 'equipamentos', label: 'Equipamentos' },
   { id: 'operacional',  label: 'Operacional' },
@@ -1153,6 +1332,7 @@ export function HubTabs({ data }: { data: HubData }) {
   const urgencia: Record<AbaId, number> = {
     prioridades:  data.alertas.filter((a) => !a.lido && ['CRITICO', 'ALTO'].includes(a.nivel)).length +
                   data.tarefas.filter((t) => { const d = diasRestantes(t.dataVencimento); return d !== null && d < 0 && ['PENDENTE','EM_ANDAMENTO'].includes(t.status) }).length,
+    diagnostico:  data.diagnostico && ['CRITICO', 'ALTO'].includes(data.diagnostico.riscoNivel) ? 1 : 0,
     licencas:     data.licencas.filter((l) => { const d = diasRestantes(l.dataVencimento); return d !== null && d <= 90 }).length +
                   data.condicionantes.filter((c) => { const d = diasRestantes(c.proximoVencimento); return d !== null && d <= 7 && ['PENDENTE','EM_CUMPRIMENTO'].includes(c.status) }).length,
     equipamentos: data.tanques.filter((t) => { const d = diasRestantes(t.testes[0]?.proximoTeste); return d !== null && d <= 60 }).length +
@@ -1168,6 +1348,7 @@ export function HubTabs({ data }: { data: HubData }) {
   const counts: Record<AbaId, number> = {
     prioridades:  data.alertas.filter((a) => !a.lido && ['CRITICO','ALTO'].includes(a.nivel)).length +
                   data.tarefas.filter((t) => ['PENDENTE','EM_ANDAMENTO'].includes(t.status) && ['CRITICA','ALTA'].includes(t.prioridade)).length,
+    diagnostico:  data.diagnostico ? data.diagnostico.obrigacoes.filter((o) => o.status === 'A_RENOVAR' || o.status === 'SEM_DADOS').length : 0,
     licencas:     data.licencas.length + data.condicionantes.length,
     equipamentos: data.tanques.length + data.bombas.length,
     operacional:  data.pocos.length + data.mtrs.length + data.campanhas.length + data.autos.length + data.checklists.length,
@@ -1207,6 +1388,7 @@ export function HubTabs({ data }: { data: HubData }) {
 
       {/* Conteúdo */}
       {aba === 'prioridades'  && <AbaPrioridades alertas={data.alertas} tarefas={data.tarefas} empId={data.empreendimentoId} />}
+      {aba === 'diagnostico'  && <AbaDiagnostico diag={data.diagnostico} empId={data.empreendimentoId} />}
       {aba === 'licencas'     && <TabLicencas    licencas={data.licencas} conds={data.condicionantes} empId={data.empreendimentoId} />}
       {aba === 'equipamentos' && <TabEquipamentos tanques={data.tanques}  bombas={data.bombas}   empId={data.empreendimentoId} />}
       {aba === 'operacional'  && <TabOperacional  pocos={data.pocos}      mtrs={data.mtrs}       campanhas={data.campanhas} autos={data.autos} checklists={data.checklists} empId={data.empreendimentoId} />}

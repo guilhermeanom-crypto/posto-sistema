@@ -28,6 +28,16 @@ export interface RecalcularOpts {
 
 const INCLUDE_OBRIGACOES = { obrigacoes: { orderBy: { codigo: 'asc' as const } } }
 
+type DiagComObrigacoes = Awaited<ReturnType<typeof buscarUltimo>>
+
+async function buscarUltimo(tenantId: string, empreendimentoId: string) {
+  return prisma.diagnostico.findFirst({
+    where: { empreendimentoId, tenantId },
+    orderBy: { versao: 'desc' },
+    include: INCLUDE_OBRIGACOES,
+  })
+}
+
 /** Garante que o empreendimento existe e pertence ao tenant (defesa em profundidade). */
 async function assertPosse(tenantId: string, empreendimentoId: string): Promise<void> {
   const emp = await prisma.empreendimento.findFirst({
@@ -38,37 +48,59 @@ async function assertPosse(tenantId: string, empreendimentoId: string): Promise<
 }
 
 /**
+ * Enriquece as obrigações persistidas (que guardam só o código) com descrição/módulo/
+ * criticidade do catálogo base, e converte Decimal→number para a serialização do front.
+ */
+async function enriquecer(diag: DiagComObrigacoes) {
+  if (!diag) return null
+  const codigos = diag.obrigacoes.map((o) => o.codigo)
+  const bases = await prisma.obrigacaoRegulatoriaBase.findMany({
+    where: { codigo: { in: codigos } },
+    select: { codigo: true, descricao: true, modulo: true, criticidade: true, fundamentoLegal: true },
+  })
+  const byCodigo = new Map(bases.map((b) => [b.codigo, b]))
+  return {
+    ...diag,
+    obrigacoes: diag.obrigacoes.map((o) => {
+      const base = byCodigo.get(o.codigo)
+      return {
+        codigo: o.codigo,
+        descricao: base?.descricao ?? o.codigo,
+        modulo: base?.modulo ?? null,
+        criticidade: base?.criticidade ?? null,
+        fundamentoLegal: base?.fundamentoLegal ?? null,
+        status: o.status,
+        aplicavel: o.aplicavel,
+        motivoAplicabilidade: o.motivoAplicabilidade,
+        consequencia: o.consequencia,
+        multaMaxima: o.multaMaxima,
+        custoServico: o.custoServico == null ? null : Number(o.custoServico),
+        periodicidade: o.periodicidadeDerivada,
+      }
+    }),
+  }
+}
+
+/**
  * Lê o diagnóstico vigente (última versão) do empreendimento, tenant-scoped.
  * Cálculo sob demanda (cache miss): se nunca foi calculado, calcula e persiste
  * na primeira leitura — assim a tela sempre recebe a fonte única preenchida.
  */
 export async function obterUltimoDiagnostico(tenantId: string, empreendimentoId: string) {
   await assertPosse(tenantId, empreendimentoId)
-  let diag = await prisma.diagnostico.findFirst({
-    where: { empreendimentoId, tenantId },
-    orderBy: { versao: 'desc' },
-    include: INCLUDE_OBRIGACOES,
-  })
+  let diag = await buscarUltimo(tenantId, empreendimentoId)
   if (!diag) {
     await recalcularDiagnostico(empreendimentoId)
-    diag = await prisma.diagnostico.findFirst({
-      where: { empreendimentoId, tenantId },
-      orderBy: { versao: 'desc' },
-      include: INCLUDE_OBRIGACOES,
-    })
+    diag = await buscarUltimo(tenantId, empreendimentoId)
   }
-  return diag
+  return enriquecer(diag)
 }
 
 /** Recalcula agora (idempotente) e retorna o diagnóstico vigente. Para botão "recalcular"/onboarding. */
 export async function recalcularEObterDiagnostico(tenantId: string, empreendimentoId: string) {
   await assertPosse(tenantId, empreendimentoId)
   await recalcularDiagnostico(empreendimentoId)
-  return prisma.diagnostico.findFirst({
-    where: { empreendimentoId, tenantId },
-    orderBy: { versao: 'desc' },
-    include: INCLUDE_OBRIGACOES,
-  })
+  return enriquecer(await buscarUltimo(tenantId, empreendimentoId))
 }
 
 /**

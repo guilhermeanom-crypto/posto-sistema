@@ -56,12 +56,16 @@ export default async function EmpreendimentoDetailPage({ params }: Props) {
     async function safeDiag() {
       try { return (await api.get<{ data: { eixos: any[] } }>(`/cockpit/diagnostico/${id}`, token)).data.eixos } catch { return [] }
     }
+    // Diagnóstico da FONTE ÚNICA (Blueprint 101). Calcula sob demanda na 1ª leitura.
+    async function safeDiagnostico() {
+      try { return (await api.get<{ data: any }>(`/empreendimentos/${id}/diagnostico`, token)).data } catch { return null }
+    }
 
     const [
       docs, conds, tarefas, alertas, licencas,
       processos,
       asos, sstDocs, anp, estanq, outorga,
-      logistica, monitor, fiscais, eixos, checklists,
+      logistica, monitor, fiscais, eixos, checklists, diagnostico,
     ] = await Promise.all([
       safe(api.get<{ data: any[] }>(`/documentos?${q}`, token)),
       safe(api.get<{ data: any[] }>(`/condicionantes?${q}`, token)),
@@ -79,6 +83,7 @@ export default async function EmpreendimentoDetailPage({ params }: Props) {
       safe(api.get<{ data: any[] }>(`/fiscalizacoes?${q}`, token)),
       safeDiag(),
       safe(api.get<{ data: any[] }>(`/checklists/execucoes?${q}`, token)),
+      safeDiagnostico(),
     ])
 
     hubData = {
@@ -99,6 +104,7 @@ export default async function EmpreendimentoDetailPage({ params }: Props) {
       checklists,
       funcionarios:  [],
       empreendimentoId: id,
+      diagnostico,
     }
     diagnosticoEixos = eixos
   } catch {
