@@ -74,7 +74,7 @@ describeIntegration('Isolamento cross-tenant (regressão V-01/V-02/V-03)', () =>
   })
 
   afterAll(async () => {
-    await app.close()
+    await app?.close()
   })
 
   it('V-03: tenant A não cria empreendimento usando empresa do tenant B', async () => {

@@ -1,6 +1,10 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError, ConflictError } from '../../shared/errors/app-errors.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
+import {
+  assertEmpreendimento,
+  assertFuncionario,
+} from '../../shared/validators/assert-empreendimento.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SST SERVICE — Funcionários, ASOs, Treinamentos, EPI, Documentos SST
@@ -254,6 +258,8 @@ class SSTService {
   }
 
   async criarFuncionario(ctx: Ctx, data: CriarFuncionarioInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
     const f = await prisma.funcionario.create({
       data: {
         tenantId: ctx.tenantId,
@@ -353,14 +359,15 @@ class SSTService {
   }
 
   async criarASO(ctx: Ctx, data: CriarASOInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
     // Se tem funcionarioId, preenche nome/cpf automaticamente
     let funcionarioNome = data.funcionarioNome
     let funcionarioCPF = data.funcionarioCPF
     if (data.funcionarioId) {
-      const f = await prisma.funcionario.findFirst({
-        where: { id: data.funcionarioId, tenantId: ctx.tenantId },
+      const f = await assertFuncionario(ctx.tenantId, data.funcionarioId, {
+        empreendimentoId: data.empreendimentoId,
       })
-      if (!f) throw new NotFoundError('Funcionário', data.funcionarioId)
       funcionarioNome = f.nome
       funcionarioCPF = f.cpf ?? funcionarioCPF
     }
@@ -494,8 +501,18 @@ class SSTService {
   }
 
   async criarTreinamentoExecucao(ctx: Ctx, data: CriarTreinamentoExecucaoInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
     const tipo = await prisma.treinamentoTipo.findFirst({ where: { id: data.tipoId, tenantId: ctx.tenantId } })
     if (!tipo) throw new NotFoundError('Tipo de treinamento', data.tipoId)
+
+    if (data.participanteIds?.length) {
+      await Promise.all(
+        data.participanteIds.map((funcionarioId) =>
+          assertFuncionario(ctx.tenantId, funcionarioId, { empreendimentoId: data.empreendimentoId }),
+        ),
+      )
+    }
 
     // Calcular dataVencimento a partir da periodicidade se não fornecida
     let dataVencimento: Date | undefined = data.dataVencimento ? new Date(data.dataVencimento) : undefined
@@ -544,8 +561,7 @@ class SSTService {
   async adicionarParticipante(ctx: Ctx, execucaoId: string, funcionarioId: string) {
     const exec = await prisma.treinamentoExecucao.findFirst({ where: { id: execucaoId, tenantId: ctx.tenantId } })
     if (!exec) throw new NotFoundError('Treinamento', execucaoId)
-    const f = await prisma.funcionario.findFirst({ where: { id: funcionarioId, tenantId: ctx.tenantId } })
-    if (!f) throw new NotFoundError('Funcionário', funcionarioId)
+    await assertFuncionario(ctx.tenantId, funcionarioId, { empreendimentoId: exec.empreendimentoId })
 
     try {
       return await prisma.treinamentoParticipante.create({
@@ -603,8 +619,10 @@ class SSTService {
   }
 
   async criarEntregaEPI(ctx: Ctx, data: CriarEntregaEPIInput) {
-    const f = await prisma.funcionario.findFirst({ where: { id: data.funcionarioId, tenantId: ctx.tenantId } })
-    if (!f) throw new NotFoundError('Funcionário', data.funcionarioId)
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+    await assertFuncionario(ctx.tenantId, data.funcionarioId, {
+      empreendimentoId: data.empreendimentoId,
+    })
 
     return prisma.entregaEPI.create({
       data: {
@@ -651,6 +669,8 @@ class SSTService {
   }
 
   async criarDocumentoSST(ctx: Ctx, data: CriarDocumentoSSTInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
     const dataVenc = data.dataVencimento ? new Date(data.dataVencimento) : undefined
     const status = dataVenc ? calcularStatusDoc(dataVenc) : 'VIGENTE'
     return prisma.documentoSST.create({

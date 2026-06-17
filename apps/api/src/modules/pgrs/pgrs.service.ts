@@ -1,6 +1,7 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError } from '../../shared/errors/app-errors.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
+import { assertDocumento, assertEmpreendimento } from '../../shared/validators/assert-empreendimento.js'
 import type { StatusPGRS, StatusPGRSExigencia, PeriodicidadeCondicionante } from '@prisma/client'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -89,6 +90,11 @@ class PGRSService {
   }
 
   async criar(ctx: Ctx, data: CriarPGRSInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+    if (data.documentoId) {
+      await assertDocumento(ctx.tenantId, data.documentoId, { empreendimentoId: data.empreendimentoId })
+    }
+
     const pgrs = await prisma.pGRS.create({
       data: {
         tenantId: ctx.tenantId,
@@ -119,6 +125,10 @@ class PGRSService {
 
   async atualizar(ctx: Ctx, id: string, data: Partial<CriarPGRSInput> & { status?: StatusPGRS }) {
     const existente = await this.buscarPorId(ctx, id)
+
+    if (data.documentoId) {
+      await assertDocumento(ctx.tenantId, data.documentoId, { empreendimentoId: existente.empreendimento.id })
+    }
 
     const pgrs = await prisma.pGRS.update({
       where: { id },
@@ -217,7 +227,8 @@ class PGRSService {
   // ── EVIDÊNCIAS ────────────────────────────────────────────────────────────
 
   async vincularEvidencia(ctx: Ctx, pgrsId: string, exigenciaId: string, data: VincularEvidenciaInput) {
-    await this.buscarPorId(ctx, pgrsId)
+    const pgrs = await this.buscarPorId(ctx, pgrsId)
+    await assertDocumento(ctx.tenantId, data.documentoId, { empreendimentoId: pgrs.empreendimento.id })
 
     const exigencia = await prisma.pGRSExigencia.findFirst({ where: { id: exigenciaId, pgrsId } })
     if (!exigencia) throw new NotFoundError('PGRSExigencia', exigenciaId)

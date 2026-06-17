@@ -51,7 +51,6 @@ vi.mock('../../../infra/cache/redis.js', () => ({
 
 import { buildApp } from '../../../app.js'
 import { prisma } from '../../../infra/database/prisma.js'
-import { redis } from '../../../infra/cache/redis.js'
 import { assertIntegrationDatabaseAvailable, describeIntegration } from '../../../test/integration.js'
 import { authedRequest, loginDemo } from '../../../test/helpers.js'
 
@@ -63,6 +62,7 @@ describeIntegration('API de PGRS', () => {
   let analistaToken: string
 
   let empreendimentoId: string
+  let foreignEmpreendimentoId: string
   let documentoId: string
 
   // IDs rastreados para cleanup
@@ -89,6 +89,15 @@ describeIntegration('API de PGRS', () => {
       )
     }
     empreendimentoId = empreendimento.id
+
+    const foreignEmp = await prisma.empreendimento.findFirst({
+      where: { tenantId: { not: '173fa80b-edaf-47f8-92cf-7958da22ea47' } },
+      select: { id: true },
+    })
+    if (!foreignEmp) {
+      throw new Error('Nenhum empreendimento de outro tenant encontrado. Execute o seed antes de rodar os testes.')
+    }
+    foreignEmpreendimentoId = foreignEmp.id
 
     // Cria um documento de suporte para usar como FK nas evidências
     const tipoDocumento = await prisma.tipoDocumento.findFirst({
@@ -139,9 +148,8 @@ describeIntegration('API de PGRS', () => {
         documentoIds,
       )
     }
-    await app.close()
+    await app?.close()
     await prisma.$disconnect()
-    await redis.quit()
   })
 
   // ─── 1. Autenticação ────────────────────────────────────────────────────────
@@ -257,6 +265,21 @@ describeIntegration('API de PGRS', () => {
     expect(body.data.empreendimento.id).toBe(empreendimentoId)
     pgrsId = body.data.id
     pgrsIds.push(pgrsId)
+  })
+
+  it('rejeita criação de PGRS com empreendimento de outro tenant (404)', async () => {
+    const response = await authedRequest(app, adminToken, {
+      method: 'POST',
+      url: '/api/v1/pgrs',
+      payload: {
+        empreendimentoId: foreignEmpreendimentoId,
+        versao: '2024-v1-externo',
+        responsavelTecnico: 'Eng. Externo',
+        dataAprovacao: '2024-01-01',
+        dataVencimento: '2026-01-01',
+      },
+    })
+    expect(response.statusCode).toBe(404)
   })
 
   // ─── 4. Busca por ID ────────────────────────────────────────────────────────

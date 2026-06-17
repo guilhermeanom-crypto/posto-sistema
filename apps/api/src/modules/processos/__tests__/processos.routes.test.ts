@@ -51,7 +51,6 @@ vi.mock('../../../infra/cache/redis.js', () => ({
 
 import { buildApp } from '../../../app.js'
 import { prisma } from '../../../infra/database/prisma.js'
-import { redis } from '../../../infra/cache/redis.js'
 import { assertIntegrationDatabaseAvailable, describeIntegration } from '../../../test/integration.js'
 import { authedRequest, loginDemo } from '../../../test/helpers.js'
 
@@ -66,6 +65,7 @@ describeIntegration('API de processos', () => {
 
   // IDs de seed necessários para criar processos
   let empreendimentoId: string
+  let foreignEmpreendimentoId: string
   let tipoProcessoId: string
 
   // IDs de objetos criados durante os testes — usados no cleanup
@@ -84,6 +84,13 @@ describeIntegration('API de processos', () => {
     })
     if (!empreendimento) throw new Error('Seed: nenhum empreendimento encontrado para o tenant de demo')
     empreendimentoId = empreendimento.id
+
+    const foreignEmpreendimento = await prisma.empreendimento.findFirst({
+      where: { tenantId: { not: TENANT_ID } },
+      select: { id: true },
+    })
+    if (!foreignEmpreendimento) throw new Error('Seed: nenhum empreendimento de outro tenant encontrado')
+    foreignEmpreendimentoId = foreignEmpreendimento.id
 
     // Obtém um tipo de processo real do seed
     const tipoProcesso = await prisma.tipoProcesso.findFirst({
@@ -110,9 +117,8 @@ describeIntegration('API de processos', () => {
         processoIds,
       )
     }
-    await app.close()
+    await app?.close()
     await prisma.$disconnect()
-    await redis.quit()
   })
 
   // ─── 1. Autenticação ────────────────────────────────────────────────────────
@@ -205,6 +211,18 @@ describeIntegration('API de processos', () => {
     expect(body.data.tipoProcessoId).toBe(tipoProcessoId)
     criadoId = body.data.id
     processoIds.push(criadoId)
+  })
+
+  it('rejeita criação com empreendimento de outro tenant (404)', async () => {
+    const response = await authedRequest(app, adminToken, {
+      method: 'POST',
+      url: '/api/v1/processos',
+      payload: {
+        empreendimentoId: foreignEmpreendimentoId,
+        tipoProcessoId,
+      },
+    })
+    expect(response.statusCode).toBe(404)
   })
 
   // ─── 4. Busca por ID ────────────────────────────────────────────────────────

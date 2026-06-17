@@ -1,6 +1,10 @@
 import { Decimal } from '@prisma/client/runtime/library.js'
 import { prisma } from '../../infra/database/prisma.js'
 import { ConflictError, NotFoundError } from '../../shared/errors/app-errors.js'
+import {
+  assertEmpreendimento,
+  assertTransportadora,
+} from '../../shared/validators/assert-empreendimento.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LOGÍSTICA REVERSA SERVICE — Transportadoras + MTRs + Metas + CCRs
@@ -99,6 +103,11 @@ class LogisticaReversaService {
   }
 
   async criarMTR(ctx: Ctx, data: CriarMTRInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+    if (data.transportadoraId) {
+      await assertTransportadora(ctx.tenantId, data.transportadoraId)
+    }
+
     return prisma.mTR.create({
       data: {
         tenantId: ctx.tenantId,
@@ -150,6 +159,8 @@ class LogisticaReversaService {
     metaQuantidade: number
     observacoes?: string
   }) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
     return prisma.metaResiduoAnual.upsert({
       where: {
         tenantId_empreendimentoId_ano_tipoResiduo: {

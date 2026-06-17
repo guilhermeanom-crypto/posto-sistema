@@ -69,7 +69,7 @@ describeIntegration('API de pendências e evidências de campo', () => {
   afterAll(async () => {
     if (pendenciaIds.length) await prisma.pendenciaCampo.deleteMany({ where: { id: { in: pendenciaIds } } })
     if (evidenciaIds.length) await prisma.evidenciaCampo.deleteMany({ where: { id: { in: evidenciaIds } } })
-    await app.close()
+    await app?.close()
   })
 
   it('cria pendência vinculada à OS e lista', async () => {

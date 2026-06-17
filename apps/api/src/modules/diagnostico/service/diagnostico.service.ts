@@ -26,6 +26,21 @@ export interface RecalcularOpts {
 }
 
 /**
+ * Dispara o recálculo de forma NÃO-BLOQUEANTE (fire-and-forget). Não atrasa nem
+ * derruba o request que o originou: o diagnóstico é idempotente e recomputável,
+ * então uma falha aqui apenas loga — a próxima edição re-dispara. Use após criar/
+ * editar empreendimento, tanque, licença, etc. (a fonte única se mantém fresca).
+ * Quando o motor for extraído para pacote compartilhado, isto migra para o worker.
+ */
+export function agendarRecalculoDiagnostico(empreendimentoId: string): void {
+  setImmediate(() => {
+    recalcularDiagnostico(empreendimentoId).catch((err) => {
+      console.error(`[diagnostico] recálculo falhou p/ ${empreendimentoId}:`, (err as Error).message)
+    })
+  })
+}
+
+/**
  * Recalcula e persiste o diagnóstico de um empreendimento. Retorna o Diagnostico
  * (novo ou o último existente, se idempotente). Versão monotônica por empreendimento.
  */

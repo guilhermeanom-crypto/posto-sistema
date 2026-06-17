@@ -55,7 +55,6 @@ vi.mock('../../../infra/cache/redis.js', () => ({
 
 import { buildApp } from '../../../app.js'
 import { prisma } from '../../../infra/database/prisma.js'
-import { redis } from '../../../infra/cache/redis.js'
 import { assertIntegrationDatabaseAvailable, describeIntegration } from '../../../test/integration.js'
 import { authedRequest, loginDemo } from '../../../test/helpers.js'
 
@@ -80,9 +79,8 @@ describeIntegration('POST /api/v1/comercial/diagnostico/cnae', () => {
   })
 
   afterAll(async () => {
-    await app.close()
+    await app?.close()
     await prisma.$disconnect()
-    await redis.quit()
   })
 
   it('bloqueia acesso sem JWT', async () => {

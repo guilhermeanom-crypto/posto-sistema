@@ -51,7 +51,6 @@ vi.mock('../../../infra/cache/redis.js', () => ({
 
 import { buildApp } from '../../../app.js'
 import { prisma } from '../../../infra/database/prisma.js'
-import { redis } from '../../../infra/cache/redis.js'
 import { assertIntegrationDatabaseAvailable, describeIntegration } from '../../../test/integration.js'
 import { authedRequest, loginDemo } from '../../../test/helpers.js'
 
@@ -61,6 +60,7 @@ describeIntegration('API de estanqueidade (tanques + testes)', () => {
   let app: AppInstance
   let adminToken: string
   let empreendimentoId: string
+  let foreignEmpreendimentoId: string
 
   const tanqueIds: string[] = []
   const testeIds: string[] = []
@@ -81,6 +81,13 @@ describeIntegration('API de estanqueidade (tanques + testes)', () => {
     })
     if (!emp) throw new Error('Empreendimento seed não encontrado — rode o seed antes dos testes.')
     empreendimentoId = emp.id
+
+    const foreignEmp = await prisma.empreendimento.findFirst({
+      where: { tenantId: { not: '173fa80b-edaf-47f8-92cf-7958da22ea47' } },
+      select: { id: true },
+    })
+    if (!foreignEmp) throw new Error('Empreendimento de outro tenant não encontrado.')
+    foreignEmpreendimentoId = foreignEmp.id
   })
 
   afterAll(async () => {
@@ -97,9 +104,8 @@ describeIntegration('API de estanqueidade (tanques + testes)', () => {
         tanqueIds,
       )
     }
-    await app.close()
+    await app?.close()
     await prisma.$disconnect()
-    await redis.quit()
   })
 
   // ─── 1. Autenticação (unauthenticated) ──────────────────────────────────────
@@ -187,6 +193,22 @@ describeIntegration('API de estanqueidade (tanques + testes)', () => {
 
     tanqueCriadoId = body.data.id
     tanqueIds.push(tanqueCriadoId)
+  })
+
+  it('rejeita criação de tanque com empreendimento de outro tenant (404)', async () => {
+    const numero = Math.floor(Math.random() * 9000) + 1000
+
+    const response = await authedRequest(app, adminToken, {
+      method: 'POST',
+      url: '/api/v1/estanqueidade/tanques',
+      payload: {
+        empreendimentoId: foreignEmpreendimentoId,
+        numero,
+        capacidadeLitros: 12000,
+        combustivel: 'DIESEL',
+      },
+    })
+    expect(response.statusCode).toBe(404)
   })
 
   // ─── 4. Busca de tanque por ID ───────────────────────────────────────────────

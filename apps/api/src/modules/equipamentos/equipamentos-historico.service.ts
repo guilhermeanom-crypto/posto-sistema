@@ -1,5 +1,10 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
+import {
+  assertDocumento,
+  assertEmpreendimento,
+  assertEquipamentoDoEmpreendimento,
+} from '../../shared/validators/assert-empreendimento.js'
 import type { TipoEquipamento, TipoEventoEquipamento } from '@prisma/client'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -54,6 +59,17 @@ class EquipamentosHistoricoService {
   }
 
   async registrar(ctx: Ctx, data: RegistrarEventoInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+    await assertEquipamentoDoEmpreendimento(
+      ctx.tenantId,
+      data.empreendimentoId,
+      data.equipamentoTipo,
+      data.equipamentoId,
+    )
+    if (data.documentoId) {
+      await assertDocumento(ctx.tenantId, data.documentoId, { empreendimentoId: data.empreendimentoId })
+    }
+
     const evento = await prisma.equipamentoHistorico.create({
       data: {
         tenantId: ctx.tenantId,

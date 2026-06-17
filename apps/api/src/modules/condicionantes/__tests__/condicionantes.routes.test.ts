@@ -51,7 +51,6 @@ vi.mock('../../../infra/cache/redis.js', () => ({
 
 import { buildApp } from '../../../app.js'
 import { prisma } from '../../../infra/database/prisma.js'
-import { redis } from '../../../infra/cache/redis.js'
 import { assertIntegrationDatabaseAvailable, describeIntegration } from '../../../test/integration.js'
 import { authedRequest, loginDemo } from '../../../test/helpers.js'
 
@@ -111,9 +110,8 @@ describeIntegration('API de condicionantes', () => {
         condicionanteIds,
       )
     }
-    await app.close()
+    await app?.close()
     await prisma.$disconnect()
-    await redis.quit()
   })
 
   // ─── 1. Autenticação ───────────────────────────────────────────────────────

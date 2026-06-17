@@ -51,7 +51,6 @@ vi.mock('../../../infra/cache/redis.js', () => ({
 
 import { buildApp } from '../../../app.js'
 import { prisma } from '../../../infra/database/prisma.js'
-import { redis } from '../../../infra/cache/redis.js'
 import { assertIntegrationDatabaseAvailable, describeIntegration } from '../../../test/integration.js'
 import { authedRequest, loginDemo } from '../../../test/helpers.js'
 
@@ -63,6 +62,8 @@ describeIntegration('API de monitoramento', () => {
   let analistaToken: string
 
   let empreendimentoId: string
+  let empreendimentoSecundarioId: string
+  let foreignEmpreendimentoId: string
 
   // IDs criados nesta execução — usados no cleanup
   const pocoIds: string[] = []
@@ -86,6 +87,23 @@ describeIntegration('API de monitoramento', () => {
     })
     if (!emp) throw new Error('Nenhum empreendimento encontrado para o tenant de demo. Execute o seed primeiro.')
     empreendimentoId = emp.id
+
+    const empSecundario = await prisma.empreendimento.findFirst({
+      where: {
+        tenantId: '173fa80b-edaf-47f8-92cf-7958da22ea47',
+        id: { not: empreendimentoId },
+      },
+      select: { id: true },
+    })
+    if (!empSecundario) throw new Error('Nenhum segundo empreendimento encontrado no tenant de demo.')
+    empreendimentoSecundarioId = empSecundario.id
+
+    const foreignEmp = await prisma.empreendimento.findFirst({
+      where: { tenantId: { not: '173fa80b-edaf-47f8-92cf-7958da22ea47' } },
+      select: { id: true },
+    })
+    if (!foreignEmp) throw new Error('Nenhum empreendimento de outro tenant encontrado.')
+    foreignEmpreendimentoId = foreignEmp.id
   })
 
   afterAll(async () => {
@@ -109,9 +127,8 @@ describeIntegration('API de monitoramento', () => {
       )
     }
 
-    await app.close()
+    await app?.close()
     await prisma.$disconnect()
-    await redis.quit()
   })
 
   // ─── 1. Autenticação — sem JWT deve retornar 401 ──────────────────────────────
@@ -274,6 +291,18 @@ describeIntegration('API de monitoramento', () => {
     expect(response.statusCode).toBe(400)
   })
 
+  it('rejeita criação de poço com empreendimento de outro tenant (404)', async () => {
+    const response = await authedRequest(app, adminToken, {
+      method: 'POST',
+      url: '/api/v1/monitoramento/pocos',
+      payload: {
+        empreendimentoId: foreignEmpreendimentoId,
+        codigo: 'PM-EXTERNO',
+      },
+    })
+    expect(response.statusCode).toBe(404)
+  })
+
   // ─── 7. Poços — tendência de parâmetros ──────────────────────────────────────
 
   it('retorna tendência de parâmetros do poço criado (200)', async () => {
@@ -366,6 +395,32 @@ describeIntegration('API de monitoramento', () => {
     const body = response.json() as { data: { id: string; tipo: string } }
     expect(body.data.tipo).toBe('SOLO')
     campanhaIds.push(body.data.id)
+  })
+
+  it('rejeita campanha quando poço e empreendimento não combinam (400)', async () => {
+    const otroPoco = await prisma.pocoMonitoramento.create({
+      data: {
+        tenantId: '173fa80b-edaf-47f8-92cf-7958da22ea47',
+        empreendimentoId: empreendimentoSecundarioId,
+        codigo: `PM-MISMATCH-${Date.now()}`,
+      },
+      select: { id: true },
+    })
+    pocoIds.push(otroPoco.id)
+
+    const response = await authedRequest(app, adminToken, {
+      method: 'POST',
+      url: '/api/v1/monitoramento/campanhas',
+      payload: {
+        empreendimentoId,
+        pocoMonitoramentoId: otroPoco.id,
+        tipo: 'SOLO',
+        dataColeta: '2025-04-15',
+        laboratorio: 'Lab Mismatch',
+        resultado: 'CONFORME',
+      },
+    })
+    expect(response.statusCode).toBe(400)
   })
 
   // ─── 10. Campanhas — busca por ID ────────────────────────────────────────────

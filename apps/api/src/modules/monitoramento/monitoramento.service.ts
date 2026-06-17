@@ -1,6 +1,10 @@
 import { Decimal } from '@prisma/client/runtime/library.js'
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError } from '../../shared/errors/app-errors.js'
+import {
+  assertEmpreendimento,
+  assertPocoMonitoramento,
+} from '../../shared/validators/assert-empreendimento.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MONITORAMENTO SERVICE — Campanhas + Parâmetros + Poços de Monitoramento
@@ -66,6 +70,14 @@ class MonitoramentoService {
   }
 
   async criarCampanha(ctx: Ctx, data: CriarCampanhaInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
+    if (data.pocoMonitoramentoId) {
+      await assertPocoMonitoramento(ctx.tenantId, data.pocoMonitoramentoId, {
+        empreendimentoId: data.empreendimentoId,
+      })
+    }
+
     return prisma.campanhaMonitoramento.create({
       data: {
         tenantId: ctx.tenantId,
@@ -116,6 +128,8 @@ class MonitoramentoService {
   }
 
   async criarPoco(ctx: Ctx, data: CriarPocoMonitoramentoInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
     return prisma.pocoMonitoramento.create({
       data: {
         tenantId: ctx.tenantId,

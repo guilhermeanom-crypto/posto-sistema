@@ -6,6 +6,12 @@ import {
 } from '../../shared/errors/app-errors.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
 import { eventBus } from '../../shared/events/event-bus.js'
+import {
+  assertCondicionante,
+  assertDocumento,
+  assertEmpreendimento,
+  assertProcesso,
+} from '../../shared/validators/assert-empreendimento.js'
 import type {
   CriarTarefaInput,
   AtualizarTarefaInput,
@@ -94,6 +100,23 @@ export class TarefasService {
   }
 
   async criar(ctx: ContextoUsuario, data: CriarTarefaInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
+    if (data.processoId) {
+      await assertProcesso(ctx.tenantId, data.processoId, { empreendimentoId: data.empreendimentoId })
+    }
+
+    if (data.condicionanteId) {
+      await assertCondicionante(ctx.tenantId, data.condicionanteId, {
+        empreendimentoId: data.empreendimentoId,
+        processoId: data.processoId,
+      })
+    }
+
+    if (data.documentoId) {
+      await assertDocumento(ctx.tenantId, data.documentoId, { empreendimentoId: data.empreendimentoId })
+    }
+
     const tarefa = await prisma.tarefa.create({
       data: {
         tenantId: ctx.tenantId,

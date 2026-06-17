@@ -2,6 +2,7 @@ import { empreendimentosRepository } from './empreendimentos.repository.js'
 import { NotFoundError, ForbiddenError } from '../../shared/errors/app-errors.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
 import { complianceQueue, emailQueue } from '../../infra/queue/bullmq.js'
+import { agendarRecalculoDiagnostico } from '../diagnostico/service/diagnostico.service.js'
 import { prisma } from '../../infra/database/prisma.js'
 import type { CriarEmpreendimentoInput, AtualizarEmpreendimentoInput, FiltrosEmpreendimentoInput } from '@repo/schemas'
 import { gerarPortalToken, hashPortalToken } from '../auth/portal-token.js'
@@ -67,6 +68,9 @@ export class EmpreendimentosService {
       empreendimentoId: empreendimento.id,
     })
 
+    // Recalcular o diagnóstico (fonte única) — não-bloqueante
+    agendarRecalculoDiagnostico(empreendimento.id)
+
     // Se contatoEmail preenchido, gerar magic link e enviar convite automático
     if (empreendimento.contatoEmail) {
       try {
@@ -120,6 +124,9 @@ export class EmpreendimentosService {
       dadosDepois: atualizado,
       ipOrigem: ctx.ip,
     })
+
+    // Perfil pode ter mudado (CNAE, situação, dados ambientais) → recalcular
+    agendarRecalculoDiagnostico(id)
 
     return atualizado
   }

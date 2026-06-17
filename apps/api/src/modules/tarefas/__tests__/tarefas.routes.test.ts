@@ -51,7 +51,6 @@ vi.mock('../../../infra/cache/redis.js', () => ({
 
 import { buildApp } from '../../../app.js'
 import { prisma } from '../../../infra/database/prisma.js'
-import { redis } from '../../../infra/cache/redis.js'
 import { assertIntegrationDatabaseAvailable, describeIntegration } from '../../../test/integration.js'
 import { authedRequest, loginDemo } from '../../../test/helpers.js'
 
@@ -66,8 +65,11 @@ describeIntegration('API de tarefas', () => {
   let analistaToken: string
 
   let empreendimentoId: string
+  let empreendimentoSecundarioId: string
+  let foreignEmpreendimentoId: string
   let adminUserId: string
   let analistaUserId: string
+  let processoPrimarioId: string
 
   // IDs rastreados para limpeza no afterAll
   const tarefaIds: string[] = []
@@ -87,6 +89,43 @@ describeIntegration('API de tarefas', () => {
     })
     if (!emp) throw new Error('Nenhum empreendimento encontrado para o tenant de demonstração')
     empreendimentoId = emp.id
+
+    const empSecundario = await prisma.empreendimento.findFirst({
+      where: { tenantId: TENANT_ID, id: { not: empreendimentoId } },
+      select: { id: true },
+    })
+    if (!empSecundario) throw new Error('Nenhum segundo empreendimento encontrado para o tenant de demonstração')
+    empreendimentoSecundarioId = empSecundario.id
+
+    const foreignEmp = await prisma.empreendimento.findFirst({
+      where: { tenantId: { not: TENANT_ID } },
+      select: { id: true },
+    })
+    if (!foreignEmp) throw new Error('Nenhum empreendimento de outro tenant encontrado')
+    foreignEmpreendimentoId = foreignEmp.id
+
+    const tipoProcesso = await prisma.tipoProcesso.findFirst({
+      where: { tenantId: TENANT_ID, ativo: true },
+      select: { id: true },
+    })
+    if (!tipoProcesso) throw new Error('Nenhum tipo de processo ativo encontrado para o tenant de demonstração')
+
+    const processo = await prisma.processo.create({
+      data: {
+        tenantId: TENANT_ID,
+        empreendimentoId,
+        tipoProcessoId: tipoProcesso.id,
+        orgaoId: (
+          await prisma.orgaoRegulador.findFirst({
+            where: { tenantId: TENANT_ID },
+            select: { id: true },
+          })
+        )!.id,
+        status: 'EM_ELABORACAO',
+      },
+      select: { id: true },
+    })
+    processoPrimarioId = processo.id
 
     // Descobre o ID do admin e do analista via /auth/me
     const meAdmin = await authedRequest(app, adminToken, { method: 'GET', url: '/api/v1/auth/me' })
@@ -113,9 +152,14 @@ describeIntegration('API de tarefas', () => {
         tarefaIds,
       )
     }
-    await app.close()
+    if (processoPrimarioId) {
+      await prisma.$executeRawUnsafe(
+        `DELETE FROM processos WHERE id = $1`,
+        processoPrimarioId,
+      )
+    }
+    await app?.close()
     await prisma.$disconnect()
-    await redis.quit()
   })
 
   // ─── 1. Autenticação ────────────────────────────────────────────────────────
@@ -248,6 +292,31 @@ describeIntegration('API de tarefas', () => {
     }
     expect(body.data.responsavelId).toBe(analistaUserId)
     tarefaIds.push(body.data.id)
+  })
+
+  it('rejeita criação com empreendimento de outro tenant (404)', async () => {
+    const response = await authedRequest(app, adminToken, {
+      method: 'POST',
+      url: '/api/v1/tarefas',
+      payload: {
+        empreendimentoId: foreignEmpreendimentoId,
+        titulo: 'Tarefa com empreendimento externo',
+      },
+    })
+    expect(response.statusCode).toBe(404)
+  })
+
+  it('rejeita criação quando processo e empreendimento não combinam (400)', async () => {
+    const response = await authedRequest(app, adminToken, {
+      method: 'POST',
+      url: '/api/v1/tarefas',
+      payload: {
+        empreendimentoId: empreendimentoSecundarioId,
+        processoId: processoPrimarioId,
+        titulo: 'Tarefa com contexto incoerente',
+      },
+    })
+    expect(response.statusCode).toBe(400)
   })
 
   // ─── 4. Busca por ID ────────────────────────────────────────────────────────

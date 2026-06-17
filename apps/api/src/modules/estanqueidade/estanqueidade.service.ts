@@ -1,5 +1,6 @@
 import { prisma } from '../../infra/database/prisma.js'
 import { NotFoundError } from '../../shared/errors/app-errors.js'
+import { assertEmpreendimento, assertTanque } from '../../shared/validators/assert-empreendimento.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ESTANQUEIDADE SERVICE — Tanques + Testes
@@ -67,6 +68,8 @@ class EstanqueidadeService {
   }
 
   async criarTanque(ctx: Ctx, data: CriarTanqueInput) {
+    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+
     return prisma.tanque.create({
       data: {
         tenantId: ctx.tenantId,
@@ -122,9 +125,7 @@ class EstanqueidadeService {
   }
 
   async criarTeste(ctx: Ctx, tanqueId: string, data: CriarTesteInput) {
-    // verifica ownership via tanque
-    const tanque = await prisma.tanque.findFirst({ where: { id: tanqueId, tenantId: ctx.tenantId } })
-    if (!tanque) throw new NotFoundError('Tanque', tanqueId)
+    await assertTanque(ctx.tenantId, tanqueId)
 
     return prisma.testeEstanqueidade.create({
       data: {

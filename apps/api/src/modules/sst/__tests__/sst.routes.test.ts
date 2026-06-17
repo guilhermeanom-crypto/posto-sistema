@@ -51,7 +51,6 @@ vi.mock('../../../infra/cache/redis.js', () => ({
 
 import { buildApp } from '../../../app.js'
 import { prisma } from '../../../infra/database/prisma.js'
-import { redis } from '../../../infra/cache/redis.js'
 import { assertIntegrationDatabaseAvailable, describeIntegration } from '../../../test/integration.js'
 import { authedRequest, loginDemo } from '../../../test/helpers.js'
 
@@ -75,6 +74,8 @@ describeIntegration('API de SST', () => {
 
   // Fixtures compartilhadas
   let empreendimentoId: string
+  let empreendimentoSecundarioId: string
+  let foreignEmpreendimentoId: string
   let funcionarioId: string
   let treinamentoTipoId: string
 
@@ -90,6 +91,20 @@ describeIntegration('API de SST', () => {
     })
     if (!emp) throw new Error('Empreendimento do tenant de demo não encontrado')
     empreendimentoId = emp.id
+
+    const empSecundario = await prisma.empreendimento.findFirst({
+      where: { tenantId: TENANT_ID, id: { not: empreendimentoId } },
+      select: { id: true },
+    })
+    if (!empSecundario) throw new Error('Segundo empreendimento do tenant de demo não encontrado')
+    empreendimentoSecundarioId = empSecundario.id
+
+    const foreignEmp = await prisma.empreendimento.findFirst({
+      where: { tenantId: { not: TENANT_ID } },
+      select: { id: true },
+    })
+    if (!foreignEmp) throw new Error('Empreendimento de outro tenant não encontrado')
+    foreignEmpreendimentoId = foreignEmp.id
 
     // Criar funcionário fixture via API
     const funcResp = await authedRequest(app, adminToken, {
@@ -190,9 +205,8 @@ describeIntegration('API de SST', () => {
       )
     }
 
-    await app.close()
+    await app?.close()
     await prisma.$disconnect()
-    await redis.quit()
   })
 
   // ─── 1. Autenticação — rotas principais bloqueadas sem JWT ──────────────────
@@ -295,6 +309,20 @@ describeIntegration('API de SST', () => {
       funcionarioIds.push(body.data.id)
     })
 
+    it('rejeita criação de funcionário com empreendimento de outro tenant (404)', async () => {
+      const res = await authedRequest(app, adminToken, {
+        method: 'POST',
+        url: '/api/v1/sst/funcionarios',
+        payload: {
+          empreendimentoId: foreignEmpreendimentoId,
+          nome: 'Funcionario Externo',
+          cargo: 'Frentista',
+          dataAdmissao: '2025-01-01',
+        },
+      })
+      expect(res.statusCode).toBe(404)
+    })
+
     it('rejeita criação sem cargo (400)', async () => {
       const res = await authedRequest(app, adminToken, {
         method: 'POST',
@@ -379,6 +407,23 @@ describeIntegration('API de SST', () => {
       expect(body.data.aptidao).toBe('APTO')
       asoId = body.data.id
       asoIds.push(asoId)
+    })
+
+    it('rejeita ASO quando funcionário e empreendimento não combinam (400)', async () => {
+      const res = await authedRequest(app, adminToken, {
+        method: 'POST',
+        url: '/api/v1/sst/asos',
+        payload: {
+          empreendimentoId: empreendimentoSecundarioId,
+          funcionarioId,
+          funcionarioNome: 'Funcionário Teste SST',
+          cargo: 'Operador de Teste',
+          tipo: 'ADMISSIONAL',
+          dataExame: '2024-01-15',
+          aptidao: 'APTO',
+        },
+      })
+      expect(res.statusCode).toBe(400)
     })
 
     it('cria ASO sem funcionarioId (apenas nome) (201)', async () => {
