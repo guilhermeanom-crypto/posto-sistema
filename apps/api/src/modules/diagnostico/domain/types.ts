@@ -14,10 +14,22 @@ export type SituacaoEmpreendimento =
   | 'RENOVACAO'
 export type PotencialPoluidor = 'BAIXO' | 'MEDIO' | 'ALTO'
 
+export type ClasseAquifero = 'LIVRE_RASO' | 'LIVRE_PROFUNDO' | 'CONFINADO' | 'DESCONHECIDO'
+export type TipoSolo = 'ARENOSO' | 'ARGILOSO' | 'MISTO' | 'ROCHOSO' | 'DESCONHECIDO'
+
 /** Retrato de um tanque para fins de aplicabilidade (parede + idade = fator #1 de vazamento). */
 export interface TanqueSnapshot {
   paredeSimples: boolean
   idadeAnos: number | null
+  /** Gasolina/etanol contêm benzeno (cancerígeno). undefined => assume true (ESTIMADO conservador). */
+  combustivelComBenzeno?: boolean
+}
+
+/** Sinais de evidência medida (o medido domina o estimado). Vêm da camada data/. */
+export interface SinaisEvidencia {
+  areaContaminada?: boolean
+  estanqueidadeReprovada?: boolean
+  monitoramentoNaoConforme?: boolean
 }
 
 /**
@@ -37,6 +49,19 @@ export interface PerfilEmpreendimento {
   possuiCaptacao: boolean
   possuiSAO: boolean
   tanques: TanqueSnapshot[]
+
+  // ── Eixo ecológico (opcionais; ausente => default conservador "ESTIMADO") ────
+  /** Vulnerabilidade do meio (DRASTIC simplificado). */
+  classeAquifero?: ClasseAquifero | null
+  profundidadeNivelAguaM?: number | null
+  tipoSolo?: TipoSolo | null
+  /** Receptores próximos (alvo do dano). */
+  distanciaPocoAbastecimentoM?: number | null
+  distanciaCorpoHidricoM?: number | null
+  emAPP?: boolean
+  captaParaConsumo?: boolean
+  /** Evidência medida (domina o estimado). */
+  sinais?: SinaisEvidencia
 }
 
 export type StatusObrigacao = 'CONFORME' | 'A_RENOVAR' | 'SEM_DADOS' | 'NAO_APLICAVEL'

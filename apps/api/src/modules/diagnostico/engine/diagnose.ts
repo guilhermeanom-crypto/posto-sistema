@@ -1,4 +1,5 @@
 import { evaluateAplicabilidade, type RegraAplicabilidade } from '../domain/aplicabilidade.js'
+import { calcularRiscoIntrinseco, type RiscoIntrinsecoResultado } from './risco-intrinseco.js'
 import type {
   PerfilEmpreendimento,
   PotencialPoluidor,
@@ -85,9 +86,10 @@ export interface DiagnosticoResultado {
   enquadramento: Enquadramento
   obrigacoesAplicaveis: ObrigacaoDiagnosticada[]
   conformidadeScore: number // 0-100, maior = melhor
-  riscoConformidadeScore: number // 0-100, maior = pior
+  riscoConformidadeScore: number // EIXO 1 — exposição a multa/embargo (0-100, maior = pior)
   riscoNivel: NivelRisco
   fatoresRisco: FatorRisco[]
+  riscoIntrinseco: RiscoIntrinsecoResultado // EIXO 2 — gravidade ecológica (NUNCA somado ao eixo 1)
   orcamentoEstimado: { minimo: number; recomendado: number }
 }
 
@@ -183,6 +185,9 @@ export function diagnose(input: DiagnoseInput): DiagnosticoResultado {
     .filter((o) => o.criticidade === 'CRITICA')
     .reduce((acc, o) => acc + (custoPorCodigo.get(o.codigo) ?? 0), 0)
 
+  // ── Eixo 2: RISCO INTRÍNSECO ECOLÓGICO (independente da conformidade) ────────
+  const riscoIntrinseco = calcularRiscoIntrinseco(perfil)
+
   return {
     engineVersion: ENGINE_VERSION,
     enquadramento,
@@ -191,6 +196,7 @@ export function diagnose(input: DiagnoseInput): DiagnosticoResultado {
     riscoConformidadeScore,
     riscoNivel,
     fatoresRisco,
+    riscoIntrinseco,
     orcamentoEstimado: { minimo, recomendado },
   }
 }
