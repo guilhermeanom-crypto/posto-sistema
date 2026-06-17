@@ -20,13 +20,13 @@ import type { PerfilEmpreendimento, TanqueSnapshot, NivelRisco } from '../domain
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ╔═══════════════════════════════════════════════════════════════════════════╗
-// ║  TABELA DE PESOS — VERSÃO BETA. PENDENTE DE ASSINATURA (Guilherme).         ║
-// ║  Enquanto `assinado=false`, o resultado sai marcado `beta:true` e NÃO deve  ║
-// ║  virar número de decisão em produção. Calibrar com casos reais antes.       ║
+// ║  TABELA DE PESOS — v1.0, ASSINADA por Guilherme em 2026-06-17.              ║
+// ║  `assinado=true` → resultado vale como número de decisão em produção.       ║
+// ║  Recalibrar com casos reais e RE-ASSINAR (bump da versão) ao ajustar.       ║
 // ╚═══════════════════════════════════════════════════════════════════════════╝
 export const PESOS_RISCO_INTRINSECO = {
-  versao: 'beta-1',
-  assinado: false as boolean,
+  versao: '1.0',
+  assinado: true as boolean,
 
   // AMEAÇA (0–100) — perigo da fonte. Pior tanque domina; demais contam 30%.
   ameaca: {

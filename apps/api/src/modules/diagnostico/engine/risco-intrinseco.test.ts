@@ -9,10 +9,11 @@ const base = (over: Partial<PerfilEmpreendimento> = {}): PerfilEmpreendimento =>
   ...over,
 })
 
-describe('risco intrínseco — está em BETA até assinatura', () => {
-  it('pesos não assinados → resultado marcado beta', () => {
-    expect(PESOS_RISCO_INTRINSECO.assinado).toBe(false)
-    expect(calcularRiscoIntrinseco(base()).beta).toBe(true)
+describe('risco intrínseco — pesos assinados (v1.0)', () => {
+  it('pesos assinados → resultado NÃO marcado beta', () => {
+    expect(PESOS_RISCO_INTRINSECO.assinado).toBe(true)
+    expect(PESOS_RISCO_INTRINSECO.versao).toBe('1.0')
+    expect(calcularRiscoIntrinseco(base()).beta).toBe(false)
   })
 })
 
