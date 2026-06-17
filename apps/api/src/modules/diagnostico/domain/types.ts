@@ -38,3 +38,7 @@ export interface PerfilEmpreendimento {
   possuiSAO: boolean
   tanques: TanqueSnapshot[]
 }
+
+export type StatusObrigacao = 'CONFORME' | 'A_RENOVAR' | 'SEM_DADOS' | 'NAO_APLICAVEL'
+export type Esfera = 'MUNICIPAL' | 'ESTADUAL' | 'FEDERAL'
+export type NivelRisco = 'BAIXO' | 'MEDIO' | 'ALTO' | 'CRITICO'
