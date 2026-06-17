@@ -13,7 +13,7 @@ export async function criarTanqueAction(_prev: unknown, formData: FormData) {
     numero: Number(formData.get('numero')),
     capacidadeLitros: Number(formData.get('capacidadeLitros')),
     combustivel: formData.get('combustivel') as string,
-    material: formData.get('material') as string || undefined,
+    materialTanque: (formData.get('materialTanque') as string) || undefined,
     dataInstalacao: formData.get('dataInstalacao') as string || undefined,
     observacoes: formData.get('observacoes') as string || undefined,
   }

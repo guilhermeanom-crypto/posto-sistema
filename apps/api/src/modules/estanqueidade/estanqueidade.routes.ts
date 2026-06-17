@@ -20,6 +20,10 @@ const criarTanqueSchema = z.object({
   capacidadeLitros: z.coerce.number().int().positive(),
   combustivel: z.string().min(1),
   material: z.enum(['FIBRA', 'ACO', 'DUPLA_PAREDE', 'OUTRO']).optional(),
+  // Parede + idade = fator #1 de vazamento (lido pelo motor de diagnóstico — Blueprint 101)
+  materialTanque: z
+    .enum(['ACO_PAREDE_SIMPLES', 'ACO_PAREDE_DUPLA', 'FIBRA_PAREDE_SIMPLES', 'FIBRA_PAREDE_DUPLA', 'JAQUETADO'])
+    .optional(),
   dataInstalacao: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   observacoes: z.string().optional(),
 })
@@ -27,6 +31,10 @@ const criarTanqueSchema = z.object({
 const atualizarTanqueSchema = z.object({
   combustivel: z.string().optional(),
   material: z.enum(['FIBRA', 'ACO', 'DUPLA_PAREDE', 'OUTRO']).optional(),
+  // Parede + idade = fator #1 de vazamento (lido pelo motor de diagnóstico — Blueprint 101)
+  materialTanque: z
+    .enum(['ACO_PAREDE_SIMPLES', 'ACO_PAREDE_DUPLA', 'FIBRA_PAREDE_SIMPLES', 'FIBRA_PAREDE_DUPLA', 'JAQUETADO'])
+    .optional(),
   dataInstalacao: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   status: z.enum(['ATIVO', 'INATIVO', 'INTERDITADO', 'REMOVIDO']).optional(),
   observacoes: z.string().nullable().optional(),

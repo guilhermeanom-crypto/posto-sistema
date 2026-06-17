@@ -14,6 +14,7 @@ export interface CriarTanqueInput {
   capacidadeLitros: number
   combustivel: string
   material?: string
+  materialTanque?: 'ACO_PAREDE_SIMPLES' | 'ACO_PAREDE_DUPLA' | 'FIBRA_PAREDE_SIMPLES' | 'FIBRA_PAREDE_DUPLA' | 'JAQUETADO'
   dataInstalacao?: string
   observacoes?: string | null
 }
@@ -78,6 +79,7 @@ class EstanqueidadeService {
         capacidadeLitros: data.capacidadeLitros,
         combustivel: data.combustivel,
         material: data.material,
+        materialTanque: data.materialTanque,
         dataInstalacao: data.dataInstalacao ? new Date(data.dataInstalacao) : undefined,
         observacoes: data.observacoes,
       },
@@ -92,6 +94,7 @@ class EstanqueidadeService {
       data: {
         ...(data.combustivel && { combustivel: data.combustivel }),
         ...(data.material !== undefined && { material: data.material }),
+        ...(data.materialTanque !== undefined && { materialTanque: data.materialTanque }),
         ...(data.dataInstalacao && { dataInstalacao: new Date(data.dataInstalacao) }),
         ...(data.status && { status: data.status }),
         ...(data.observacoes !== undefined && { observacoes: data.observacoes }),

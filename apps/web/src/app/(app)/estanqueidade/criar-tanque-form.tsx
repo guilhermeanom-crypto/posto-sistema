@@ -53,14 +53,16 @@ export function CriarTanqueForm() {
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium">Material</label>
-          <select name="material" className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+          <label className="text-sm font-medium">Material / parede</label>
+          <select name="materialTanque" className="w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
             <option value="">Selecione...</option>
-            <option value="FIBRA">Fibra de vidro</option>
-            <option value="ACO">Aço</option>
-            <option value="DUPLA_PAREDE">Dupla parede</option>
-            <option value="OUTRO">Outro</option>
+            <option value="ACO_PAREDE_SIMPLES">Aço — parede simples</option>
+            <option value="ACO_PAREDE_DUPLA">Aço — parede dupla</option>
+            <option value="FIBRA_PAREDE_SIMPLES">Fibra — parede simples</option>
+            <option value="FIBRA_PAREDE_DUPLA">Fibra — parede dupla</option>
+            <option value="JAQUETADO">Jaquetado</option>
           </select>
+          <p className="text-[11px] text-muted-foreground">Parede + idade são o fator nº1 de vazamento (entram no diagnóstico).</p>
         </div>
 
         <div className="space-y-1">
