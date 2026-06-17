@@ -30,6 +30,30 @@ export const criarEmpreendimentoSchema = z.object({
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Data inválida')
     .optional(),
+
+  // ── Caracterização (discriminadores do diagnóstico — Blueprint 101) ──────────
+  // Todos opcionais (cadastro mínimo). Alimentam o motor; ausência = default ESTIMADO.
+  cnaePrincipal: z.string().max(20).optional(),
+  cnaesSecundarios: z.array(z.string().max(20)).optional(),
+  porte: z.enum(['MEI', 'ME', 'EPP', 'MEDIO', 'GRANDE']).optional(),
+  situacaoEmpreendimento: z
+    .enum(['PLANEJADO', 'IMPLANTACAO', 'OPERACAO', 'IRREGULAR', 'RENOVACAO'])
+    .optional(),
+  codigoIBGE: z.string().max(10).optional(),
+  areaM2: z.number().nonnegative().optional(),
+  possuiCaptacao: z.boolean().optional(),
+  tipoCaptacao: z.enum(['POCO_ARTESIANO', 'SUPERFICIAL', 'CONCESSIONARIA', 'NENHUMA']).optional(),
+  possuiSAO: z.boolean().optional(),
+  classeAquifero: z.enum(['LIVRE_RASO', 'LIVRE_PROFUNDO', 'CONFINADO', 'DESCONHECIDO']).optional(),
+  profundidadeNivelAguaM: z.number().nonnegative().optional(),
+  tipoSolo: z.enum(['ARENOSO', 'ARGILOSO', 'MISTO', 'ROCHOSO', 'DESCONHECIDO']).optional(),
+  distanciaPocoAbastecimentoM: z.number().int().nonnegative().optional(),
+  distanciaCorpoHidricoM: z.number().int().nonnegative().optional(),
+  emAPP: z.boolean().optional(),
+  captaParaConsumo: z.boolean().optional(),
+  classificacaoAreaContaminada: z
+    .enum(['NAO_AVALIADA', 'SEM_INDICIO', 'SUSPEITA', 'CONTAMINADA', 'REABILITADA'])
+    .optional(),
 })
 
 export const atualizarEmpreendimentoSchema = criarEmpreendimentoSchema
