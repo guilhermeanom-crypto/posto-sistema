@@ -110,18 +110,21 @@ export function calcularRiscoIntrinseco(perfil: PerfilEmpreendimento): RiscoIntr
   const fatores: FatorRiscoIntrinseco[] = []
 
   // ── AMEAÇA: pior tanque domina; demais contribuem 30% ────────────────────────
-  const ameacas = (perfil.tanques ?? []).map(ameacaTanque).sort((a, b) => b - a)
+  // Pareia cada tanque à sua ameaça e ordena: o [0] é o REAL pior (rastreável).
+  const tanques = perfil.tanques ?? []
+  const porAmeaca = tanques.map((t) => ({ t, a: ameacaTanque(t) })).sort((x, y) => y.a - x.a)
   let ameaca = 0
-  if (ameacas.length > 0) {
-    ameaca = ameacas[0]! + ameacas.slice(1).reduce((s, a) => s + a, 0) * W.ameaca.fatorOutrosTanques
-    const pior = perfil.tanques![0]!
+  if (porAmeaca.length > 0) {
+    const bruta = porAmeaca[0]!.a + porAmeaca.slice(1).reduce((s, x) => s + x.a, 0) * W.ameaca.fatorOutrosTanques
+    ameaca = Math.min(100, bruta)
+    const pior = porAmeaca[0]!.t
+    const benzeno = (pior.combustivelComBenzeno ?? true) ? ', combustível c/ benzeno' : ''
     fatores.push({
-      descricao: `Fonte: ${perfil.tanques!.length} tanque(s); pior = ${pior.paredeSimples ? 'parede simples' : 'parede dupla'}, ${pior.idadeAnos ?? '≈25 (ESTIMADO)'} anos`,
+      descricao: `Fonte: ${tanques.length} tanque(s); pior = ${pior.paredeSimples ? 'parede simples' : 'parede dupla'}, ${pior.idadeAnos ?? '≈25 (ESTIMADO)'} anos${benzeno}`,
       pontos: Math.round(ameaca),
       baseTecnica: 'ABNT NBR 13.784 (estanqueidade) / CONAMA 273 — tanque é a fonte primária de vazamento',
     })
   }
-  ameaca = Math.min(100, ameaca)
 
   // ── VULNERABILIDADE: multiplicador do meio (DRASTIC simplificado) ─────────────
   const V = W.vulnerabilidade
