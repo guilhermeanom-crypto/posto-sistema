@@ -7,6 +7,7 @@ import {
   filtrosEmpreendimentoSchema,
 } from '@repo/schemas'
 import { empreendimentosService } from './empreendimentos.service.js'
+import { obterUltimoDiagnostico, recalcularEObterDiagnostico } from '../diagnostico/service/diagnostico.service.js'
 import { authenticate } from '../../shared/middleware/authenticate.js'
 import { extrairIp } from '../../shared/middleware/audit.js'
 
@@ -179,6 +180,44 @@ export const empreendimentosRoutes: FastifyPluginAsyncZod = async (app) => {
         where: { usuarioId_empreendimentoId: { usuarioId: request.params.usuarioId, empreendimentoId: request.params.id } },
       })
       return reply.status(204).send()
+    },
+  )
+
+  /**
+   * GET /api/v1/empreendimentos/:id/diagnostico
+   * Diagnóstico vigente (fonte única — Blueprint 101). Calcula sob demanda na 1ª leitura.
+   */
+  app.get(
+    '/:id/diagnostico',
+    {
+      schema: {
+        params: z.object({ id: z.string().uuid() }),
+        tags: ['diagnostico'],
+        summary: 'Diagnóstico regulatório vigente do empreendimento (enquadramento, conformidade, 2 eixos de risco, obrigações, orçamento)',
+      },
+    },
+    async (request, reply) => {
+      const diag = await obterUltimoDiagnostico(request.user.tenantId, request.params.id)
+      return reply.status(200).send({ data: diag })
+    },
+  )
+
+  /**
+   * POST /api/v1/empreendimentos/:id/diagnostico/recalcular
+   * Recalcula agora (idempotente) e retorna o resultado. Para botão "recalcular"/onboarding síncrono.
+   */
+  app.post(
+    '/:id/diagnostico/recalcular',
+    {
+      schema: {
+        params: z.object({ id: z.string().uuid() }),
+        tags: ['diagnostico'],
+        summary: 'Recalcula o diagnóstico do empreendimento e retorna o resultado vigente',
+      },
+    },
+    async (request, reply) => {
+      const diag = await recalcularEObterDiagnostico(request.user.tenantId, request.params.id)
+      return reply.status(200).send({ data: diag })
     },
   )
 }

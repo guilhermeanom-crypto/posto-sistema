@@ -1,5 +1,6 @@
 import { Prisma, type Diagnostico } from '@prisma/client'
 import { prisma } from '../../../infra/database/prisma.js'
+import { NotFoundError } from '../../../shared/errors/app-errors.js'
 import { diagnose } from '../engine/diagnose.js'
 import { buildDiagnoseInput } from '../data/snapshot-builder.js'
 import type { NivelRisco } from '../domain/types.js'
@@ -23,6 +24,51 @@ export interface RecalcularOpts {
   dataRef?: Date
   /** Força nova versão mesmo se o snapshot não mudou. */
   force?: boolean
+}
+
+const INCLUDE_OBRIGACOES = { obrigacoes: { orderBy: { codigo: 'asc' as const } } }
+
+/** Garante que o empreendimento existe e pertence ao tenant (defesa em profundidade). */
+async function assertPosse(tenantId: string, empreendimentoId: string): Promise<void> {
+  const emp = await prisma.empreendimento.findFirst({
+    where: { id: empreendimentoId, tenantId },
+    select: { id: true },
+  })
+  if (!emp) throw new NotFoundError('Empreendimento', empreendimentoId)
+}
+
+/**
+ * Lê o diagnóstico vigente (última versão) do empreendimento, tenant-scoped.
+ * Cálculo sob demanda (cache miss): se nunca foi calculado, calcula e persiste
+ * na primeira leitura — assim a tela sempre recebe a fonte única preenchida.
+ */
+export async function obterUltimoDiagnostico(tenantId: string, empreendimentoId: string) {
+  await assertPosse(tenantId, empreendimentoId)
+  let diag = await prisma.diagnostico.findFirst({
+    where: { empreendimentoId, tenantId },
+    orderBy: { versao: 'desc' },
+    include: INCLUDE_OBRIGACOES,
+  })
+  if (!diag) {
+    await recalcularDiagnostico(empreendimentoId)
+    diag = await prisma.diagnostico.findFirst({
+      where: { empreendimentoId, tenantId },
+      orderBy: { versao: 'desc' },
+      include: INCLUDE_OBRIGACOES,
+    })
+  }
+  return diag
+}
+
+/** Recalcula agora (idempotente) e retorna o diagnóstico vigente. Para botão "recalcular"/onboarding. */
+export async function recalcularEObterDiagnostico(tenantId: string, empreendimentoId: string) {
+  await assertPosse(tenantId, empreendimentoId)
+  await recalcularDiagnostico(empreendimentoId)
+  return prisma.diagnostico.findFirst({
+    where: { empreendimentoId, tenantId },
+    orderBy: { versao: 'desc' },
+    include: INCLUDE_OBRIGACOES,
+  })
 }
 
 /**
