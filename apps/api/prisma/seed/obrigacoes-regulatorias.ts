@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SEED — Catálogo de Obrigações Regulatórias Base
@@ -457,6 +457,64 @@ const OBRIGACOES: ObrigacaoInput[] = [
   },
 ]
 
+// ─────────────────────────────────────────────────────────────────────────────
+// APLICABILIDADE CONDICIONAL (Blueprint 101 — Passo 3)
+// Por padrão, toda obrigação de posto aplica-se ao CNAE de combustíveis (4731).
+// As LIGA/DESLIGA por condição física entram como override (ex.: outorga só com
+// captação; passivo só com tanque antigo). O motor futuro (engine/) consome este
+// campo; o gap-analysis atual ignora — regressão zero.
+// ─────────────────────────────────────────────────────────────────────────────
+const APLICABILIDADE_PADRAO: Prisma.InputJsonValue = { cnaePrefixos: ['4731'] }
+const APLICABILIDADE_OVERRIDES: Record<string, Prisma.InputJsonValue> = {
+  // Outorga: só quando há captação de água (Lei 9.433/97)
+  'MON-004': { cnaePrefixos: ['4731'], requerCaptacao: true },
+  // Investigação de passivo: gatilho por tanque antigo (proxy de risco CONAMA 420)
+  'AMB-006': { cnaePrefixos: ['4731'], tanqueIdadeMinAnos: 15 },
+}
+
+// Consequência de não cumprir (multa máxima + base legal) — preenchido nas críticas;
+// as demais ficam para calibração posterior. Toda saída do motor é rastreável.
+const CONSEQUENCIAS: Record<
+  string,
+  { consequenciaSemFazer: string; multaMaxima: string; baseLegalConsequencia: string }
+> = {
+  'AMB-001': {
+    consequenciaSemFazer: 'Operar sem Licença de Operação: crime ambiental, multa e risco de embargo/interdição.',
+    multaMaxima: 'R$ 500 a R$ 10.000.000',
+    baseLegalConsequencia: 'Lei 9.605/1998 Art. 60; Decreto 6.514/2008 Art. 66',
+  },
+  'AMB-004': {
+    consequenciaSemFazer: 'Sem teste de estanqueidade: vazamento não detectado, passivo ambiental e autuação.',
+    multaMaxima: 'R$ 500 a R$ 10.000.000',
+    baseLegalConsequencia: 'CONAMA 273/2000; Lei 9.605/1998; Decreto 6.514/2008',
+  },
+  'ANP-001': {
+    consequenciaSemFazer: 'Operar sem registro ANP: multa e interdição do posto.',
+    multaMaxima: 'R$ 5.000 a R$ 5.000.000',
+    baseLegalConsequencia: 'Lei 9.847/1999 Art. 3º',
+  },
+  'ANP-002': {
+    consequenciaSemFazer: 'Bomba não aferida: multa INMETRO/ANP e interdição do bico (lacre).',
+    multaMaxima: 'R$ 100 a R$ 1.500.000',
+    baseLegalConsequencia: 'Lei 9.933/1999; Resolução ANP 41/2013',
+  },
+  'URB-001': {
+    consequenciaSemFazer: 'Sem AVCB: interdição pelo Corpo de Bombeiros e multa.',
+    multaMaxima: 'Varia por UF (interdição imediata)',
+    baseLegalConsequencia: 'Lei estadual de segurança contra incêndio (ex.: SP Dec 63.911/2018)',
+  },
+  'URB-002': {
+    consequenciaSemFazer: 'Operar sem alvará: multa municipal e cassação/lacração.',
+    multaMaxima: 'Varia por município',
+    baseLegalConsequencia: 'Lei Orgânica Municipal; Código de Posturas',
+  },
+  'MON-004': {
+    consequenciaSemFazer: 'Captar água sem outorga: multa e embargo da captação.',
+    multaMaxima: 'R$ 100 a R$ 10.000.000',
+    baseLegalConsequencia: 'Lei 9.433/1997 Art. 49-50; Decreto 3.692/2000',
+  },
+}
+
 export async function seedObrigacoesRegulatorias(prisma: PrismaClient) {
   console.log('🌱 Seeding catálogo de obrigações regulatórias...')
 
@@ -464,6 +522,12 @@ export async function seedObrigacoesRegulatorias(prisma: PrismaClient) {
   let ignoradas = 0
 
   for (const obrigacao of OBRIGACOES) {
+    const dados = {
+      ...obrigacao,
+      aplicabilidade: APLICABILIDADE_OVERRIDES[obrigacao.codigo] ?? APLICABILIDADE_PADRAO,
+      ...(CONSEQUENCIAS[obrigacao.codigo] ?? {}),
+    }
+
     const existente = await prisma.obrigacaoRegulatoriaBase.findUnique({
       where: { codigo: obrigacao.codigo },
     })
@@ -472,11 +536,11 @@ export async function seedObrigacoesRegulatorias(prisma: PrismaClient) {
       // Atualiza caso algum campo tenha mudado
       await prisma.obrigacaoRegulatoriaBase.update({
         where: { codigo: obrigacao.codigo },
-        data: obrigacao,
+        data: dados,
       })
       ignoradas++
     } else {
-      await prisma.obrigacaoRegulatoriaBase.create({ data: obrigacao })
+      await prisma.obrigacaoRegulatoriaBase.create({ data: dados })
       criadas++
     }
   }
