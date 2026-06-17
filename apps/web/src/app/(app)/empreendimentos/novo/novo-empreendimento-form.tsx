@@ -27,6 +27,9 @@ export function NovoEmpreendimentoForm({ empresas }: Props) {
     empresas.length > 0 ? 'existente' : 'nova',
   )
 
+  const INPUT =
+    'w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring'
+
   return (
     <form action={action} className="space-y-6">
       {state?.error && (
@@ -370,6 +373,127 @@ export function NovoEmpreendimentoForm({ empresas }: Props) {
         <p className="text-xs text-muted-foreground">
           Dica: o sistema aceita CEP e CNPJ com máscara, mas envia os números normalizados automaticamente.
         </p>
+      </section>
+
+      {/* ── Caracterização regulatória (alimenta o diagnóstico) ──────────── */}
+      <section className="rounded-lg border bg-card p-6 space-y-4">
+        <div>
+          <h2 className="font-semibold text-base">Caracterização regulatória</h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Quanto mais preenchido, mais preciso o diagnóstico. Deixe em branco o que não souber — o sistema estima de forma conservadora.
+          </p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="space-y-1.5">
+            <label htmlFor="cnaePrincipal" className="text-sm font-medium">CNAE principal</label>
+            <input id="cnaePrincipal" name="cnaePrincipal" placeholder="4731-8/00" className={INPUT} />
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="situacaoEmpreendimento" className="text-sm font-medium">Situação</label>
+            <select id="situacaoEmpreendimento" name="situacaoEmpreendimento" defaultValue="" className={INPUT}>
+              <option value="">—</option>
+              <option value="PLANEJADO">Planejado</option>
+              <option value="IMPLANTACAO">Em implantação</option>
+              <option value="OPERACAO">Em operação</option>
+              <option value="IRREGULAR">Irregular</option>
+              <option value="RENOVACAO">Renovação</option>
+            </select>
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="porte" className="text-sm font-medium">Porte</label>
+            <select id="porte" name="porte" defaultValue="" className={INPUT}>
+              <option value="">—</option>
+              <option value="MEI">MEI</option>
+              <option value="ME">ME</option>
+              <option value="EPP">EPP</option>
+              <option value="MEDIO">Médio</option>
+              <option value="GRANDE">Grande</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          <label className="flex items-center gap-2 text-sm pt-6">
+            <input type="checkbox" name="possuiCaptacao" className="h-4 w-4" /> Possui captação de água
+          </label>
+          <div className="space-y-1.5">
+            <label htmlFor="tipoCaptacao" className="text-sm font-medium">Tipo de captação</label>
+            <select id="tipoCaptacao" name="tipoCaptacao" defaultValue="" className={INPUT}>
+              <option value="">—</option>
+              <option value="POCO_ARTESIANO">Poço artesiano</option>
+              <option value="SUPERFICIAL">Superficial</option>
+              <option value="CONCESSIONARIA">Concessionária</option>
+              <option value="NENHUMA">Nenhuma</option>
+            </select>
+          </div>
+          <label className="flex items-center gap-2 text-sm pt-6">
+            <input type="checkbox" name="captaParaConsumo" className="h-4 w-4" /> Capta para consumo humano
+          </label>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          <label className="flex items-center gap-2 text-sm pt-6">
+            <input type="checkbox" name="possuiSAO" className="h-4 w-4" /> Possui SAO (caixa separadora)
+          </label>
+          <label className="flex items-center gap-2 text-sm pt-6">
+            <input type="checkbox" name="emAPP" className="h-4 w-4" /> Em Área de Preservação (APP)
+          </label>
+          <div className="space-y-1.5">
+            <label htmlFor="areaM2" className="text-sm font-medium">Área do terreno (m²)</label>
+            <input type="number" min="0" id="areaM2" name="areaM2" placeholder="800" className={INPUT} />
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="space-y-1.5">
+            <label htmlFor="classeAquifero" className="text-sm font-medium">Aquífero</label>
+            <select id="classeAquifero" name="classeAquifero" defaultValue="" className={INPUT}>
+              <option value="">—</option>
+              <option value="LIVRE_RASO">Livre raso</option>
+              <option value="LIVRE_PROFUNDO">Livre profundo</option>
+              <option value="CONFINADO">Confinado</option>
+              <option value="DESCONHECIDO">Desconhecido</option>
+            </select>
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="tipoSolo" className="text-sm font-medium">Tipo de solo</label>
+            <select id="tipoSolo" name="tipoSolo" defaultValue="" className={INPUT}>
+              <option value="">—</option>
+              <option value="ARENOSO">Arenoso</option>
+              <option value="ARGILOSO">Argiloso</option>
+              <option value="MISTO">Misto</option>
+              <option value="ROCHOSO">Rochoso</option>
+              <option value="DESCONHECIDO">Desconhecido</option>
+            </select>
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="profundidadeNivelAguaM" className="text-sm font-medium">Nível d&apos;água (m)</label>
+            <input type="number" min="0" step="0.1" id="profundidadeNivelAguaM" name="profundidadeNivelAguaM" placeholder="4" className={INPUT} />
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="space-y-1.5">
+            <label htmlFor="distanciaPocoAbastecimentoM" className="text-sm font-medium">Distância a poço de abast. (m)</label>
+            <input type="number" min="0" id="distanciaPocoAbastecimentoM" name="distanciaPocoAbastecimentoM" placeholder="120" className={INPUT} />
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="distanciaCorpoHidricoM" className="text-sm font-medium">Distância a corpo hídrico (m)</label>
+            <input type="number" min="0" id="distanciaCorpoHidricoM" name="distanciaCorpoHidricoM" placeholder="200" className={INPUT} />
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="classificacaoAreaContaminada" className="text-sm font-medium">Área contaminada?</label>
+            <select id="classificacaoAreaContaminada" name="classificacaoAreaContaminada" defaultValue="" className={INPUT}>
+              <option value="">—</option>
+              <option value="NAO_AVALIADA">Não avaliada</option>
+              <option value="SEM_INDICIO">Sem indício</option>
+              <option value="SUSPEITA">Suspeita</option>
+              <option value="CONTAMINADA">Contaminada</option>
+              <option value="REABILITADA">Reabilitada</option>
+            </select>
+          </div>
+        </div>
       </section>
 
       {/* ── Ações ───────────────────────────────────────────────────────── */}

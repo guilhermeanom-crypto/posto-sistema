@@ -15,6 +15,18 @@ function digitsOnly(value: FormDataEntryValue | null) {
   return text.length > 0 ? text : undefined
 }
 
+function optionalNumber(value: FormDataEntryValue | null) {
+  const raw = String(value ?? '').replace(',', '.').trim()
+  if (raw === '') return undefined
+  const n = Number(raw)
+  return Number.isFinite(n) ? n : undefined
+}
+
+// Checkbox: marcado => true; desmarcado => undefined (não força false; mantém "não sei")
+function checkbox(value: FormDataEntryValue | null) {
+  return value != null ? true : undefined
+}
+
 export async function criarEmpreendimentoAction(
   _prev: { error?: string } | null,
   formData: FormData,
@@ -73,6 +85,22 @@ export async function criarEmpreendimentoAction(
     responsavelTecnicoEmail: optionalTrim(formData.get('responsavelTecnicoEmail')),
     atividades: atividadesSelecionadas.length > 0 ? atividadesSelecionadas : ['Revendedor varejista de combustíveis'],
     dataInicioOperacao: optionalTrim(formData.get('dataInicioOperacao')),
+    // ── Caracterização regulatória (alimenta o motor de diagnóstico) ───────────
+    cnaePrincipal: optionalTrim(formData.get('cnaePrincipal')),
+    porte: optionalTrim(formData.get('porte')),
+    situacaoEmpreendimento: optionalTrim(formData.get('situacaoEmpreendimento')),
+    areaM2: optionalNumber(formData.get('areaM2')),
+    possuiCaptacao: checkbox(formData.get('possuiCaptacao')),
+    tipoCaptacao: optionalTrim(formData.get('tipoCaptacao')),
+    possuiSAO: checkbox(formData.get('possuiSAO')),
+    classeAquifero: optionalTrim(formData.get('classeAquifero')),
+    profundidadeNivelAguaM: optionalNumber(formData.get('profundidadeNivelAguaM')),
+    tipoSolo: optionalTrim(formData.get('tipoSolo')),
+    distanciaPocoAbastecimentoM: optionalNumber(formData.get('distanciaPocoAbastecimentoM')),
+    distanciaCorpoHidricoM: optionalNumber(formData.get('distanciaCorpoHidricoM')),
+    emAPP: checkbox(formData.get('emAPP')),
+    captaParaConsumo: checkbox(formData.get('captaParaConsumo')),
+    classificacaoAreaContaminada: optionalTrim(formData.get('classificacaoAreaContaminada')),
   }
 
   let novoId: string | null = null
