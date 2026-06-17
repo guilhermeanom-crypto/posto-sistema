@@ -1,10 +1,19 @@
 import { PrismaClient } from '@prisma/client'
+import { evaluateAplicabilidade, regraAplicabilidadeSchema } from '../diagnostico/domain/aplicabilidade.js'
+import { materialParedeSimples, idadeEmAnos } from '../diagnostico/data/mappers.js'
+import type { PerfilEmpreendimento, Porte, SituacaoEmpreendimento } from '../diagnostico/domain/types.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // GAP ANALYSIS SERVICE
 //
 // Compara as obrigações regulatórias base (catálogo) contra o que o
 // empreendimento tem efetivamente cadastrado no sistema.
+//
+// DISCRIMINAÇÃO (Fase A da convergência — docs/103): antes de checar evidência,
+// filtra pela `aplicabilidade` condicional usando o MESMO motor da fonte única
+// (evaluateAplicabilidade). Obrigação que não se aplica ao perfil físico (ex.:
+// outorga sem captação, passivo sem tanque antigo) sai como NAO_APLICAVEL — assim
+// a tela deixa de ser genérica.
 //
 // Status possíveis por obrigação:
 //   CONFORME   — tem evidência válida e dentro do prazo
@@ -547,9 +556,56 @@ export async function executarGapAnalysis(
     orderBy: [{ modulo: 'asc' }, { codigo: 'asc' }],
   })
 
+  // ── Perfil físico p/ a discriminação (mesma base do motor calibrado) ──────────
+  // gap-analysis já decidiu que é um posto (tipoEmpreendimento) → se o CNAE não
+  // estiver preenchido, assume revendedor (4731) para a regra de CNAE passar e a
+  // discriminação recair nos condicionais FÍSICOS (captação, idade do tanque, SAO).
+  const tanquesPerfil = await prisma.tanque.findMany({
+    where: { empreendimentoId, status: { in: ['ATIVO', 'INTERDITADO'] } },
+    select: { materialTanque: true, dataInstalacao: true },
+  })
+  const dataRef = new Date()
+  const perfil: PerfilEmpreendimento = {
+    cnaePrincipal: empreendimento.cnaePrincipal ?? (tipoEmpreendimento === 'revendedor' ? '4731-8/00' : null),
+    cnaesSecundarios: empreendimento.cnaesSecundarios ?? [],
+    porte: (empreendimento.porte as Porte | null) ?? null,
+    situacao: (empreendimento.situacaoEmpreendimento as SituacaoEmpreendimento | null) ?? null,
+    uf,
+    potencialPoluidor: null,
+    areaM2: empreendimento.areaM2 == null ? null : Number(empreendimento.areaM2),
+    possuiCaptacao: empreendimento.possuiCaptacao ?? false,
+    possuiSAO: empreendimento.possuiSAO ?? false,
+    tanques: tanquesPerfil.map((t) => ({
+      paredeSimples: materialParedeSimples(t.materialTanque),
+      idadeAnos: idadeEmAnos(t.dataInstalacao, dataRef),
+    })),
+  }
+
   const itens: ItemGap[] = []
 
   for (const obrigacao of obrigacoes) {
+    // Discriminação condicional: se a regra existe e NÃO se aplica → NAO_APLICAVEL
+    const regra = regraAplicabilidadeSchema.safeParse(obrigacao.aplicabilidade)
+    if (regra.success) {
+      const ap = evaluateAplicabilidade(regra.data, perfil)
+      if (!ap.aplicavel) {
+        itens.push({
+          codigo: obrigacao.codigo,
+          modulo: obrigacao.modulo,
+          descricao: obrigacao.descricao,
+          fundamentoLegal: obrigacao.fundamentoLegal,
+          periodicidade: obrigacao.periodicidade,
+          criticidade: obrigacao.criticidade,
+          diasAlertaAntes: obrigacao.diasAlertaAntes,
+          status: 'NAO_APLICAVEL',
+          evidencia: null,
+          tipoDocumentoRef: obrigacao.tipoDocumentoRef,
+          observacoes: `Não se aplica a este posto — ${ap.motivo}`,
+        })
+        continue
+      }
+    }
+
     const checker = CHECKERS[obrigacao.codigo]
     let status: StatusGap = 'SEM_DADOS'
     let evidencia: ItemGap['evidencia'] = null
