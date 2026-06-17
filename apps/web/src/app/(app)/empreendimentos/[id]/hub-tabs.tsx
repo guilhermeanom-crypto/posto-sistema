@@ -1209,6 +1209,12 @@ function AbaDiagnostico({ diag, empId }: { diag: DiagnosticoView | null | undefi
 
   return (
     <div className="p-4 space-y-5">
+      <div className="flex justify-end -mb-2">
+        <Link href={`/empreendimentos/${empId}/editar`} className="text-xs text-primary hover:underline">
+          Editar caracterização →
+        </Link>
+      </div>
+
       {/* Cadastro incompleto: o 100% seria enganoso */}
       {cadastroIncompleto && (
         <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
