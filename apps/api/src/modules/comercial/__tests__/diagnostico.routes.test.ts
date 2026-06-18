@@ -150,9 +150,9 @@ describeIntegration('POST /api/v1/comercial/diagnostico/cnae', () => {
       }),
     )
     expect(body.data.estimativaOrcamento).toEqual({
-      minimo: 26800,
-      recomendado: 45500,
-      maximo: 135000,
+      minimo: 23300,
+      recomendado: 39500,
+      maximo: 111000,
     })
 
     const codigos = body.data.recomendacoes.map((item) => item.codigo)
@@ -160,18 +160,16 @@ describeIntegration('POST /api/v1/comercial/diagnostico/cnae', () => {
       'LIC-004',
       'LIC-008',
       'LIC-011',
-      'OUT-015',
       'MON-008',
       'EST-002',
       'LIC-016',
       'EST-001',
-      'OUT-002',
     ])
 
-    expect(body.data.recomendacoes).toHaveLength(9)
-    expect(body.data.recomendacoes.filter((item) => item.decisao === 'OBRIGATORIO')).toHaveLength(6)
-    expect(body.data.recomendacoes.filter((item) => item.decisao === 'CONDICIONAL')).toHaveLength(3)
-    expect(body.data.alertas).toHaveLength(3)
+    expect(body.data.recomendacoes).toHaveLength(7)
+    expect(body.data.recomendacoes.filter((item) => item.decisao === 'OBRIGATORIO')).toHaveLength(5)
+    expect(body.data.recomendacoes.filter((item) => item.decisao === 'CONDICIONAL')).toHaveLength(2)
+    expect(body.data.alertas).toHaveLength(2)
 
     for (const recomendacao of body.data.recomendacoes) {
       expect(recomendacao).not.toHaveProperty('custoInternoEstimado')
@@ -217,17 +215,17 @@ describeIntegration('POST /api/v1/comercial/diagnostico/cnae', () => {
       'LIC-004',
       'LIC-008',
       'LIC-011',
-      'OUT-015',
       'MON-008',
       'EST-002',
       'LIC-015',
       'LIC-010',
     ])
+    expect(codigos).not.toContain('OUT-015')
     expect(codigos).not.toContain('OUT-002')
     expect(body.data.estimativaOrcamento).toEqual({
-      minimo: 26800,
-      recomendado: 45500,
-      maximo: 101000,
+      minimo: 23300,
+      recomendado: 39500,
+      maximo: 89000,
     })
 
     await expectCatalogCodesToExist(codigos)

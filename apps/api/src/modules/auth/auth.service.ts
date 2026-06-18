@@ -7,6 +7,7 @@ import {
   ForbiddenError,
 } from '../../shared/errors/app-errors.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
+import { assertEmpreendimentoPermitido, type ContextoAcessoEmpreendimento } from '../../shared/security/empreendimento-access.js'
 import type { LoginInput, MagicLinkInput } from '@repo/schemas'
 import { parseDurationMs, parseDurationSeconds } from './auth-duration.js'
 import { gerarPortalToken, hashPortalToken } from './portal-token.js'
@@ -203,7 +204,12 @@ export class AuthService {
     solicitadoPorId: string,
     tenantId: string,
     baseUrl: string,
+    solicitante?: ContextoAcessoEmpreendimento,
   ): Promise<string> {
+    if (solicitante) {
+      await assertEmpreendimentoPermitido(solicitante, input.empreendimentoId)
+    }
+
     const token = gerarPortalToken()
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24h
 

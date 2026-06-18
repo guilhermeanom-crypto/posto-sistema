@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { prisma } from '../../infra/database/prisma.js'
 import {
   NotFoundError,
@@ -9,9 +10,13 @@ import { eventBus } from '../../shared/events/event-bus.js'
 import {
   assertCondicionante,
   assertDocumento,
-  assertEmpreendimento,
   assertProcesso,
 } from '../../shared/validators/assert-empreendimento.js'
+import {
+  assertAcessoEmpreendimento,
+  assertEmpreendimentoPermitido,
+  montarFiltroEscopoEmpreendimento,
+} from '../../shared/security/empreendimento-access.js'
 import type {
   CriarTarefaInput,
   AtualizarTarefaInput,
@@ -31,6 +36,7 @@ interface ContextoUsuario {
   nome: string
   email: string
   ip: string
+  empreendimentoIds?: string[] | null
 }
 
 const TRANSICOES_TAREFA: Record<string, string[]> = {
@@ -53,9 +59,9 @@ export class TarefasService {
       origem?: string
     },
   ) {
-    const where = {
+    const where: Prisma.TarefaWhereInput = {
       tenantId: ctx.tenantId,
-      ...(filtros.empreendimentoId && { empreendimentoId: filtros.empreendimentoId }),
+      ...montarFiltroEscopoEmpreendimento(ctx, 'empreendimentoId', filtros.empreendimentoId),
       ...(filtros.responsavelId && { responsavelId: filtros.responsavelId }),
       ...(filtros.status && { status: filtros.status as never }),
       ...(filtros.prioridade && { prioridade: filtros.prioridade as never }),
@@ -96,11 +102,12 @@ export class TarefasService {
     })
 
     if (!tarefa) throw new NotFoundError('Tarefa', id)
+    assertAcessoEmpreendimento(ctx, tarefa.empreendimentoId)
     return tarefa
   }
 
   async criar(ctx: ContextoUsuario, data: CriarTarefaInput) {
-    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+    await assertEmpreendimentoPermitido(ctx, data.empreendimentoId)
 
     if (data.processoId) {
       await assertProcesso(ctx.tenantId, data.processoId, { empreendimentoId: data.empreendimentoId })

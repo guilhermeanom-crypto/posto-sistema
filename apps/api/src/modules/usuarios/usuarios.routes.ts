@@ -30,6 +30,7 @@ export const usuariosRoutes: FastifyPluginAsyncZod = async (app) => {
     id: request.user.id,
     tenantId: request.user.tenantId,
     perfil: request.user.perfil,
+    empreendimentoIds: request.user.empreendimentoIds,
     nome: request.user.nome,
     email: request.user.email,
     ip: extrairIp(request),
@@ -56,7 +57,7 @@ export const usuariosRoutes: FastifyPluginAsyncZod = async (app) => {
   })
 
   app.patch('/:id/perfil', { schema: { params: z.object({ id: z.string().uuid() }), body: alterarPerfilUsuarioSchema, tags: ['usuarios'], summary: 'Altera o perfil/role de um usuário (requer ADMIN)' } }, async (request, reply) => {
-    const usuario = await usuariosService.alterarPerfil(ctx(request), request.params.id, request.body.perfil)
+    const usuario = await usuariosService.alterarPerfil(ctx(request), request.params.id, request.body.perfil, request.body.empreendimentoIds)
     return reply.status(200).send({ data: usuario })
   })
 

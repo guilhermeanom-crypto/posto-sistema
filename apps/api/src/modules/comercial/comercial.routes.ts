@@ -219,8 +219,8 @@ export const comercialRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request, reply) => {
-      // Verifica se é administrador
-      if (request.user.perfil !== 'ADMIN') {
+      // Verifica se é administrador do tenant ou da plataforma
+      if (!['ADMIN_TENANT', 'SUPER_ADMIN'].includes(request.user.perfil)) {
         throw new AppError('Acesso negado. Requer perfil administrativo.', 'FORBIDDEN', 403)
       }
 
@@ -251,7 +251,7 @@ export const comercialRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request, reply) => {
-      const isAdmin = request.user.perfil === 'ADMIN'
+      const isAdmin = ['ADMIN_TENANT', 'SUPER_ADMIN'].includes(request.user.perfil)
       const servico = await catalogoService.buscarPorId(request.params.id, isAdmin)
 
       if (!servico) {

@@ -157,10 +157,11 @@ export const authRoutes: FastifyPluginAsyncZod = async (app) => {
         request.user.id,
         request.user.tenantId,
         env.WEB_URL,
+        request.user,
       )
 
-      const emp = await prisma.empreendimento.findUnique({
-        where: { id: request.body.empreendimentoId },
+      const emp = await prisma.empreendimento.findFirst({
+        where: { id: request.body.empreendimentoId, tenantId: request.user.tenantId },
         select: { nome: true },
       })
       await emailQueue.add('magic-link', {

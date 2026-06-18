@@ -23,6 +23,7 @@ export const documentosRoutes: FastifyPluginAsyncZod = async (app) => {
     id: request.user.id,
     tenantId: request.user.tenantId,
     perfil: request.user.perfil,
+    empreendimentoIds: request.user.empreendimentoIds,
     nome: request.user.nome,
     email: request.user.email,
     ip: extrairIp(request),

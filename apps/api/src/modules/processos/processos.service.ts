@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { prisma } from '../../infra/database/prisma.js'
 import {
   NotFoundError,
@@ -8,7 +9,11 @@ import {
 } from '../../shared/errors/app-errors.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
 import { eventBus } from '../../shared/events/event-bus.js'
-import { assertEmpreendimento } from '../../shared/validators/assert-empreendimento.js'
+import {
+  assertAcessoEmpreendimento,
+  assertEmpreendimentoPermitido,
+  montarFiltroEscopoEmpreendimento,
+} from '../../shared/security/empreendimento-access.js'
 import { TRANSICOES_PROCESSO, StatusProcesso } from '@repo/types'
 import type { CriarProcessoInput, AtualizarProcessoInput, FiltrosProcessoInput } from '@repo/schemas'
 
@@ -23,15 +28,16 @@ interface ContextoUsuario {
   nome: string
   email: string
   ip: string
+  empreendimentoIds?: string[] | null
 }
 
 export class ProcessosService {
   async listar(ctx: ContextoUsuario, filtros: FiltrosProcessoInput) {
     const { page, limit, status, orgaoId, responsavelId, vencimentoDe, vencimentoAte, busca, empreendimentoId } = filtros
 
-    const where = {
+    const where: Prisma.ProcessoWhereInput = {
       tenantId: ctx.tenantId,
-      ...(empreendimentoId && { empreendimentoId }),
+      ...montarFiltroEscopoEmpreendimento(ctx, 'empreendimentoId', empreendimentoId),
       ...(status && { status }),
       ...(orgaoId && { orgaoId }),
       ...(responsavelId && { responsavelId }),
@@ -95,11 +101,12 @@ export class ProcessosService {
     })
 
     if (!processo) throw new NotFoundError('Processo', id)
+    assertAcessoEmpreendimento(ctx, processo.empreendimentoId)
     return processo
   }
 
   async criar(ctx: ContextoUsuario, data: CriarProcessoInput) {
-    await assertEmpreendimento(ctx.tenantId, data.empreendimentoId)
+    await assertEmpreendimentoPermitido(ctx, data.empreendimentoId)
 
     const tipoProcesso = await prisma.tipoProcesso.findFirst({
       where: { id: data.tipoProcessoId, tenantId: ctx.tenantId, ativo: true },

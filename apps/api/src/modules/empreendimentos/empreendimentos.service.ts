@@ -4,6 +4,7 @@ import { registrarAuditoria } from '../../shared/middleware/audit.js'
 import { complianceQueue, emailQueue } from '../../infra/queue/bullmq.js'
 import { agendarRecalculoDiagnostico } from '../diagnostico/service/diagnostico.service.js'
 import { prisma } from '../../infra/database/prisma.js'
+import { assertEmpreendimentoPermitido } from '../../shared/security/empreendimento-access.js'
 import type { CriarEmpreendimentoInput, AtualizarEmpreendimentoInput, FiltrosEmpreendimentoInput } from '@repo/schemas'
 import { gerarPortalToken, hashPortalToken } from '../auth/portal-token.js'
 
@@ -18,11 +19,12 @@ interface ContextoUsuario {
   nome: string
   email: string
   ip: string
+  empreendimentoIds?: string[] | null
 }
 
 export class EmpreendimentosService {
   async listar(ctx: ContextoUsuario, filtros: FiltrosEmpreendimentoInput) {
-    return empreendimentosRepository.findMany(ctx.tenantId, filtros)
+    return empreendimentosRepository.findMany(ctx, filtros)
   }
 
   async buscarPorId(ctx: ContextoUsuario, id: string) {
@@ -41,6 +43,10 @@ export class EmpreendimentosService {
   }
 
   async criar(ctx: ContextoUsuario, data: CriarEmpreendimentoInput) {
+    if (!['COORDENADOR', 'ADMIN_TENANT', 'SUPER_ADMIN'].includes(ctx.perfil)) {
+      throw new ForbiddenError('Apenas coordenadores ou administradores podem criar empreendimentos')
+    }
+
     // Valida que a empresa pertence ao tenant (a FK garante existência, não posse)
     const empresa = await prisma.empresa.findFirst({
       where: { id: data.empresaId, tenantId: ctx.tenantId },
@@ -110,6 +116,9 @@ export class EmpreendimentosService {
 
   async atualizar(ctx: ContextoUsuario, id: string, data: AtualizarEmpreendimentoInput) {
     const existente = await this.buscarPorId(ctx, id)
+    if (!['COORDENADOR', 'ADMIN_TENANT', 'SUPER_ADMIN'].includes(ctx.perfil)) {
+      throw new ForbiddenError('Apenas coordenadores ou administradores podem editar empreendimentos')
+    }
 
     const atualizado = await empreendimentosRepository.update(ctx.tenantId, id, data)
 
@@ -133,6 +142,9 @@ export class EmpreendimentosService {
 
   async desativar(ctx: ContextoUsuario, id: string) {
     await this.buscarPorId(ctx, id)
+    if (!['COORDENADOR', 'ADMIN_TENANT', 'SUPER_ADMIN'].includes(ctx.perfil)) {
+      throw new ForbiddenError('Apenas coordenadores ou administradores podem desativar empreendimentos')
+    }
     await empreendimentosRepository.deactivate(ctx.tenantId, id)
 
     await registrarAuditoria({
@@ -143,6 +155,10 @@ export class EmpreendimentosService {
       entidadeId: id,
       ipOrigem: ctx.ip,
     })
+  }
+
+  async garantirAcesso(ctx: ContextoUsuario, id: string) {
+    await assertEmpreendimentoPermitido(ctx, id)
   }
 }
 

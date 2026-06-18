@@ -3,7 +3,8 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { prisma } from '../../infra/database/prisma.js'
 import { authenticate } from '../../shared/middleware/authenticate.js'
-import { NotFoundError } from '../../shared/errors/app-errors.js'
+import { ForbiddenError, NotFoundError } from '../../shared/errors/app-errors.js'
+import { montarFiltroEscopoEmpreendimento } from '../../shared/security/empreendimento-access.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PENDÊNCIAS DE CAMPO — itens a resolver levantados em vistoria (app da equipe).
@@ -11,6 +12,7 @@ import { NotFoundError } from '../../shared/errors/app-errors.js'
 // ─────────────────────────────────────────────────────────────────────────────
 
 const tid = (req: FastifyRequest) => req.user.tenantId
+const PERFIS_CAMPO = new Set(['ANALISTA_CAMPO', 'ANALISTA', 'COORDENADOR', 'ADMIN_TENANT', 'SUPER_ADMIN'])
 
 const PRIORIDADE = z.enum(['CRITICA', 'ALTA', 'MEDIA', 'BAIXA'])
 const STATUS = z.enum(['ABERTA', 'EM_ANDAMENTO', 'ENVIADA_CLIENTE', 'RESOLVIDA', 'CANCELADA'])
@@ -18,6 +20,12 @@ const dataStr = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use formato AAAA-MM-DD'
 
 export const pendenciasRoutes: FastifyPluginAsyncZod = async (app) => {
   app.addHook('preHandler', authenticate)
+
+  const exigirAcessoCampo = (req: FastifyRequest) => {
+    if (!PERFIS_CAMPO.has(req.user.perfil)) {
+      throw new ForbiddenError('Sem permissão para acessar pendências de campo')
+    }
+  }
 
   // ── GET /pendencias ─────────────────────────────────────────────────────────
   app.get(
@@ -34,12 +42,13 @@ export const pendenciasRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (req, reply) => {
+      exigirAcessoCampo(req)
       const { ordemServicoId, empreendimentoId, status, limit } = req.query
       const itens = await prisma.pendenciaCampo.findMany({
         where: {
           tenantId: tid(req),
+          ...montarFiltroEscopoEmpreendimento(req.user, 'empreendimentoId', empreendimentoId),
           ...(ordemServicoId && { ordemServicoId }),
-          ...(empreendimentoId && { empreendimentoId }),
           ...(status && { status }),
         },
         include: {
@@ -70,9 +79,14 @@ export const pendenciasRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (req, reply) => {
+      exigirAcessoCampo(req)
       // Valida que a OS pertence ao tenant e deriva o empreendimento dela
       const os = await prisma.ordemServico.findFirst({
-        where: { id: req.body.ordemServicoId, tenantId: tid(req) },
+        where: {
+          id: req.body.ordemServicoId,
+          tenantId: tid(req),
+          ...montarFiltroEscopoEmpreendimento(req.user, 'empreendimentoId'),
+        },
         select: { id: true, empreendimentoId: true },
       })
       if (!os) throw new NotFoundError('OrdemServico', req.body.ordemServicoId)
@@ -110,8 +124,13 @@ export const pendenciasRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (req, reply) => {
+      exigirAcessoCampo(req)
       const pendencia = await prisma.pendenciaCampo.findFirst({
-        where: { id: req.params.id, tenantId: tid(req) },
+        where: {
+          id: req.params.id,
+          tenantId: tid(req),
+          ...montarFiltroEscopoEmpreendimento(req.user, 'empreendimentoId'),
+        },
       })
       if (!pendencia) throw new NotFoundError('PendenciaCampo', req.params.id)
 

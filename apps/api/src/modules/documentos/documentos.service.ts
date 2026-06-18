@@ -9,6 +9,10 @@ import { storageService, StorageService } from '../../infra/storage/storage.serv
 import { eventBus } from '../../shared/events/event-bus.js'
 import { emailQueue } from '../../infra/queue/bullmq.js'
 import { prisma } from '../../infra/database/prisma.js'
+import {
+  assertAcessoEmpreendimento,
+  assertEmpreendimentoPermitido,
+} from '../../shared/security/empreendimento-access.js'
 import type {
   CriarDocumentoInput,
   FiltrosDocumentoInput,
@@ -28,11 +32,12 @@ interface ContextoUsuario {
   nome: string
   email: string
   ip: string
+  empreendimentoIds?: string[] | null
 }
 
 export class DocumentosService {
   async listar(ctx: ContextoUsuario, filtros: FiltrosDocumentoInput) {
-    return documentosRepository.findMany(ctx.tenantId, {
+    return documentosRepository.findMany(ctx, {
       page: filtros.page,
       limit: filtros.limit,
       empreendimentoId: filtros.empreendimentoId,
@@ -46,16 +51,12 @@ export class DocumentosService {
   async buscarPorId(ctx: ContextoUsuario, id: string) {
     const documento = await documentosRepository.findById(ctx.tenantId, id)
     if (!documento) throw new NotFoundError('Documento', id)
+    assertAcessoEmpreendimento(ctx, documento.empreendimentoId)
     return documento
   }
 
   async criar(ctx: ContextoUsuario, data: CriarDocumentoInput) {
-    // Valida que o empreendimento alvo pertence ao tenant (evita vincular doc cross-tenant)
-    const empreendimento = await prisma.empreendimento.findFirst({
-      where: { id: data.empreendimentoId, tenantId: ctx.tenantId },
-      select: { id: true },
-    })
-    if (!empreendimento) throw new NotFoundError('Empreendimento', data.empreendimentoId)
+    await assertEmpreendimentoPermitido(ctx, data.empreendimentoId)
 
     const documento = await documentosRepository.create(ctx.tenantId, data)
 
@@ -141,6 +142,7 @@ export class DocumentosService {
     if (!versao || versao.documentoId !== documentoId || versao.documento.tenantId !== ctx.tenantId) {
       throw new NotFoundError('Versão de documento', versaoId)
     }
+    assertAcessoEmpreendimento(ctx, versao.documento.empreendimentoId)
 
     if (versao.status !== 'ENVIADA' && versao.status !== 'EM_VALIDACAO') {
       throw new ForbiddenError(`Versão com status '${versao.status}' não pode ser aprovada`)
@@ -185,6 +187,7 @@ export class DocumentosService {
     if (!versao || versao.documentoId !== documentoId || versao.documento.tenantId !== ctx.tenantId) {
       throw new NotFoundError('Versão de documento', versaoId)
     }
+    assertAcessoEmpreendimento(ctx, versao.documento.empreendimentoId)
 
     await documentosRepository.reprovarVersao(versaoId, ctx.id, data.motivoRejeicao)
 
@@ -236,6 +239,7 @@ export class DocumentosService {
     if (!versao || versao.documento.tenantId !== ctx.tenantId || versao.documentoId !== documentoId) {
       throw new NotFoundError('Versão de documento', versaoId)
     }
+    assertAcessoEmpreendimento(ctx, versao.documento.empreendimentoId)
 
     const url = await storageService.gerarUrlDownload(versao.arquivoChaveS3)
     return { url, expiresIn: 3600 }

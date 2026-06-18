@@ -1,5 +1,5 @@
 import { prisma } from '../../infra/database/prisma.js'
-import { NotFoundError, ConflictError, ForbiddenError } from '../../shared/errors/app-errors.js'
+import { NotFoundError, ConflictError, ForbiddenError, ValidationError } from '../../shared/errors/app-errors.js'
 import { registrarAuditoria } from '../../shared/middleware/audit.js'
 import argon2 from 'argon2'
 import type { CriarUsuarioInput, AtualizarUsuarioInput, AlterarSenhaInput } from '@repo/schemas'
@@ -15,7 +15,10 @@ interface ContextoUsuario {
   nome: string
   email: string
   ip: string
+  empreendimentoIds?: string[] | null
 }
+
+const PERFIS_COM_ACESSO_POR_EMPREENDIMENTO = new Set(['ANALISTA', 'ANALISTA_CAMPO', 'REPRESENTANTE_POSTO'])
 
 export class UsuariosService {
   async listar(ctx: ContextoUsuario, filtros: { page: number; limit: number; busca?: string; perfil?: string; ativo?: boolean }) {
@@ -87,15 +90,32 @@ export class UsuariosService {
 
     const senhaHash = await argon2.hash(data.senha, { type: argon2.argon2id })
 
-    const usuario = await prisma.usuario.create({
-      data: {
-        tenantId: ctx.tenantId,
-        nome: data.nome,
-        email: data.email,
-        senhaHash,
-        perfil: data.perfil,
-      },
-      select: { id: true, nome: true, email: true, perfil: true, criadoEm: true },
+    const empreendimentoIds = await this.validarEmpreendimentosDoTenant(ctx.tenantId, data.empreendimentoIds)
+
+    const usuario = await prisma.$transaction(async (tx) => {
+      const criado = await tx.usuario.create({
+        data: {
+          tenantId: ctx.tenantId,
+          nome: data.nome,
+          email: data.email,
+          senhaHash,
+          perfil: data.perfil,
+        },
+        select: { id: true, nome: true, email: true, perfil: true, criadoEm: true },
+      })
+
+      if (empreendimentoIds.length > 0 && PERFIS_COM_ACESSO_POR_EMPREENDIMENTO.has(data.perfil)) {
+        await tx.empreendimentoAcesso.createMany({
+          data: empreendimentoIds.map((empreendimentoId) => ({
+            usuarioId: criado.id,
+            empreendimentoId,
+            criadoPorId: ctx.id,
+          })),
+          skipDuplicates: true,
+        })
+      }
+
+      return criado
     })
 
     await registrarAuditoria({
@@ -105,7 +125,7 @@ export class UsuariosService {
       acao: 'usuario.criado',
       entidadeTipo: 'usuario',
       entidadeId: usuario.id,
-      dadosDepois: { nome: data.nome, email: data.email, perfil: data.perfil },
+      dadosDepois: { nome: data.nome, email: data.email, perfil: data.perfil, empreendimentoIds },
       ipOrigem: ctx.ip,
     })
 
@@ -140,7 +160,7 @@ export class UsuariosService {
     return atualizado
   }
 
-  async alterarPerfil(ctx: ContextoUsuario, id: string, perfil: string) {
+  async alterarPerfil(ctx: ContextoUsuario, id: string, perfil: string, empreendimentoIdsInput?: string[]) {
     if (!['ADMIN_TENANT', 'SUPER_ADMIN'].includes(ctx.perfil)) {
       throw new ForbiddenError('Apenas administradores podem alterar perfis')
     }
@@ -150,10 +170,31 @@ export class UsuariosService {
     }
     await this.buscarPorId(ctx, id)
 
-    const atualizado = await prisma.usuario.update({
-      where: { id },
-      data: { perfil: perfil as never },
-      select: { id: true, nome: true, email: true, perfil: true },
+    const empreendimentoIds = await this.validarEmpreendimentosDoTenant(ctx.tenantId, empreendimentoIdsInput)
+
+    const atualizado = await prisma.$transaction(async (tx) => {
+      const usuario = await tx.usuario.update({
+        where: { id },
+        data: { perfil: perfil as never },
+        select: { id: true, nome: true, email: true, perfil: true },
+      })
+
+      if (empreendimentoIdsInput !== undefined) {
+        await tx.empreendimentoAcesso.deleteMany({ where: { usuarioId: id } })
+
+        if (empreendimentoIds.length > 0 && PERFIS_COM_ACESSO_POR_EMPREENDIMENTO.has(perfil)) {
+          await tx.empreendimentoAcesso.createMany({
+            data: empreendimentoIds.map((empreendimentoId) => ({
+              usuarioId: id,
+              empreendimentoId,
+              criadoPorId: ctx.id,
+            })),
+            skipDuplicates: true,
+          })
+        }
+      }
+
+      return usuario
     })
 
     await registrarAuditoria({
@@ -163,7 +204,7 @@ export class UsuariosService {
       acao: 'usuario.perfil_alterado',
       entidadeTipo: 'usuario',
       entidadeId: id,
-      dadosDepois: { perfil },
+      dadosDepois: { perfil, ...(empreendimentoIdsInput !== undefined && { empreendimentoIds }) },
       ipOrigem: ctx.ip,
     })
 
@@ -211,6 +252,24 @@ export class UsuariosService {
       entidadeId: id,
       ipOrigem: ctx.ip,
     })
+  }
+
+  private async validarEmpreendimentosDoTenant(tenantId: string, ids?: string[]): Promise<string[]> {
+    const empreendimentoIds = [...new Set(ids ?? [])]
+    if (empreendimentoIds.length === 0) return []
+
+    const encontrados = await prisma.empreendimento.findMany({
+      where: { tenantId, id: { in: empreendimentoIds } },
+      select: { id: true },
+    })
+
+    if (encontrados.length !== empreendimentoIds.length) {
+      throw new ValidationError('Um ou mais empreendimentos não pertencem ao tenant informado', {
+        empreendimentoIds: ['Informe apenas empreendimentos do tenant atual'],
+      })
+    }
+
+    return empreendimentoIds
   }
 }
 

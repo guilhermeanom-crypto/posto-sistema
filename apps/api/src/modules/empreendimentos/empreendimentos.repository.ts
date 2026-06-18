@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client'
 import { prisma } from '../../infra/database/prisma.js'
+import { montarFiltroEscopoEmpreendimento, type ContextoAcessoEmpreendimento } from '../../shared/security/empreendimento-access.js'
 import type { CriarEmpreendimentoInput, FiltrosEmpreendimentoInput } from '@repo/schemas'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -9,11 +10,12 @@ import type { CriarEmpreendimentoInput, FiltrosEmpreendimentoInput } from '@repo
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class EmpreendimentosRepository {
-  async findMany(tenantId: string, filtros: FiltrosEmpreendimentoInput) {
+  async findMany(ctx: ContextoAcessoEmpreendimento, filtros: FiltrosEmpreendimentoInput) {
     const { page, limit, busca, estado, cidade, bandeira, ativo } = filtros
 
     const where: Prisma.EmpreendimentoWhereInput = {
-      tenantId,
+      tenantId: ctx.tenantId,
+      ...montarFiltroEscopoEmpreendimento(ctx, 'id'),
       ...(ativo !== undefined && { ativo }),
       ...(estado && { estado }),
       ...(cidade && { cidade: { contains: cidade, mode: 'insensitive' } }),

@@ -10,6 +10,7 @@ import { empreendimentosService } from './empreendimentos.service.js'
 import { obterUltimoDiagnostico, recalcularEObterDiagnostico } from '../diagnostico/service/diagnostico.service.js'
 import { authenticate } from '../../shared/middleware/authenticate.js'
 import { extrairIp } from '../../shared/middleware/audit.js'
+import { ConflictError, ForbiddenError, NotFoundError } from '../../shared/errors/app-errors.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // EMPREENDIMENTOS ROUTES
@@ -23,10 +24,17 @@ export const empreendimentosRoutes: FastifyPluginAsyncZod = async (app) => {
     id: request.user.id,
     tenantId: request.user.tenantId,
     perfil: request.user.perfil,
+    empreendimentoIds: request.user.empreendimentoIds,
     nome: request.user.nome,
     email: request.user.email,
     ip: extrairIp(request),
   })
+
+  const exigirGestaoEquipe = (request: FastifyRequest) => {
+    if (!['COORDENADOR', 'ADMIN_TENANT', 'SUPER_ADMIN'].includes(request.user.perfil)) {
+      throw new ForbiddenError('Apenas coordenadores ou administradores podem gerenciar equipe do empreendimento')
+    }
+  }
 
   /**
    * GET /api/v1/empreendimentos
@@ -133,6 +141,9 @@ export const empreendimentosRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request, reply) => {
+      exigirGestaoEquipe(request)
+      await empreendimentosService.buscarPorId(ctx(request), request.params.id)
+
       const { prisma } = await import('../../infra/database/prisma.js')
       const acessos = await prisma.empreendimentoAcesso.findMany({
         where: { empreendimentoId: request.params.id },
@@ -153,13 +164,28 @@ export const empreendimentosRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request, reply) => {
+      exigirGestaoEquipe(request)
+      await empreendimentosService.buscarPorId(ctx(request), request.params.id)
+
       const { prisma } = await import('../../infra/database/prisma.js')
-      await prisma.empreendimentoAcesso.create({
-        data: {
-          empreendimentoId: request.params.id,
-          usuarioId: request.body.usuarioId,
-          criadoPorId: request.user.id,
+      const usuario = await prisma.usuario.findFirst({
+        where: { id: request.body.usuarioId, tenantId: request.user.tenantId, ativo: true },
+        select: { id: true },
+      })
+      if (!usuario) throw new NotFoundError('Usuário', request.body.usuarioId)
+
+      const existente = await prisma.empreendimentoAcesso.findUnique({
+        where: {
+          usuarioId_empreendimentoId: {
+            usuarioId: request.body.usuarioId,
+            empreendimentoId: request.params.id,
+          },
         },
+      })
+      if (existente) throw new ConflictError('Usuário já possui acesso a este empreendimento')
+
+      await prisma.empreendimentoAcesso.create({
+        data: { empreendimentoId: request.params.id, usuarioId: request.body.usuarioId, criadoPorId: request.user.id },
       })
       return reply.status(201).send({ data: { ok: true } })
     },
@@ -175,6 +201,9 @@ export const empreendimentosRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request, reply) => {
+      exigirGestaoEquipe(request)
+      await empreendimentosService.buscarPorId(ctx(request), request.params.id)
+
       const { prisma } = await import('../../infra/database/prisma.js')
       await prisma.empreendimentoAcesso.delete({
         where: { usuarioId_empreendimentoId: { usuarioId: request.params.usuarioId, empreendimentoId: request.params.id } },
@@ -197,6 +226,7 @@ export const empreendimentosRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request, reply) => {
+      await empreendimentosService.garantirAcesso(ctx(request), request.params.id)
       const diag = await obterUltimoDiagnostico(request.user.tenantId, request.params.id)
       return reply.status(200).send({ data: diag })
     },
@@ -216,6 +246,7 @@ export const empreendimentosRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (request, reply) => {
+      await empreendimentosService.garantirAcesso(ctx(request), request.params.id)
       const diag = await recalcularEObterDiagnostico(request.user.tenantId, request.params.id)
       return reply.status(200).send({ data: diag })
     },

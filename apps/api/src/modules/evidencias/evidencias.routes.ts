@@ -5,6 +5,7 @@ import { prisma } from '../../infra/database/prisma.js'
 import { authenticate } from '../../shared/middleware/authenticate.js'
 import { NotFoundError, ForbiddenError } from '../../shared/errors/app-errors.js'
 import { storageService } from '../../infra/storage/storage.service.js'
+import { montarFiltroEscopoEmpreendimento } from '../../shared/security/empreendimento-access.js'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // EVIDÊNCIAS DE CAMPO — registros/fotos de vistoria (app da equipe).
@@ -13,10 +14,17 @@ import { storageService } from '../../infra/storage/storage.service.js'
 
 const tid = (req: FastifyRequest) => req.user.tenantId
 const STATUS_VALIDACAO = z.enum(['PENDENTE', 'VALIDADA', 'REJEITADA'])
+const PERFIS_CAMPO = new Set(['ANALISTA_CAMPO', 'ANALISTA', 'COORDENADOR', 'ADMIN_TENANT', 'SUPER_ADMIN'])
 const PERFIS_VALIDACAO = ['ANALISTA', 'ANALISTA_CAMPO', 'COORDENADOR', 'ADMIN_TENANT', 'SUPER_ADMIN']
 
 export const evidenciasRoutes: FastifyPluginAsyncZod = async (app) => {
   app.addHook('preHandler', authenticate)
+
+  const exigirAcessoCampo = (req: FastifyRequest) => {
+    if (!PERFIS_CAMPO.has(req.user.perfil)) {
+      throw new ForbiddenError('Sem permissão para acessar evidências de campo')
+    }
+  }
 
   // ── GET /evidencias ───────────────────────────────────────────────────────────
   app.get(
@@ -33,12 +41,13 @@ export const evidenciasRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (req, reply) => {
+      exigirAcessoCampo(req)
       const { ordemServicoId, empreendimentoId, statusValidacao, limit } = req.query
       const itens = await prisma.evidenciaCampo.findMany({
         where: {
           tenantId: tid(req),
+          ...montarFiltroEscopoEmpreendimento(req.user, 'empreendimentoId', empreendimentoId),
           ...(ordemServicoId && { ordemServicoId }),
-          ...(empreendimentoId && { empreendimentoId }),
           ...(statusValidacao && { statusValidacao }),
         },
         include: {
@@ -69,8 +78,13 @@ export const evidenciasRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (req, reply) => {
+      exigirAcessoCampo(req)
       const os = await prisma.ordemServico.findFirst({
-        where: { id: req.body.ordemServicoId, tenantId: tid(req) },
+        where: {
+          id: req.body.ordemServicoId,
+          tenantId: tid(req),
+          ...montarFiltroEscopoEmpreendimento(req.user, 'empreendimentoId'),
+        },
         select: { id: true, empreendimentoId: true },
       })
       if (!os) throw new NotFoundError('OrdemServico', req.body.ordemServicoId)
@@ -105,8 +119,13 @@ export const evidenciasRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (req, reply) => {
+      exigirAcessoCampo(req)
       const evidencia = await prisma.evidenciaCampo.findFirst({
-        where: { id: req.params.id, tenantId: tid(req) },
+        where: {
+          id: req.params.id,
+          tenantId: tid(req),
+          ...montarFiltroEscopoEmpreendimento(req.user, 'empreendimentoId'),
+        },
         select: { id: true },
       })
       if (!evidencia) throw new NotFoundError('EvidenciaCampo', req.params.id)
@@ -140,7 +159,11 @@ export const evidenciasRoutes: FastifyPluginAsyncZod = async (app) => {
         throw new ForbiddenError('Sem permissão para validar evidências.')
       }
       const evidencia = await prisma.evidenciaCampo.findFirst({
-        where: { id: req.params.id, tenantId: tid(req) },
+        where: {
+          id: req.params.id,
+          tenantId: tid(req),
+          ...montarFiltroEscopoEmpreendimento(req.user, 'empreendimentoId'),
+        },
         select: { id: true },
       })
       if (!evidencia) throw new NotFoundError('EvidenciaCampo', req.params.id)

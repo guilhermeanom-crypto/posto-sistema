@@ -1,4 +1,5 @@
 import { prisma } from '../../infra/database/prisma.js'
+import { montarFiltroEscopoEmpreendimento, type ContextoAcessoEmpreendimento } from '../../shared/security/empreendimento-access.js'
 import type { CriarDocumentoInput } from '@repo/schemas'
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -6,7 +7,7 @@ import type { CriarDocumentoInput } from '@repo/schemas'
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class DocumentosRepository {
-  async findMany(tenantId: string, filtros: {
+  async findMany(ctx: ContextoAcessoEmpreendimento, filtros: {
     page: number
     limit: number
     empreendimentoId?: string
@@ -20,8 +21,8 @@ export class DocumentosRepository {
       : undefined
 
     const where = {
-      tenantId,
-      ...(filtros.empreendimentoId && { empreendimentoId: filtros.empreendimentoId }),
+      tenantId: ctx.tenantId,
+      ...montarFiltroEscopoEmpreendimento(ctx, 'empreendimentoId', filtros.empreendimentoId),
       ...(filtros.tipoDocumentoId && { tipoDocumentoId: filtros.tipoDocumentoId }),
       ...(filtros.status && { status: filtros.status as never }),
       ...(dataLimite && { dataValidade: { lte: dataLimite } }),
