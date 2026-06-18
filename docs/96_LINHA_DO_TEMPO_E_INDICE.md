@@ -63,9 +63,24 @@ validação com dados reais, e decisão de operação (backup, primeiro cliente)
 
 ---
 
+## 🧭 Próxima rodada — Plano operacional de reparos (15/jun/2026)
+
+Após a auditoria aprofundada do estado atual, o plano ativo de execução passou a ser:
+
+| Doc | Conteúdo |
+|---|---|
+| **`100_PLANO_OPERACIONAL_REPAROS_2026-06-15`** | plano de ataque por fases e sprints: fundação técnica, arquitetura crítica, cobertura, módulo de importações, piloto real e operação |
+| **`101_AUDITORIA_ESTRUTURAL_FASE_2_2026-06-15`** | aprofundamento dos furos estruturais: integridade multi-tenant, conflito `Processo` x `LicencaAmbiental`, entidades filhas e ordem de reparo |
+
+**Uso prático:** quando a pergunta for "o que corrigir agora, em que ordem e com qual critério de aceite?", a referência principal passa a ser o `100`. Quando a pergunta for "quais furos estruturais nao podem passar e por que?", a referência complementar passa a ser o `101`.
+
+---
+
 ## 📌 Como navegar a documentação
 
 - **Quer o estado atual e o que falta?** → `94` (execução) + este `96`.
 - **Quer a prova de que funciona?** → `95` (verificação E2E).
+- **Quer a ordem operacional de reparo?** → `100`.
+- **Quer o mapa dos furos estruturais da Fase 2?** → `101`.
 - **Quer o histórico da estabilização?** → `86`–`93`.
 - **Fonte da verdade do código** → sempre o próprio repositório (em git desde 09/jun).

@@ -34,6 +34,8 @@ Antes de rodar os testes integrados da API, garantir:
 1. PostgreSQL disponivel e acessivel pelo `DATABASE_URL`
 2. schema migrado
 3. seed minima carregada
+4. Redis acessivel pelo `REDIS_URL`
+5. se a execucao ocorrer em ambiente sandboxado ou restrito, acesso TCP local liberado para `localhost:5432` e `localhost:6379`
 
 Comandos tipicos:
 
@@ -77,12 +79,22 @@ Objetivo:
 - reduzir diagnostico confuso;
 - deixar claro que o problema e de infraestrutura de teste, nao necessariamente da regra de negocio.
 
+Observacao importante:
+
+- em ambiente restrito, um bloqueio de socket local pode se manifestar como `P1001` do Prisma;
+- antes de tratar isso como bug do sistema, confirmar se o executor consegue abrir conexao TCP local com Postgres e Redis.
+
 ## 6. Trilhas atuais
 
 Hoje o pacote `@repo/api` tem dois usos claros:
 
 - `test:unit`: validacao rapida, hermetica, voltada a regras puras;
 - `test` / `test:integration`: validacao integrada de rota, com dependencia real de PostgreSQL.
+
+Estado validado em 2026-06-15:
+
+- `test:unit` passou com a malha hermetica isolada;
+- `test` passou integralmente com `25` arquivos e `408` testes, desde que a infraestrutura local estivesse acessivel.
 
 Exemplos de regras ja cobertas na trilha unitária:
 

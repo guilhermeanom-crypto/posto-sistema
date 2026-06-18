@@ -1,0 +1,2 @@
+tenant_slug;nome;email;perfil;ativo;telefone;observacoes
+demo;Coordenador Operacional;coord.operacao@empresa.com;COORDENADOR;true;11999990000;usuario exemplo para implantacao

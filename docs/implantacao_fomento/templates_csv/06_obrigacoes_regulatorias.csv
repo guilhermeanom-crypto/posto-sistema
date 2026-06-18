@@ -1,0 +1,2 @@
+codigo;tipo_empreendimento;uf;modulo;descricao;fundamento_legal;periodicidade;tipo_documento_ref;criticidade;dias_alerta_antes;ativo;observacoes
+AMB-GO-001;revendedor;GO;AMBIENTAL;Licenca ambiental vigente conforme o ato emitido para o posto;Lei 20.694/2019|CONAMA 273/2000;CONFORME_ATO;Licenca de Operacao;CRITICA;180|120|90|60|30;true;nao assumir prazo padrao; vigencia, tipo de licenca e condicionantes devem ser puxados do ato concreto emitido

@@ -1,0 +1,2 @@
+tenant_slug;orgao_sigla;tipo_processo_nome;fase_ordem;tipo_documento_codigo;obrigatorio;ordem;descricao_especifica;condicoes_json;fonte_oficial;observacoes
+demo;SEMAD;Licenca Ambiental - Posto Revendedor;1;licenca_operacao;false;10;Aplicavel quando houver renovacao, regularizacao ou licenca anterior emitida para a unidade;tipo=RENOVACAO|tipo=REGULARIZACAO;Lei 20.694/2019|CONAMA 273/2000;manter requisitos adicionais do rito GO em checklist separado ate consolidar todo o dossie documental

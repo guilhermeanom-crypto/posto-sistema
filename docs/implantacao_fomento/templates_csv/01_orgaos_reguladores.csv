@@ -1,0 +1,2 @@
+tenant_slug;sigla;nome;esfera;tipo;estado_uf;municipio;site;ativo;fonte_oficial;revisado_por;revisado_em;observacoes
+demo;SEMAD;Secretaria de Estado de Meio Ambiente e Desenvolvimento Sustentavel - SEMAD;ESTADUAL;AMBIENTAL;GO;;https://goias.gov.br/;true;portal oficial do Governo de Goias + portal de legislacao estadual;coord.regulatorio@empresa.com;2026-06-11;competencia e lastro normativo validados em legisla.casacivil.go.gov.br para o piloto GO

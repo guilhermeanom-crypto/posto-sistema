@@ -1,0 +1,2 @@
+tenant_slug;orgao_sigla;tipo_processo_nome;ordem;nome_fase;descricao;obrigatoria;dias_estimados;instrucoes;observacoes
+demo;SEMAD;Licenca Ambiental - Posto Revendedor;1;Caracterizacao e Admissibilidade;Confirmar competencia, enquadramento do empreendimento e rito aplicavel no Estado de Goias;true;15;conferir localizacao do posto, base legal, documentos iniciais e fase do licenciamento;fase operacional derivada do art. 4-A da Lei 20.694/2019
