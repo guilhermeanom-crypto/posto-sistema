@@ -207,6 +207,7 @@ export interface HubData {
   funcionarios: FuncionarioHub[]
   empreendimentoId: string
   diagnostico?: DiagnosticoView | null
+  orcamentoPreview?: { totalEstimado: number; totalServicos: number; horasTotais: number } | null
 }
 
 // ─── helpers visuais ──────────────────────────────────────────────────────────
@@ -1192,7 +1193,15 @@ function fmtMoeda(n: number | null | undefined) {
   return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 })
 }
 
-function AbaDiagnostico({ diag, empId }: { diag: DiagnosticoView | null | undefined; empId: string }) {
+function AbaDiagnostico({
+  diag,
+  empId,
+  orcamentoPreview,
+}: {
+  diag: DiagnosticoView | null | undefined
+  empId: string
+  orcamentoPreview?: { totalEstimado: number; totalServicos: number; horasTotais: number } | null
+}) {
   if (!diag) {
     return (
       <div className="flex flex-col items-center justify-center gap-2 py-12 text-center">
@@ -1296,16 +1305,26 @@ function AbaDiagnostico({ diag, empId }: { diag: DiagnosticoView | null | undefi
         )}
       </div>
 
-      {/* Orçamento */}
-      {diag.orcamento && gaps.length > 0 && (
+      {/* Orçamento — diagnosis-driven (budget-preview = fonte única; fallback coarse) */}
+      {(orcamentoPreview || (diag.orcamento && gaps.length > 0)) && (
         <div className="rounded-lg border bg-muted/20 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Investimento para regularizar</p>
-            <p className="text-sm mt-0.5">{gaps.length} pendência(s) — mínimo (só críticas): <strong>{fmtMoeda(diag.orcamento.minimo)}</strong></p>
+            {orcamentoPreview ? (
+              <p className="text-sm mt-0.5">
+                {gaps.length} pendência(s) · {orcamentoPreview.totalServicos} serviço(s) · {Math.round(orcamentoPreview.horasTotais)}h técnicas
+              </p>
+            ) : (
+              <p className="text-sm mt-0.5">
+                {gaps.length} pendência(s) — mínimo (só críticas): <strong>{fmtMoeda(diag.orcamento?.minimo)}</strong>
+              </p>
+            )}
           </div>
           <div className="text-right">
-            <p className="text-[11px] text-muted-foreground">Recomendado</p>
-            <p className="text-xl font-bold">{fmtMoeda(diag.orcamento.recomendado)}</p>
+            <p className="text-[11px] text-muted-foreground">{orcamentoPreview ? 'Orçamento estimado' : 'Recomendado'}</p>
+            <p className="text-xl font-bold">
+              {fmtMoeda(orcamentoPreview ? orcamentoPreview.totalEstimado : diag.orcamento?.recomendado)}
+            </p>
           </div>
         </div>
       )}
@@ -1394,7 +1413,7 @@ export function HubTabs({ data }: { data: HubData }) {
 
       {/* Conteúdo */}
       {aba === 'prioridades'  && <AbaPrioridades alertas={data.alertas} tarefas={data.tarefas} empId={data.empreendimentoId} />}
-      {aba === 'diagnostico'  && <AbaDiagnostico diag={data.diagnostico} empId={data.empreendimentoId} />}
+      {aba === 'diagnostico'  && <AbaDiagnostico diag={data.diagnostico} empId={data.empreendimentoId} orcamentoPreview={data.orcamentoPreview} />}
       {aba === 'licencas'     && <TabLicencas    licencas={data.licencas} conds={data.condicionantes} empId={data.empreendimentoId} />}
       {aba === 'equipamentos' && <TabEquipamentos tanques={data.tanques}  bombas={data.bombas}   empId={data.empreendimentoId} />}
       {aba === 'operacional'  && <TabOperacional  pocos={data.pocos}      mtrs={data.mtrs}       campanhas={data.campanhas} autos={data.autos} checklists={data.checklists} empId={data.empreendimentoId} />}

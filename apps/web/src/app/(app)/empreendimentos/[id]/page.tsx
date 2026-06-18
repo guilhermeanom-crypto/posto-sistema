@@ -60,12 +60,21 @@ export default async function EmpreendimentoDetailPage({ params }: Props) {
     async function safeDiagnostico() {
       try { return (await api.get<{ data: any }>(`/empreendimentos/${id}/diagnostico`, token)).data } catch { return null }
     }
+    // Orçamento diagnosis-driven (budget-preview): obrigações em gap → serviços → custo.
+    // Fonte ÚNICA do orçamento (Fase D). Pode falhar se não houver política → null (fallback).
+    async function safeOrcamento() {
+      try {
+        return (await api.post<{ data: { resumo: { totalEstimado: number; totalServicos: number; horasTotais: number } } }>(
+          `/onboarding/gap-analysis/${id}/orcamento-preview`, {}, token,
+        )).data.resumo
+      } catch { return null }
+    }
 
     const [
       docs, conds, tarefas, alertas, licencas,
       processos,
       asos, sstDocs, anp, estanq, outorga,
-      logistica, monitor, fiscais, eixos, checklists, diagnostico,
+      logistica, monitor, fiscais, eixos, checklists, diagnostico, orcamentoPreview,
     ] = await Promise.all([
       safe(api.get<{ data: any[] }>(`/documentos?${q}`, token)),
       safe(api.get<{ data: any[] }>(`/condicionantes?${q}`, token)),
@@ -84,6 +93,7 @@ export default async function EmpreendimentoDetailPage({ params }: Props) {
       safeDiag(),
       safe(api.get<{ data: any[] }>(`/checklists/execucoes?${q}`, token)),
       safeDiagnostico(),
+      safeOrcamento(),
     ])
 
     hubData = {
@@ -105,6 +115,7 @@ export default async function EmpreendimentoDetailPage({ params }: Props) {
       funcionarios:  [],
       empreendimentoId: id,
       diagnostico,
+      orcamentoPreview,
     }
     diagnosticoEixos = eixos
   } catch {
