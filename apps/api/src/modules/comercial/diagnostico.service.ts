@@ -45,17 +45,52 @@ const REGULATORY_MATRIX: Record<string, any> = {
   }
 }
 
+type CnaeData = (typeof REGULATORY_MATRIX)[string]
+type MatrizRow = Awaited<ReturnType<typeof prisma.regulatoryMatrix.findMany>>[number]
+
 export class DiagnosticoService {
+  /**
+   * Resolve os dados regulatórios de um CNAE pela tabela RegulatoryMatrix (fonte única).
+   * Matching exato → prefixo → grupo (4 díg.). Fallback: matriz hardcoded legada.
+   */
+  private async resolverCnae(code: string, rows: MatrizRow[]): Promise<CnaeData | null> {
+    const n = code.replace(/\D/g, '')
+    const dig = (c: string) => c.replace(/\D/g, '')
+    const row =
+      rows.find((r) => dig(r.cnaeCodigo) === n) ??
+      rows.find((r) => n.startsWith(dig(r.cnaeCodigo))) ??
+      rows.find((r) => dig(r.cnaeCodigo).startsWith(n.slice(0, 4)))
+    if (row) {
+      const cnae = await prisma.cnae.findFirst({ where: { codigo: code }, select: { descricao: true } }).catch(() => null)
+      return {
+        descricao: cnae?.descricao ?? row.cnaeCodigo,
+        riscoNivel: row.classeRisco ?? 'MEDIO',
+        potencialPoluidor: row.potencialPoluidor ?? 'MEDIO',
+        licenciamentoTipo: row.licenciamentoTipo ?? 'Licenciamento Ambiental',
+        orgaoCompetente: row.orgaoCompetente ?? 'Órgão Ambiental',
+        esfera: row.esfera ?? 'ESTADUAL',
+        necessitaEIA: row.necessitaEIA,
+        necessitaOutorga: row.necessitaOutorga,
+        necessitaMonitoramento: row.necessitaMonitoramento,
+        impactos: row.impactos ?? [],
+        servicosBase: row.servicosRecomendados ?? [],
+      }
+    }
+    // Fallback legado: CNAEs ainda não migrados para a tabela
+    return REGULATORY_MATRIX[code] ?? REGULATORY_MATRIX[n] ?? null
+  }
+
   async gerarDiagnostico(input: DiagnosticoInput): Promise<DiagnosticoResultado> {
     // 1. Identificar CNAE principal (usamos o primeiro da lista que tiver na matriz)
     let cnaeData = null
     let cnaeCodigo = ''
 
+    // Fonte de verdade: tabela RegulatoryMatrix (Blueprint 101). O REGULATORY_MATRIX
+    // hardcoded vira apenas fallback p/ CNAEs ainda não presentes no banco (zero regressão).
+    const matrizRows = await prisma.regulatoryMatrix.findMany()
     for (const code of input.cnaes) {
-      const normalized = code.replace(/\D/g, '')
-      // Tenta match exato ou por prefixo
       cnaeCodigo = code
-      cnaeData = REGULATORY_MATRIX[code] || REGULATORY_MATRIX[normalized]
+      cnaeData = await this.resolverCnae(code, matrizRows)
       if (cnaeData) break
     }
 
